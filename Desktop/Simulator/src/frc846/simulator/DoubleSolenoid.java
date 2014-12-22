@@ -67,6 +67,7 @@ public class DoubleSolenoid extends JPanel {
 		{
 			text.setText("Off");
 		}
+		repaint();
 	}
 	
 	public Value get()

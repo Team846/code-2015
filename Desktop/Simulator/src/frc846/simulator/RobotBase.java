@@ -13,9 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 
-public class RobotBase extends JPanel {
+public class RobotBase {
 	private static RobotBase instance;
 	
+	private JFrame parent = new JFrame();
+	private JPanel main = new JPanel(new GridBagLayout());
 	private JPanel digitalInputs = new JPanel(new GridBagLayout());
 	private JPanel encoders = new JPanel(new GridBagLayout());
 	private JPanel analogChannels = new JPanel(new GridBagLayout());
@@ -25,9 +27,7 @@ public class RobotBase extends JPanel {
 	
 	public RobotBase()
 	{
-		super(new GridBagLayout());
-		JFrame parent = new JFrame();
-		parent.add(this);
+		parent.add(main);
 		parent.setVisible(true);
 		parent.setTitle("Robot Simulator");
 	    parent.setBounds( 100, 50, 1280, 720 );
@@ -39,34 +39,41 @@ public class RobotBase extends JPanel {
 		c.gridwidth = 1;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.PAGE_START;
-	    this.add(digitalInputs, c);
-		c.weightx = 0.5;
-	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		main.add(digitalInputs, c);
+		c.weightx = 0.1;
+		c.fill = GridBagConstraints.VERTICAL;
+		main.add(new JSeparator(JSeparator.VERTICAL), c);
 		c.weightx = 0.9;
-	    this.add(encoders, c);
-		c.weightx = 0.5;
-	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		main.add(encoders, c);
+		c.weightx = 0.1;
+		c.fill = GridBagConstraints.VERTICAL;
+		main.add(new JSeparator(JSeparator.VERTICAL), c);
 		c.weightx = 0.9;
-	    this.add(analogChannels, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		main.add(analogChannels, c);
 		c.gridy = 1;
 		c.gridwidth = 5;
 		c.weighty = 0.1;
-	    this.add(new JSeparator(JSeparator.HORIZONTAL), c);
+		main.add(new JSeparator(JSeparator.HORIZONTAL), c);
 		c.gridy = 2;
 		c.gridwidth = 1;
 		c.weightx = 0.9;
 		c.weighty = 0.8;
-	    this.add(speedControllers, c);
-		c.weightx = 0.5;
-	    this.add(new JSeparator(JSeparator.VERTICAL), c);
-		c.weightx = 0.9;
-	    this.add(solenoids, c);
-		c.weightx = 0.5;
-	    this.add(new JSeparator(JSeparator.VERTICAL), c);
-		c.weightx = 0.9;
-	    this.add(digitalOutputs, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		main.add(speedControllers, c);
 		c.weightx = 0.1;
-	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.fill = GridBagConstraints.VERTICAL;
+		main.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		main.add(solenoids, c);
+		c.weightx = 0.1;
+		c.fill = GridBagConstraints.VERTICAL;
+		main.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		main.add(digitalOutputs, c);
 		c.weightx = 1;
 		c.weighty = 0.1;
 		c.gridwidth = 2;
@@ -78,13 +85,8 @@ public class RobotBase extends JPanel {
 		solenoids.add(new JLabel("Solenoids"), c);
 		digitalOutputs.add(new JLabel("Digital Outputs"), c);
 		instance = this;
-		repaint();
+		main.revalidate();
 		DriverStation.initialize();
-	}
-	
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
 	}
 	
 	public void addDigitalInput(JComboBox<String> digitalInput, int channel)
@@ -100,7 +102,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.8;
 		digitalInputs.add(digitalInput, c);
-		repaint();
+		main.revalidate();
 	}
 
 	public void addEncoder(JPanel encoder, int channel)
@@ -116,7 +118,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.8;
 		encoders.add(encoder, c);
-		repaint();
+		main.revalidate();
 	}
 	
 	public void addEncoder(JPanel encoder, int channelA, int channelB)
@@ -132,7 +134,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.8;
 		encoders.add(encoder, c);
-		repaint();
+		main.revalidate();
 	}
 
 	public void addAnalogChannel(JPanel analogChannel, int channel)
@@ -148,7 +150,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		analogChannels.add(analogChannel, c);
-		repaint();
+		main.revalidate();
 	}
 	
 	public void addSpeedController(JPanel speedController, int channel)
@@ -164,7 +166,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		speedControllers.add(speedController, c);
-		repaint();
+		main.revalidate();
 	}
 
 	public void addSolenoid(JPanel solenoid, int channel)
@@ -180,7 +182,7 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		solenoids.add(solenoid, c);
-		repaint();
+		main.revalidate();
 	}
 
 	public void addSolenoid(JPanel solenoid, int channelA, int channelB)
@@ -196,26 +198,48 @@ public class RobotBase extends JPanel {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		solenoids.add(solenoid, c);
-		repaint();
+		main.revalidate();
 	}
 	
 	public static RobotBase getInstance()
 	{
 		return instance;
 	}
+
+	public boolean isEnabled()
+	{
+		return DriverStation.getInstance().isEnabled();
+	}
+	
+	public boolean isDisabled()
+	{
+		return DriverStation.getInstance().isDisabled();
+	}
+
+	public boolean isOperatorControl()
+	{
+		return DriverStation.getInstance().isOperatorControl();
+	}
+
+	public boolean isAutonomous()
+	{
+		return DriverStation.getInstance().isAutonomous();
+	}
+	
+	// public abstract void startCompetition();
 	
 	public static void main(String[] args)
 	{
-		new RobotBase();
+		RobotBase robot = new RobotBase();
 		new DigitalInput(4);
 		DigitalInput di = new DigitalInput(2);
 		Talon t = new Talon(4);
-		new Talon(3);
+		Talon drive = new Talon(3);
 		AnalogChannel a = new AnalogChannel(3);
 		new Encoder(1, 5);
 		DoubleSolenoid s = new DoubleSolenoid(1, 2);
 		new Joystick(2);
-		new Joystick(1);
+		Joystick j = new Joystick(1);
 		while(true)
 		{
 			if (di.get())
@@ -227,6 +251,7 @@ public class RobotBase extends JPanel {
 				s.set(DoubleSolenoid.Value.kReverse);
 			}
 			t.set(a.getVoltage() / 5);
+			drive.set(j.getRawAxis(1));
 		}
 	}
 }

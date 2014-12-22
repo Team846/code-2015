@@ -12,9 +12,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-public class DriverStation extends JPanel {
-	private static DriverStation instance;
+public class DriverStation {
+	private static DriverStation instance = null;
 	
+	private JPanel main = new JPanel(new GridBagLayout());
 	private JTextField battery = new JTextField("13.0", 4);
 	private JRadioButton enable = new JRadioButton();
 	private JRadioButton disable = new JRadioButton();
@@ -33,9 +34,8 @@ public class DriverStation extends JPanel {
 	
 	public DriverStation()
 	{
-		super(new GridBagLayout());
 		JFrame parent = new JFrame();
-		parent.add(this);
+		parent.add(main);
 		parent.setVisible(true);
 		parent.setTitle("Driver Station");
 	    parent.setBounds( 100, 770, 1280, 240 );
@@ -56,45 +56,47 @@ public class DriverStation extends JPanel {
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = 0;
-		add(new JLabel("Battery Voltage:"), c);
+		main.add(new JLabel("Battery Voltage:"), c);
 		c.gridx = 1;
-		add(battery, c);
+		main.add(battery, c);
 		c.gridx = 0;
-	    add(enable, c);
-	    add(disable, c);
+		main.add(enable, c);
+		main.add(disable, c);
 		c.gridx = 1;
-	    add(new JLabel("Enable"), c);
-	    add(new JLabel("Disable"), c);
+		main.add(new JLabel("Enable"), c);
+		main.add(new JLabel("Disable"), c);
 		c.gridx = 0;
 	    c.gridwidth = 2;
-	    add(new JSeparator(JSeparator.HORIZONTAL), c);
+	    main.add(new JSeparator(JSeparator.HORIZONTAL), c);
 	    c.gridwidth = 1;
-	    add(teleoperated, c);
-	    add(autonomous, c);
+	    main.add(teleoperated, c);
+	    main.add(autonomous, c);
 		c.gridx = 1;
-	    add(new JLabel("Teleoperated"), c);
-	    add(new JLabel("Autonomous"), c);
-		repaint();
+		main.add(new JLabel("Teleoperated"), c);
+		main.add(new JLabel("Autonomous"), c);
+		main.revalidate();
 	}
 	
 	public void addJoystick(JPanel joystick, int port)
 	{
 	    GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.PAGE_START;
+		c.fill = GridBagConstraints.VERTICAL;
 	    c.gridy = 0;
 		c.gridx = port * 2;
 		c.gridheight = 6;
 		c.weightx = 0.1;
-		add(new JSeparator(JSeparator.VERTICAL), c);
+		main.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = port * 2 + 1;
 	    c.gridy = 0;
 		c.weightx = 0.9;
 		c.weighty = 0.1;
-		add(new JLabel("Joystick " + String.valueOf(port)), c);
+		main.add(new JLabel("Joystick " + String.valueOf(port)), c);
 	    c.gridy = 1;
 		c.weighty = 0.9;
-		add(joystick, c);
-		repaint();
+		main.add(joystick, c);
+		main.revalidate();
 	}
 	
 	public boolean isEnabled()
@@ -120,5 +122,10 @@ public class DriverStation extends JPanel {
 	public double getBatteryVoltage()
 	{
 		return Double.parseDouble(battery.getText());
+	}
+	
+	public boolean isFMSAttached()
+	{
+		return false;
 	}
 }

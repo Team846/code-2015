@@ -37,6 +37,7 @@ public class Solenoid extends JPanel {
 	{
 		value = on;
 		text.setText(String.valueOf(on ? "On" : "Off"));
+		repaint();
 	}
 	
 	public boolean get()
