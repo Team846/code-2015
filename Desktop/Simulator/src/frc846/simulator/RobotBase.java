@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSlider;
 
 public class RobotBase extends JPanel {
@@ -24,25 +25,52 @@ public class RobotBase extends JPanel {
 	
 	public RobotBase()
 	{
-		super(new GridLayout(0, 3, 10, 10));
+		super(new GridBagLayout());
 		JFrame parent = new JFrame();
 		parent.add(this);
 		parent.setVisible(true);
 		parent.setTitle("Robot Simulator");
-	    parent.setBounds( 100, 100, 1280, 720 );
+	    parent.setBounds( 100, 50, 1280, 720 );
 	    parent.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	    this.add(digitalInputs);
-	    this.add(encoders);
-	    this.add(analogChannels);
-	    this.add(speedControllers);
-	    this.add(solenoids);
-	    this.add(digitalOutputs);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.9;
+		c.weighty = 0.8;
+		c.gridwidth = 1;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.PAGE_START;
+	    this.add(digitalInputs, c);
+		c.weightx = 0.5;
+	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+	    this.add(encoders, c);
+		c.weightx = 0.5;
+	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+	    this.add(analogChannels, c);
+		c.gridy = 1;
+		c.gridwidth = 5;
+		c.weighty = 0.1;
+	    this.add(new JSeparator(JSeparator.HORIZONTAL), c);
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.weightx = 0.9;
+		c.weighty = 0.8;
+	    this.add(speedControllers, c);
+		c.weightx = 0.5;
+	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+	    this.add(solenoids, c);
+		c.weightx = 0.5;
+	    this.add(new JSeparator(JSeparator.VERTICAL), c);
+		c.weightx = 0.9;
+	    this.add(digitalOutputs, c);
+		c.weightx = 0.1;
+	    this.add(new JSeparator(JSeparator.VERTICAL), c);
 		c.weightx = 1;
 		c.weighty = 0.1;
 		c.gridwidth = 2;
-		c.anchor = GridBagConstraints.PAGE_START;
+		c.gridy = GridBagConstraints.RELATIVE;
 		digitalInputs.add(new JLabel("Digital Inputs"), c);
 		encoders.add(new JLabel("Encoders"), c);
 		analogChannels.add(new JLabel("Analog Channels"), c);
@@ -51,6 +79,7 @@ public class RobotBase extends JPanel {
 		digitalOutputs.add(new JLabel("Digital Outputs"), c);
 		instance = this;
 		repaint();
+		DriverStation.initialize();
 	}
 	
 	public void paintComponent(Graphics g)
@@ -185,6 +214,8 @@ public class RobotBase extends JPanel {
 		AnalogChannel a = new AnalogChannel(3);
 		new Encoder(1, 5);
 		DoubleSolenoid s = new DoubleSolenoid(1, 2);
+		new Joystick(2);
+		new Joystick(1);
 		while(true)
 		{
 			if (di.get())
