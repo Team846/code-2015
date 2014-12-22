@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 
-public class Talon extends JPanel {
+public class Victor extends JPanel {
 	private double value = 0;
 	private JSlider slider = new JSlider();
 	private JTextField text = new JTextField("", 4);
 	
-	public Talon(int channel)
+	public Victor(int channel)
 	{
 		super(new FlowLayout());
 		slider.setEnabled(false);
