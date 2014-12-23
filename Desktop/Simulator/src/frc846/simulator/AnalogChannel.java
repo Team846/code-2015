@@ -10,10 +10,11 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class AnalogChannel extends JPanel implements ChangeListener{
+public class AnalogChannel extends JPanel implements ChangeListener, Connectable {
 
 	private JSlider slider = new JSlider();
 	private JTextField text = new JTextField("", 4);
+	private boolean overLimit = false;
 	
 	public AnalogChannel(int channel)
 	{
@@ -49,8 +50,26 @@ public class AnalogChannel extends JPanel implements ChangeListener{
 		return slider.getValue() / 1024.0 * 5.0;
 	}
 	
-	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		text.setText(String.valueOf(((JSlider)arg0.getSource()).getValue()));
+	}
+
+	public void update(double velocity) {
+		int newValue = slider.getValue() + (int)(velocity * 10);
+		if (newValue > 1024)
+		{
+			overLimit = true;
+			newValue = 1024;
+		}
+		else if (newValue < 0)
+		{
+			overLimit = true;
+			newValue = 0;
+		}
+		else
+		{
+			overLimit = false;
+		}
+		slider.setValue(newValue);
 	}
 }

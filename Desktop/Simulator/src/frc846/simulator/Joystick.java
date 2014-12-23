@@ -25,6 +25,7 @@ public class Joystick extends JPanel {
 			axes[i].setMaximum(32768);
 			axes[i].setMajorTickSpacing(32768);
 			axes[i].setPaintTicks(true);
+			axes[i].setValue(0);
 			add(axes[i]);
 		}
 		JPanel buttons = new JPanel(new GridLayout(2, 6));

@@ -42,25 +42,31 @@ public class RobotBase {
 		main.add(digitalInputs, c);
 		c.weightx = 0.1;
 		c.fill = GridBagConstraints.VERTICAL;
+		c.gridheight = 2;
 		main.add(new JSeparator(JSeparator.VERTICAL), c);
 		c.weightx = 0.9;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridheight = 1;
 		main.add(encoders, c);
 		c.weightx = 0.1;
 		c.fill = GridBagConstraints.VERTICAL;
+		c.gridheight = 2;
 		main.add(new JSeparator(JSeparator.VERTICAL), c);
 		c.weightx = 0.9;
+		c.gridheight = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		main.add(analogChannels, c);
 		c.gridy = 1;
 		c.gridwidth = 5;
 		c.weighty = 0.1;
+		c.gridx = 0;
 		main.add(new JSeparator(JSeparator.HORIZONTAL), c);
 		c.gridy = 2;
 		c.gridwidth = 1;
 		c.weightx = 0.9;
 		c.weighty = 0.8;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = GridBagConstraints.RELATIVE;
 		main.add(speedControllers, c);
 		c.weightx = 0.1;
 		c.fill = GridBagConstraints.VERTICAL;
@@ -87,6 +93,7 @@ public class RobotBase {
 		instance = this;
 		main.revalidate();
 		DriverStation.initialize();
+		Simulation.initialize();
 	}
 	
 	public void addDigitalInput(JComboBox<String> digitalInput, int channel)
@@ -226,11 +233,13 @@ public class RobotBase {
 		return DriverStation.getInstance().isAutonomous();
 	}
 	
-	// public abstract void startCompetition();
-	
-	public static void main(String[] args)
+	protected void requestNextLoop()
 	{
-		RobotBase robot = new RobotBase();
+		Simulation.getInstance().takeSemaphore();
+	}
+	
+	public void startCompetition()
+	{
 		new DigitalInput(4);
 		DigitalInput di = new DigitalInput(2);
 		Talon t = new Talon(4);
@@ -252,6 +261,18 @@ public class RobotBase {
 			}
 			t.set(a.getVoltage() / 5);
 			drive.set(j.getRawAxis(1));
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			requestNextLoop();
 		}
+	}
+	
+	public static void main(String[] args)
+	{
+		RobotBase robot = new RobotBase();
+		robot.startCompetition();
 	}
 }
