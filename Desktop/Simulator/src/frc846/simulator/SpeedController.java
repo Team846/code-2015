@@ -55,8 +55,8 @@ public class SpeedController extends JPanel {
 	public void set(double v)
 	{
 		value = Math.max(Math.min(v, 1.0), -1.0);
-		slider.setValue((int)(v * 100));
-		text.setText(String.valueOf(v));
+		slider.setValue((int)(value * 100));
+		text.setText(String.valueOf(value));
 		repaint();
 	}
 }

@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 
+import frc846.simulator.Simulation.ConnectionSetup;
+
 public class RobotBase {
 	private static RobotBase instance;
 	
@@ -96,7 +98,7 @@ public class RobotBase {
 		Simulation.initialize();
 	}
 	
-	public void addDigitalInput(JComboBox<String> digitalInput, int channel)
+	public void addDigitalInput(DigitalInput digitalInput, int channel)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -112,7 +114,7 @@ public class RobotBase {
 		main.revalidate();
 	}
 
-	public void addEncoder(JPanel encoder, int channel)
+	public void addEncoder(Counter encoder, int channel)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -125,10 +127,11 @@ public class RobotBase {
 		c.gridx = 1;
 		c.weightx = 0.8;
 		encoders.add(encoder, c);
+		Simulation.getInstance().registerConnectable(encoder, channel, ConnectionSetup.encoder);
 		main.revalidate();
 	}
 	
-	public void addEncoder(JPanel encoder, int channelA, int channelB)
+	public void addEncoder(Counter encoder, int channelA, int channelB)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -141,10 +144,11 @@ public class RobotBase {
 		c.gridx = 1;
 		c.weightx = 0.8;
 		encoders.add(encoder, c);
+		Simulation.getInstance().registerConnectable(encoder, channelA, ConnectionSetup.encoder);
 		main.revalidate();
 	}
 
-	public void addAnalogChannel(JPanel analogChannel, int channel)
+	public void addAnalogChannel(AnalogChannel analogChannel, int channel)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -157,10 +161,11 @@ public class RobotBase {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		analogChannels.add(analogChannel, c);
+		Simulation.getInstance().registerConnectable(analogChannel, channel, ConnectionSetup.analogChannel);
 		main.revalidate();
 	}
 	
-	public void addSpeedController(JPanel speedController, int channel)
+	public void addSpeedController(SpeedController speedController, int channel)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -173,10 +178,11 @@ public class RobotBase {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		speedControllers.add(speedController, c);
+		Simulation.getInstance().registerSpeedController(speedController, channel);
 		main.revalidate();
 	}
 
-	public void addSolenoid(JPanel solenoid, int channel)
+	public void addSolenoid(Solenoid solenoid, int channel)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -192,7 +198,7 @@ public class RobotBase {
 		main.revalidate();
 	}
 
-	public void addSolenoid(JPanel solenoid, int channelA, int channelB)
+	public void addSolenoid(DoubleSolenoid solenoid, int channelA, int channelB)
 	{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -205,6 +211,22 @@ public class RobotBase {
 		c.gridx = 1;
 		c.weightx = 0.9;
 		solenoids.add(solenoid, c);
+		main.revalidate();
+	}
+
+	public void addDigitalOutput(DigitalOutput digitalOutput, int channel)
+	{
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = channel;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.weighty = 0.9;
+		c.weightx = 0.1;
+		digitalOutputs.add(new JLabel(String.valueOf(channel)), c);
+		c.gridx = 1;
+		c.weightx = 0.9;
+		digitalOutputs.add(digitalOutput, c);
 		main.revalidate();
 	}
 	
@@ -235,36 +257,32 @@ public class RobotBase {
 	
 	protected void requestNextLoop()
 	{
+		Simulation.getInstance().updateConnections(isEnabled());
 		Simulation.getInstance().takeSemaphore();
 	}
 	
 	public void startCompetition()
 	{
+		new DigitalInput(2);
 		new DigitalInput(4);
-		DigitalInput di = new DigitalInput(2);
-		Talon t = new Talon(4);
-		Talon drive = new Talon(3);
+		Talon arm = new Talon(3);
+		new Talon(4);
 		AnalogChannel a = new AnalogChannel(3);
 		new Encoder(1, 5);
 		DoubleSolenoid s = new DoubleSolenoid(1, 2);
-		new Joystick(2);
 		Joystick j = new Joystick(1);
+		new Joystick(2);
 		while(true)
 		{
-			if (di.get())
+			if (isEnabled())
 			{
-				s.set(DoubleSolenoid.Value.kForward);
+				int setpoint = (int) (j.getRawAxis(1) * 1024);
+				int error = setpoint - a.getAverageValue();
+				arm.set(error / 100.0);
 			}
 			else
 			{
-				s.set(DoubleSolenoid.Value.kReverse);
-			}
-			t.set(a.getVoltage() / 5);
-			drive.set(j.getRawAxis(1));
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				arm.set(0.0);
 			}
 			requestNextLoop();
 		}

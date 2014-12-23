@@ -1,6 +1,8 @@
 package frc846.simulator;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +30,21 @@ public class AnalogChannel extends JPanel implements ChangeListener, Connectable
 		add(text);
 		RobotBase.getInstance().addAnalogChannel(this, channel);
 		slider.addChangeListener(this);
+		setBackground(Color.RED);
+		setOpaque(false);
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		if (overLimit)
+		{
+			setOpaque(true);
+		}
+		else
+		{
+			setOpaque(false);
+		}
 	}
 	
 	public int getAverageValue()

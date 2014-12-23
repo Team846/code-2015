@@ -18,9 +18,15 @@ public class Connection {
 	public void update()
 	{
 		double power = motor.get();
-		velocity += power / mass;
-		if (velocity > power || velocity < -power)
-			velocity = power;
+		if (Math.abs(velocity) < Math.abs(power) || Math.signum(power) != Math.signum(velocity))
+			velocity += power / mass;
+		else
+		{
+			if (velocity > 0)
+				velocity -= 0.01;
+			else if (velocity < 0)
+				velocity += 0.01;
+		}
 		if (reverse)
 			sensor.update(-velocity);
 		else
