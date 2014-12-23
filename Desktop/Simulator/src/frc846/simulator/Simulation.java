@@ -24,7 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Simulation implements ChangeListener, ActionListener {
-	
+
 	public class ConnectionSetup
 	{
         public static final int encoder = 0;

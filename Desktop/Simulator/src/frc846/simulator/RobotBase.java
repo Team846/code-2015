@@ -266,23 +266,27 @@ public class RobotBase {
 		new DigitalInput(2);
 		new DigitalInput(4);
 		Talon arm = new Talon(3);
-		new Talon(4);
+		Talon flywheel = new Talon(4);
 		AnalogChannel a = new AnalogChannel(3);
-		new Encoder(1, 5);
+		Counter c = new Counter(5);
 		DoubleSolenoid s = new DoubleSolenoid(1, 2);
 		Joystick j = new Joystick(1);
-		new Joystick(2);
+		Joystick j2 = new Joystick(2);
 		while(true)
 		{
 			if (isEnabled())
 			{
-				int setpoint = (int) (j.getRawAxis(1) * 1024);
-				int error = setpoint - a.getAverageValue();
-				arm.set(error / 100.0);
+				int armSetpoint = (int) (j.getRawAxis(1) * 1024);
+				int armError = armSetpoint - a.getAverageValue();
+				arm.set(armError / 10.0);
+				double wheelSetpoint = j2.getRawAxis(2) * 5000;
+				double speedError = wheelSetpoint - c.getRate();
+				flywheel.set(wheelSetpoint / 5000 + speedError / 5000);
 			}
 			else
 			{
 				arm.set(0.0);
+				flywheel.set(0.0);
 			}
 			requestNextLoop();
 		}
