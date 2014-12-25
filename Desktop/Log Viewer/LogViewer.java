@@ -1,6 +1,3 @@
-/*
- * TabbedPaneDemo.java requires one additional file: images/middle.gif.
- */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
