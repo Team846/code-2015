@@ -6,20 +6,19 @@ public class LRTEncoder extends Encoder {
 
 	double trim = 1.0;
 
-	public LRTEncoder(int aChannel, int bChannel, boolean reverseDirection,
-			EncodingType encodingType) 
+	public LRTEncoder(int aChannel, int bChannel) 
 	{
-		super(aChannel, bChannel, reverseDirection, encodingType);
+		super(aChannel, bChannel, false, EncodingType.k4X);
 	}
 
-	void Start() 
+	public void Start() 
 	{
 		super.stop();
 		super.start();
 		super.setMinRate(10);
 	}
 
-	double GetRate() 
+	public double GetRate() 
 	{
 		double rate = super.getRate();
 
@@ -29,7 +28,7 @@ public class LRTEncoder extends Encoder {
 		return rate;
 	}
 
-	int Get() 
+	public int Get() 
 	{
 		return (int) (super.get() * trim);
 	}
