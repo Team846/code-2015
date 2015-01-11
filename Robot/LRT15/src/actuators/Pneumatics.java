@@ -141,7 +141,7 @@ public class Pneumatics extends Actuator{
 		}
 	}
 
-	static void CreateCompressor()
+	public static void CreateCompressor()
 	{
 		/*compressor = new Compressor(
 				ConfigPortMappings.Get("Digital/COMPRESSOR_PRESSURE_SENSOR"),
@@ -149,7 +149,7 @@ public class Pneumatics extends Actuator{
 		compressor.start();
 	}
 
-	static void DestroyCompressor()
+	public static void DestroyCompressor()
 	{
 		compressor.stop();
 		compressor.free();

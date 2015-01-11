@@ -33,12 +33,12 @@ public abstract class Component
 		System.out.println("Created component: " + name);
 	}
 	
-	public void CreateComponents()
+	public static void CreateComponents()
 	{
 	}
 	
 
-	void UpdateAll()
+	public static void UpdateAll()
 	{
 		for (Component c : component_list)
 		{

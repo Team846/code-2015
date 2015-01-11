@@ -11,25 +11,25 @@ public class LRTDriverStation {
 	LRTJoystick m_operator_stick;
 	LRTJoystick m_driver_wheel;
 
-	public void Initialize()
+	public static void Initialize()
 	{
 		if (m_instance == null)
 			m_instance = new LRTDriverStation();
 	}
 
-	LRTDriverStation Instance()
+	public static LRTDriverStation Instance()
 	{
 		if (m_instance == null)
 			m_instance = new LRTDriverStation();
 		return m_instance;
 	}
 
-	void Finalize()
+	public static void Finalize()
 	{
 		m_instance = null;
 	}
 
-	LRTDriverStation()
+	private LRTDriverStation()
 	{
 		m_driver_stick = new LRTJoystick(
 				DriverStationConfig.JoystickConfig.DRIVER_STICK_PORT,
