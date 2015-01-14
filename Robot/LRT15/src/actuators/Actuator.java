@@ -22,7 +22,7 @@ public abstract class Actuator
 	
 	public abstract void Output();
 	
-	public void OutputAll()
+	public static void OutputAll()
 	{
 		for ( Actuator a : Actuator.actuator_list)
 		{ 

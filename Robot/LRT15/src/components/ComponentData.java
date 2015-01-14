@@ -14,7 +14,7 @@ public abstract class ComponentData
 		componentData_map.put(name, this);
 	}
 
-	public void Initialize()
+	public static void Initialize()
 	{
 
 	}

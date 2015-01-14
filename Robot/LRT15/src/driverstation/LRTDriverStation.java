@@ -46,7 +46,7 @@ public class LRTDriverStation {
 	}
 
 
-	void Update()
+	public static void Update()
 	{
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{

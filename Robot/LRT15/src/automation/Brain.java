@@ -26,7 +26,7 @@ public class Brain
 		return m_instance;
 	}
 	
-	public void Initialize()
+	public static void Initialize()
 	{
 		if (m_instance == null)
 			m_instance = new Brain();
