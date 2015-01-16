@@ -19,7 +19,7 @@ public abstract class ComponentData
 
 	}
 
-	public ComponentData GetComponentData(String name)
+	public static ComponentData GetComponentData(String name)
 	{
 		if (componentData_map.containsKey(name))
 			return componentData_map.get(name);
