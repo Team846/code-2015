@@ -1,3 +1,5 @@
+package components;
+
 public class DrivetrainData extends ComponentData {
   public static final int VELOCITY_X = 0;
   public static final int VELOCITY_Y = 1;
