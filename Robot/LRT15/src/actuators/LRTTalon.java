@@ -15,7 +15,7 @@ public class LRTTalon extends LRTSpeedController {
 	
 	private Talon talon;
 
-	LRTTalon(int channel, String name, int jumperChannel)
+	public LRTTalon(int channel, String name, int jumperChannel)
 		//LRTSpeedController("LRTTalon" + name),
 		//m_brake_jumper(jumperChannel != 0 ? new DigitalOutput(jumperChannel) : NULL)
 	{
