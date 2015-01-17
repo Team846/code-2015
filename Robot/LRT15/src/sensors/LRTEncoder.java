@@ -21,7 +21,7 @@ public class LRTEncoder extends Encoder {
 	{
 		double rate = super.getRate();
 
-		if (super.getStopped() || rate != rate)
+		if (super.getStopped() || rate != rate) //catches NaN
 			return 0.0;
 
 		return rate;

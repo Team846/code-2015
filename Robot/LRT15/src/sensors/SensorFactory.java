@@ -17,7 +17,16 @@ public class SensorFactory {
 	
 	static public void Initialize()
 	{
-		instance = new SensorFactory();
+		if(instance == null)
+			instance = new SensorFactory();
+	}
+	
+	static public SensorFactory Instance()
+	{
+		if(instance == null)
+			instance = new SensorFactory();
+		
+		return instance;
 	}
 	
 	static public AnalogInput GetAnalogInput(int port)

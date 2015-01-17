@@ -1,4 +1,4 @@
-package sensors;
+package log;
 
 public interface Loggable {
 

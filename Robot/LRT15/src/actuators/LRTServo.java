@@ -2,7 +2,7 @@ package actuators;
 
 import edu.wpi.first.wpilibj.Servo;
 
-public class LRTServo extends Actuator implements LRTSpeedController
+public class LRTServo extends Actuator
 {
 	public enum ControlMode
 	{
@@ -10,7 +10,7 @@ public class LRTServo extends Actuator implements LRTSpeedController
 	}
 	private Servo servo;
 	public ControlMode m_controlMode;
-    double m_value;
+    double m_value; 
     boolean enabled;
     double previous_value;
     
@@ -19,7 +19,6 @@ public class LRTServo extends Actuator implements LRTSpeedController
 
 	public LRTServo(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 	
 	LRTServo(int channel, String name)

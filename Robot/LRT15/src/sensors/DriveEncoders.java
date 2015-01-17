@@ -1,5 +1,7 @@
 package sensors;
 
+import log.Loggable;
+import config.Configurable;
 import config.RobotConfig;
 
 public class DriveEncoders implements Configurable, Loggable
@@ -103,7 +105,7 @@ public class DriveEncoders implements Configurable, Loggable
 		return encoders[side.ordinal()];
 	}
 
-	public double GetMaxEncoderRate()
+	public static double GetMaxEncoderRate()
 	{
 		return MAX_ENCODER_RATE;
 	}
@@ -143,7 +145,7 @@ public class DriveEncoders implements Configurable, Loggable
 //		MAX_ENCODER_RATE = GetConfig("max_encoder_rate", 2214.762);
 //		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782);
 //		WHEEL_DIAMETER = GetConfig("wheel_diameter", 4.0); // Inches
-//		GEAR_RATIO = GetConfig("gear_ratio", 1.0);
+//		GEAR_RATIO = GetConfig("gear_ratio", 1 .0);
 //		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", 2.0 * 26.574 * PI / (GEAR_RATIO * WHEEL_DIAMETER * PI) * PULSES_PER_REVOLUTION);
 	}
 
@@ -157,5 +159,6 @@ public class DriveEncoders implements Configurable, Loggable
 //		LogToFile(GetNormalizedSpeed(Side.LEFT), "NormalizedSide.LEFTSpeed");
 //		LogToFile(GetNormalizedSpeed(Side.RIGHT), "NormalizedSide.RIGHTSpeed");
 	}
-
 }
+
+

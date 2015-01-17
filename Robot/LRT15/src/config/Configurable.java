@@ -1,11 +1,5 @@
-package config;
-
-//Classes interfacing 
+package config; 
 
 public interface Configurable {
-	
-	public void Configure();
-	
-	public void GetConfig();
 
 }

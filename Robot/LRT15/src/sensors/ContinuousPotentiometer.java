@@ -1,5 +1,6 @@
 package sensors;
 
+import config.Configurable;
 import edu.wpi.first.wpilibj.AnalogInput;
 
 public class ContinuousPotentiometer implements Configurable

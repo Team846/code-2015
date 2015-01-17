@@ -8,28 +8,11 @@ import components.Component;
 import components.ComponentData;
 import driverstation.GameState;
 import driverstation.LRTDriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 
-public class LRT15Robot extends RobotBase 
+public class LRT15Robot extends LRTRobotBase 
 {
 	
-
-	@Override
-	public void startCompetition() {
-		RobotInit();
-		Main();
-		
-	}
-
-	private void Main() {
-		while(true)
-		{
-			Tick();
-		}
-		
-	}
-	
-	private void RobotInit() {
+	public void RobotInit() {
 		RobotState.Initialize();
 		
 		LRTDriverStation.Initialize();
@@ -47,7 +30,7 @@ public class LRT15Robot extends RobotBase
 		
 	}
 
-	private void Tick() {
+	public void Tick() {
 		RobotState.Instance().Update();
 		
 		LRTDriverStation.Update();
@@ -64,5 +47,4 @@ public class LRT15Robot extends RobotBase
 		}
 		
 	}
-
 }

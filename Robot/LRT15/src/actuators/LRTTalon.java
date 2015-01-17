@@ -5,22 +5,22 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Talon;
 
-public class LRTTalon extends Talon implements LRTSpeedController{
+public class LRTTalon extends LRTSpeedController {
 	
 	public static ArrayList<LRTTalon> talon_list = new ArrayList<LRTTalon>();
 	
 	private double m_pwm;
 	DigitalOutput m_brake_jumper;
 	LRTSpeedController.NeutralMode m_neutral;
-
-	private String name;
+	
+	private Talon talon;
 
 	LRTTalon(int channel, String name, int jumperChannel)
 		//LRTSpeedController("LRTTalon" + name),
 		//m_brake_jumper(jumperChannel != 0 ? new DigitalOutput(jumperChannel) : NULL)
 	{
-		super(channel);
-		this.name = name;
+		super("LRTTalon"+name);
+		talon = new Talon(channel);
 		m_brake_jumper = (jumperChannel != 0 ? new DigitalOutput(jumperChannel) : null);
 		m_pwm = 0.0;
 		m_neutral = LRTSpeedController.NeutralMode.kNeutralMode_Coast;
@@ -29,7 +29,7 @@ public class LRTTalon extends Talon implements LRTSpeedController{
 		System.out.println("Constructed LRTTalon" + name+" on channel " + channel);
 	}
 
-	public void SetDutyCycle(float speed)
+	public void SetDutyCycle(double speed)
 	{
 		m_pwm = speed;
 	}
@@ -41,12 +41,12 @@ public class LRTTalon extends Talon implements LRTSpeedController{
 
 	public double GetHardwareValue()
 	{
-		return super.get();
+		return talon.get();
 	}
 
 	public void Set( float speed)
 	{
-		System.out.println("[WARNING] Calling Set() in LRTTalon: "+name+" use SetDutyCycle() instead");
+		System.out.println("[WARNING] Calling Set() in LRTTalon: "+ GetName() +" use SetDutyCycle() instead");
 		SetDutyCycle(speed);
 	}
 
@@ -57,7 +57,7 @@ public class LRTTalon extends Talon implements LRTSpeedController{
 
 	public void Disable()
 	{
-		m_pwm = kPwmDisabled;
+		m_pwm = Talon.kPwmDisabled;
 	}
 
 	public void PIDWrite( float output) 
@@ -77,7 +77,7 @@ public class LRTTalon extends Talon implements LRTSpeedController{
 
 	public void Update()
 	{
-		super.set(m_pwm);
+		talon.set(m_pwm);
 		if (m_brake_jumper != null)
 		{
 			if(m_neutral == LRTSpeedController.NeutralMode.kNeutralMode_Coast)
