@@ -1,5 +1,7 @@
 package config;
 
+import java.util.*;
+
 public class Configurable {
 	public final ConfigRuntime  m_config;
 	private String m_configSection;
@@ -10,10 +12,13 @@ public class Configurable {
 		m_configSection = configSection;
 		ConfigRuntime.Register(this);
 	}
-	//public virtual ~Configurable();
 	
 	//virtual void Configure() = 0;
 	
-	//static <T> GetConfig(String key, T defaultValue)
-	//default <T> GetConfig
+	/*
+	public <T> T GetConfig(String key, T defaultValue)
+	{
+		return m_config.Get<T>(m_configSection,key,defaultValue);
+	}
+	*/
 }

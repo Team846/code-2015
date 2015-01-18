@@ -38,8 +38,29 @@ public class ConfigRuntime {
 			SaveConfig(CONFIG_FILE_PATH);
 		}
 				 
-		//template<typename T> T Get(String section, String key, T defaultValue);
-		//template<typename T> void Set(String section, String key, T value);
+		public <T> void Set(String section, String key, T value)
+		{
+
+		}
+		/*
+		public <T> T Get(String section, String key, T defaultValue)
+		{
+			if (KeyExists(section, key))
+			{
+				//c++ code starts here
+				stringstream sstream(configData.get(section).get(key).value);
+				T value;
+				sstream >> value;
+				return value;
+			}
+			else
+			{
+				Set<T>(section, key, defaultValue);
+				return defaultValue;
+			}
+		}
+		*/
+		//public<T> T Set(String section, String key, T value){}
 		public static void Register(Configurable configurable)
 		{
 			configurables.add(configurable);
@@ -70,12 +91,12 @@ public class ConfigRuntime {
 		List<String> fileData;
 		Map<String, Map <String , Map<String, Map<String , Config>>> > configData;
 		Map<String, ListIterator<String>> sectionMap;
-		//(tiem in java keyword) lastReadTime;
-		/*
+		//(time in java keyword) lastReadTime;
+		
 		boolean KeyExists(String section, String key)
 		{
-			//return configData.find(section) != configData.end() && (configData)section.find(key) != (configData)section.end();
+			return configData.get(section) != null && (configData.get(section)).get(key) != null;
 		}
-		*/
+
 
 }
