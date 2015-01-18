@@ -1,26 +1,47 @@
 package utils;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Watchdog {
+public class Watchdog extends Timer{
+
+	int time;
+	int startTime;
+	int feedTime;
+	int killTime;
 	
-	int time = 5; //milliseconds
+	TimerTask feed;
+	TimerTask kill;
+	
+	Timer timer = new Timer();
 	
 	public Watchdog(int time){
 		super();
 		this.time = time;
+		
 	}
 	
-	public boolean feed(){
-		
-		int time = 5; //resets time
-		
-		boolean previous = true; //gets previous state before feeding dog
-		System.out.println("Feed the dog..."); //feed
-		return previous;
+	public static TimerTask feed(){
+		System.out.println("Feed the dog...");
+		//feed
+		return feed();
 	}
 	
-	public void kill(){
+	public static TimerTask kill(){
 		System.out.println("Killed watchdog.");
 		//kill
+		return kill();
 	}
 
+	{
+	kill = Watchdog.kill();
+	killTime = 5;
+	timer.schedule(kill, killTime);
+	
+	feed = Watchdog.feed();
+	startTime = 0;
+	feedTime = 3; //supposed to feed every 3 milliseconds
+	timer = new Timer();
+	timer.schedule(feed, startTime, feedTime);
+	}
+	
 }
