@@ -9,8 +9,8 @@ public class LRTServo extends Actuator
 		kValue, kMicroseconds, kAngle
 	}
 	private Servo servo;
-	public ControlMode m_controlMode;
-    double m_value; 
+	public ControlMode controlMode;
+    double value; 
     boolean enabled;
     double previous_value;
     
@@ -25,8 +25,8 @@ public class LRTServo extends Actuator
 	{
 			super(name);
 			servo = new Servo(channel);
-			m_controlMode = ControlMode.kValue;
-			m_value = 0.0;
+			controlMode = ControlMode.kValue;
+			value = 0.0;
 			enabled = false;
 			previous_value = 999.0;
 			
@@ -39,17 +39,17 @@ public void Output()
 {
 	if (enabled)
 	{
-		switch(m_controlMode)
+		switch(controlMode)
 		{
 		case kValue:
-	        servo.set(m_value);
+	        servo.set(value);
 			break;
 		case kMicroseconds:
-	    	float val = (float)(m_value - MIN_VAL) / (MAX_VAL - MIN_VAL);
+	    	float val = (float)(value - MIN_VAL) / (MAX_VAL - MIN_VAL);
 	        servo.set(val);
 			break;
 		case kAngle:
-	        servo.setAngle(m_value);
+	        servo.setAngle(value);
 			break;
 		}
 	}
@@ -69,30 +69,30 @@ boolean IsEnabled()
 
 public void Set(float value)
 {
-	m_controlMode = ControlMode.kValue;
-	m_value = value;
+	controlMode = ControlMode.kValue;
+	value = value;
 }
 
 public void SetMicroseconds(int ms) 
 {
-	m_controlMode = ControlMode.kMicroseconds;
-	m_value = Math.max(MIN_VAL, Math.min(MAX_VAL,ms));
+	controlMode = ControlMode.kMicroseconds;
+	value = Math.max(MIN_VAL, Math.min(MAX_VAL,ms));
 }
 
 public void SetAngle(float angle)
 {
-	m_controlMode = ControlMode.kAngle;
-	m_value = angle;
+	controlMode = ControlMode.kAngle;
+	value = angle;
 }
 
 public void SetControlMode(ControlMode mode)
 {
-	m_controlMode = mode;
+	controlMode = mode;
 }
 
 double Get()
 {
-	return m_value;
+	return value;
 }
 
 double GetHardwareValue()
@@ -102,18 +102,18 @@ double GetHardwareValue()
 
 public ControlMode GetControlMode()
 {
-	return m_controlMode;
+	return controlMode;
 }
 
 //public void Log()
 //{
-//	LogToFile(&m_controlMode, "public ControlMode");
-//	LogToFile(&m_value, "Value");
+//	LogToFile(&controlMode, "public ControlMode");
+//	LogToFile(&value, "Value");
 //}
 //
 //public void Send()
 //{
-//	SendToNetwork(m_value, "S_" + string(GetName()), "ActuatorData");
+//	SendToNetwork(value, "S_" + string(GetName()), "ActuatorData");
 //}
 
 	

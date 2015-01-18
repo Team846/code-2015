@@ -9,37 +9,37 @@ public abstract class Automation {
 	static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
 	ArrayList<ControlResource> resources;
 	
-	Event m_startEvent;
-	Event m_abortEvent;
-	Event m_continueEvent;
+	Event startEvent;
+	Event abortEvent;
+	Event continueEvent;
 	
-	boolean m_aborting;
-	boolean m_restartable;
-	boolean m_queueIfBlocked;
-	boolean m_requiresAbortCycles;
+	boolean aborting;
+	boolean restartable;
+	boolean queueIfBlocked;
+	boolean requiresAbortCycle;
 	
-	String m_name;
+	String name;
 	
 	public Automation(String name, boolean requiresAbortCycles, boolean queueIfBlocked, boolean restartable)
 	{
-		m_startEvent = null;
-		m_abortEvent = null;
-		m_continueEvent = null;
-		m_aborting = false;
-		m_restartable = restartable;
-		m_queueIfBlocked = queueIfBlocked;
-		m_requiresAbortCycles = requiresAbortCycles;
-		m_name = name;
+		startEvent = null;
+		abortEvent = null;
+		continueEvent = null;
+		aborting = false;
+		this.restartable = restartable;
+		this.queueIfBlocked = queueIfBlocked;
+		this.requiresAbortCycle = requiresAbortCycles;
+		this.name = name;
 		automation_vector.add(this);
 	}
-
+	
 	public boolean Update()
 	{
 		boolean completed = Run();
-		m_continueEvent = null;
+		continueEvent = null;
 		if (completed)
 		{
-			m_aborting = false;
+			aborting = false;
 			return true;
 		}
 		return false;
@@ -83,24 +83,24 @@ public abstract class Automation {
 
 	public boolean StartAutomation(Event trigger)
 	{
-		m_startEvent = trigger;
-		m_aborting = false;
+		startEvent = trigger;
+		aborting = false;
 		return Start();
 	}
 
 	public boolean AbortAutomation(Event trigger)
 	{
-		m_abortEvent = trigger;
+		abortEvent = trigger;
 		boolean success = Abort();
 		if (success)
 		{
 			if (RequiresAbortCycles())
 			{
-				m_aborting = true;
+				aborting = true;
 				return false;
 			}
-			m_startEvent = null;
-			m_abortEvent = null;
+			startEvent = null;
+			abortEvent = null;
 			return true;
 		}
 		return false;
@@ -108,27 +108,27 @@ public abstract class Automation {
 
 	public void ContinueAutomation(Event trigger)
 	{
-		m_continueEvent = trigger;
+		continueEvent = trigger;
 	}
 
 	protected boolean Continued()
 	{
-		return m_continueEvent != null;
+		return continueEvent != null;
 	}
 
 	protected Event GetStartEvent()
 	{
-		return m_startEvent;
+		return startEvent;
 	}
 
 	protected Event GetAbortEvent()
 	{
-		return m_abortEvent;
+		return abortEvent;
 	}
 	
 	public Event GetContinueEvent()
 	{
-		return m_continueEvent;
+		return continueEvent;
 	}
 	
 	protected abstract boolean Start();
@@ -165,26 +165,26 @@ public abstract class Automation {
 
 	protected boolean Aborting()
 	{
-		return m_aborting;
+		return aborting;
 	}
 
 	public boolean IsRestartable()
 	{
-		return m_restartable;
+		return restartable;
 	}
 
 	public boolean QueueIfBlocked()
 	{
-		return m_queueIfBlocked;
+		return queueIfBlocked;
 	}
 
 	public boolean RequiresAbortCycles()
 	{
-		return m_requiresAbortCycles;
+		return requiresAbortCycle;
 	}
 
 	public String GetName()
 	{
-		return m_name;
+		return name;
 	}
 }

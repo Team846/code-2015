@@ -17,52 +17,52 @@ public class DriveESC
 			braking = 0;
 		}
 	}
-	LRTEncoder m_encoder;
-	LRTSpeedController m_controller1;
-	LRTSpeedController m_controller2;
+	LRTEncoder encoder;
+	LRTSpeedController controller1;
+	LRTSpeedController controller2;
 	
-	double m_dutyCycle;
+	double dutyCycle;
 	
-	int m_cycle_count;
+	int cycle_count;
 	
-	double m_forwardCurrentLimit; // % stall current for acceleration
-	double m_reverseCurrentLimit; // % stall current for reversing direction
+	double forwardCurrentLimit; // % stall current for acceleration
+	double reverseCurrentLimit; // % stall current for reversing direction
 
-	int m_shouldBrakeThisCycle;
+	int shouldBrakeThisCycle;
 	
 	DriveESC(LRTSpeedController esc, LRTEncoder encoder, String name) 
 		//Loggable(name),
 	{
-		m_encoder = encoder;
-		m_controller1 = esc;
-		m_controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		encoder = encoder;
+		controller1 = esc;
+		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
 		
-		m_dutyCycle = 0.0;
-		m_cycle_count = 0;
-		m_shouldBrakeThisCycle = 0;
+		dutyCycle = 0.0;
+		cycle_count = 0;
+		shouldBrakeThisCycle = 0;
 		
-		m_forwardCurrentLimit = 50.0 / 100.0;
-		m_reverseCurrentLimit = 50.0 / 100.0;
+		forwardCurrentLimit = 50.0 / 100.0;
+		reverseCurrentLimit = 50.0 / 100.0;
 	}
 	
 	DriveESC(LRTSpeedController esc1, LRTSpeedController esc2, LRTEncoder encoder, String name) 
 //		Loggable(name),
-//		m_encoder(encoder),
-//		m_controller1(esc1),
-//		m_controller2(esc2)
+//		encoder(encoder),
+//		controller1(esc1),
+//		controller2(esc2)
 	{
-		m_encoder = encoder;
-		m_controller1 = esc1;
-		m_controller2 = esc2;
-		m_controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
-		m_controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		encoder = encoder;
+		controller1 = esc1;
+		controller2 = esc2;
+		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
 
-		m_dutyCycle = 0.0;
-		m_cycle_count = 0;
-		m_shouldBrakeThisCycle = 0;
+		dutyCycle = 0.0;
+		cycle_count = 0;
+		shouldBrakeThisCycle = 0;
 		
-		m_forwardCurrentLimit = 50.0 / 100.0;
-		m_reverseCurrentLimit = 50.0 / 100.0;
+		forwardCurrentLimit = 50.0 / 100.0;
+		reverseCurrentLimit = 50.0 / 100.0;
 	}
 	
 	BrakeAndDutyCycle CalculateBrakeAndDutyCycle(double dutyCycle, double speed)
@@ -109,18 +109,18 @@ public class DriveESC
 
 	void SetDutyCycle(double dutyCycle)
 	{
-		double speed = m_encoder.GetRate()
+		double speed = encoder.GetRate()
 					/ DriveEncoders.GetMaxEncoderRate();
 		
 		speed = MathUtils.clamp(speed, -1.0, 1.0);
 		
 		dutyCycle = DitheredBraking(dutyCycle, speed);
 		dutyCycle = CurrentLimit(dutyCycle, speed);
-		m_dutyCycle = dutyCycle;
+		dutyCycle = dutyCycle;
 		
-		m_controller1.SetDutyCycle(m_dutyCycle);
-		if (m_controller2 != null)
-			m_controller2.SetDutyCycle(m_dutyCycle);
+		controller1.SetDutyCycle(dutyCycle);
+		if (controller2 != null)
+			controller2.SetDutyCycle(dutyCycle);
 	}
 
 	double DitheredBraking(double dutyCycle, double speed)
@@ -130,17 +130,17 @@ public class DriveESC
 		command.dutyCycle = MathUtils.clamp(command.dutyCycle, -1.0, 1.0);
 
 		// Default to coast
-		m_controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
-		if (m_controller2 != null)
-			m_controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		if (controller2 != null)
+			controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
 		
 		if (Math.abs(command.dutyCycle) < 1E-4) //brake only when duty cycle = 0
 		{
 			dutyCycle = 0.0;
 
 			// cycle count ranges from 0 to 8
-			if (++m_cycle_count >= 8)
-				m_cycle_count = 0;
+			if (++cycle_count >= 8)
+				cycle_count = 0;
 
 			/*
 			 * Each integer, corresponding to value, is a bitfield of 8 cycles
@@ -159,13 +159,13 @@ public class DriveESC
 			{ 0x00, 0x01, 0x11, 0x25, 0x55, 0xD5, 0xEE, 0xFE, 0xFF };
 
 			int brake_level = (int) (Math.abs(command.braking) * 8);
-			m_shouldBrakeThisCycle = ditherPattern[brake_level] & (1 << m_cycle_count);
+			shouldBrakeThisCycle = ditherPattern[brake_level] & (1 << cycle_count);
 
-			if (m_shouldBrakeThisCycle == 1)
+			if (shouldBrakeThisCycle == 1)
 			{
-				m_controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
-				if (m_controller2 != null)
-					m_controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
+				controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
+				if (controller2 != null)
+					controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
 			}
 		}
 
@@ -181,11 +181,11 @@ public class DriveESC
 		// At this point speed >= 0
 		if (dutyCycle > speed) // Current limit accelerating
 		{
-			dutyCycle = Math.min(dutyCycle, speed + m_forwardCurrentLimit);
+			dutyCycle = Math.min(dutyCycle, speed + forwardCurrentLimit);
 		}
 		else if (dutyCycle < 0) // Current limit reversing direction
 		{
-			double limitedDutyCycle = -m_reverseCurrentLimit / (1.0 + speed); // speed >= 0 so dutyCycle < -currentLimit
+			double limitedDutyCycle = -reverseCurrentLimit / (1.0 + speed); // speed >= 0 so dutyCycle < -currentLimit
 			dutyCycle = Math.max(dutyCycle, limitedDutyCycle); // Both are negative
 		}
 		
@@ -194,33 +194,33 @@ public class DriveESC
 
 	public void SetForwardCurrentLimit(float limit)
 	{
-		m_forwardCurrentLimit = limit;
+		forwardCurrentLimit = limit;
 	}
 
 	public void SetReverseCurrentLimit(float limit)
 	{
-		m_reverseCurrentLimit = limit;
+		reverseCurrentLimit = limit;
 	}
 
 	public void Disable()
 	{
-		m_controller1.SetDutyCycle(0.0);
-		if (m_controller2 != null)
-			m_controller2.SetDutyCycle(0.0);
+		controller1.SetDutyCycle(0.0);
+		if (controller2 != null)
+			controller2.SetDutyCycle(0.0);
 	}
 
 	void ResetCache()
 	{
-//		if(dynamic_cast<AsyncCANJaguar*>(m_controller1) )
-//			dynamic_cast<AsyncCANJaguar*>(m_controller1).ResetCache();
-//		if(dynamic_cast<AsyncCANJaguar*>(m_controller2))
-//			dynamic_cast<AsyncCANJaguar*>(m_controller2).ResetCache();
+//		if(dynamic_cast<AsyncCANJaguar*>(controller1) )
+//			dynamic_cast<AsyncCANJaguar*>(controller1).ResetCache();
+//		if(dynamic_cast<AsyncCANJaguar*>(controller2))
+//			dynamic_cast<AsyncCANJaguar*>(controller2).ResetCache();
 	}
 
 //	void Log()
 //	{
-//		LogToFile(&m_dutyCycle, "DutyCycle");
-//		LogToFile(&m_shouldBrakeThisCycle, "Brake");
+//		LogToFile(&dutyCycle, "DutyCycle");
+//		LogToFile(&shouldBrakeThisCycle, "Brake");
 //	}
 
 }

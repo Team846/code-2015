@@ -13,29 +13,29 @@ public abstract class LRTSpeedController extends Actuator
 	}
 	
 	private CounterBase encoder = null;
-	private double m_timeoutSeconds;
-	private float m_threshold;
-	private Timer m_timer;
+	private double timeoutSeconds;
+	private float threshold;
+	private Timer timer;
 	
 	public LRTSpeedController(String name) {
 		super(name);
-		m_timeoutSeconds = 0;
+		timeoutSeconds = 0;
 	}
 	
 	public void Output()
 	{
 		if (encoder != null)
 		{
-			if (Math.abs(GetDutyCycle()) >= m_threshold && encoder.getStopped())
+			if (Math.abs(GetDutyCycle()) >= threshold && encoder.getStopped())
 			{
-				m_timer.start();
-				if (m_timer.get() >= m_timeoutSeconds * 1000000)
+				timer.start();
+				if (timer.get() >= timeoutSeconds * 1000000)
 					SafetyCallback();
 			}
 			else
 			{
-				m_timer.stop();
-				m_timer.reset();
+				timer.stop();
+				timer.reset();
 			}
 		}
 		Update();
@@ -44,8 +44,8 @@ public abstract class LRTSpeedController extends Actuator
 	public void RegisterSafety(CounterBase encoder, double timeoutSeconds, float threshold)
 	{
 		encoder = encoder;
-		m_timeoutSeconds = timeoutSeconds;
-		m_threshold = threshold;
+		timeoutSeconds = timeoutSeconds;
+		threshold = threshold;
 	}
 	
 	public void SafetyCallback()

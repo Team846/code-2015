@@ -11,25 +11,25 @@ import utils.Pair;
 
 public class Brain 
 {
-	static Brain m_instance = null;
+	static Brain instance = null;
 	
-	ArrayList<InputProcessor> m_inputs = new ArrayList<InputProcessor>();
-	ArrayList<Automation> m_automation = new ArrayList<Automation>();
+	ArrayList<InputProcessor> inputs = new ArrayList<InputProcessor>();
+	ArrayList<Automation> automation = new ArrayList<Automation>();
 	
-	LinkedList<Automation> m_runningTasks = new LinkedList<Automation>();
-	HashMap<Automation, Event> m_waitingTasks = new HashMap<Automation, Event>();
+	LinkedList<Automation> runningTasks = new LinkedList<Automation>();
+	HashMap<Automation, Event> waitingTasks = new HashMap<Automation, Event>();
 	
 	public static Brain Instance()
 	{
-		if(m_instance == null)
-			m_instance = new Brain();
-		return m_instance;
+		if(instance == null)
+			instance = new Brain();
+		return instance;
 	}
 	
 	public static void Initialize()
 	{
-		if (m_instance == null)
-			m_instance = new Brain();
+		if (instance == null)
+			instance = new Brain();
 	}
 	
 	public void Update()
@@ -47,17 +47,17 @@ public class Brain
 	void ProcessAutomationTasks()
 	{
 		// Try to start queued tasks
-		for (Map.Entry<Automation, Event> e : m_waitingTasks.entrySet())
+		for (Map.Entry<Automation, Event> e : waitingTasks.entrySet())
 		{
-		    if (!m_runningTasks.contains(e.getKey())) // If task isn't running
+		    if (!runningTasks.contains(e.getKey())) // If task isn't running
 		    {
 				if (e.getKey().CheckResources())
 				{
 					boolean ret = e.getKey().StartAutomation(e.getValue());
 					if (ret)
 					{
-						m_runningTasks.add(e.getKey());
-						m_waitingTasks.remove(e); //TODO: check remove/erase compatibbility
+						runningTasks.add(e.getKey());
+						waitingTasks.remove(e); //TODO: check remove/erase compatibbility
 					}
 				}
 	        }
@@ -72,13 +72,13 @@ public class Brain
 	        	// Tasks aborted by this event
 	        	for (Automation a : Event.event_list.get(i).GetAbortListeners())
 	        	{
-	        	    if (m_runningTasks.contains(a)) // If task is running
+	        	    if (runningTasks.contains(a)) // If task is running
 	        	    {
 	        	    	boolean ret = a.AbortAutomation(Event.event_list.get(i));
 	        		    if (ret)
 	        		    {
 	        		    	a.DeallocateResources();
-	        		        m_runningTasks.remove(a);
+	        		        runningTasks.remove(a);
 	        		    }
 	        		}
 	        	}
@@ -88,19 +88,19 @@ public class Brain
 	        	{
 	        		Automation auto = Event.event_list.get(i).GetStartListeners().get(j);
 	      
-	        		if (!m_runningTasks.contains(auto) || auto.IsRestartable()) // If task isn't running or is restartable
+	        		if (!runningTasks.contains(auto) || auto.IsRestartable()) // If task isn't running or is restartable
 	        		{
 	        			
 	        			if (auto.CheckResources())
 	        			{
 							boolean ret = auto.StartAutomation(Event.event_list.get(i));
 							if(ret)
-								m_runningTasks.add(auto);
+								runningTasks.add(auto);
 	        			}
 	        			else
 	        			{
 	        				if (auto.QueueIfBlocked())
-	        					m_waitingTasks.put(auto, Event.event_list.get(i));
+	        					waitingTasks.put(auto, Event.event_list.get(i));
 	        			}
 	        		}
 	        	}
@@ -108,7 +108,7 @@ public class Brain
 	        	// Tasks continued by this event
 	        	for (Automation a : Event.event_list.get(i).GetContinueListeners())
 	        	{
-	        	    if (m_runningTasks.contains(a))//!= m_runningTasks.end()) // If task is running
+	        	    if (runningTasks.contains(a))//!= runningTasks.end()) // If task is running
 	        	    {
 	        		    a.ContinueAutomation(Event.event_list.get(i));
 	        		}
@@ -116,7 +116,7 @@ public class Brain
 			}
 		}
 		
-		ListIterator<Automation> runningTaskIterator = m_runningTasks.listIterator();
+		ListIterator<Automation> runningTaskIterator = runningTasks.listIterator();
 		while(runningTaskIterator.hasNext())
 		{
 			Automation a = runningTaskIterator.next();
@@ -124,20 +124,20 @@ public class Brain
 			if(complete)
 			{
 				a.DeallocateResources();
-				m_runningTasks.remove(a);
+				runningTasks.remove(a);
 				runningTaskIterator.previous();
 			}
 			
 		}
 		
 //	    // Update running tasks
-//	    for (list<Automation*>::iterator a = m_runningTasks.begin(); a != m_runningTasks.end(); a++)
+//	    for (list<Automation*>::iterator a = runningTasks.begin(); a != runningTasks.end(); a++)
 //	    {
 //	    	bool complete = (*a)->Update();
 //		    if (complete)
 //		    {
 //		    	(*a)->DeallocateResources();
-//		    	m_runningTasks.erase(a++);
+//		    	runningTasks.erase(a++);
 //		    	a--;
 //		    }
 //	    }
@@ -145,7 +145,7 @@ public class Brain
 
 	void ProcessInputs()
 	{
-		for (InputProcessor i : m_inputs)
+		for (InputProcessor i : inputs)
 		{
 			if (i.CheckResources())
 			{
@@ -156,18 +156,18 @@ public class Brain
 
 //	void Log()
 //	{
-//		for (vector<Automation*>::iterator it = m_automation.begin(); it < m_automation.end(); it++)
+//		for (vector<Automation*>::iterator it = automation.begin(); it < automation.end(); it++)
 //		{
-//			LogToFile(find(m_runningTasks.begin(), m_runningTasks.end(), *it) != m_runningTasks.end(), Event.event_list.get(i)->GetName());
+//			LogToFile(find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end(), Event.event_list.get(i)->GetName());
 //		}
 //	}
 
 //	void PrintRunningAutomation()
 //	{
 //		BufferedConsole::Printf("Running Automation Routines:\n");
-//		for (vector<Automation*>::iterator it = m_automation.begin(); it < m_automation.end(); it++)
+//		for (vector<Automation*>::iterator it = automation.begin(); it < automation.end(); it++)
 //		{
-//			if (find(m_runningTasks.begin(), m_runningTasks.end(), *it) != m_runningTasks.end())
+//			if (find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end())
 //				BufferedConsole::Printf("%s\n", Event.event_list.get(i)->GetName().c_str());
 //		}
 //	}

@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SolenoidBase;
 
 public class Pneumatics extends Actuator{
-	private String m_configSection;
+	private String configSection;
 
-	private int m_pulse_length;
+	private int pulse_length;
 
 	private static Compressor compressor = new Compressor();
 	public static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
@@ -31,7 +31,7 @@ public class Pneumatics extends Actuator{
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
-//		m_configSection("Pneumatics")
+//		configSection("Pneumatics")
 	{
 		super(name);
 		System.out.println("Created DoubleSolenoid " + name);
@@ -47,7 +47,7 @@ public class Pneumatics extends Actuator{
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
-//		m_configSection("Pneumatics")
+//		configSection("Pneumatics")
 	{
 		super(name);
 		System.out.println("Created DoubleSolenoid " + name);
@@ -63,7 +63,7 @@ public class Pneumatics extends Actuator{
 //		Actuator(name),;
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
-//		m_configSection("Pneumatics")
+//		configSection("Pneumatics")
 	{
 		super(name);
 		System.out.println("Created Solenoid " + name);
@@ -79,7 +79,7 @@ public class Pneumatics extends Actuator{
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
-//		m_configSection("Pneumatics")
+//		configSection("Pneumatics")
 	{
 		super(name);
 		System.out.println("Created Solenoid " +  name);
@@ -178,7 +178,7 @@ public class Pneumatics extends Actuator{
 			}
 			if (pulsed)
 			{
-				counter = m_pulse_length;
+				counter = pulse_length;
 			}
 		}
 	}
@@ -212,7 +212,7 @@ public class Pneumatics extends Actuator{
 
 //	void Configure()
 //	{
-//		m_pulse_length = GetConfig("pulseLength", 25);
+//		pulse_length = GetConfig("pulseLength", 25);
 //	}
 //
 //	void Log()

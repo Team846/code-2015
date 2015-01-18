@@ -9,21 +9,21 @@ public class LRTTalon extends LRTSpeedController {
 	
 	public static ArrayList<LRTTalon> talon_list = new ArrayList<LRTTalon>();
 	
-	private double m_pwm;
-	DigitalOutput m_brake_jumper;
-	LRTSpeedController.NeutralMode m_neutral;
+	private double pwm;
+	DigitalOutput brake_jumper;
+	LRTSpeedController.NeutralMode neutral;
 	
 	private Talon talon;
 
 	public LRTTalon(int channel, String name, int jumperChannel)
 		//LRTSpeedController("LRTTalon" + name),
-		//m_brake_jumper(jumperChannel != 0 ? new DigitalOutput(jumperChannel) : NULL)
+		//brake_jumper(jumperChannel != 0 ? new DigitalOutput(jumperChannel) : NULL)
 	{
 		super("LRTTalon"+name);
 		talon = new Talon(channel);
-		m_brake_jumper = (jumperChannel != 0 ? new DigitalOutput(jumperChannel) : null);
-		m_pwm = 0.0;
-		m_neutral = LRTSpeedController.NeutralMode.kNeutralMode_Coast;
+		brake_jumper = (jumperChannel != 0 ? new DigitalOutput(jumperChannel) : null);
+		pwm = 0.0;
+		neutral = LRTSpeedController.NeutralMode.kNeutralMode_Coast;
 		talon_list.add(this);
 		
 		System.out.println("Constructed LRTTalon" + name+" on channel " + channel);
@@ -31,12 +31,12 @@ public class LRTTalon extends LRTSpeedController {
 
 	public void SetDutyCycle(double speed)
 	{
-		m_pwm = speed;
+		pwm = speed;
 	}
 
 	public double GetDutyCycle()
 	{
-		return m_pwm;
+		return pwm;
 	}
 
 	public double GetHardwareValue()
@@ -52,12 +52,12 @@ public class LRTTalon extends LRTSpeedController {
 
 	public double Get()
 	{
-		return m_pwm;
+		return pwm;
 	}
 
 	public void Disable()
 	{
-		m_pwm = Talon.kPwmDisabled;
+		pwm = Talon.kPwmDisabled;
 	}
 
 	public void PIDWrite( float output) 
@@ -67,23 +67,23 @@ public class LRTTalon extends LRTSpeedController {
 
 	public void ConfigNeutralMode(LRTSpeedController.NeutralMode mode)
 	{
-		m_neutral = mode;
+		neutral = mode;
 	}
 
 	LRTSpeedController.NeutralMode GetNeutralMode()
 	{
-		return m_neutral;
+		return neutral;
 	}
 
 	public void Update()
 	{
-		talon.set(m_pwm);
-		if (m_brake_jumper != null)
+		talon.set(pwm);
+		if (brake_jumper != null)
 		{
-			if(m_neutral == LRTSpeedController.NeutralMode.kNeutralMode_Coast)
-				m_brake_jumper.set(true);
-			if(m_neutral == LRTSpeedController.NeutralMode.kNeutralMode_Brake)
-				m_brake_jumper.set(false);
+			if(neutral == LRTSpeedController.NeutralMode.kNeutralMode_Coast)
+				brake_jumper.set(true);
+			if(neutral == LRTSpeedController.NeutralMode.kNeutralMode_Brake)
+				brake_jumper.set(false);
 		}
 	}
 
