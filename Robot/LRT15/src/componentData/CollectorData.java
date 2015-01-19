@@ -1,20 +1,15 @@
 package componentData;
 
+import componentData.ComponentData;
 
 
 public class CollectorData extends ComponentData {
-	
-	public enum possibleCollectorState{
-		INPUT,
-		OUTPUT
-	}
-	private static possibleCollectorState collectorState;
-	private static float speed;
+	private static double speed;
 	private static boolean running;
+	private static boolean collectorIO;
 	public CollectorData() {
 		super("Collector");
 		ResetCommands();
-		collectorState = null;
 		running = false;
 	}
 	public static CollectorData get(){
@@ -23,33 +18,31 @@ public class CollectorData extends ComponentData {
 
 	@Override
 	protected void ResetCommands() {
-
+		
 	}
 	
-	public possibleCollectorState getCurrentState(){
-		return collectorState;
-	}
-	public void setCurrentState(possibleCollectorState DesiredState){
-		collectorState = DesiredState;
-	}
-	
-	public float getSpeed(){
+	public double getSpeed(){
 		return speed;
 	}
-	public void setSpeed(float wantedSpeed){
-		speed = wantedSpeed;
+	public void setSpeed(float desiredSpeed){
+		speed = desiredSpeed;
 	}
 	
 	public boolean isRunning(){
 		return running;
 	}
 	
-	public void setRunning(boolean desiredState){
-		running = desiredState;
+	public void setRunning(boolean desiredRunningState){
+		running = desiredRunningState;
 	}
 	
-	public void invertRun(){
-		running = !running;
+	public boolean getIO(){
+		return collectorIO;
 	}
+	
+	public void setIO(boolean desiredIO){
+		collectorIO = desiredIO;
+	}
+
 
 }

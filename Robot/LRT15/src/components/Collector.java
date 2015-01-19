@@ -2,35 +2,48 @@ package components;
 
 import componentData.CollectorData;
 import actuators.LRTSpeedController;
+import actuators.LRTTalon;
 
 public class Collector extends Component {
 	private CollectorData collectorData;
-	private static LRTSpeedController motor;
+	private LRTSpeedController motor;
+	private LRTSpeedController motor1;
+	private final int CHANGEME = 99;
 	public Collector(int driverStationDigitalIn) {
 		super("Collector", driverStationDigitalIn);
 		collectorData = CollectorData.get();
+		motor = new LRTTalon(CHANGEME, "collectorMotor", CHANGEME);
+		//CHANGEME
+		motor1 = motor;
 	}
 
 	@Override
 	protected void UpdateEnabled() {
-		float speed = 0.0F;
+		double speed = 0.0;
 		if(collectorData.isRunning()){
-			if(collectorData.getCurrentState() == CollectorData.possibleCollectorState.INPUT){
+
+			if(collectorData.getIO()){
+
 				speed = collectorData.getSpeed();
 			}
-			else if(collectorData.getCurrentState() == CollectorData.possibleCollectorState.INPUT){
+
+			else if(!collectorData.getIO()){
 				speed = -collectorData.getSpeed();
 			}
 			else{
 				speed = 0;
 			}
  		}
-		//set motor speed to speed
+		//assuming motor 1 and motor are mounted in such a way that the same dutyCycle will make input not work
+		motor.SetDutyCycle(speed);
+		motor1.SetDutyCycle(-speed);
+
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		//deactivate motors here
+		motor.SetDutyCycle(0);		
+		motor1.SetDutyCycle(0);
 	}
 
 	@Override
