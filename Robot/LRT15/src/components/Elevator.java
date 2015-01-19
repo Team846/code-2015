@@ -1,7 +1,8 @@
 package components;
 import actuators.LRTSpeedController;
 import actuators.LRTTalon;
-import components.ElevatorData;
+import componentData.ComponentData;
+import componentData.ElevatorData;
 
 public class Elevator extends Component {
 	

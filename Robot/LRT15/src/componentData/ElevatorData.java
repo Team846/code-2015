@@ -1,4 +1,4 @@
-package components;
+package componentData;
 
 public class ElevatorData extends ComponentData{
 	
@@ -16,8 +16,8 @@ public class ElevatorData extends ComponentData{
 	private static int state = 1;
 	
 
-	public ElevatorData(String name) {
-		super(name);
+	public ElevatorData() {
+		super("ElevatorData");
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -17,10 +17,9 @@ public class DriverStationConfig {
 	public class JoystickButtons
 	{
 		// Driver Joystick
-		public static final int COLLECT = 1;
-		public static final int DRIBBLE = 2;
-		public static final int TURN_90 = 3;
-		public static final int TURN_180 = 4;
+		public static final int COLLECT = 0;
+		public static final int TURN_90 = 1;
+		public static final int TURN_180 = 2;
 		// Operator Joystick
 		public static final int PASS = 1;
 		public static final int LOAD_LAUNCHER = 2;

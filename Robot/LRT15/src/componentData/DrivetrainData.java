@@ -1,4 +1,4 @@
-package components;
+package componentData;
 
 public class DrivetrainData extends ComponentData {
   public static final int VELOCITY_X = 0;
@@ -11,8 +11,8 @@ public class DrivetrainData extends ComponentData {
   private double[] positionSetpoints = new double[3];
   private double[] maxSpeeds = new double[3];
 
-  public DrivetrainData(String name) {
-    super(name);
+  public DrivetrainData() {
+    super("DrivetrainData");
     ResetCommands();
   }
 

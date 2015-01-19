@@ -1,5 +1,6 @@
 package components;
 
+import componentData.CollectorData;
 import actuators.LRTSpeedController;
 
 public class Collector extends Component {
@@ -14,10 +15,10 @@ public class Collector extends Component {
 	protected void UpdateEnabled() {
 		float speed = 0.0F;
 		if(collectorData.isRunning()){
-			if(collectorData.getCurrentState() == possibleCollectorState.INPUT){
+			if(collectorData.getCurrentState() == CollectorData.possibleCollectorState.INPUT){
 				speed = collectorData.getSpeed();
 			}
-			else if(collectorData.getCurrentState() == possibleCollectorState.INPUT){
+			else if(collectorData.getCurrentState() == CollectorData.possibleCollectorState.INPUT){
 				speed = -collectorData.getSpeed();
 			}
 			else{

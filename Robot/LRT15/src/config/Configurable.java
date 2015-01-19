@@ -1,3 +1,4 @@
+
 package config;
 
 import java.util.*;
@@ -5,7 +6,7 @@ import java.util.*;
 public interface Configurable {
 	
 	
-	//virtual void Configure() = 0;
+	public void Configure();
 	
 	/*
 	public <T> T GetConfig(String key, T defaultValue)
@@ -14,3 +15,4 @@ public interface Configurable {
 	}
 	*/
 }
+

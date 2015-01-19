@@ -4,8 +4,8 @@ import sensors.SensorFactory;
 import actuators.Actuator;
 import actuators.Pneumatics;
 import automation.Brain;
+import componentData.ComponentData;
 import components.Component;
-import components.ComponentData;
 import driverstation.GameState;
 import driverstation.LRTDriverStation;
 

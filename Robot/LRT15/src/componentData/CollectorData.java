@@ -1,11 +1,13 @@
-package components;
+package componentData;
 
-enum possibleCollectorState{
-	INPUT,
-	OUTPUT
-}
+
 
 public class CollectorData extends ComponentData {
+	
+	public enum possibleCollectorState{
+		INPUT,
+		OUTPUT
+	}
 	private static possibleCollectorState collectorState;
 	private static float speed;
 	private static boolean running;

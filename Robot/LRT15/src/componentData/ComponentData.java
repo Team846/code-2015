@@ -1,4 +1,4 @@
-package components;
+package componentData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,8 @@ public abstract class ComponentData
 
 	public static void Initialize()
 	{
+		data.add(new CollectorData());
+		data.add(new DrivetrainData());
 
 	}
 
