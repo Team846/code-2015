@@ -4,15 +4,12 @@ import java.util.TimerTask;
 
 public class Watchdog extends Timer{
 
+	static Timer timer;
+	
 	int time;
-	int startTime;
-	int feedTime;
-	int killTime;
+	static long killTime = 5;
 	
-	TimerTask feed;
-	TimerTask kill;
-	
-	Timer timer = new Timer();
+	static TimerTask kill = Watchdog.kill();
 	
 	public Watchdog(int time){
 		super();
@@ -20,28 +17,23 @@ public class Watchdog extends Timer{
 		
 	}
 	
-	public static TimerTask feed(){
-		System.out.println("Feed the dog...");
+	public static void start(){
+		timer = new Timer();
+		timer.schedule(kill, killTime);
+		
+	}
+	
+	public static void feed(){
 		//feed
-		return feed();
+		System.out.println("Fed the dog");
+		timer.cancel();
+		Watchdog.start();
+		
 	}
 	
-	public static TimerTask kill(){
-		System.out.println("Killed watchdog.");
+	public static TimerTask kill(){		
 		//kill
-		return kill();
+		System.out.print("Killed watchdog.");
+		return kill;
 	}
-
-	{
-	kill = Watchdog.kill();
-	killTime = 5;
-	timer.schedule(kill, killTime);
-	
-	feed = Watchdog.feed();
-	startTime = 0;
-	feedTime = 3; //supposed to feed every 3 milliseconds
-	timer = new Timer();
-	timer.schedule(feed, startTime, feedTime);
-	}
-	
 }
