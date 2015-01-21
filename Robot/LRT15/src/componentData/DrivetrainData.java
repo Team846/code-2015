@@ -8,8 +8,8 @@ public class DrivetrainData extends ComponentData {
   private double[] desiredRates = new double[3];
   private double[] desiredOpenLoopOutputs = new double[3];
   private boolean[] resetPositionSetpoint = new boolean[3];
-  private double[] positionSetpoints = new double[3];
-  private double[] maxSpeeds = new double[3];
+//  private double[] positionSetpoints = new double[3];
+//  private double[] maxSpeeds = new double[3];
 
   public DrivetrainData() {
     super("DrivetrainData");
@@ -32,27 +32,28 @@ public class DrivetrainData extends ComponentData {
     desiredOpenLoopOutputs[type] = newValue;
   }
 
-  public double getPositionSetpoint(int type) {
-    return positionSetpoints[type];
-  }
-
-  public void setPositionSetpoint(int type, double newValue) {
-    resetPositionSetpoint[type] = false;
-    positionSetpoints[type] = newValue;
-  }
-
-  public void setRelativePositionSetpoint(int type, double newValue) {
-    resetPositionSetpoint[type] = false;
-    positionSetpoints[type] += newValue;
-  }
-
-  public double getPositionControlMaxSpeed(int type) {
-    return maxSpeeds[type];
-  }
-
-  public void setPositionControlMaxSpeed(int type, double newValue) {
-    maxSpeeds[type] = newValue;
-  }
+// TODO: Evaluate usage of an optical sensor
+//  public double getPositionSetpoint(int type) {
+//    return positionSetpoints[type];
+//  }
+//
+//  public void setPositionSetpoint(int type, double newValue) {
+//    resetPositionSetpoint[type] = false;
+//    positionSetpoints[type] = newValue;
+//  }
+//
+//  public void setRelativePositionSetpoint(int type, double newValue) {
+//    resetPositionSetpoint[type] = false;
+//    positionSetpoints[type] += newValue;
+//  }
+//
+//  public double getPositionControlMaxSpeed(int type) {
+//    return maxSpeeds[type];
+//  }
+//
+//  public void setPositionControlMaxSpeed(int type, double newValue) {
+//    maxSpeeds[type] = newValue;
+//  }
 
   @Override
   protected void ResetCommands() {
@@ -61,10 +62,8 @@ public class DrivetrainData extends ComponentData {
       desiredRates[type] = 0;
       desiredOpenLoopOutputs[type] = 0;
       resetPositionSetpoint[type] = true;
-      positionSetpoints[type] = 0;
+//      positionSetpoints[type] = 0;
+//      maxSpeeds[type] = 0;
     }
-    setVelocity(VELOCITY_X, 0.0);
-    setVelocity(VELOCITY_Y, 0.0);
-    setVelocity(VELOCITY_ROTATION, 0.0);
   }
 }
