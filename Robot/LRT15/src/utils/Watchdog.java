@@ -6,14 +6,14 @@ public class Watchdog extends Timer{
 
 	static Timer timer;
 	
-	int time;
-	static long killTime = 5;
+	static int time;
+	static long killTime = time;
 	
 	static TimerTask kill = Watchdog.kill();
 	
 	public Watchdog(int time){
 		super();
-		this.time = time;
+		Watchdog.time = time;
 		
 	}
 	
