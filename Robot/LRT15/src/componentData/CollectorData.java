@@ -2,47 +2,47 @@ package componentData;
 
 import componentData.ComponentData;
 
-
-public class CollectorData extends ComponentData {
+public class CollectorData extends ComponentData
+{
 	private static double speed;
 	private static boolean running;
 	private static boolean collectorIO;
-	public CollectorData() {
+
+	public CollectorData()
+	{
 		super("Collector");
 		ResetCommands();
 		running = false;
 	}
-	public static CollectorData get(){
+
+	public static CollectorData get()
+	{
 		return (CollectorData) ComponentData.GetComponentData("Collector");
 	}
 
 	@Override
-	protected void ResetCommands() {
-		
+	protected void ResetCommands()
+	{
+
 	}
-	
-	public double getSpeed(){
+
+	public double getSpeed()
+	{
 		return speed;
 	}
-	public void setSpeed(float desiredSpeed){
+
+	public void setSpeed(double desiredSpeed)
+	{
 		speed = desiredSpeed;
 	}
-	
-	public boolean isRunning(){
+
+	public boolean isRunning()
+	{
 		return running;
 	}
-	
-	public void setRunning(boolean desiredRunningState){
+
+	public void setRunning(boolean desiredRunningState)
+	{
 		running = desiredRunningState;
 	}
-	
-	public boolean getIO(){
-		return collectorIO;
-	}
-	
-	public void setIO(boolean desiredIO){
-		collectorIO = desiredIO;
-	}
-
-
 }
