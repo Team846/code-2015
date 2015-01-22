@@ -56,17 +56,17 @@ public class LRTDriverStation {
 		}
 	}
 
-	LRTJoystick GetOperatorStick()
+	public LRTJoystick GetOperatorStick()
 	{
 		return operator_stick;
 	}
 
-	LRTJoystick GetDriverStick()
+	public LRTJoystick GetDriverStick()
 	{
 		return driver_stick;
 	}
 
-	LRTJoystick GetDriverWheel()
+	public LRTJoystick GetDriverWheel()
 	{
 		return driver_wheel;
 	}

@@ -22,16 +22,7 @@ public class DriverStationConfig {
 		public static final int TURN_180 = 2;
 		// Operator Joystick
 		public static final int PASS = 1;
-		public static final int LOAD_LAUNCHER = 2;
-		public static final int SHORT_SHOT = 3;
-		public static final int LONG_SHOT = 4;
-		public static final int PASS_BACK = 5;
-		public static final int OVERRIDE_FIRE = 5;
-		public static final int PURGE_LAUNCHER = 6;
-		public static final int HUMAN_LOAD = 7;
-		public static final int BALL_HOLDER = 8;
-		public static final int FIRE_PREPARE = 9;
-		public static final int KISS_PASS = 10;
+	
 		public static final int REVERSE_ROLLERS = 11;
 		public static final int UNLOAD_LAUNCHER = 12;
 		// Driver Wheel

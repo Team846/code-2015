@@ -1,0 +1,9 @@
+[Analog]
+ELEVATOR_POT = 1
+
+[Digital]
+COLLECTOR_PROXIMITY = 1
+ARM_HALL_EFFECT = 2
+
+
+

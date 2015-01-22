@@ -1,7 +1,7 @@
 package automation;
 
 import sensors.SensorFactory;
-import componentData.CollectorData;
+import componentData.CollectorRollersData;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Purge extends Automation
@@ -12,7 +12,7 @@ public class Purge extends Automation
 
 	private DigitalInput proximitySensor;
 
-	private CollectorData collectorData = CollectorData.get();
+	private CollectorRollersData collectorRollersData = CollectorRollersData.get();
 
 	int countdown = -1;
 
@@ -31,8 +31,8 @@ public class Purge extends Automation
 	@Override
 	protected boolean Start()
 	{
-		collectorData.setSpeed(-1.0);
-		collectorData.setRunning(true);
+		collectorRollersData.setSpeed(-1.0);
+		collectorRollersData.setRunning(true);
 		return true;
 	}
 
@@ -40,7 +40,7 @@ public class Purge extends Automation
 	protected boolean Abort()
 	{
 		countdown = -1;
-		collectorData.setRunning(false);
+		collectorRollersData.setRunning(false);
 		return true;
 	}
 

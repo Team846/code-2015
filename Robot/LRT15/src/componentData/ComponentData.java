@@ -16,7 +16,7 @@ public abstract class ComponentData
 
 	public static void Initialize()
 	{
-		data.add(new CollectorData());
+		data.add(new CollectorRollersData());
 		data.add(new DrivetrainData());
 
 	}

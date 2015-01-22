@@ -1,9 +1,7 @@
 package automation;
 
-import componentData.CollectorData;
-
-import actuators.LRTSpeedController;
-import actuators.LRTTalon;
+import componentData.CollectorRollersData;
+import componentData.CollectorRollersData.Direction;
 import sensors.SensorFactory;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -13,7 +11,7 @@ public class Collect extends Automation
 	
 	private DigitalInput proximitySensor;
 	
-	private CollectorData collectorData = CollectorData.get();
+	private CollectorRollersData collectorData = CollectorRollersData.get();
 	
 	public Collect()
 	{
@@ -30,8 +28,6 @@ public class Collect extends Automation
 	@Override
 	protected boolean Start()
 	{
-		collectorData.setSpeed(1.0);
-		collectorData.setRunning(true);
 		return true;
 	}
 
@@ -45,6 +41,10 @@ public class Collect extends Automation
 	@Override
 	protected boolean Run()
 	{
+		collectorData.setRunning(true);
+		collectorData.setDirection(Direction.FORWARD);
+		collectorData.setSpeed(1.0);
+		
 		return !proximitySensor.get();
 	}
 }
