@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Funky Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/bower_components/materialize/bin/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+  </head>
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a id="logo-container" href="#" class="brand-logo">
+            <img src="/img/Team_846_Logo.png" style="height: 64px"></img>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <h1 class="header row orange-text">Funky Dashboard</h1>
+        <div class="row">
+          <h5 class="header light">the funkiest dashboard to ever be funky</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section">
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card">
+              <div class="card-image">
+                <div id="placeholder" class="card-graph" style="height: 400px; width: 100%">
+
+                </div>
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-navigation-more-vert right"></i></span>
+                <p><a href="#">This is a link</a></p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col s12 m6">
+            <div class="card">
+              <div class="card-image waves-effect waves-block waves-light">
+                <div class="row center">
+                  <p class="center btn-floating red"><i class="mdi-navigation-check"></i></p>
+                </div>
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">Card Title <i class="mdi-navigation-more-vert right"></i></span>
+                <p><a href="#">This is a link</a></p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <br><br>
+
+      <div class="section">
+
+      </div>
+    </div>
+
+    <footer class="page-footer orange">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Company Bio</h5>
+            <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Settings</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Connect</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/flot/jquery.flot.js"></script>
+    <script src="/bower_components/materialize/bin/materialize.js"></script>
+    <script>
+      var socket = io();
+
+      var graphs = {
+        "motor-speed": {
+          "element": $("#placeholder"),
+          "data": [],
+          "lastX": 0
+        }
+      }
+
+      socket.on('data-update', function(msg) {
+        var graph = graphs[msg.type];
+        graph.data.push([graph.lastX, msg.value]);
+        if (graph.data.length > 25) {
+          graph.data.shift();
+        }
+
+        graph.lastX += 1;
+        $.plot($(graphs[msg.type].element), [ graph.data ], {
+          series: {
+            lines: {
+              fill: true,
+              fillColor: "rgba(255, 0, 0, 0.5)"
+            },
+            color: "rgba(255, 0, 0, 0.5)"
+          }, yaxis: { max: 5 }
+        });
+      });
+    </script>
+  </body>
+</html>

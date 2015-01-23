@@ -1,0 +1,10 @@
+{
+  "name": "funky-dashboard",
+  "version": "0.0.1",
+  "description": "the funkiest dashboard to ever be funky",
+  "private": true,
+  "dependencies": {
+    "materialize": "~0.95.0",
+    "flot": "~0.8.3"
+  }
+}
