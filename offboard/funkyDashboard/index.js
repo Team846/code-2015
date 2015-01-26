@@ -6,26 +6,27 @@ var io = require('socket.io')(http);
 app.use(express.static(__dirname + '/client'));
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+
 });
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
-
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-  });
-});
+var counter = 10;
+var prev = false;
 
 setInterval(function() {
   function random (low, high) {
     return Math.random() * (high - low) + low;
   }
 
+  if (counter == 0) {
+    prev = !prev;
+    counter = 10;
+  }
+
+  counter--;
+
   io.emit('data-update', { type: "motor-speed", value: random(0, 5)});
-}, 100)
+  io.emit('data-update', { type: "robot-on", value: prev });
+}, 40)
 
 http.listen(3000, function(){
   console.log('listening on *:3000');

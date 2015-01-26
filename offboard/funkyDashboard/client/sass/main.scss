@@ -1,0 +1,102 @@
+@import "client/bower_components/materialize/sass/materialize.scss";
+
+.card-graph {
+  height: 350px;
+  width: 100%
+}
+
+.card-reveal {
+  width: 100%
+}
+
+.boolean-state-flip-container {
+    @extend .flip-container;
+}
+
+.boolean-state-flipper {
+  @extend .flipper;
+}
+
+.boolean-state {
+  @extend .center, .btn-floating;
+  cursor: auto;
+  width: $button-floating-size * 2;
+  height: $button-floating-size * 2;
+  i {
+    line-height: $button-floating-size * 2;
+    font-size: 3.2rem;
+  }
+}
+
+.boolean-state-off {
+  @extend .boolean-state, .red, .back;
+}
+
+.boolean-state-off i {
+  @extend .materialize-icon, .mdi-navigation-close;
+}
+
+.boolean-state-on {
+  @extend .boolean-state, .green, .front;
+}
+
+.boolean-state-on i {
+  @extend .materialize-icon, .mdi-navigation-check;
+}
+
+// Flipping Utils
+.flip-container {
+  perspective: 1000;
+}
+/* flip the pane when hovered */
+.boolean-state-flip-container.flipped .flipper {
+  transform: rotateY(180deg);
+}
+
+.boolean-state-flip-container, .front, .back {
+  width: 74px;
+  height: 74px;
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+  backface-visibility: hidden;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
+}
+
+// Copied from materialize icon scss
+.materialize-icon {
+  font-family: "Material-Design-Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
