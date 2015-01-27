@@ -1,5 +1,6 @@
 package components;
 
+import actuators.LRTCANTalon;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 public class Drivetrain extends Component{
@@ -9,11 +10,21 @@ public class Drivetrain extends Component{
 	private double SPEED;
 	private double DIRECTION;
 	private double ROTATION;
+
+    protected final int m_invertedMotors[] = new int[4];
 	
     static final int kFrontLeft_val = 0;
     static final int kFrontRight_val = 1;
     static final int kRearLeft_val = 2;
     static final int kRearRight_val = 3;
+    
+    protected double m_maxOutput = 1.0;
+    
+	LRTCANTalon m_frontLeftMotor = new LRTCANTalon("CHANGEME", kFrontLeft_val);
+	LRTCANTalon m_frontRightMotor = new LRTCANTalon("CHANGEME", kFrontRight_val);
+	LRTCANTalon m_rearLeftMotor = new LRTCANTalon("CHANGEME", kRearLeft_val);
+	LRTCANTalon m_rearRightMotor = new LRTCANTalon("CHANGEME", kRearRight_val);
+	
     protected static final int kMaxNumberOfMotors = 4;
 	
 	
@@ -40,6 +51,7 @@ public class Drivetrain extends Component{
 	@Override
 	protected void UpdateEnabled() 
 	{
+		
 		// TODO Auto-generated method stub
 		
 	        // Normalized for full power along the Cartesian axes.
@@ -62,10 +74,10 @@ public class Drivetrain extends Component{
 	        byte syncGroup = (byte)0x80;
 	        	
 	        // TODO: Implement wrapper class for motors
-//	        m_frontLeftMotor.set(wheelSpeeds[kFrontLeft_val] * m_invertedMotors[kFrontLeft_val] * m_maxOutput, syncGroup);
-//	        m_frontRightMotor.set(wheelSpeeds[kFrontRight_val] * m_invertedMotors[kFrontRight_val] * m_maxOutput, syncGroup);
-//	        m_rearLeftMotor.set(wheelSpeeds[kRearLeft_val] * m_invertedMotors[kRearLeft_val] * m_maxOutput, syncGroup);
-//	        m_rearRightMotor.set(wheelSpeeds[kRearRight_val] * m_invertedMotors[kRearRight_val] * m_maxOutput, syncGroup);
+	        m_frontLeftMotor.SetDutyCycle(wheelSpeeds[kFrontLeft_val] * m_invertedMotors[kFrontLeft_val] * m_maxOutput);
+	        m_frontRightMotor.SetDutyCycle(wheelSpeeds[kFrontRight_val] * m_invertedMotors[kFrontRight_val] * m_maxOutput);
+	        m_rearLeftMotor.SetDutyCycle(wheelSpeeds[kRearLeft_val] * m_invertedMotors[kRearLeft_val] * m_maxOutput);
+	        m_rearRightMotor.SetDutyCycle(wheelSpeeds[kRearRight_val] * m_invertedMotors[kRearRight_val] * m_maxOutput);
 
 	}
 
