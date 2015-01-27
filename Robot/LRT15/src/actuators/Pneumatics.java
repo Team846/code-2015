@@ -27,7 +27,7 @@ public class Pneumatics extends Actuator{
 		REVERSE
 	}
 	
-	Pneumatics(int forward, int reverse, String name) 
+	public Pneumatics(int forward, int reverse, String name) 
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
@@ -43,7 +43,7 @@ public class Pneumatics extends Actuator{
 		pneumatic_list.add(this);
 	}
 
-	Pneumatics(int forward, int reverse, int module, String name) 
+	public Pneumatics(int forward, int reverse, int module, String name) 
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
@@ -59,7 +59,7 @@ public class Pneumatics extends Actuator{
 		pneumatic_list.add(this);
 	}
 
-	Pneumatics(int forward, String name) 
+	public Pneumatics(int forward, String name) 
 //		Actuator(name),;
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
@@ -75,7 +75,7 @@ public class Pneumatics extends Actuator{
 		pneumatic_list.add(this);
 	}
 
-	Pneumatics(int forward, short pcmModule, String name) 
+	public Pneumatics(int forward, short pcmModule, String name) 
 //		Actuator(name),
 //		Configurable("Pneumatics"),
 //		Loggable("Pneumatics" + name),
