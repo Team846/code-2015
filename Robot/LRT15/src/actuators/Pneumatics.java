@@ -155,7 +155,7 @@ public class Pneumatics extends Actuator{
 		compressor.free();
 	}
 
-	static void SetCompressor(boolean on)
+	public static void SetCompressor(boolean on)
 	{
 		if (on)
 		{
@@ -167,7 +167,7 @@ public class Pneumatics extends Actuator{
 		}
 	}
 
-	void Set(State on, boolean force)
+	public void Set(State on, boolean force)
 	{
 		if (on != state || force)
 		{
@@ -183,12 +183,12 @@ public class Pneumatics extends Actuator{
 		}
 	}
 
-	State Get()
+	public State Get()
 	{
 		return state;
 	}
 
-	State GetHardwareValue()
+	public State GetHardwareValue()
 	{
 		State current = State.OFF;
 		if (solenoid instanceof DoubleSolenoid)
