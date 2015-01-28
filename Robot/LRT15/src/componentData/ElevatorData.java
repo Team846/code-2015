@@ -13,29 +13,22 @@ public class ElevatorData extends ComponentData{
 	public static final int DOWN= 3;
 	private static int motion = 1;
 	public static double distance;
-	public static int numberOfTotes;
+	public int numberOfTotes;
 
 	public static final int GROUND = 0;
 	public final int TOTE1 = 12;
 	public final int TOTE2 = 24;
 	public final int TOTE3 = 36;
-	//public final int TOTE4 = 48;
-	//public final int TOTE5 = 60;
-	//public final int TOTE6 = 72;
 	
 	
 	private static int state = 1;
+	public static int desiredState;
 
 	public Ultrasonic ultrasonic;
 
 	public ElevatorData() {
 		super("ElevatorData");
-		// TODO Auto-generated constructor stub
 	}
-
-	//public int getNumberTotes(){
-//		return ;
-	//}
 	
 	public int getCurrentMotion(){
 		return motion; 
@@ -58,7 +51,6 @@ public class ElevatorData extends ComponentData{
 	}
 
 	public double getSpeed(){
-		//speed = setSpeed();
 		return speed;
 	}
 
@@ -67,27 +59,20 @@ public class ElevatorData extends ComponentData{
 		return speed;
 	}
 
-	public int getState(){
-		return state;
+	public int getDesiredState(){
+		return desiredState;
 	}
 
 	public int setDesiredState(int i){
 		if(i == GROUND || i == TOTE1 || i == TOTE2 || i == TOTE3){
 			state = i;
 		}
-		return state;
+		return desiredState;
 	}
 
-	public double toTheTop(){
-		setDesiredState(TOTE3);
-		setDesiredMotion(UP);
-		//speed = setSpeed();
-		return speed;
-	}
 
 	@Override
 	protected void ResetCommands() {
-		// TODO Auto-generated method stub
 
 	}
 
