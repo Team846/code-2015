@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io.connect("http://localhost:8081");
 
 $.ajax("datasets.json").done(function(datasetArray) {
   var datasets = {}
@@ -24,6 +24,7 @@ $.ajax("datasets.json").done(function(datasetArray) {
   console.log(datasets);
 
   socket.on('data-update', function(msg) {
+    msg = JSON.parse(msg);
     var dataset = datasets[msg.type];
 
     if (dataset.type == "graph") {

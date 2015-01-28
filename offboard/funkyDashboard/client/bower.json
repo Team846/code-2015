@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "materialize": "~0.95.0",
-    "flot": "~0.8.3"
+    "flot": "~0.8.3",
+    "socket.io-client": "~1.3.2"
   }
 }
