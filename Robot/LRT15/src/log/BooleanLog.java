@@ -8,7 +8,7 @@ public class BooleanLog extends DashboardLog<Boolean>
 	}
 
 	@Override
-	String valueJSON()
+	public String valueJSON()
 	{
 		return getValue().toString();
 	}
