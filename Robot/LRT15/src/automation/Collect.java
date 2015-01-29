@@ -21,7 +21,7 @@ public class Collect extends Automation
 
 	@Override
 	public void AllocateResources()
-	{
+	{	
 		AllocateResource(ControlResource.COLLECTOR_ROLLERS);
 	}
 
@@ -42,7 +42,7 @@ public class Collect extends Automation
 	protected boolean Run()
 	{
 		collectorData.setRunning(true);
-		collectorData.setDirection(Direction.FORWARD);
+        collectorData.setDirection(Direction.FORWARD);
 		collectorData.setSpeed(1.0);
 		
 		return !proximitySensor.get();
