@@ -5,6 +5,8 @@ public class DrivetrainData extends ComponentData
 	public static final int VELOCITY_X = 0;
 	public static final int VELOCITY_Y = 1;
 	public static final int VELOCITY_ROTATION = 2;
+	
+	public static double gyro = 0.0;
 
 	private double[] desiredRates = new double[3];
 	private double[] desiredOpenLoopOutputs = new double[3];
@@ -75,4 +77,17 @@ public class DrivetrainData extends ComponentData
 			// maxSpeeds[type] = 0;
 		}
 	}
+	
+	//going forwards in respect to the field regardless of robot's
+	protected void universalForward(){
+		
+		double dirInRad = gyro * Math.PI / 180.0;
+		
+		double desiredYVelocity;
+		double desiredXVelocity;
+		
+		
+		
+	}
+	
 }

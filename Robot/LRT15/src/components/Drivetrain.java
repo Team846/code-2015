@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 public class Drivetrain extends Component{
 	
-	
+	private final int CHANGEMEJUMPERCHANNEL = 0;
 	
 	private double SPEED;
 	private double DIRECTION;
@@ -20,10 +20,10 @@ public class Drivetrain extends Component{
     
     protected double m_maxOutput = 1.0;
     
-	LRTCANTalon m_frontLeftMotor = new LRTCANTalon("CHANGEME", kFrontLeft_val);
-	LRTCANTalon m_frontRightMotor = new LRTCANTalon("CHANGEME", kFrontRight_val);
-	LRTCANTalon m_rearLeftMotor = new LRTCANTalon("CHANGEME", kRearLeft_val);
-	LRTCANTalon m_rearRightMotor = new LRTCANTalon("CHANGEME", kRearRight_val);
+	LRTCANTalon m_frontLeftMotor = new LRTCANTalon("CHANGEME", kFrontLeft_val, CHANGEMEJUMPERCHANNEL);
+	LRTCANTalon m_frontRightMotor = new LRTCANTalon("CHANGEME", kFrontRight_val, CHANGEMEJUMPERCHANNEL);
+	LRTCANTalon m_rearLeftMotor = new LRTCANTalon("CHANGEME", kRearLeft_val, CHANGEMEJUMPERCHANNEL);
+	LRTCANTalon m_rearRightMotor = new LRTCANTalon("CHANGEME", kRearRight_val, CHANGEMEJUMPERCHANNEL);
 	
     protected static final int kMaxNumberOfMotors = 4;
 	
