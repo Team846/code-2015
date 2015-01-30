@@ -22,14 +22,11 @@ public class DashboardLogger
 	
 	private Configuration config;
 	private SocketIOServer server;
-//	private AnalogInput prox = new AnalogInput(0);
 	
 	public DashboardLogger() {
-		
-		System.out.println("startin server");
+		System.out.println("starting funkyDashboard");
 		config = new Configuration();
-		config.setHostname("localhost");
-		config.setPort(8081);
+		config.setPort(8080);
 		config.getSocketConfig().setReuseAddress(true);
 		server = new SocketIOServer(config);
 		
@@ -50,7 +47,6 @@ public class DashboardLogger
 	}
 	
 	public void tick() {
-//		DashboardLogger.getInstance().log(new IntegerLog("motor-speed", (int) (prox.getAverageVoltage())));
 		log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
 	}
 	
@@ -72,15 +68,11 @@ public class DashboardLogger
 	
 	public static void main(String[] args) {
 		while (true) {
-			getInstance().log(new IntegerLog("motor-speed", 2));
+			getInstance().log(new IntegerLog("motor-speed", (int) (Math.random() * 6)));
 			try
 			{
 				Thread.sleep(50);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) {}
 		}
 	}
 }

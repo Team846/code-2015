@@ -89,11 +89,21 @@ import static io.netty.handler.codec.http.HttpVersion.*;
  * </pre>
  */
 public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-
+	
     public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
     public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
     public static final int HTTP_CACHE_SECONDS = 60;
 
+    @Override
+    public boolean acceptInboundMessage(Object msg) {
+    	try {
+    		FullHttpRequest request = (FullHttpRequest) msg;
+        	return !request.getUri().startsWith("/socket.io");
+    	} catch(Exception e) {
+    		return false;
+    	}
+    }
+    
     @Override
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         if (!request.getDecoderResult().isSuccess()) {
@@ -106,15 +116,17 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             return;
         }
 
-        final String uri = request.getUri();
+        String uri = request.getUri();
         
-        final String path = sanitizeUri(uri);
+        if (uri.length() == 1) {
+        	uri = "/index.html";
+        }
+        
+        String path = sanitizeUri(uri);
         if (path == null) {
             sendError(ctx, FORBIDDEN);
             return;
         }
-        
-        System.out.println(path);
         
         File file = new File(path);
         if (file.isHidden() || !file.exists()) {
@@ -188,22 +200,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             lastContentFuture = sendFileFuture;
         }
 
-        sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
-            @Override
-            public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) {
-                if (total < 0) { // total unknown
-                    System.err.println(future.channel() + " Transfer progress: " + progress);
-                } else {
-                    System.err.println(future.channel() + " Transfer progress: " + progress + " / " + total);
-                }
-            }
-
-            @Override
-            public void operationComplete(ChannelProgressiveFuture future) {
-                System.err.println(future.channel() + " Transfer complete.");
-            }
-        });
-
         // Decide whether to close the connection or not.
         if (!HttpHeaders.isKeepAlive(request)) {
             // Close the connection when the whole content is written out.
@@ -233,6 +229,8 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             return null;
         }
 
+        uri = uri.split("\\?")[0];
+        
         // Convert file separators.
         uri = uri.replace('/', File.separatorChar);
 
@@ -246,7 +244,7 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         }
 
         // Convert to absolute path.
-        return System.getProperty("user.home") + "/clubs/frc/code15/offboard/funkyDashboard/client" + uri;
+        return System.getProperty("user.home") + "/dashboard-bin" + uri;
     }
 
     private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");
@@ -375,7 +373,10 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
      */
     private static void setContentTypeHeader(HttpResponse response, File file) {
         MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-        System.out.println(mimeTypesMap.getContentType(file.getPath()));
+        mimeTypesMap.addMimeTypes("text/css css");
+        mimeTypesMap.addMimeTypes("text/javascript js");
+        mimeTypesMap.addMimeTypes("application/json json");
+        mimeTypesMap.addMimeTypes("application/font-woff woff");
         response.headers().set(CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
     }
 }

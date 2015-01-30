@@ -1,4 +1,11 @@
-@import "client/bower_components/materialize/sass/materialize.scss";
+@import "bower_components/materialize/sass/materialize.scss";
+
+.funky-logo {
+  height: 54px;
+  @media only screen and (min-width: 601px) {
+    height: 64px;
+  }
+}
 
 .card-graph {
   height: 350px;

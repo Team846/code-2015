@@ -1,4 +1,4 @@
-var socket = io.connect("http://roboRIO-846.local:8081");
+var socket = io.connect();
 
 $.ajax("datasets.json").done(function(datasetArray) {
   var datasets = {}
@@ -20,8 +20,6 @@ $.ajax("datasets.json").done(function(datasetArray) {
       }
     }
   }
-
-  console.log(datasets);
 
   socket.on('data-update', function(msg) {
     msg = JSON.parse(msg);
