@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:8081");
+var socket = io.connect("http://roboRIO-846.local:8081");
 
 $.ajax("datasets.json").done(function(datasetArray) {
   var datasets = {}

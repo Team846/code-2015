@@ -1,4 +1,4 @@
-package log;
+package dashboard;
 
 public abstract class DashboardLog<T> {
 	private String id;

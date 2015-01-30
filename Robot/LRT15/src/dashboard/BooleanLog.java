@@ -1,4 +1,4 @@
-package log;
+package dashboard;
 
 public class BooleanLog extends DashboardLog<Boolean>
 {

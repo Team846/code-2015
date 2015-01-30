@@ -1,4 +1,5 @@
-package log;
+package dashboard;
+
 
 public class IntegerLog extends DashboardLog<Integer>
 {	
