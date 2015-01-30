@@ -1,10 +1,9 @@
 package sensors;
 
-import log.Loggable;
 import config.Configurable;
 import config.RobotConfig;
 
-public class DriveEncoders implements Configurable, Loggable
+public class DriveEncoders implements Configurable
 {
 	public enum Side 
 	{

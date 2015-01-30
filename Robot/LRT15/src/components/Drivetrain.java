@@ -20,11 +20,11 @@ public class Drivetrain extends Component{
     
     protected double m_maxOutput = 1.0;
     
-	LRTCANTalon m_frontLeftMotor = new LRTCANTalon("CHANGEME", kFrontLeft_val, CHANGEMEJUMPERCHANNEL);
-	LRTCANTalon m_frontRightMotor = new LRTCANTalon("CHANGEME", kFrontRight_val, CHANGEMEJUMPERCHANNEL);
-	LRTCANTalon m_rearLeftMotor = new LRTCANTalon("CHANGEME", kRearLeft_val, CHANGEMEJUMPERCHANNEL);
-	LRTCANTalon m_rearRightMotor = new LRTCANTalon("CHANGEME", kRearRight_val, CHANGEMEJUMPERCHANNEL);
-	
+//	LRTCANTalon m_frontLeftMotor = new LRTCANTalon("CHANGEME", kFrontLeft_val, CHANGEMEJUMPERCHANNEL);
+//	LRTCANTalon m_frontRightMotor = new LRTCANTalon("CHANGEME", kFrontRight_val, CHANGEMEJUMPERCHANNEL);
+//	LRTCANTalon m_rearLeftMotor = new LRTCANTalon("CHANGEME", kRearLeft_val, CHANGEMEJUMPERCHANNEL);
+//	LRTCANTalon m_rearRightMotor = new LRTCANTalon("CHANGEME", kRearRight_val, CHANGEMEJUMPERCHANNEL);
+//	
     protected static final int kMaxNumberOfMotors = 4;
 	
 	
@@ -74,10 +74,10 @@ public class Drivetrain extends Component{
 	        byte syncGroup = (byte)0x80;
 	        	
 	        // TODO: Implement wrapper class for motors
-	        m_frontLeftMotor.SetDutyCycle(wheelSpeeds[kFrontLeft_val] * m_invertedMotors[kFrontLeft_val] * m_maxOutput);
-	        m_frontRightMotor.SetDutyCycle(wheelSpeeds[kFrontRight_val] * m_invertedMotors[kFrontRight_val] * m_maxOutput);
-	        m_rearLeftMotor.SetDutyCycle(wheelSpeeds[kRearLeft_val] * m_invertedMotors[kRearLeft_val] * m_maxOutput);
-	        m_rearRightMotor.SetDutyCycle(wheelSpeeds[kRearRight_val] * m_invertedMotors[kRearRight_val] * m_maxOutput);
+//	        m_frontLeftMotor.SetDutyCycle(wheelSpeeds[kFrontLeft_val] * m_invertedMotors[kFrontLeft_val] * m_maxOutput);
+//	        m_frontRightMotor.SetDutyCycle(wheelSpeeds[kFrontRight_val] * m_invertedMotors[kFrontRight_val] * m_maxOutput);
+//	        m_rearLeftMotor.SetDutyCycle(wheelSpeeds[kRearLeft_val] * m_invertedMotors[kRearLeft_val] * m_maxOutput);
+//	        m_rearRightMotor.SetDutyCycle(wheelSpeeds[kRearRight_val] * m_invertedMotors[kRearRight_val] * m_maxOutput);
 
 	}
 

@@ -23,7 +23,7 @@ public abstract class LRTRobotBase extends RobotBase
 	{
 		loopSem = new Semaphore(1); //binary semaphore
 		loopSynchronizer = new Timer();
-		loopSynchronizer.scheduleAtFixedRate(loopGrabber, 0, 1/50);
+		loopSynchronizer.scheduleAtFixedRate(loopGrabber, 0, 20);
 	}
 	
 	public abstract void Tick();
