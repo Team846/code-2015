@@ -15,7 +15,7 @@ public abstract class ComponentData
 		componentData_map.put(name, this);
 	}
 
-	public static void Initialize()
+	public static void createComponentDatas()
 	{
 		data.add(new DrivetrainData());
 		data.add(new ElevatorData());
