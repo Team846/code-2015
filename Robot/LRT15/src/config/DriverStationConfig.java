@@ -4,7 +4,7 @@ public class DriverStationConfig {
 	
 	public class JoystickConfig
 	{
-		public static final int NUM_JOYSTICK_BUTTONS = 12; // Max supported by the driver station
+		public static final int NUM_JOYSTICK_BUTTONS = 11;// Max supported by the driver station
 		public static final int NUM_JOYSTICK_AXES = 6;
 		public static final int NUM_WHEEL_BUTTONS = 11;
 		public static final int NUM_WHEEL_AXES = 3;

@@ -14,15 +14,16 @@ import driverstation.LRTDriverStation;
 public class LRT15Robot extends LRTRobotBase
 {
 
-	public void RobotInit() {
-//		RobotState.Initialize();
-//
-//		LRTDriverStation.Initialize();
+	public void RobotInit() 
+	{
+		RobotState.Initialize();
+
+		LRTDriverStation.Initialize();
 //		//ConfigPortMappings.Instance().Load();
+
+		ComponentData.Initialize();
 //
-//		ComponentData.Initialize();
-//
-//		Component.CreateComponents();
+		Component.CreateComponents();
 //
 //		Brain.Initialize();
 //
@@ -32,9 +33,9 @@ public class LRT15Robot extends LRTRobotBase
 	}
 
 	public void Tick() {
-//		RobotState.Instance().Update();
-//
-//		LRTDriverStation.Update();
+		RobotState.Instance().Update();
+
+		LRTDriverStation.Update();
 //
 //		Brain.Instance().Update();
 //
@@ -49,7 +50,7 @@ public class LRT15Robot extends LRTRobotBase
 //			//ConfigRuntime.Instance().CheckForFileUpdates();
 //		}
 
-		DashboardLogger.getInstance().tick();
+	//	DashboardLogger.getInstance().tick();
 
 	}
 }

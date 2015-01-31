@@ -30,7 +30,7 @@ public class LRTJoystick extends Joystick {
 	
 	public boolean ButtonInBounds(int button)
 	{
-		if(button <= 0 || button > num_buttons)
+		if(button < 0 || button > num_buttons -1 )
 		{
 			System.out.println("[!]DebouncedJoystick: Button " + button + " out of bounds!");
 			return false;
@@ -40,7 +40,7 @@ public class LRTJoystick extends Joystick {
 	
 	public boolean AxisInBounds(int axis)
 	{
-		if (axis <= 0 || axis > num_axes)
+		if (axis < 0 || axis > num_axes - 1)
 		{
 			System.out.println("[!]DebouncedJoystick: Axis "+ axis +" out of bounds!\n");
 			return false;
@@ -50,12 +50,12 @@ public class LRTJoystick extends Joystick {
 	
 	public void Init()
 	{
-		 for (int i = 1; i <= num_buttons; ++i)
+		 for (int i = 0; i < num_buttons; ++i)
          {
 			 wasPressed[i] = isPressed[i] = false;
          }
 
-         for (int i = 1; i <= num_axes; ++i)
+         for (int i = 0; i < num_axes; ++i)
          {
         	 axisPrevValue[i] = axisValue[i] = 0;
          }
@@ -63,13 +63,13 @@ public class LRTJoystick extends Joystick {
 	
 	public void Update()
 	{
-		for (int i = 1; i <= num_buttons; ++i)
+		for (int i = 0; i < num_buttons; ++i)
 		{
 			wasPressed[i] = isPressed[i];
 			isPressed[i] = getRawButton(i);
 		}
 
-		for (int i = 1; i <= num_axes; ++i)
+		for (int i = 0; i < num_axes; ++i)
 		{
 			axisPrevValue[i] = axisValue[i];
 			axisValue[i] = getRawAxis(i);

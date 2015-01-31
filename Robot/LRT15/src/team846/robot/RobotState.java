@@ -10,8 +10,8 @@ public class RobotState {
 	
 	private GameState gameMode;
 	private GameState lastGameMode;
-	private Timer matchTimer;
-	private Timer totalTimer;
+	private Timer matchTimer = new Timer();
+	private Timer totalTimer = new Timer();
 	private double lastTime;
 	private double currentTime;
 	private DriverStation ds;

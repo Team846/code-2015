@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
+import config.RobotConfig;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public abstract class LRTRobotBase extends RobotBase
@@ -23,7 +24,7 @@ public abstract class LRTRobotBase extends RobotBase
 	{
 		loopSem = new Semaphore(1); //binary semaphore
 		loopSynchronizer = new Timer();
-		loopSynchronizer.scheduleAtFixedRate(loopGrabber, 0, 20);
+		loopSynchronizer.scheduleAtFixedRate(loopGrabber, 0, RobotConfig.LOOP_PERIOD);
 	}
 	
 	public abstract void Tick();
