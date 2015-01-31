@@ -12,7 +12,7 @@ public class Pneumatics extends Actuator{
 
 	private int pulse_length;
 
-	private static Compressor compressor = new Compressor();
+	private static Compressor compressor = new Compressor(0);
 	public static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
 
 	private SolenoidBase solenoid;
@@ -181,6 +181,11 @@ public class Pneumatics extends Actuator{
 				counter = pulse_length;
 			}
 		}
+	}
+	
+	public void Set(State on)
+	{
+		Set(on, false);
 	}
 
 	public State Get()

@@ -21,7 +21,7 @@ public class LRT15Robot extends LRTRobotBase
 		LRTDriverStation.Initialize();
 //		//ConfigPortMappings.Instance().Load();
 
-		ComponentData.Initialize();
+		ComponentData.createComponentDatas();
 //
 		Component.CreateComponents();
 //

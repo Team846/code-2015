@@ -1,5 +1,6 @@
 package config;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -15,10 +16,10 @@ public class ConfigPortMappings
 	
 	static private ConfigPortMappings instance = null;
 
-	final static private String CONFIG_FILE_PATH = RobotConfig.PORT_MAPPINGS_FILE_PATH;
+	final static private String CONFIG_FILE_PATH = RobotConfig.CONFIG_FILE_PATH;
 	final static private String COMMENT_DELIMITERS = "#;";
 	
-	public ConfigPortMappings Instance()
+	public static ConfigPortMappings Instance()
 	{
 		if (instance == null)
 			instance = new ConfigPortMappings();
@@ -40,9 +41,8 @@ public class ConfigPortMappings
 	public int Get(String name)
 	{
 		String section, key;
-		section = name.substring(0, name.indexOf('/')).toLowerCase();
-		key = name.substring(name.indexOf('/')+1).toUpperCase();
-
+		section = name.substring(0, name.indexOf('/')).toLowerCase().trim();
+		key = name.substring(name.indexOf('/')+1).toUpperCase().trim();
 		if (Instance().KeyExists(section, key))
 		{
 			return Instance().portData.get(section).get(key);
@@ -53,7 +53,6 @@ public class ConfigPortMappings
 	
 	private void LoadConfig(String path)
 	{
-
 		Scanner fin = null;
 		try {
 			fin = new Scanner(new File(path));
@@ -77,26 +76,25 @@ public class ConfigPortMappings
 			if (length == -1) // If no comments on this line
 				length = fileData.get(i).length();
 
-			String line = (fileData.get(i).substring(0, length)).trim(); // Trim whitespace from non-comment part of this line
+			String line = (fileData.get(i).substring(0, length)).trim(); // Trim whitespace from non-comment
 			if (line.length() == 0) // If this line contains no data
 				continue;
 
 			if (line.charAt(0) == '[') // If new section
 			{
 				currentSection = line.substring(1, line.lastIndexOf("]")); // Set current section name
-				currentSection = currentSection.toLowerCase();//transform(currentSection.begin(), currentSection.end(), currentSection.begin(), ::tolower);
+				currentSection = currentSection.toLowerCase();
 				continue;
 			}
 
-			//stringstream sstream(line);
 			String key;
 			int value;
-			//getline(sstream, key, '='); // Get key up to =
-			key = line.substring(0, line.indexOf('='));
-			value = Integer.parseInt((line.substring(line.indexOf('=')+1)));
-
-			//sstream >> value; // Get assigned value after =
+			
+			key = line.substring(0, line.indexOf('=')).trim();
+			value = Integer.parseInt((line.substring(line.indexOf('=')+1)).trim());
 			key = key.toUpperCase();
+			if(portData.get(currentSection) == null)
+				portData.put(currentSection, new HashMap<String, Integer>());
 			portData.get(currentSection).put(key, value); // Set value for key of current section
 		}
 	}
@@ -107,9 +105,9 @@ public class ConfigPortMappings
 	     Pattern pattern = Pattern.compile("[" + letters + "]");
 	     Matcher matcher = pattern.matcher(line);
 	     int position = -1;
-	     if (matcher.find()) {
+	     if (matcher.find()) 
 	         position = matcher.start();
-	     }
+	     
 	     return position;
 	}
 	

@@ -4,7 +4,7 @@ public class DriverStationConfig {
 	
 	public class JoystickConfig
 	{
-		public static final int NUM_JOYSTICK_BUTTONS = 11;// Max supported by the driver station
+		public static final int NUM_JOYSTICK_BUTTONS = 12;// Max supported by the driver station
 		public static final int NUM_JOYSTICK_AXES = 6;
 		public static final int NUM_WHEEL_BUTTONS = 11;
 		public static final int NUM_WHEEL_AXES = 3;
@@ -25,15 +25,15 @@ public class DriverStationConfig {
 	
 		public static final int REVERSE_ROLLERS = 11;
 		public static final int UNLOAD_LAUNCHER = 12;
+		
 		// Driver Wheel
 		public static final int QUICK_TURN = 5;
 		public static final int REVERSE_DRIVE = 6;
 		public static final int POSITION_HOLD = 7;
 		
 		//Dashboard Mode
-		public static final int DASHBOARD1 = 5;
-		public static final int DASHBOARD2 = 6;
-		public static final int DASHBOARD3 = 7;
+		public static final int DASHBOARD_ENABLE1 = 6;
+		public static final int DASHBOARD_ENABLE2 = 7;
 	}
 	
 	public class DigitalIns

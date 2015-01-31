@@ -30,9 +30,8 @@ public class DashboardLogger
 	public DashboardLogger()
 	{
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
-		if (driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD1) && 
-			driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD2) &&
-			driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD3))
+		if (driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+			driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2))
 		{
 			System.out.println("starting funkyDashboard");
 			config = new Configuration();
