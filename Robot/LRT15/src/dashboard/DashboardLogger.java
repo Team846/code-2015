@@ -48,6 +48,7 @@ public class DashboardLogger
 	
 	public void tick() {
 		log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
+		log(new IntegerLog("motor-speed", (int) (Math.random() * 6)));
 	}
 	
 	class StaticSocketIOChannel extends SocketIOChannelInitializer {

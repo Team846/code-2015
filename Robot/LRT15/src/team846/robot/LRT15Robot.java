@@ -6,6 +6,7 @@ import actuators.Pneumatics;
 import automation.Brain;
 import componentData.ComponentData;
 import components.Component;
+import dashboard.DashboardLogger;
 //import dashboard.DashboardLogger;
 import driverstation.GameState;
 import driverstation.LRTDriverStation;
@@ -48,7 +49,7 @@ public class LRT15Robot extends LRTRobotBase
 //			//ConfigRuntime.Instance().CheckForFileUpdates();
 //		}
 
-//		DashboardLogger.getInstance().tick();
+		DashboardLogger.getInstance().tick();
 
 	}
 }
