@@ -15,6 +15,8 @@ gulp.task('image', function() {
 });
 
 gulp.task('datasets', function() {
+  gulp.src(['./datasets/*.json'])
+    .pipe(gulp.dest('./dashboard-bin/datasets/'));
   gulp.src(['./datasets.json'])
     .pipe(gulp.dest('./dashboard-bin/'));
 });

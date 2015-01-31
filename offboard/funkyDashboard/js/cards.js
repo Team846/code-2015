@@ -1,14 +1,8 @@
-function createCard(name, detailedInfo, datasetContent) {
-  var inner = '<div class="card">' +
+function createCard(id, name, datasetContent) {
+  var inner = '<div id="card-' + id + '" class="card">' +
                 '<div class="card-image">' + datasetContent + '</div>' +
                 '<div class="card-content activator">' +
-                  '<span class="card-title grey-text text-darken-4">' + name +
-                    '<i class="mdi-navigation-more-vert right"></i>' +
-                  '</span>' +
-                '</div>' +
-                '<div class="card-reveal">' +
-                  '<span class="card-title grey-text text-darken-4">' + name + ' <i class="mdi-navigation-close right"></i></span>' +
-                  '<p>' + detailedInfo + '</p>' +
+                  '<span class="card-title grey-text text-darken-4">' + name + '</span>' +
                 '</div>' +
               '</div>'
 

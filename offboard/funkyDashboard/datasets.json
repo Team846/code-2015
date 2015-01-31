@@ -2,8 +2,7 @@
   {
     "id": "motor-speed",
     "name": "Motor Speed",
-    "type": "graph",
-    "detailedInfo": "Shows the current motor speed in RPM."
+    "type": "graph"
   },
   {
     "id": "robot-on",

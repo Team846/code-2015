@@ -88,6 +88,7 @@ public class DashboardLogger
 		}
 	}
 
+	// Comment out while building, it may get used as an entrypoint
 	public static void main(String[] args)
 	{
 		while (true)

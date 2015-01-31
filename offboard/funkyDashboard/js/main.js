@@ -1,10 +1,12 @@
 var socket = io.connect();
 
 $.ajax("datasets.json").done(function(datasetArray) {
+  $('ul.tabs').tabs();
+
   var datasets = {}
   for (var i = 0; i < datasetArray.length; i++) {
     var dataset = datasetArray[i];
-    var card = createCard(dataset.name, dataset.detailedInfo, createDataset(dataset.id, dataset.type));
+    var card = createCard(dataset.id, dataset.name, createDataset(dataset.id, dataset.type));
     document.getElementById("card-holder").appendChild(card);
     if (dataset.type == "graph") {
       datasets[dataset.id] = {
@@ -50,3 +52,16 @@ $.ajax("datasets.json").done(function(datasetArray) {
     }
   });
 });
+
+function display(datasetName) {
+  $.ajax("./datasets/" + datasetName + ".json").done(function(toDisplay) {
+    var cards = document.getElementsByClassName('card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].style.display = 'none';
+    }
+
+    for (var i = 0; i < toDisplay.length; i++) {
+      document.getElementById("card-" + toDisplay[i]).style.display = 'block';
+    }
+  });
+}
