@@ -13,62 +13,85 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOChannelInitializer;
 import com.corundumstudio.socketio.SocketIOServer;
 
+import config.DriverStationConfig;
+import driverstation.LRTDriverStation;
+import driverstation.LRTJoystick;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class DashboardLogger
 {
 	private static DashboardLogger instance;
-	
+
 	private Configuration config;
 	private SocketIOServer server;
-	
-	public DashboardLogger() {
-		System.out.println("starting funkyDashboard");
-		config = new Configuration();
-		config.setPort(8080);
-		config.getSocketConfig().setReuseAddress(true);
-		server = new SocketIOServer(config);
-		
-		server.setPipelineFactory(new StaticSocketIOChannel(config));
-		server.start();
+
+	public DashboardLogger()
+	{
+		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
+		if (driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD1) && 
+			driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD2) &&
+			driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD3))
+		{
+			System.out.println("starting funkyDashboard");
+			config = new Configuration();
+			config.setPort(8080);
+			config.getSocketConfig().setReuseAddress(true);
+			server = new SocketIOServer(config);
+
+			server.setPipelineFactory(new StaticSocketIOChannel(config));
+			server.start();
+		}
 	}
-	
-	public void log(DashboardLog message) {
-		server.getBroadcastOperations().sendEvent("data-update", message.json());
+
+	public void log(DashboardLog message)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", message.json());
+		}
 	}
-	
-	public static DashboardLogger getInstance() {
-		if (instance == null) {
+
+	public static DashboardLogger getInstance()
+	{
+		if (instance == null)
+		{
 			instance = new DashboardLogger();
 		}
-		
+
 		return instance;
 	}
-	
-	public void tick() {
+
+	public void tick()
+	{
 		log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
 		log(new IntegerLog("motor-speed", (int) (Math.random() * 6)));
 	}
-	
-	class StaticSocketIOChannel extends SocketIOChannelInitializer {
+
+	class StaticSocketIOChannel extends SocketIOChannelInitializer
+	{
 		Configuration configuration;
+
 		public StaticSocketIOChannel(Configuration configuration)
 		{
 			super();
 			this.configuration = configuration;
 		}
+
 		@Override
-	    protected void initChannel(Channel ch) throws Exception {
-	        ChannelPipeline pipeline = ch.pipeline();
-	        addSslHandler(pipeline);
-	        addSocketioHandlers(pipeline);
-	        pipeline.addAfter(HTTP_ENCODER, "static", new HttpStaticFileServerHandler());
-	    }
+		protected void initChannel(Channel ch) throws Exception
+		{
+			ChannelPipeline pipeline = ch.pipeline();
+			addSslHandler(pipeline);
+			addSocketioHandlers(pipeline);
+			pipeline.addAfter(HTTP_ENCODER, "static", new HttpStaticFileServerHandler());
+		}
 	}
-	
-	public static void main(String[] args) {
-		while (true) {
+
+	public static void main(String[] args)
+	{
+		while (true)
+		{
 			getInstance().log(new IntegerLog("motor-speed", (int) (Math.random() * 6)));
 			try
 			{
