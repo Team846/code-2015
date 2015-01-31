@@ -83,7 +83,7 @@ public class ConfigPortMappings
 
 			if (line.charAt(0) == '[') // If new section
 			{
-				currentSection = line.substring(1, line.lastIndexOf("]") - 1); // Set current section name
+				currentSection = line.substring(1, line.lastIndexOf("]")); // Set current section name
 				currentSection = currentSection.toLowerCase();//transform(currentSection.begin(), currentSection.end(), currentSection.begin(), ::tolower);
 				continue;
 			}
@@ -101,21 +101,21 @@ public class ConfigPortMappings
 		}
 	}
 		
-		private int matchDelimiters(String line)
-		{
-		     String letters = COMMENT_DELIMITERS;
-		     Pattern pattern = Pattern.compile("[" + letters + "]");
-		     Matcher matcher = pattern.matcher(line);
-		     int position = -1;
-		     if (matcher.find()) {
-		         position = matcher.start();
-		     }
-		     return position;
-		}
-		
-		private boolean KeyExists(String section, String key)
-		{
-			return portData.containsKey(section) && portData.get(section).containsKey(key);
-		}
+	private int matchDelimiters(String line)
+	{
+	     String letters = COMMENT_DELIMITERS;
+	     Pattern pattern = Pattern.compile("[" + letters + "]");
+	     Matcher matcher = pattern.matcher(line);
+	     int position = -1;
+	     if (matcher.find()) {
+	         position = matcher.start();
+	     }
+	     return position;
+	}
+	
+	private boolean KeyExists(String section, String key)
+	{
+		return portData.containsKey(section) && portData.get(section).containsKey(key);
+	}
 
 }

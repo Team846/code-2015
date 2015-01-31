@@ -29,6 +29,11 @@ public class DriverStationConfig {
 		public static final int QUICK_TURN = 5;
 		public static final int REVERSE_DRIVE = 6;
 		public static final int POSITION_HOLD = 7;
+		
+		//Dashboard Mode
+		public static final int DASHBOARD1 = 5;
+		public static final int DASHBOARD2 = 6;
+		public static final int DASHBOARD3 = 7;
 	}
 	
 	public class DigitalIns

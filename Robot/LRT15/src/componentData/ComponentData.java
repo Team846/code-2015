@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import components.CollectorArmData;
+
 public abstract class ComponentData 
 {
 	private static Map<String, ComponentData> componentData_map = new HashMap<String, ComponentData>();
@@ -16,8 +18,13 @@ public abstract class ComponentData
 
 	public static void Initialize()
 	{
-		data.add(new CollectorRollersData());
 		data.add(new DrivetrainData());
+		data.add(new ElevatorData());
+		//data.add(new CarriageData());
+		data.add(new CollectorRollersData());
+		data.add(new CollectorArmData());
+		data.add(new RakeArmData());
+		//data.add(new RakeExtenderData());
 
 	}
 
