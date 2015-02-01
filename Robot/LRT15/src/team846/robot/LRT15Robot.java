@@ -6,6 +6,8 @@ import actuators.Pneumatics;
 import automation.Brain;
 import componentData.ComponentData;
 import components.Component;
+import config.ConfigPortMappings;
+import config.ConfigRuntime;
 import dashboard.DashboardLogger;
 //import dashboard.DashboardLogger;
 import driverstation.GameState;
@@ -19,10 +21,11 @@ public class LRT15Robot extends LRTRobotBase
 		RobotState.Initialize();
 
 		LRTDriverStation.Initialize();
-//		//ConfigPortMappings.Instance().Load();
+		
+		ConfigPortMappings.Instance().Load();
+		ConfigRuntime.Initialize();
 
 		ComponentData.createComponentDatas();
-//
 		Component.CreateComponents();
 //
 //		Brain.Initialize();
@@ -45,10 +48,10 @@ public class LRT15Robot extends LRTRobotBase
 //
 //		DashboardLogger.getInstance().tick();
 //
-//		if(RobotState.Instance().GameMode() == GameState.DISABLED)
-//		{
-//			//ConfigRuntime.Instance().CheckForFileUpdates();
-//		}
+		if(RobotState.Instance().GameMode() == GameState.DISABLED)
+		{
+			ConfigRuntime.Instance().CheckForFileUpdates();
+		}
 
 	//	DashboardLogger.getInstance().tick();
 
