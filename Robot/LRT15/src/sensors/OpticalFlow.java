@@ -1,6 +1,8 @@
 package sensors;
 
 import java.io.FileInputStream;
+import log.AsyncPrinter;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -10,6 +12,24 @@ public class OpticalFlow {
 	public static final int COMPONENT_Y = 1;
 
 	private static String mousePathPrefix = "/dev/input/mouse";
+	
+	private static void log(Object msg) {
+		AsyncPrinter.getInstance().println(msg.toString());
+	}
+	
+	private double convertMouseUnitToInch(int mouseUnits) {
+		/*
+		 * IPS should be defined as the maximum speed the mouse is capable of (aka
+		 * when mouse reads max. value)
+		 * 
+		 * This means maximum speed == 127. Deriving from this :
+		 * 
+		 * inches = (IPS * mouse units)/127
+		 * 
+		 */
+
+		return (IPS * mouseUnits) / 127;
+	}
 
 	private static class MouseInterruptThread implements Runnable {
 		private Thread t;
@@ -52,7 +72,7 @@ public class OpticalFlow {
 					if (Math.abs(delta[COMPONENT_X]) == 127
 							|| Math.abs(delta[COMPONENT_Y]) == 127) {
 
-						System.out.println("WARNING: Maximum logical range reached! Position may not be accurate. Use a higher DPI setting or a better mouse.");
+						log("WARNING: Maximum logical range reached! Position may not be accurate. Use a higher DPI setting or a better mouse.");
 					}
 
 					position[COMPONENT_X] += delta[COMPONENT_X];
@@ -60,7 +80,7 @@ public class OpticalFlow {
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					// System.out.println("shit happend bro");
+					// log("shit happend bro");
 					e.printStackTrace();
 				}
 			}
@@ -104,20 +124,6 @@ public class OpticalFlow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	private double convertMouseUnitToInch(int mouseUnits) {
-		/*
-		 * IPS should be defined as the maximum speed the mouse is capable of (aka
-		 * when mouse reads max. value)
-		 * 
-		 * This means maximum speed == 127. Deriving from this :
-		 * 
-		 * inches = (IPS * mouse units)/127
-		 * 
-		 */
-
-		return (IPS * mouseUnits) / 127;
 	}
 
 	public double getCurrentPosition(int componentType) {
