@@ -5,14 +5,11 @@ import java.util.*;
 
 public interface Configurable {
 	
-	
 	public void Configure();
 	
-	/*
-	public <T> T GetConfig(String key, T defaultValue)
+	public default <T extends Number> T GetConfig(String key, T defaultValue)
 	{
-		return m_config.Get<T>(m_configSection,key,defaultValue);
+		return ConfigRuntime.Instance().Get(this.getClass().getName(),key,defaultValue);
 	}
-	*/
 }
 
