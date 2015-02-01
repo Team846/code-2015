@@ -60,7 +60,7 @@ public class OpticalFlow {
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					System.out.println("shit happend bro");
+					// System.out.println("shit happend bro");
 					e.printStackTrace();
 				}
 			}
