@@ -16,20 +16,6 @@ public class OpticalFlow {
 	private static void log(Object msg) {
 		AsyncPrinter.getInstance().println(msg.toString());
 	}
-	
-	private double convertMouseUnitToInch(int mouseUnits) {
-		/*
-		 * IPS should be defined as the maximum speed the mouse is capable of (aka
-		 * when mouse reads max. value)
-		 * 
-		 * This means maximum speed == 127. Deriving from this :
-		 * 
-		 * inches = (IPS * mouse units)/127
-		 * 
-		 */
-
-		return (IPS * mouseUnits) / 127;
-	}
 
 	private static class MouseInterruptThread implements Runnable {
 		private Thread t;
@@ -41,6 +27,11 @@ public class OpticalFlow {
 		byte[] mouseData;
 
 		private FileInputStream mouse;
+		
+		public void zeroPosition() {
+			position[COMPONENT_X] = 0;
+			position[COMPONENT_Y] = 0;
+		}
 
 		public MouseInterruptThread(String path, OpticalFlow sensor)
 				throws FileNotFoundException {
@@ -49,8 +40,7 @@ public class OpticalFlow {
 			mouseData = new byte[3];
 			
 			position = new int[2];
-			position[COMPONENT_X] = 0;
-			position[COMPONENT_Y] = 0;
+			zeroPosition();
 
 			delta = new int[2];
 			delta[COMPONENT_X] = 0;
@@ -104,16 +94,6 @@ public class OpticalFlow {
 	}
 
 	MouseInterruptThread mouseThread;
-	
-	public int IPS = 15;
-
-	public int getIPS() {
-		return IPS;
-	}
-
-	public void setIPS(int iPS) {
-		IPS = iPS;
-	}
 
 	public OpticalFlow(int mouseIndex) {
 		try {
@@ -124,6 +104,24 @@ public class OpticalFlow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public int DPI = 800;
+	
+	private double convertMouseUnitToInch(int mouseUnits) {
+		return mouseUnits / DPI;
+	}
+	
+	public int getDPI() {
+		return DPI;
+	}
+
+	public void setDPI(int dPI) {
+		DPI = dPI;
+	}
+	
+	public void zeroPosition() {
+		mouseThread.zeroPosition();
 	}
 
 	public double getCurrentPosition(int componentType) {
