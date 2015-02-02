@@ -24,7 +24,7 @@ public class CarriageHooksData extends ComponentData{
 	}
 	
 	public static CarriageHooksData get(){
-		return (CarriageHooksData) ComponentData.GetComponentData("CollectorArmData");
+		return (CarriageHooksData) ComponentData.GetComponentData("CarriageHooksData");
 	}
 	
 	public Position getFrontHooksState(){
