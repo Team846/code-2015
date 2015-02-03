@@ -1,7 +1,9 @@
 package utils;
 
 import java.util.function.Consumer;
-import java.lang.Void;
+import java.util.concurrent.ConcurrentHashMap;
+
+import log.AsyncPrinter;
 
 /*
  * USAGE
@@ -20,20 +22,39 @@ import java.lang.Void;
  * 		}
  * 		
  * 		public static void main(String[] args) {
- * 			Profiler.time(Void -> someClass.someMethod(1, 2));
- *			Profiler.time(Void -> someClass.someVoidMethod());
+ * 			Profiler.time(Void -> someClass.someMethod(1, 2), "id1");
+ *			Profiler.time(Void -> someClass.someVoidMethod(), "id2");
+ *			
+ *			Profiler.show("id1");
+ *			Profiler.show("id2");
  * 		}
  * }
  */
 
 public class Profiler {
-	static long time(Consumer<Object> aFunction) {
+	private Profiler() {
+	};
+
+	static private final String tab = "\t";
+
+	private static ConcurrentHashMap<String, Float> threadData = new ConcurrentHashMap<String, Float>(); // eternal
+																											// shame
+	private static void log(String msg) {
+		AsyncPrinter.getInstance().println(msg.toString());
+	}
+
+	public static void time(Consumer<Object> aFunction, String methodName) {
 		long startTime = System.nanoTime();
 		aFunction.accept(null);
 		long endTime = System.nanoTime();
 
-		long durationInMs = (endTime - startTime) / 1000000;
+		threadData.put(methodName, (float) (endTime - startTime) / 1000000);
+	}
 
-		return durationInMs;
+	public static void show(String methodName) {
+		log("Profiler output:");
+
+		log(tab + "Method name: " + methodName);
+		log(tab + "Time taken: " + threadData.get(methodName) + "ms");
 	}
 }
