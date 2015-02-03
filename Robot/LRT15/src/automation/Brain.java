@@ -57,7 +57,7 @@ public class Brain
 					if (ret)
 					{
 						runningTasks.add(e.getKey());
-						waitingTasks.remove(e); //TODO: check remove/erase compatibbility
+						waitingTasks.remove(e.getKey()); //TODO: check remove/erase compatibbility
 					}
 				}
 	        }
