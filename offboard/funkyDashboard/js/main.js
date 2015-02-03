@@ -20,6 +20,11 @@ $.ajax("datasets.json").done(function(datasetArray) {
         type: "boolean",
         element: "#" + dataset.id
       }
+    } else if (dataset.type == "log") {
+      datasets[dataset.id] = {
+        type: "log",
+        element: "#" + dataset.id
+      }
     }
   }
 
@@ -49,6 +54,9 @@ $.ajax("datasets.json").done(function(datasetArray) {
       } else {
         $(dataset.element).addClass("flipped");
       }
+    } else if (dataset.type == "log") {
+      $(dataset.element).append('<p>' + msg.value + '</p>');
+      $(dataset.element).scrollTop($(dataset.element).prop("scrollHeight"));
     }
   });
 });

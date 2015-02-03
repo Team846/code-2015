@@ -8,5 +8,10 @@
     "id": "robot-on",
     "name": "Robot On",
     "type": "boolean"
+  },
+  {
+    "id": "my-fancy-logs",
+    "name": "My fancy logs",
+    "type": "log"
   }
 ]
