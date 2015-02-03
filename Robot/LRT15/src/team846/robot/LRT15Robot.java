@@ -1,6 +1,7 @@
 package team846.robot;
 
 import sensors.SensorFactory;
+
 import actuators.Actuator;
 import actuators.Pneumatics;
 import automation.Brain;
@@ -12,6 +13,7 @@ import dashboard.DashboardLogger;
 //import dashboard.DashboardLogger;
 import driverstation.GameState;
 import driverstation.LRTDriverStation;
+import utils.Profiler;
 
 public class LRT15Robot extends LRTRobotBase
 {
@@ -36,24 +38,24 @@ public class LRT15Robot extends LRTRobotBase
 	}
 
 	public void Tick() {
-		RobotState.Instance().Update();
+		Profiler.time(Void->RobotState.Instance().Update(), "RobotState.Update");
 
-		LRTDriverStation.Update();
+		Profiler.time(Void->LRTDriverStation.Update(), "LRTDriverStation.Update");
 //
-//		Brain.Instance().Update();
+//		Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
 //
-//		Component.UpdateAll();
+//		Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
 //
-//		Actuator.OutputAll();
+//		Profiler.time(Void->Actuator.OutputAll(), "Actuator.OutputAll");
 //
-//		DashboardLogger.getInstance().tick();
+//		Profiler.time(Void->DashboardLogger.getInstance().tick(), "DashboardLogger.tick");
 //
 		if(RobotState.Instance().GameMode() == GameState.DISABLED)
 		{
-			ConfigRuntime.Instance().CheckForFileUpdates();
+			Profiler.time(Void->ConfigRuntime.Instance().CheckForFileUpdates(), "ConfigRuntime.CheckForFileUpdates");
 		}
 
-	//	DashboardLogger.getInstance().tick();
+	//	Profiler.time(Void->DashboardLogger.getInstance().tick(), "DashboardLogger.tick");
 
 	}
 }
