@@ -70,7 +70,7 @@ boolean IsEnabled()
 public void Set(float value)
 {
 	controlMode = ControlMode.kValue;
-	value = value;
+	this.value = value;
 }
 
 public void SetMicroseconds(int ms) 

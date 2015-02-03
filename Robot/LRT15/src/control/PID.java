@@ -101,12 +101,12 @@ public class PID {
 
 	public void SetSetpoint(double setpoint)
 	{
-		setpoint = setpoint;
+		this.setpoint = setpoint;
 	}
 
 	public void SetInput(double input)
 	{
-		input = input;
+		this.input = input;
 	}
 
 	public double GetProportionalGain()

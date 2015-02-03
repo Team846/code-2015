@@ -11,7 +11,9 @@ public class LRTCANTalon extends Actuator
 {
 	private double speed;
 	
-	private CANTalon talon;
+	public static final int CHANGEME = 42;
+	
+	private CANTalon talon = new CANTalon(CHANGEME);
 	
 	public static ArrayList<LRTCANTalon> talon_list = new ArrayList<LRTCANTalon>();
 

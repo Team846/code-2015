@@ -33,7 +33,7 @@ public class DriveESC
 	DriveESC(LRTSpeedController esc, LRTEncoder encoder, String name) 
 		//Loggable(name),
 	{
-		encoder = encoder;
+		this.encoder = encoder;
 		controller1 = esc;
 		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
 		
@@ -51,7 +51,7 @@ public class DriveESC
 //		controller1(esc1),
 //		controller2(esc2)
 	{
-		encoder = encoder;
+		this.encoder = encoder;
 		controller1 = esc1;
 		controller2 = esc2;
 		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
@@ -116,7 +116,7 @@ public class DriveESC
 		
 		dutyCycle = DitheredBraking(dutyCycle, speed);
 		dutyCycle = CurrentLimit(dutyCycle, speed);
-		dutyCycle = dutyCycle;
+		this.dutyCycle = dutyCycle;
 		
 		controller1.SetDutyCycle(dutyCycle);
 		if (controller2 != null)

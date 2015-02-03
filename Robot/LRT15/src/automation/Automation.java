@@ -7,7 +7,7 @@ import java.util.Map;
 public abstract class Automation {
 	public static ArrayList<Automation> automation_vector = new ArrayList<>();
 	static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
-	ArrayList<ControlResource> resources;
+	ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
 	
 	Event startEvent;
 	Event abortEvent;

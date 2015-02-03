@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class InputProcessor {
 	
-	ArrayList<ControlResource> resources;
+	ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
 	
 	public InputProcessor()
 	{

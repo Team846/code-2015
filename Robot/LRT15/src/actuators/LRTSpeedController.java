@@ -15,7 +15,7 @@ public abstract class LRTSpeedController extends Actuator
 	private CounterBase encoder = null;
 	private double timeoutSeconds;
 	private float threshold;
-	private Timer timer;
+	private Timer timer = new Timer();
 	
 	public LRTSpeedController(String name) {
 		super(name);
@@ -43,9 +43,9 @@ public abstract class LRTSpeedController extends Actuator
 	
 	public void RegisterSafety(CounterBase encoder, double timeoutSeconds, float threshold)
 	{
-		encoder = encoder;
-		timeoutSeconds = timeoutSeconds;
-		threshold = threshold;
+		this.encoder = encoder;
+		this.timeoutSeconds = timeoutSeconds;
+		this.threshold = threshold;
 	}
 	
 	public void SafetyCallback()

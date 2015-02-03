@@ -1,11 +1,12 @@
 package automation;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Sequential extends Automation {
 	ArrayList<Automation> routines;
-	Queue<Automation> queued;
+	Queue<Automation> queued = new LinkedList<Automation>();
 	boolean started;
 	
 	Sequential(String name, boolean queueIfBlocked, boolean restartable) 

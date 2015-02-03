@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class ElevatorData extends ComponentData{
 
-	public static int maxSPEED = 1;
+	public int maxSPEED = 1;
 
-	public static double speed = 0.0;
+	public double speed = 0.0;
 
 	public static final int STAY = 1;
 	public static final int UP = 2;
 	public static final int DOWN= 3;
-	private static int motion = 1;
+	private int motion = 1;
 	public static double distance;
 	public int numberOfTotes;
 
@@ -21,7 +21,7 @@ public class ElevatorData extends ComponentData{
 	public final int TOTE3 = 36;
 	
 	
-	private static int state = 1;
+	private int state = 1;
 	public static int desiredState;
 
 	public Ultrasonic ultrasonic;

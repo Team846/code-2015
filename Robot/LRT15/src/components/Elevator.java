@@ -11,9 +11,9 @@ public class Elevator extends Component {
 
 	private boolean upButton;
 	private boolean downButton;
-	int CHANGEME;
-	String changeString;
-	int CHANGEME1;
+	int CHANGEME = 99;
+	String changeString = "bob";
+	int CHANGEME1 = 42;
 	//LRTSpeedController motor;
 
 	public static double speed;

@@ -8,7 +8,9 @@ public class DrivetrainData extends ComponentData
 	public static final int VELOCITY_Y = 1;
 	public static final int VELOCITY_ROTATION = 2;
 	
-	LRTGyro gyro;
+	public static final int CHANGEME = 42;
+	
+	LRTGyro gyro = new LRTGyro(CHANGEME);
 
 	private double[] desiredRates = new double[3];
 	private double[] desiredOpenLoopOutputs = new double[3];
