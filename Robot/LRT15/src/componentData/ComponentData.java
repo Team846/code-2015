@@ -22,7 +22,7 @@ public abstract class ComponentData
 		//data.add(new CarriageData());
 		data.add(new CollectorRollersData());
 		data.add(new CollectorArmData());
-		data.add(new RakeArmData());
+//		data.add(new RakeArmData());
 		//data.add(new RakeExtenderData());
 
 	}
