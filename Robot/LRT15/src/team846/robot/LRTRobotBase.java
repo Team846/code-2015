@@ -4,7 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import config.RobotConfig;
+import com.lynbrookrobotics.frc2015.config.RobotConfig;
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 public abstract class LRTRobotBase extends RobotBase

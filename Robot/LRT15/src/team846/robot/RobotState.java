@@ -1,6 +1,7 @@
 package team846.robot;
 
-import driverstation.GameState;
+import com.lynbrookrobotics.frc2015.driverstation.GameState;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 

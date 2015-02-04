@@ -1,19 +1,19 @@
 package team846.robot;
 
-import sensors.SensorFactory;
+import com.lynbrookrobotics.frc2015.actuators.Actuator;
+import com.lynbrookrobotics.frc2015.actuators.Pneumatics;
+import com.lynbrookrobotics.frc2015.automation.Brain;
+import com.lynbrookrobotics.frc2015.componentData.ComponentData;
+import com.lynbrookrobotics.frc2015.components.Component;
+import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
+import com.lynbrookrobotics.frc2015.dashboard.DashboardLogger;
+import com.lynbrookrobotics.frc2015.driverstation.GameState;
+import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
+import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
 
-import actuators.Actuator;
-import actuators.Pneumatics;
-import automation.Brain;
-import componentData.ComponentData;
-import components.Component;
-import config.ConfigPortMappings;
-import config.ConfigRuntime;
-import dashboard.DashboardLogger;
 //import dashboard.DashboardLogger;
-import driverstation.GameState;
-import driverstation.LRTDriverStation;
-import utils.Profiler;
+import com.lynbrookrobotics.frc2015.utils.Profiler;
 
 public class LRT15Robot extends LRTRobotBase
 {
