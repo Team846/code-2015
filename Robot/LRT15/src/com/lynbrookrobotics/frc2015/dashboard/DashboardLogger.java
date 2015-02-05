@@ -105,6 +105,7 @@ public class DashboardLogger
 			getInstance().log(new DoubleLog("motor-speed", Math.random() * 5));
 			Long curTime = System.currentTimeMillis();
 			getInstance().log(new StringLog("my-fancy-logs", curTime.toString()));
+			getInstance().log(new StringLog("my-fancy-strings", curTime.toString()));
 			try
 			{
 				Thread.sleep(50);

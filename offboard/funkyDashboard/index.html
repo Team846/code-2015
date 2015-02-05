@@ -9,9 +9,12 @@
     <nav class="light-blue" role="navigation">
       <div class="container">
         <div class="nav-wrapper">
-          <a id="logo-container" href="#" class="brand-logo">
+          <span id="logo-container" class="brand-logo">
             <img src="/img/Team_846_Logo.png" class="funky-logo"></img>
-          </a>
+          </span>
+          <ul id="nav-mobile" class="right side-nav">
+            <li><a id="pauseToggle" style="cursor: pointer"  onclick="togglePause()">Pause all the things</a></li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -34,7 +37,9 @@
 
     <div class="container">
       <div class="section">
-        <div id="card-holder" class="row">
+        <div class="row">
+          <div id="card-holder-0" class="col s12 m6"></div>
+          <div id="card-holder-1" class="col s12 m6"></div>
         </div>
       </div>
       <br><br>

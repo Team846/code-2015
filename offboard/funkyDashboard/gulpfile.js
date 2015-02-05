@@ -17,8 +17,11 @@ gulp.task('image', function() {
 gulp.task('datasets', function() {
   gulp.src(['./datasets/*.json'])
     .pipe(gulp.dest('./dashboard-bin/datasets/'));
-  gulp.src(['./datasets.json'])
-    .pipe(gulp.dest('./dashboard-bin/'));
+});
+
+gulp.task('groups', function() {
+  gulp.src(['./groups/*.json'])
+    .pipe(gulp.dest('./dashboard-bin/groups/'));
 });
 
 gulp.task('js', function() {
@@ -44,7 +47,7 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./dashboard-bin/css'));
 });
 
-gulp.task('build', ['html', 'image', 'datasets', 'js', 'font', 'sass']);
+gulp.task('build', ['html', 'image', 'datasets', 'groups', 'js', 'font', 'sass']);
 
 gulp.task('watch', [], function() {
   gulp.watch(
@@ -63,6 +66,12 @@ gulp.task('watch', [], function() {
     './datasets.json',
     { interval: 1000, mode: 'poll' },
     ['datasets']
+  );
+
+  gulp.watch(
+    './groups/*.json',
+    { interval: 1000, mode: 'poll' },
+    ['groups']
   );
 
   gulp.watch(

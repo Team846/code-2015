@@ -1,13 +1,15 @@
 function createCard(id, name, datasetContent) {
   var inner = '<div id="card-' + id + '" class="card">' +
                 '<div class="card-image">' + datasetContent + '</div>' +
-                '<div class="card-content activator">' +
+                '<div class="card-content">' +
                   '<span class="card-title grey-text text-darken-4">' + name + '</span>' +
+                '</div>' +
+                '<div class="card-action">' +
+                  '<a style="cursor: pointer" id="toggle-pause-' + id + '" onclick="togglePauseCard(\'' + id + '\')">Pause this dataset</a>' +
                 '</div>' +
               '</div>'
 
   var element = document.createElement("div");
-  element.className = "col s12 m6";
   element.innerHTML = inner;
 
   return element;
@@ -22,7 +24,11 @@ function createBoolean(id) {
 }
 
 function createLog(id) {
-  return '<div class="row"><div id="' + id + '" class="log"</div></div>';
+  return '<div class="row"><div id="' + id + '" class="log"></div></div>';
+}
+
+function createString(id) {
+  return '<div class="row"><h1 id="' + id + '" class="center"</h1></div>';
 }
 
 function createDataset(id, type) {
@@ -32,5 +38,7 @@ function createDataset(id, type) {
     return createBoolean(id);
   } else if (type == "log") {
     return createLog(id);
+  } else if (type == "string") {
+    return createString(id);
   }
 }

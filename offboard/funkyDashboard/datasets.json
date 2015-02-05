@@ -13,5 +13,10 @@
     "id": "my-fancy-logs",
     "name": "My fancy logs",
     "type": "log"
+  },
+  {
+    "id": "my-fancy-strings",
+    "name": "My fancy strings",
+    "type": "string"
   }
 ]
