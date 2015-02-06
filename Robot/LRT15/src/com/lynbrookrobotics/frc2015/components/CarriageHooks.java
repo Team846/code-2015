@@ -5,17 +5,25 @@ import com.lynbrookrobotics.frc2015.actuators.Pneumatics.State;
 import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData;
 import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData.Position;
 import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 
 public class CarriageHooks extends Component{
-
-	Pneumatics frontHooks = new Pneumatics(
-			ConfigPortMappings.Instance().Get("Pneumatics/FORWARD_HOOKS"), "CarriageHooks");
-	Pneumatics backHooks = new Pneumatics(
-			ConfigPortMappings.Instance().Get("Pneumatics/REVERSE_HOOKS"), "CarriageHooks");
-	CarriageHooksData hooksData = CarriageHooksData.get();
 	
-	public CarriageHooks(String name, int driverStationDigitalIn) {
-		super("CarriageHooks", driverStationDigitalIn);
+	Pneumatics frontHooks;
+	Pneumatics backHooks;
+	
+	CarriageHooksData hooksData;
+	
+	public CarriageHooks() 
+	{
+		super("CarriageHooks", DriverStationConfig.DigitalIns.NO_DS_DI);
+		
+		 frontHooks = new Pneumatics(
+				ConfigPortMappings.Instance().Get("Pneumatics/FORWARD_HOOKS"), "ForwardHooks");
+		 backHooks = new Pneumatics(
+				ConfigPortMappings.Instance().Get("Pneumatics/BACK_HOOKS"), "BackHooks");
+		
+		 hooksData = CarriageHooksData.get();
 	}
 
 	@Override
@@ -33,14 +41,14 @@ public class CarriageHooks extends Component{
 		else
 			state = State.FORWARD;
 		
-		frontHooks.Set(state, false);
-		backHooks.Set(state, false);
+		frontHooks.Set(state);
+		backHooks.Set(state);
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		frontHooks.Set(State.FORWARD, false);
-		backHooks.Set(State.FORWARD, false);
+		frontHooks.Set(State.FORWARD);
+		backHooks.Set(State.FORWARD);
 	}
 
 	@Override

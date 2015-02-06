@@ -4,6 +4,7 @@ import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData;
 import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData.ControlMode;
 import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData.Setpoint;
 import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
 import com.lynbrookrobotics.frc2015.config.Configurable;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
@@ -27,13 +28,19 @@ public class CarriageExtender extends Component implements Configurable
 	
 	private CarriageExtenderData extenderData;
 
-	public CarriageExtender(String name, int driverStationDigitalIn) {
+	public CarriageExtender()
+	{
 		super("CarriageExtender", DriverStationConfig.DigitalIns.NO_DS_DI);
+		
 		carriagePot = SensorFactory.GetAnalogInput(
 				ConfigPortMappings.Instance().Get("Analog/CARRIAGE_POT"));
-		positionGain = retractSetpoint = extendSetpoint = retractLimit = extendLimit = 0;
+		
 		motor = new CANTalon(ConfigPortMappings.Instance().Get("CAN/CARRIAGE"));
-		extenderData = CarriageExtenderData.get();
+		
+		positionGain = retractSetpoint = extendSetpoint = retractLimit = extendLimit = 0;
+		
+		extenderData = CarriageExtenderData.get();	
+		ConfigRuntime.Register(this);
 	}
 
 	@Override
@@ -43,7 +50,7 @@ public class CarriageExtender extends Component implements Configurable
 		if(position <= retractLimit || position >= extendLimit)
 		{
 			motor.set(0.0);
-			System.out.println("[WARNING] Carriage out of bounds! Disable and fix");
+			System.out.println("[ERROR] Carriage out of bounds! Disable and fix");
 			return;
 		}
 		

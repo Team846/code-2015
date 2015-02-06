@@ -4,16 +4,21 @@ import com.lynbrookrobotics.frc2015.actuators.Pneumatics;
 import com.lynbrookrobotics.frc2015.actuators.Pneumatics.State;
 import com.lynbrookrobotics.frc2015.componentData.CollectorArmData;
 import com.lynbrookrobotics.frc2015.componentData.CollectorArmData.Position;
+import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 
 public class CollectorArm extends Component 
 {
-	private final static int CHANGEME = 22;
-	Pneumatics arms = new Pneumatics(1, "CollectorArm");
-	CollectorArmData armData = CollectorArmData.get();
+	Pneumatics arms;
+	CollectorArmData armData;
 	
 	public CollectorArm()
 	{
-		super("Collector", CHANGEME);
+		super("Collector", DriverStationConfig.DigitalIns.NO_DS_DI);
+		
+		 arms = new Pneumatics(
+				 ConfigPortMappings.Instance().Get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
+		 armData = CollectorArmData.get();
 	}
 
 	@Override
@@ -26,13 +31,13 @@ public class CollectorArm extends Component
 		else
 			state = State.OFF;
 		
-		arms.Set(state, false);
+		arms.Set(state);
 		
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		arms.Set(State.OFF, false);
+		arms.Set(State.OFF);
 		
 	}
 
