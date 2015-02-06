@@ -7,27 +7,39 @@ public class AsyncPrinter
 {
 	private static long kSleepPeriod = 100;
 	private static AsyncPrinter instance = null;
-
-	public static AsyncPrinter getInstance()
+	
+	private static Queue<String> toLog = new ConcurrentLinkedQueue<String>();
+	private Thread periodicLogger;
+	
+	public static void Initialize()
 	{
 		if (instance == null)
 			instance = new AsyncPrinter();
-
-		return instance;
 	}
-	
-	private Queue<String> toLog;
-	private Thread periodicLogger;
 
 	private AsyncPrinter() {
-		toLog = new ConcurrentLinkedQueue<String>();
 		periodicLogger = new PeriodicLogger();
 		periodicLogger.start();
 	}
 	
-	public void println(String msg)
+	public static void println(String msg)
 	{
-		toLog.add(msg);
+		toLog.add("[LOG] " + msg);
+	}
+	
+	public static void warn(String msg)
+	{
+		toLog.add("[WARN] " + msg);
+	}
+	
+	public static void error(String msg)
+	{
+		toLog.add("[ERROR] " + msg);
+	}
+	
+	public static void info(String msg)
+	{
+		toLog.add("[INFO] " + msg);	
 	}
 
 	private class PeriodicLogger extends Thread
@@ -37,12 +49,12 @@ public class AsyncPrinter
 		{
 			while (true)
 			{
-				long startTime = System.nanoTime();
+				//long startTime = System.nanoTime();
 				for (String msg : toLog) {
 					System.out.println(msg);
 				}
 				
-				System.out.println("Log flush took: " + (System.nanoTime() - startTime));
+				//System.out.println("Log flush took: " + (System.nanoTime() - startTime));
 				
 				try
 				{

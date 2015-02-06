@@ -40,7 +40,7 @@ public class Profiler {
 	private static ConcurrentHashMap<String, Float> threadData = new ConcurrentHashMap<String, Float>(); // eternal
 																											// shame
 	private static void log(String msg) {
-		AsyncPrinter.getInstance().println(msg.toString());
+		AsyncPrinter.println(msg.toString());
 	}
 
 	public static void time(Consumer<Object> aFunction, String methodName) {
