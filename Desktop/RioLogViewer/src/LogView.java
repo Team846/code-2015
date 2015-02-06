@@ -1,0 +1,171 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+
+import javax.swing.*;
+import javax.swing.text.*;
+
+public class LogView {
+
+	private static boolean disabled = false;
+
+	static JTextPane allTab;
+	static JTextPane errorTab;
+	static JTextPane warnTab;
+	static JTextPane infoTab;
+	static JTextPane logTab;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		UiInit();
+		networkLoop();
+	}
+
+	private static void appendToPane(JTextPane tp, String msg, Color c) {
+		tp.setEditable(true); // set textArea non-editable
+
+		StyleContext sc = StyleContext.getDefaultStyleContext();
+		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+				StyleConstants.Foreground, c);
+
+		aset = sc.addAttribute(aset, StyleConstants.FontFamily,
+				"Lucida Console");
+		aset = sc.addAttribute(aset, StyleConstants.Alignment,
+				StyleConstants.ALIGN_JUSTIFIED);
+
+		int len = tp.getDocument().getLength();
+		tp.setCaretPosition(len);
+		tp.setCharacterAttributes(aset, false);
+		tp.replaceSelection(msg + "\n");
+
+		tp.setEditable(false); // set textArea non-editable
+	}
+
+	private static void UiInit() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e1) {
+			e1.printStackTrace();
+		}
+
+		JFrame mainUiFrame = new JFrame("LogView");
+		mainUiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JTabbedPane tabPanel = new JTabbedPane();
+
+		allTab = createTab("All", tabPanel);
+		logTab = createTab("Logs", tabPanel);
+		errorTab = createTab("Errors", tabPanel);
+		warnTab = createTab("Warnings", tabPanel);
+		infoTab = createTab("Info", tabPanel);
+
+		mainUiFrame.add(tabPanel, BorderLayout.CENTER);
+		mainUiFrame.setVisible(true);
+
+		JPanel buttons = new JPanel();
+
+		JButton stopStart = new JButton("Stop", null);
+		stopStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				disabled = !disabled;
+
+				if (disabled) {
+					stopStart.setText("Start");
+				} else {
+					stopStart.setText("Stop");
+				}
+			}
+		});
+		buttons.add(stopStart);
+
+		JButton clear = new JButton("Clear Log", null);
+		clear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				allTab.setText("");
+				errorTab.setText("");
+				warnTab.setText("");
+				infoTab.setText("");
+				logTab.setText("");
+			}
+		});
+		buttons.add(clear);
+
+		mainUiFrame.add(buttons, BorderLayout.SOUTH);
+		mainUiFrame.setMinimumSize(new Dimension(800, 400));
+
+		mainUiFrame.pack();
+		mainUiFrame.setSize(new Dimension(900, 900));
+	}
+
+	private static void networkLoop() {
+		while (true) {
+			try {
+				final DatagramSocket socket = new DatagramSocket(null);
+				socket.setReuseAddress(true);
+				socket.setBroadcast(true);
+				socket.bind(new InetSocketAddress(6666));
+
+				final DatagramPacket packet = new DatagramPacket(
+						new byte[1500], 1500);
+
+				while (true) {
+					socket.receive(packet);
+
+					if (!disabled) {
+						if (packet.getLength() > 1) {
+							final String str = new String(packet.getData(),
+									packet.getOffset(), packet.getLength());
+
+							Entry newMessage = new Entry(str);
+
+							// add to ui
+							String content = newMessage.getContent();
+							Color color = newMessage.getColor();
+							String level = newMessage.getLevel();
+
+							appendToPane(allTab, content, color);
+
+							if (level == "error") {
+								appendToPane(errorTab, content, color);
+							} else if (level == "info") {
+								appendToPane(infoTab, content, color);
+							} else if (level == "warning") {
+								appendToPane(warnTab, content, color);
+							} else if (level == "log") {
+								appendToPane(logTab, content, color);
+							}
+
+						}
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private static JTextPane createTab(String name, JTabbedPane parent) {
+		JTextPane display = new JTextPane();
+		display.setBackground(new Color(50, 50, 50));
+		display.setVisible(true);
+		display.setEditable(false);
+
+		JPanel tab = new JPanel(new BorderLayout());
+
+		JScrollPane scroll = new JScrollPane(display);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		// Add Textarea in to middle panel
+		tab.add(scroll, BorderLayout.CENTER);
+		parent.addTab(name, null, tab, null);
+
+		return display;
+	}
+}
