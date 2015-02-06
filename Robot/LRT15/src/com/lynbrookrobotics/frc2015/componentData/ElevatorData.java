@@ -3,76 +3,69 @@ package com.lynbrookrobotics.frc2015.componentData;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class ElevatorData extends ComponentData{
-
-	public int maxSPEED = 1;
-
-	public double speed = 0.0;
-
-	public static final int STAY = 1;
-	public static final int UP = 2;
-	public static final int DOWN= 3;
-	private int motion = 1;
-	public static double distance;
-	public int numberOfTotes;
-
-	public static final int GROUND = 0;
-	public final int TOTE1 = 12;
-	public final int TOTE2 = 24;
-	public final int TOTE3 = 36;
 	
-	
-	private int state = 1;
-	public static int desiredState;
+	private float speed;
+	private ControlMode controlMode;
 
-	public Ultrasonic ultrasonic;
+	private Setpoint setpoint;
+	
+	public enum ControlMode
+	{
+		MANUAL,
+		SETPOINT
+	}
+	
+	public enum Setpoint
+	{
+		GROUND,
+		TOTE_1,
+		TOTE_2,
+		TOTE_3,
+		TOTE_4
+	}
 
 	public ElevatorData() {
 		super("ElevatorData");
+		ResetCommands();
 	}
 	
-	public int getCurrentMotion(){
-		return motion; 
+	public static ElevatorData get()
+	{
+		return (ElevatorData)ComponentData.GetComponentData("ElevatorData");
 	}
-
-	public int setDesiredMotion(int i){
-		if(i == STAY || i == UP || i == DOWN){
-			motion = i;
-		}
-		return motion; 
-	}
-
-	public int getMaxSpeed(){
-		return maxSPEED;
-	}
-
-	public int setMaxSpeed(int desiredSpeed){
-		maxSPEED = desiredSpeed;
-		return maxSPEED;
+	
+	public void setSpeed(float desiredSpeed)
+	{
+		speed = desiredSpeed;
 	}
 
 	public double getSpeed(){
 		return speed;
 	}
 
-	public double setSpeed(double desiredSpeed){
-		speed = desiredSpeed;
-		return speed;
+	public Setpoint getDesiredSetpoint(){
+		return setpoint;
 	}
 
-	public int getDesiredState(){
-		return desiredState;
+	public void setSetpoint(Setpoint s)
+	{
+		setpoint = s;
+	}
+	
+	public ControlMode getControlMode() {
+		return controlMode;
 	}
 
-	public int setDesiredState(int i){
-		if(i == GROUND || i == TOTE1 || i == TOTE2 || i == TOTE3){
-			state = i;
-		}
-		return desiredState;
+	public void setControlMode(ControlMode control) {
+		this.controlMode = control;
 	}
 
 
 	@Override
 	protected void ResetCommands() {
+		controlMode = ControlMode.MANUAL;
+		speed = 0.0f;
+		setpoint = Setpoint.GROUND;
 
 	}
 

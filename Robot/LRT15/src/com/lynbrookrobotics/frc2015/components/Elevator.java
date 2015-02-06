@@ -3,65 +3,87 @@ import com.lynbrookrobotics.frc2015.actuators.LRTSpeedController;
 import com.lynbrookrobotics.frc2015.actuators.LRTTalon;
 import com.lynbrookrobotics.frc2015.componentData.ComponentData;
 import com.lynbrookrobotics.frc2015.componentData.ElevatorData;
+import com.lynbrookrobotics.frc2015.componentData.ElevatorData.ControlMode;
+import com.lynbrookrobotics.frc2015.componentData.ElevatorData.Setpoint;
+import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
+import com.lynbrookrobotics.frc2015.config.Configurable;
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
+import com.lynbrookrobotics.frc2015.control.PID;
+import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-public class Elevator extends Component {
+public class Elevator extends Component implements Configurable {
 
 	private ElevatorData elevatorData;
 
-	private boolean upButton;
-	private boolean downButton;
-	int CHANGEME = 99;
-	String changeString = "bob";
-	int CHANGEME1 = 42;
-	//LRTSpeedController motor;
-
-	public static double speed;
-	public static int setpoint;
-	public static double distance;
+	private int topLimit;
+	private int bottomLimit;
 	
+	private CANTalon motorA;
+	private CANTalon motorB;
+	
+	private AnalogInput elevatorPot;
+	
+	private int[] elevatorSetpoints;
+	
+	double Kp;
 
-	public Ultrasonic ultrasonic;
-	public LRTTalon motor;
-
-	public Elevator(String name, int driverStationDigitalIn) {
-		super(name, driverStationDigitalIn);
-		motor = new LRTTalon(CHANGEME, changeString, CHANGEME1);
-		ultrasonic = new Ultrasonic(null, null);
-		elevatorData = (ElevatorData) ComponentData.GetComponentData("ElevatorData");
+	public Elevator() {
+		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
+		
+		motorA = new CANTalon(
+				ConfigPortMappings.Instance().Get("CAN/ELEVATOR_MOTOR_A"));
+		motorB = new CANTalon(
+				ConfigPortMappings.Instance().Get("CAN/ELEVATOR_MOTOR_B"));
+		
+		elevatorPot = SensorFactory.GetAnalogInput(
+				ConfigPortMappings.Instance().Get("Analog/ELEVATOR_POT"));
+		
+		elevatorData = ElevatorData.get();
+		
+		Kp = 1.0;
+		
+		elevatorSetpoints = new int[]{10,20,30,40,50};
+		
+		ConfigRuntime.Register(this);
 	}
-
-
 
 	@Override
 	protected void UpdateEnabled() {
 
-		setpoint = elevatorData.getDesiredState();
-		//assuming we know the number of totes the robot is carrying
-		if(elevatorData.numberOfTotes==1) {
-			distance = ultrasonic.getRangeInches() + elevatorData.TOTE1 - setpoint;
-			speed = (distance * elevatorData.getMaxSpeed())/50; //velocity?
-			motor.SetDutyCycle(speed);
-		}
+		int curPos = elevatorPot.getAverageValue();
 		
-		else if(elevatorData.numberOfTotes==2) {
-			distance = ultrasonic.getRangeInches() + elevatorData.TOTE2 - setpoint;
-			speed = (distance * elevatorData.getMaxSpeed())/50;
-			motor.SetDutyCycle(speed);
+		if(curPos >= topLimit || curPos <= bottomLimit)
+		{
+			System.out.println("[WARNING] Elevator in invalid state! Disable and fix");
+			motorA.set(0.0);
+			motorB.set(0.0);
+			return;
 		}
-		
-		else if(elevatorData.numberOfTotes==3) {
-			distance = ultrasonic.getRangeInches() + elevatorData.TOTE3 - setpoint;
-			speed = (distance * elevatorData.getMaxSpeed())/50;
-			motor.SetDutyCycle(speed);
+		if(elevatorData.getControlMode() == ControlMode.MANUAL)
+		{
+			motorA.set(elevatorData.getSpeed());
+			motorB.set(elevatorData.getSpeed());
+		}
+		else
+		{
+			float posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - curPos;
+			double speed = posErr * Kp;
+			motorA.set(speed);
+			motorB.set(speed);
 		}
 	
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		motor.SetDutyCycle(0.0);
+		motorA.set(0.0);
+		motorB.set(0.0);
 	}
 
 	@Override
@@ -74,6 +96,16 @@ public class Elevator extends Component {
 		/*
 		 * Reset robot elevator to normal height
 		 */
+	}
+
+
+
+	@Override
+	public void Configure() {
+		GetConfig("topLimit", 100);
+		GetConfig("bottomLimit", 10);
+		
+		GetConfig("Kp", 1.0);
 	}
 
 
