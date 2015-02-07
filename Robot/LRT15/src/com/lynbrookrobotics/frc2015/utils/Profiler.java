@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.frc2015.utils;
 
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,23 +23,24 @@ import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
  * 		}
  * 		
  * 		public static void main(String[] args) {
- * 			Profiler.time(Void -> someClass.someMethod(1, 2), "id1");
+ * 			Profiler.time(Void -> someClass.someMethod(1, 2), "id1"); Lambda syntax
  *			Profiler.time(Void -> someClass.someVoidMethod(), "id2");
  *			
- *			Profiler.show("id1");
- *			Profiler.show("id2");
+ *			Profiler.show("id1"); Show individual profiled method
+ *			Profiler.show(); Show all profiled methods
+ *			Profiler.clear(); Clear entries in profiler
  * 		}
  * }
  */
 
 public class Profiler {
-	private Profiler() {
-	};
+	private Profiler()
+	{}
 
 	static private final String tab = "\t";
 
-	private static ConcurrentHashMap<String, Float> threadData = new ConcurrentHashMap<String, Float>(); // eternal
-																											// shame
+	private static ConcurrentHashMap<String, Float> profilingData = new ConcurrentHashMap<String, Float>();
+
 	private static void log(String msg) {
 		AsyncPrinter.println(msg.toString());
 	}
@@ -48,13 +50,28 @@ public class Profiler {
 		aFunction.accept(null);
 		long endTime = System.nanoTime();
 
-		threadData.put(methodName, (float) (endTime - startTime) / 1000000);
+		profilingData.put(methodName, (float) (endTime - startTime) * 1000000);
 	}
 
 	public static void show(String methodName) {
 		log("Profiler output:");
 
 		log(tab + "Method name: " + methodName);
-		log(tab + "Time taken: " + threadData.get(methodName) + "ms");
+		log(tab + "Time taken: " + profilingData.get(methodName) + "ms");
+	}
+	
+	public static void show()
+	{
+		log("Profiler output:");
+		for(Map.Entry<String, Float> e: profilingData.entrySet())
+		{
+			log(tab + "Method name: " + e.getKey());
+			log(tab + "Time taken: " + e.getValue() + " ms");
+		}
+	}
+	
+	public static void clear()
+	{
+		profilingData.clear();
 	}
 }

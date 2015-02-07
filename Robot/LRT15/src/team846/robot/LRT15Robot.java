@@ -32,10 +32,10 @@ public class LRT15Robot extends LRTRobotBase
 		AsyncPrinter.info("Initialized DriverStation Manager...");
 		
 		ConfigPortMappings.Instance().Load();
-		AsyncPrinter.info("Loaded port mappings...");
+		AsyncPrinter.info("Loaded Port Mappings...");
 		
 		ConfigRuntime.Initialize();
-		AsyncPrinter.info("Loaded config runtime...");
+		AsyncPrinter.info("Loaded Config Runtime...");
 		
 		ComponentData.createComponentDatas();
 		AsyncPrinter.info("Created ComponentDatas...");
@@ -43,22 +43,24 @@ public class LRT15Robot extends LRTRobotBase
 		Component.CreateComponents();
 		AsyncPrinter.info("Created Components...");
 		
-		AsyncPrinter.info("Starting main loop at " + RobotConfig.LOOP_RATE + " hz");
+		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 //
-//		Brain.Initialize();
+		Brain.Initialize();
+		AsyncPrinter.info("Initialized Brain...");
 //
 //		Pneumatics.CreateCompressor();
 //
-//		SensorFactory.Initialize();
+		SensorFactory.Initialize();
+		AsyncPrinter.info("Initialized Sensor Factory...");
 	}
 
 	public void Tick() {
 		Profiler.time(Void->RobotState.Instance().Update(), "RobotState.Update");
 
 		Profiler.time(Void->LRTDriverStation.Update(), "LRTDriverStation.Update");
-//
-//		Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
-//
+
+		Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
+
 		Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
 //
 //		Profiler.time(Void->Actuator.OutputAll(), "Actuator.OutputAll");
