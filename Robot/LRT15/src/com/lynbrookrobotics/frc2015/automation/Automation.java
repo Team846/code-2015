@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lynbrookrobotics.frc2015.events.Event;
+
 public abstract class Automation {
 	public static ArrayList<Automation> automation_vector = new ArrayList<>();
 	static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
@@ -20,6 +22,12 @@ public abstract class Automation {
 	
 	String name;
 	
+	public Automation(String name)
+	{
+		this(name, false, false, false);
+	}
+	
+	//TODO: implement automation options instead of sequence of booleans
 	public Automation(String name, boolean requiresAbortCycles, boolean queueIfBlocked, boolean restartable)
 	{
 		startEvent = null;

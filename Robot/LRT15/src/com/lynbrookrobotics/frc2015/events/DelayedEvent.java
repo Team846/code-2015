@@ -1,6 +1,6 @@
-package com.lynbrookrobotics.frc2015.automation;
+package com.lynbrookrobotics.frc2015.events;
 
-import com.lynbrookrobotics.frc2015.automation.Event;
+import com.lynbrookrobotics.frc2015.events.Event;
 
 public class DelayedEvent extends Event {
 	Event m_event;

@@ -1,6 +1,9 @@
-package com.lynbrookrobotics.frc2015.automation;
+package com.lynbrookrobotics.frc2015.inputProcessors;
 
 import java.util.ArrayList;
+
+import com.lynbrookrobotics.frc2015.automation.Automation;
+import com.lynbrookrobotics.frc2015.automation.ControlResource;
 
 public abstract class InputProcessor {
 	

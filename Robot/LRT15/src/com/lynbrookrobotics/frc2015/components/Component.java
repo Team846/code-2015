@@ -2,6 +2,8 @@ package com.lynbrookrobotics.frc2015.components;
 
 import java.util.ArrayList;
 
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
+import com.lynbrookrobotics.frc2015.config.RobotConfig;
 import com.lynbrookrobotics.frc2015.driverstation.GameState;
 
 import team846.robot.RobotState;
@@ -36,6 +38,7 @@ public abstract class Component
 	
 	public static void CreateComponents()
 	{
+		component_list.add(new Drivetrain());
 	}
 	
 
@@ -51,7 +54,7 @@ public abstract class Component
 	{
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{
-			if (true/*digitalIn == -1 || DriverStation.getInstance().getDigitalIn(digitalIn)*/) //TODO: find digital in replacement
+			if (digitalIn == DriverStationConfig.DigitalIns.NO_DS_DI /*|| DriverStation.getInstance().getDigitalIn(digitalIn)*/) //TODO: find digital in replacement
 			{
 				if (!lastEnabled)
 					OnEnabled();

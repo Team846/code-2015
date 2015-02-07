@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 
+import com.lynbrookrobotics.frc2015.events.Event;
+import com.lynbrookrobotics.frc2015.inputProcessors.InputProcessor;
 import com.lynbrookrobotics.frc2015.utils.Pair;
 
 public class Brain 

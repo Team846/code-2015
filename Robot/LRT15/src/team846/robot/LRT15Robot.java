@@ -7,9 +7,11 @@ import com.lynbrookrobotics.frc2015.componentData.ComponentData;
 import com.lynbrookrobotics.frc2015.components.Component;
 import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
 import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
+import com.lynbrookrobotics.frc2015.config.RobotConfig;
 import com.lynbrookrobotics.frc2015.dashboard.DashboardLogger;
 import com.lynbrookrobotics.frc2015.driverstation.GameState;
 import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
 
 //import dashboard.DashboardLogger;
@@ -20,15 +22,28 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void RobotInit() 
 	{
+		AsyncPrinter.Initialize();
+		AsyncPrinter.info("Initialized Asynchronous Logging...");
+		
 		RobotState.Initialize();
+		AsyncPrinter.info("Initialized RobotState...+");
 
 		LRTDriverStation.Initialize();
+		AsyncPrinter.info("Initialized DriverStation Manager...");
 		
 		ConfigPortMappings.Instance().Load();
+		AsyncPrinter.info("Loaded port mappings...");
+		
 		ConfigRuntime.Initialize();
-
+		AsyncPrinter.info("Loaded config runtime...");
+		
 		ComponentData.createComponentDatas();
+		AsyncPrinter.info("Created ComponentDatas...");
+		
 		Component.CreateComponents();
+		AsyncPrinter.info("Created Components...");
+		
+		AsyncPrinter.info("Starting main loop at " + RobotConfig.LOOP_RATE + " hz");
 //
 //		Brain.Initialize();
 //
@@ -44,7 +59,7 @@ public class LRT15Robot extends LRTRobotBase
 //
 //		Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
 //
-//		Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
+		Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
 //
 //		Profiler.time(Void->Actuator.OutputAll(), "Actuator.OutputAll");
 //

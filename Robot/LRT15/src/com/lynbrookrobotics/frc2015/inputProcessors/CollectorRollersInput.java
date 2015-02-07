@@ -1,4 +1,4 @@
-package com.lynbrookrobotics.frc2015.automation;
+package com.lynbrookrobotics.frc2015.inputProcessors;
 
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData;
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData.Direction;
@@ -19,6 +19,7 @@ public class CollectorRollersInput extends InputProcessor
 
 	@Override
 	public void Update() {
+		
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
 		{
 			collectorRollers.setRunning(true);

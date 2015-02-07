@@ -1,8 +1,8 @@
-package com.lynbrookrobotics.frc2015.automation;
+package com.lynbrookrobotics.frc2015.events;
 
-import com.lynbrookrobotics.frc2015.automation.DelayedEvent;
-import com.lynbrookrobotics.frc2015.automation.JoystickPressedEvent;
 import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
+import com.lynbrookrobotics.frc2015.events.DelayedEvent;
+import com.lynbrookrobotics.frc2015.events.JoystickPressedEvent;
 
 public class JoystickHeldEvent extends DelayedEvent {
 	LRTJoystick m_joystick;

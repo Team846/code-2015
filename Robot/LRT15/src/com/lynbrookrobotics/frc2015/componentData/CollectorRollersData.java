@@ -61,6 +61,8 @@ public class CollectorRollersData extends ComponentData
 	@Override
 	protected void ResetCommands()
 	{
+		running = false;
+		speed = 0.0;
 
 	}
 }

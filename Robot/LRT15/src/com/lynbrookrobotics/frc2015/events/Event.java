@@ -1,5 +1,7 @@
-package com.lynbrookrobotics.frc2015.automation;
+package com.lynbrookrobotics.frc2015.events;
 import java.util.ArrayList;
+
+import com.lynbrookrobotics.frc2015.automation.Automation;
 
 
 public abstract class Event 
