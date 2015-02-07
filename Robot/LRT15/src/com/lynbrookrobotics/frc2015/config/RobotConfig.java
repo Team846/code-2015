@@ -4,8 +4,8 @@ public class RobotConfig {
 	public static final int LOOP_RATE = 50; //hertz
 	public static final int LOOP_PERIOD = (int)((1.0/LOOP_RATE) * 100);
 	public static final double ROBOT_WIDTH = 26.574;
-	public static final String CONFIG_FILE_PATH = "/LRT14.conf";
-	public static final String PORT_MAPPINGS_FILE_PATH = "/PortMappings.conf";
+	public static final String CONFIG_FILE_PATH = "/home/lvuser/configuration/config/LRT15.txt";
+	public static final String PORT_MAPPINGS_FILE_PATH = "/home/lvuser/configuration/config/ConfigPortMappings.txt";
 	public static final String ROUTINE_FILE_PATH = "/Autonomous.routine";
 	public static final String LOG_FILE_PATH = "/log.bin";
 	public static final String PRINT_FILE_PATH = "/stdout.out";

@@ -1,5 +1,7 @@
 package com.lynbrookrobotics.frc2015.driverstation;
 
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 public class LRTJoystick extends Joystick {
@@ -19,20 +21,20 @@ public class LRTJoystick extends Joystick {
 		super(port);
 		num_buttons = nBtns;
 		num_axes = nAxes;
-		//indices are 0-based for roboRIO- MV
-		wasPressed = new boolean[nBtns];
-        isPressed = new boolean[nBtns];
-		axisPrevValue = new double[nAxes];
-		axisValue = new double[nAxes]; 
+		//axis indices are 0-based - MV
+		wasPressed = new boolean[nBtns + 1];
+        isPressed = new boolean[nBtns + 1];
+		axisPrevValue = new double[nAxes ];
+		axisValue = new double[nAxes ]; 
 		this.port = port;
         Init();
 	}
 	
 	public boolean ButtonInBounds(int button)
 	{
-		if(button < 0 || button > num_buttons -1 )
+		if(button < 1 || button > num_buttons  )
 		{
-			System.out.println("[!]DebouncedJoystick: Button " + button + " out of bounds!");
+			AsyncPrinter.warn("DebouncedJoystick: Button " + button + " out of bounds!");
 			return false;
 		}
 		return true;
@@ -40,9 +42,9 @@ public class LRTJoystick extends Joystick {
 	
 	public boolean AxisInBounds(int axis)
 	{
-		if (axis < 0 || axis > num_axes - 1)
+		if (axis < 0|| axis > num_axes - 1)
 		{
-			System.out.println("[!]DebouncedJoystick: Axis "+ axis +" out of bounds!\n");
+			AsyncPrinter.warn("DebouncedJoystick: Axis "+ axis +" out of bounds!\n");
 			return false;
 		}
 		return true;
@@ -50,7 +52,7 @@ public class LRTJoystick extends Joystick {
 	
 	public void Init()
 	{
-		 for (int i = 0; i < num_buttons; ++i)
+		 for (int i = 1; i < num_buttons + 1; ++i)
          {
 			 wasPressed[i] = isPressed[i] = false;
          }
@@ -63,13 +65,13 @@ public class LRTJoystick extends Joystick {
 	
 	public void Update()
 	{
-		for (int i = 0; i < num_buttons; ++i)
+		for (int i = 1; i < num_buttons + 1; ++i)
 		{
 			wasPressed[i] = isPressed[i];
-			isPressed[i] = getRawButton(i);
+			//isPressed[i] = getRawButton(i);
 		}
 
-		for (int i = 0; i < num_axes; ++i)
+		for (int i = 0; i < num_axes ; ++i)
 		{
 			axisPrevValue[i] = axisValue[i];
 			axisValue[i] = getRawAxis(i);

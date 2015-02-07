@@ -16,7 +16,7 @@ public class ConfigPortMappings
 	
 	static private ConfigPortMappings instance = null;
 
-	final static private String CONFIG_FILE_PATH = RobotConfig.CONFIG_FILE_PATH;
+	final static private String CONFIG_FILE_PATH = RobotConfig.PORT_MAPPINGS_FILE_PATH;
 	final static private String COMMENT_DELIMITERS = "#;";
 	
 	public static ConfigPortMappings Instance()

@@ -5,19 +5,19 @@ public class DriverStationConfig {
 	public class JoystickConfig
 	{
 		public static final int NUM_JOYSTICK_BUTTONS = 12;// Max supported by the driver station
-		public static final int NUM_JOYSTICK_AXES = 6;
+		public static final int NUM_JOYSTICK_AXES = 3; //Doesnt recognize slider
 		public static final int NUM_WHEEL_BUTTONS = 11;
 		public static final int NUM_WHEEL_AXES = 3;
 		
-		public static final int DRIVER_STICK_PORT = 1;
-		public static final int OPERATOR_STICK_PORT = 2;
-		public static final int DRIVER_WHEEL_PORT = 3;
+		public static final int DRIVER_STICK_PORT = 0;
+		public static final int OPERATOR_STICK_PORT = 1;
+		public static final int DRIVER_WHEEL_PORT = 2;
 	}
 	
 	public class JoystickButtons
 	{
 		// Driver Joystick
-		public static final int COLLECT = 0;
+		public static final int COLLECT = 1;
 		public static final int TURN_90 = 1;
 		public static final int TURN_180 = 2;
 		// Operator Joystick

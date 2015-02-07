@@ -32,7 +32,6 @@ public class Drivetrain extends Component{
 		stick = LRTDriverStation.Instance().GetDriverStick();
 		
 		testDrive = new RobotDrive(kFrontLeft_val, kRearLeft_val, kFrontRight_val, kRearRight_val);
-		AsyncPrinter.info("Test Drivetrain Constructed");
 	} 
 	
 	private static double limit(double limiter)

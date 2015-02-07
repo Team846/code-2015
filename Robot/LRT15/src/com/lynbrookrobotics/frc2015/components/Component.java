@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.config.RobotConfig;
 import com.lynbrookrobotics.frc2015.driverstation.GameState;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 
 import team846.robot.RobotState;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,7 +34,7 @@ public abstract class Component
 		this.name = name;
 		digitalIn = driverStationDigitalIn;
 		lastEnabled = false;
-		System.out.println("Created component: " + name);
+		AsyncPrinter.println("Created component: " + name);
 	}
 	
 	public static void CreateComponents()

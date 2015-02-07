@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class AsyncPrinter
 {
-	private static long kSleepPeriod = 100;
+	private static long kSleepPeriod = 100; //ms
 	private static AsyncPrinter instance = null;
 	
 	private static Queue<String> toLog = new ConcurrentLinkedQueue<String>();
@@ -53,6 +53,7 @@ public class AsyncPrinter
 				for (String msg : toLog) {
 					System.out.println(msg);
 				}
+				toLog.clear();
 				
 				//System.out.println("Log flush took: " + (System.nanoTime() - startTime));
 				
