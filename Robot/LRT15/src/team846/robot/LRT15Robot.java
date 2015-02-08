@@ -42,9 +42,7 @@ public class LRT15Robot extends LRTRobotBase
 		
 		Component.CreateComponents();
 		AsyncPrinter.info("Created Components...");
-		
-		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
-//
+
 		Brain.Initialize();
 		AsyncPrinter.info("Initialized Brain...");
 //
@@ -52,6 +50,8 @@ public class LRT15Robot extends LRTRobotBase
 //
 		SensorFactory.Initialize();
 		AsyncPrinter.info("Initialized Sensor Factory...");
+		
+		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 	}
 
 	public void Tick() {

@@ -5,6 +5,7 @@ import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import com.lynbrookrobotics.frc2015.config.RobotConfig;
+import com.lynbrookrobotics.frc2015.utils.Profiler;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -12,7 +13,6 @@ public abstract class LRTRobotBase extends RobotBase
 {
 	protected Timer loopSynchronizer;
 	protected TimerTask loopGrabber = new TimerTask() {
-		
 		@Override
 		public void run() {
 			
@@ -49,7 +49,11 @@ public abstract class LRTRobotBase extends RobotBase
 			Tick();
 			long delta = System.currentTimeMillis() - prevTime;
 			if(delta > RobotConfig.LOOP_PERIOD)
+			{
 				System.out.println("[WARNING] Loop time exceeded " + RobotConfig.LOOP_PERIOD + "ms");
+				Profiler.show();
+				Profiler.clear();
+			}
 		}
 	}
 

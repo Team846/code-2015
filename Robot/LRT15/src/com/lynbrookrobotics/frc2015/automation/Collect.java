@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Collect extends Automation
 {
-	int CHANGEME = 0;
 	
 	private DigitalInput proximitySensor;
 	
@@ -21,6 +20,7 @@ public class Collect extends Automation
 	public Collect()
 	{
 		super("Collect", false, false, true);
+		
 		proximitySensor = SensorFactory.GetDigitalInput(
 				ConfigPortMappings.Instance().Get("Digital/COLLECTOR_PROX"));
 	}

@@ -7,5 +7,4 @@ public class MathUtils
 	    else if(val.compareTo(max) > 0) return max;
 	    else return val;
 	}
-
 }

@@ -7,7 +7,9 @@ import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
 import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
 import com.lynbrookrobotics.frc2015.config.Configurable;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
+import com.lynbrookrobotics.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -50,21 +52,28 @@ public class CarriageExtender extends Component implements Configurable
 		if(position <= retractLimit || position >= extendLimit)
 		{
 			motor.set(0.0);
-			System.out.println("[ERROR] Carriage out of bounds! Disable and fix");
+			AsyncPrinter.error("Carriage out of bounds! Disable and fix");
 			return;
 		}
 		
 		if(extenderData.getControlMode() == ControlMode.AUTOMATED)
 		{
-			if(extenderData.getSetpoint() == Setpoint.RETRACT)
+			if(extenderData.getAutomatedSetpoint() == Setpoint.RETRACT)
 				motor.set((retractSetpoint - position) * positionGain);
 			else
 				motor.set((extendSetpoint - position) * positionGain);
 		}
 			
-		else //Manual mode
-			motor.set(extenderData.getCarriageSpeed());
+		else if(extenderData.getControlMode() == ControlMode.MANUAL_POSITION)//Manual mode
+		{
 			
+			int desiredPos = (int) Rescale(extenderData.getDesiredPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+			motor.set((desiredPos - position)*positionGain);
+		}
+		else
+			motor.set(extenderData.getSpeed()); //open loop velocity
+		
+		extenderData.setCurrentPosition(Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
 		
 	}
 
@@ -93,6 +102,15 @@ public class CarriageExtender extends Component implements Configurable
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		
+	}
+	
+	//TODO: put into math util
+	private static float Rescale(float val, float min0, float max0, float min1, float max1)
+	{
+		if (max0 == min0)
+			return min1;
+		val = MathUtils.clamp(val, min0, max0);
+		return (val - min0) * (max1 - min1) / (max0 - min0) + min1;
 	}
 
 }

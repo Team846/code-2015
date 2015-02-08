@@ -45,7 +45,7 @@ public class ConfigRuntime
 	public void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
-		System.out.println("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
+		AsyncPrinter.println("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
 		ConfigureAll();
 	}
 	
@@ -63,6 +63,7 @@ public class ConfigRuntime
 		}
 		else
 		{
+			AsyncPrinter.warn("Cannnot find, setting default value in file");
 			Set(section, key, defaultValue);
 			return defaultValue;
 		}
@@ -109,7 +110,7 @@ public class ConfigRuntime
 		File configFileHandle  = new File(path);
 		if(!configFileHandle.exists())
 		{
-			System.out.println("[ERROR] Invalid Path for Config File!");
+			AsyncPrinter.error("Invalid Path for Config File at " + path);
 			return;
 		}
 		try 
@@ -130,7 +131,7 @@ public class ConfigRuntime
 			
 			e.printStackTrace();
 		}	
-		System.out.println("Done saving " + path);
+		AsyncPrinter.println("Done saving " + path);
 	}
 
 }

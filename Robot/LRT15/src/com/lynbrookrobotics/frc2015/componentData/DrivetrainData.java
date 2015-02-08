@@ -4,25 +4,33 @@ import com.lynbrookrobotics.frc2015.sensors.LRTGyro;
 
 public class DrivetrainData extends ComponentData
 {
-	public static final int VELOCITY_X = 0;
-	public static final int VELOCITY_Y = 1;
-	public static final int VELOCITY_ROTATION = 2;
-	
-	public static final int CHANGEME = 42;
-	
-	LRTGyro gyro = new LRTGyro(CHANGEME);
+	public static final int FORWARD = 0;
+	public static final int STRAFE = 1;
+	public static final int TURN = 2;
 
 	private double[] desiredRates = new double[3];
 	private double[] desiredOpenLoopOutputs = new double[3];
 	private boolean[] resetPositionSetpoint = new boolean[3];
+	
+	boolean fieldCentric;
 
-	// private double[] positionSetpoints = new double[3];
-	// private double[] maxSpeeds = new double[3];
+	 private double[] positionSetpoints = new double[3];
+	 private double[] maxSpeeds = new double[3];
 
 	public DrivetrainData()
 	{
 		super("DrivetrainData");
 		ResetCommands();
+	}
+	
+	public void setFieldCentric(boolean state)
+	{
+		fieldCentric = state;
+	}
+	
+	public boolean getFieldCentric()
+	{
+		return fieldCentric;
 	}
 
 	public double getVelocity(int type)
@@ -71,29 +79,17 @@ public class DrivetrainData extends ComponentData
 	@Override
 	protected void ResetCommands()
 	{
-		int[] types = { VELOCITY_X, VELOCITY_Y, VELOCITY_ROTATION };
+		int[] types = { FORWARD, STRAFE, TURN };
 		for (int type : types)
 		{
 			desiredRates[type] = 0;
 			desiredOpenLoopOutputs[type] = 0;
 			resetPositionSetpoint[type] = true;
-			// positionSetpoints[type] = 0;
-			// maxSpeeds[type] = 0;
+			positionSetpoints[type] = 0;
+			maxSpeeds[type] = 0;
 		}
+		fieldCentric = true;
 	}
 	
-	//going forwards in respect to the field regardless of robot's
-	protected void universalForward(){
-		
-		double dirInRad = gyro.getAngle() * Math.PI / 180.0;
-	
-		double desiredYVelocity;
-		double desiredXVelocity;
-		
-		double compAngle = (Math.PI / 2) - dirInRad;
-		
-		desiredYVelocity = Math.sin(compAngle);
-		desiredYVelocity = Math.cos(compAngle);
-	}
 	
 }
