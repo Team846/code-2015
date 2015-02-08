@@ -20,7 +20,7 @@ public class LogView {
 	static JTextPane warnTab;
 	static JTextPane infoTab;
 	static JTextPane logTab;
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -29,7 +29,7 @@ public class LogView {
 	}
 
 	private static void appendToPane(JTextPane tp, String msg, Color c) {
-		tp.setEditable(true); // set textArea non-editable
+		tp.setEditable(true); // set textArea editable
 
 		StyleContext sc = StyleContext.getDefaultStyleContext();
 		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
@@ -46,6 +46,22 @@ public class LogView {
 		tp.replaceSelection(msg + "\n");
 
 		tp.setEditable(false); // set textArea non-editable
+
+		// check log length and trim if necessary
+		int lineCount = tp.getText().split("\n").length;
+
+		try {
+			Element root = tp.getDocument().getDefaultRootElement();
+			Element first = root.getElement(0);
+
+			if (lineCount > 142.0) {
+				tp.getDocument().remove(first.getStartOffset(),
+						first.getEndOffset());
+			}
+
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void UiInit() {
@@ -82,6 +98,8 @@ public class LogView {
 				} else {
 					stopStart.setText("Stop");
 				}
+
+				tabPanel.requestFocus();
 			}
 		});
 		buttons.add(stopStart);
@@ -94,6 +112,8 @@ public class LogView {
 				warnTab.setText("");
 				infoTab.setText("");
 				logTab.setText("");
+
+				tabPanel.requestFocus();
 			}
 		});
 		buttons.add(clear);
@@ -119,10 +139,11 @@ public class LogView {
 				while (true) {
 					socket.receive(packet);
 
+					final String str = new String(packet.getData(),
+							packet.getOffset(), packet.getLength());
+
 					if (!disabled) {
-						if (packet.getLength() > 1) {
-							final String str = new String(packet.getData(),
-									packet.getOffset(), packet.getLength());
+						if (packet.getLength() > 1 && str.trim().length() > 0) {
 
 							Entry newMessage = new Entry(str);
 
@@ -151,7 +172,7 @@ public class LogView {
 			}
 		}
 	}
-	
+
 	private static JTextPane createTab(String name, JTabbedPane parent) {
 		JTextPane display = new JTextPane();
 		display.setBackground(new Color(50, 50, 50));
