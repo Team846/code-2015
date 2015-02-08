@@ -6,11 +6,7 @@ public class Entry {
 	private Color color;
 	
 	private boolean isType(String type, String str) {
-		if (str.length() < 10) {
-			return false;
-		}
-		
-		return str.substring(0, 10).contains(type.toUpperCase());
+		return str.startsWith("[" + type.toUpperCase() + "]");
 	}
 	
 	Entry (String message) {

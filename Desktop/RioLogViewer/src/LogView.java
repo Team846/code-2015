@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,11 +21,20 @@ public class LogView {
 	static JTextPane warnTab;
 	static JTextPane infoTab;
 	static JTextPane logTab;
+	
+	static boolean cmdMode = false; 
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		UiInit();
+		cmdMode = args.length > 0 && args[0].equals("-cmd");
+		
+		System.out.println(cmdMode);
+		
+		if (!cmdMode) {
+			UiInit();
+		}
+		
 		networkLoop();
 	}
 
@@ -125,9 +135,22 @@ public class LogView {
 		mainUiFrame.setSize(new Dimension(900, 900));
 	}
 
+	private static void printCmd(Entry msg) {
+		String text = msg.getContent().trim();
+		String ANSI_RESET = "\u001B[m";
+		switch (msg.getLevel())
+		{
+			case "error": System.out.println("\u001B[31m" + text + ANSI_RESET); break;
+			case "info": System.out.println("\u001B[32m" + text + ANSI_RESET); break;
+			case "warning": System.out.println("\u001B[33m" + text + ANSI_RESET); break;
+			case "log": System.out.println(text + ANSI_RESET); break;
+		}
+	}
+	
 	private static void networkLoop() {
 		while (true) {
 			try {
+				printCmd(new Entry("[INFO] Connecting to robot log stream"));
 				final DatagramSocket socket = new DatagramSocket(null);
 				socket.setReuseAddress(true);
 				socket.setBroadcast(true);
@@ -143,27 +166,33 @@ public class LogView {
 							packet.getOffset(), packet.getLength());
 
 					if (!disabled) {
-						if (packet.getLength() > 1 && str.trim().length() > 0) {
-
-							Entry newMessage = new Entry(str);
-
-							// add to ui
-							String content = newMessage.getContent();
-							Color color = newMessage.getColor();
-							String level = newMessage.getLevel();
-
-							appendToPane(allTab, content, color);
-
-							if (level == "error") {
-								appendToPane(errorTab, content, color);
-							} else if (level == "info") {
-								appendToPane(infoTab, content, color);
-							} else if (level == "warning") {
-								appendToPane(warnTab, content, color);
-							} else if (level == "log") {
-								appendToPane(logTab, content, color);
+						if (packet.getLength() > 1) {
+							for (String message: str.split("\n")) {
+								if (message.trim().length() > 0) {
+									Entry newMessage = new Entry(message);
+									
+									if (cmdMode) {
+										printCmd(newMessage);
+									} else {
+										// add to ui
+										String content = newMessage.getContent();
+										Color color = newMessage.getColor();
+										String level = newMessage.getLevel();
+	
+										appendToPane(allTab, content, color);
+	
+										if (level == "error") {
+											appendToPane(errorTab, content, color);
+										} else if (level == "info") {
+											appendToPane(infoTab, content, color);
+										} else if (level == "warning") {
+											appendToPane(warnTab, content, color);
+										} else if (level == "log") {
+											appendToPane(logTab, content, color);
+										}
+									}
+								}
 							}
-
 						}
 					}
 				}
