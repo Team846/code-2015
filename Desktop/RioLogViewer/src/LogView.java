@@ -43,7 +43,7 @@ public class LogView {
 		int len = tp.getDocument().getLength();
 		tp.setCaretPosition(len);
 		tp.setCharacterAttributes(aset, false);
-		tp.replaceSelection(msg + "\n");
+		tp.replaceSelection(msg.trim() + "\n");
 
 		tp.setEditable(false); // set textArea non-editable
 
