@@ -10,6 +10,7 @@ import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
 import com.lynbrookrobotics.frc2015.config.Configurable;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.control.PID;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 import com.lynbrookrobotics.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -60,12 +61,12 @@ public class Elevator extends Component implements Configurable {
 		
 		if(curPos >= topLimit || curPos <= bottomLimit)
 		{
-			System.out.println("[WARNING] Elevator in invalid state! Disable and fix");
+			AsyncPrinter.error("Elevator in invalid state! Disable and fix");
 			motorA.set(0.0);
 			motorB.set(0.0);
 			return;
 		}
-		if(elevatorData.getControlMode() == ControlMode.MANUAL)
+		if(elevatorData.getControlMode() == ControlMode.MANUAL_POSITION)
 		{
 			motorA.set(elevatorData.getSpeed());
 			motorB.set(elevatorData.getSpeed());
@@ -97,8 +98,6 @@ public class Elevator extends Component implements Configurable {
 		 * Reset robot elevator to normal height
 		 */
 	}
-
-
 
 	@Override
 	public void Configure() {

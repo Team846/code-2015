@@ -50,7 +50,7 @@ public class Profiler {
 		aFunction.accept(null);
 		long endTime = System.nanoTime();
 
-		profilingData.put(methodName, (float) (endTime - startTime) * 1000000);
+		profilingData.put(methodName, (float) (endTime - startTime) / 1000000);
 	}
 
 	public static void show(String methodName) {
