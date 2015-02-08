@@ -27,19 +27,18 @@ public class ExtendCarriage extends Automation {
 
 	@Override
 	protected boolean Start() {
-		extenderData.setDesiredPositionSetpoint(carriagePosition);
 		return true;
 	}
 
 	@Override
 	protected boolean Abort() {
-		
 		return true;
 	}
 
 	@Override
 	protected boolean Run() {
-		float error = Math.abs(carriagePosition - extenderData.getCurrentPosition());
+		extenderData.setDesiredPositionSetpoint(carriagePosition);
+		double error = Math.abs(carriagePosition - extenderData.getCurrentPosition());
 		return error < errorThreshold;
 	}
 

@@ -8,14 +8,14 @@ public class CarriageExtenderData extends ComponentData
 	private double maxSpeed;
 	private double speed;
 	
-	private float desiredCarriagePosition;
-	private float currentPosition;
+	private double desiredCarriagePosition;
+	private double currentPosition;
 	
 	public enum ControlMode
 	{
-		AUTOMATED,
-		MANUAL_VELOCITY,
-		MANUAL_POSITION
+		SETPOINT,
+		VELOCITY,
+		POSITION
 	}
 	
 	public enum Setpoint
@@ -75,31 +75,31 @@ public class CarriageExtenderData extends ComponentData
 		return setpoint;
 	}
 
-	public void setDesiredPositionSetpoint(float carriagePosition)
+	public void setDesiredPositionSetpoint(double pos)
 	{
-		this.desiredCarriagePosition = carriagePosition;	
+		this.desiredCarriagePosition = pos;	
 	}
 	
-	public float getDesiredPositionSetpoint()
+	public double getDesiredPositionSetpoint()
 	{
 		return desiredCarriagePosition;
 	}
 	
-	public float getCurrentPosition()
+	public double getCurrentPosition()
 	{
 		return currentPosition;
 	}
 	
-	public void setCurrentPosition(float pos)
+	public void setCurrentPosition(double d)
 	{
-		currentPosition = pos;
+		currentPosition = d;
 	}
 	
 	@Override
 	protected void ResetCommands() 
 	{
 		speed = 0.0;
-		control = ControlMode.MANUAL_VELOCITY;
+		control = ControlMode.VELOCITY;
 		setpoint = Setpoint.RETRACT;
 	}
 

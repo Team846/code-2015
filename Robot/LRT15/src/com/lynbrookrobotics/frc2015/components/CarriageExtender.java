@@ -23,8 +23,8 @@ public class CarriageExtender extends Component implements Configurable
 	private int retractSetpoint;
 	private int extendSetpoint;
 	
-	private int retractLimit;
-	private int extendLimit;
+	private int retractSoftLimit;
+	private int extendSoftLimit;
 	
 	private double positionGain;
 	
@@ -39,7 +39,7 @@ public class CarriageExtender extends Component implements Configurable
 		
 		motor = new CANTalon(ConfigPortMappings.Instance().Get("CAN/CARRIAGE"));
 		
-		positionGain = retractSetpoint = extendSetpoint = retractLimit = extendLimit = 0;
+		positionGain = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit = 0;
 		
 		extenderData = CarriageExtenderData.get();	
 		ConfigRuntime.Register(this);
@@ -49,14 +49,15 @@ public class CarriageExtender extends Component implements Configurable
 	protected void UpdateEnabled() 
 	{
 		int position = carriagePot.getAverageValue();
-		if(position <= retractLimit || position >= extendLimit)
+		
+		if(position <= retractSoftLimit || position >= extendSoftLimit)
 		{
 			motor.set(0.0);
 			AsyncPrinter.error("Carriage out of bounds! Disable and fix");
 			return;
 		}
 		
-		if(extenderData.getControlMode() == ControlMode.AUTOMATED)
+		if(extenderData.getControlMode() == ControlMode.SETPOINT)
 		{
 			if(extenderData.getAutomatedSetpoint() == Setpoint.RETRACT)
 				motor.set((retractSetpoint - position) * positionGain);
@@ -64,7 +65,7 @@ public class CarriageExtender extends Component implements Configurable
 				motor.set((extendSetpoint - position) * positionGain);
 		}
 			
-		else if(extenderData.getControlMode() == ControlMode.MANUAL_POSITION)//Manual mode
+		else if(extenderData.getControlMode() == ControlMode.POSITION)
 		{
 			
 			int desiredPos = (int) Rescale(extenderData.getDesiredPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
@@ -97,20 +98,20 @@ public class CarriageExtender extends Component implements Configurable
 		retractSetpoint = GetConfig("retractSetpoint", 10);
 		extendSetpoint = GetConfig("extendSetpoint", 200);
 		
-		retractLimit = GetConfig("retractLimit", 5);
-		extendLimit = GetConfig("extendLimit", 10);
+		retractSoftLimit = GetConfig("retractSoftLimit", 5);
+		extendSoftLimit = GetConfig("extendSoftLimit", 10);
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		
 	}
 	
 	//TODO: put into math util
-	private static float Rescale(float val, float min0, float max0, float min1, float max1)
+	private static double Rescale(double d, double min0, double max0, double min1, double max1)
 	{
 		if (max0 == min0)
 			return min1;
-		val = MathUtils.clamp(val, min0, max0);
-		return (val - min0) * (max1 - min1) / (max0 - min0) + min1;
+		d = MathUtils.clamp(d, min0, max0);
+		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
 	}
 
 }

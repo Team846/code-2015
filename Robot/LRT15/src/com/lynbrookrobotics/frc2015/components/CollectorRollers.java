@@ -5,23 +5,27 @@ import com.lynbrookrobotics.frc2015.actuators.LRTSpeedController;
 import com.lynbrookrobotics.frc2015.actuators.LRTTalon;
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData;
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData.*;
+import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
+
+import edu.wpi.first.wpilibj.CANTalon;
 
 public class CollectorRollers extends Component
 {
 	private CollectorRollersData collectorData;
 	
-	private LRTSpeedController leftMotor;
-	private LRTSpeedController rightMotor;
-	
-	private final static int CHANGEME = 99;
+	private CANTalon leftMotor;
+	private CANTalon rightMotor;
 
 	public CollectorRollers()
 	{
-		super("Collector", CHANGEME);
+		super("Collector", DriverStationConfig.DigitalIns.NO_DS_DI);
 		collectorData = CollectorRollersData.get();
 		
-		leftMotor = new LRTTalon(CHANGEME, "collectorMotor_left", CHANGEME);
-		rightMotor = new LRTTalon(CHANGEME, "collectorMotor_right", CHANGEME);
+		leftMotor = new CANTalon(
+				ConfigPortMappings.Instance().Get("CAN/COLLECTOR_LEFT"));
+		rightMotor = new CANTalon(
+				ConfigPortMappings.Instance().Get("CAN/COLLECTOR_RIGHT"));
 		
 	}
 
@@ -42,16 +46,16 @@ public class CollectorRollers extends Component
 			speed = 0.0;
 		}
 		
-		leftMotor.SetDutyCycle(speed);
-		rightMotor.SetDutyCycle(speed);
+		leftMotor.set(speed);
+		rightMotor.set(speed);
 
 	}
 
 	@Override
 	protected void UpdateDisabled()
 	{
-		leftMotor.SetDutyCycle(0.0);
-		rightMotor.SetDutyCycle(0.0);
+		leftMotor.set(0.0);
+		rightMotor.set(0.0);
 	}
 
 	@Override

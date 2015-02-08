@@ -66,7 +66,8 @@ public class Elevator extends Component implements Configurable {
 			motorB.set(0.0);
 			return;
 		}
-		if(elevatorData.getControlMode() == ControlMode.MANUAL_POSITION)
+		if(elevatorData.getControlMode() == ControlMode.SPEED)
+			
 		{
 			motorA.set(elevatorData.getSpeed());
 			motorB.set(elevatorData.getSpeed());
@@ -94,9 +95,6 @@ public class Elevator extends Component implements Configurable {
 
 	@Override
 	protected void OnDisabled() {
-		/*
-		 * Reset robot elevator to normal height
-		 */
 	}
 
 	@Override

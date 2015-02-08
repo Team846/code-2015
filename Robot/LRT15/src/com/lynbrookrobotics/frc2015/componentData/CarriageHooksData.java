@@ -12,6 +12,7 @@ public class CarriageHooksData extends ComponentData{
 	
 	private Position desiredFrontState;
 	private Position desiredBackState;
+	
 	private Position currentFrontState;
 	private Position currentBackState;
 	
@@ -27,7 +28,7 @@ public class CarriageHooksData extends ComponentData{
 		return (CarriageHooksData) ComponentData.GetComponentData("CarriageHooksData");
 	}
 	
-	public Position getFrontHooksState(){
+	public Position getFrontHooksCurrentState(){
 		return currentFrontState;
 	}
 	
@@ -39,7 +40,7 @@ public class CarriageHooksData extends ComponentData{
 		desiredFrontState = newState;
 	}
 	
-	public Position getBackHooksState(){
+	public Position getBackHooksCurrentState(){
 		return currentBackState;
 	}
 	
@@ -50,9 +51,23 @@ public class CarriageHooksData extends ComponentData{
 	public void setBackHooksState(Position newState){
 		desiredBackState = newState;
 	}
+	
+	public void setFrontHooksCurrentState(Position curState)
+	{
+		currentFrontState = curState;
+	}
+	
+	public void setBackHooksCurrentState(Position curState)
+	{
+		currentFrontState = curState;
+	}
 
 	@Override
 	protected void ResetCommands() {
+		desiredFrontState = Position.ENABLED;
+		desiredBackState = Position.ENABLED;
+		currentFrontState = Position.ENABLED;
+		currentBackState = Position.ENABLED;
 		
 	}
 

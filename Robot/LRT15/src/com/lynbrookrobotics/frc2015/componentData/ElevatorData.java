@@ -14,8 +14,8 @@ public class ElevatorData extends ComponentData{
 	
 	public enum ControlMode
 	{
-		MANUAL_POSITION,
-		MANUAL_VELOCITY,
+		POSITION,
+		SPEED,
 		SETPOINT
 	}
 	
@@ -30,6 +30,7 @@ public class ElevatorData extends ComponentData{
 
 	public ElevatorData() {
 		super("ElevatorData");
+		position = 0;
 		ResetCommands();
 	}
 	
@@ -84,7 +85,7 @@ public class ElevatorData extends ComponentData{
 
 	@Override
 	protected void ResetCommands() {
-		controlMode = ControlMode.MANUAL_POSITION;
+		controlMode = ControlMode.SPEED;
 		speed = 0.0f;
 		setpoint = Setpoint.GROUND;
 

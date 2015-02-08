@@ -18,6 +18,7 @@ public class CollectorArm extends Component
 		
 		 arms = new Pneumatics(
 				 ConfigPortMappings.Instance().Get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
+		 
 		 armData = CollectorArmData.get();
 	}
 
@@ -29,7 +30,7 @@ public class CollectorArm extends Component
 		if(armData.getDesiredCollectorState() == Position.EXTEND)
 			state = State.FORWARD;
 		else
-			state = State.OFF;
+			state = State.REVERSE;
 		
 		arms.Set(state);
 		
@@ -37,7 +38,7 @@ public class CollectorArm extends Component
 
 	@Override
 	protected void UpdateDisabled() {
-		arms.Set(State.OFF);
+		arms.Set(State.REVERSE);
 		
 	}
 

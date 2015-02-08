@@ -22,7 +22,8 @@ public class DriverStationConfig {
 		public static final int TURN_180 = 2;
 		// Operator Joystick
 		public static final int PASS = 1;
-	
+
+		public static final int DEPLOY_STACK = 1;
 		public static final int REVERSE_ROLLERS = 11;
 		public static final int UNLOAD_LAUNCHER = 12;
 		

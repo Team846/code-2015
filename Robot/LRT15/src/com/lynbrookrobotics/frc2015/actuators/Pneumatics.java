@@ -2,12 +2,15 @@ package com.lynbrookrobotics.frc2015.actuators;
 
 import java.util.ArrayList;
 
+import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
+import com.lynbrookrobotics.frc2015.config.Configurable;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SolenoidBase;
 
-public class Pneumatics extends Actuator{
+public class Pneumatics extends Actuator implements Configurable{
 	private String configSection;
 
 	private int pulse_length;
@@ -41,6 +44,7 @@ public class Pneumatics extends Actuator{
 		state = State.OFF;
 		
 		pneumatic_list.add(this);
+		ConfigRuntime.Register(this);
 	}
 
 	public Pneumatics(int forward, int reverse, int module, String name) 
@@ -57,6 +61,8 @@ public class Pneumatics extends Actuator{
 		state = State.OFF;
 
 		pneumatic_list.add(this);
+		ConfigRuntime.Register(this);
+
 	}
 
 	public Pneumatics(int forward, String name) 
@@ -73,6 +79,8 @@ public class Pneumatics extends Actuator{
 		state = State.OFF;
 
 		pneumatic_list.add(this);
+		ConfigRuntime.Register(this);
+
 	}
 
 	public Pneumatics(int forward, short pcmModule, String name) 
@@ -89,6 +97,8 @@ public class Pneumatics extends Actuator{
 		state = State.OFF;
 
 		pneumatic_list.add(this);
+		ConfigRuntime.Register(this);
+
 	}
 
 	public void Output()
@@ -143,9 +153,6 @@ public class Pneumatics extends Actuator{
 
 	public static void CreateCompressor()
 	{
-		/*compressor = new Compressor(
-				ConfigPortMappings.Get("Digital/COMPRESSOR_PRESSURE_SENSOR"),
-				ConfigPortMappings.Get("Relay/COMPRESSOR_RELAY")); TODO: Config Management*/
 		compressor.start();
 	}
 
@@ -215,10 +222,10 @@ public class Pneumatics extends Actuator{
 		return current;
 	}
 
-//	void Configure()
-//	{
-//		pulse_length = GetConfig("pulseLength", 25);
-//	}
+	public void Configure()
+	{
+		pulse_length = GetConfig("pulseLength", 25);
+	}
 //
 //	void Log()
 //	{

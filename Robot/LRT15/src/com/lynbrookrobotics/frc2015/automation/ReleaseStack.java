@@ -39,7 +39,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	protected boolean Run() {
-		elevatorData.setControlMode(ControlMode.MANUAL_POSITION);
+		elevatorData.setControlMode(ControlMode.POSITION);
 		elevatorData.setPosition(startingPosition - dropHeight);
 		return true;
 	}

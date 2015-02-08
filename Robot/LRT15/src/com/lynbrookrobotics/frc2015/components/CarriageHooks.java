@@ -28,27 +28,28 @@ public class CarriageHooks extends Component{
 
 	@Override
 	protected void UpdateEnabled() {
-		State state;
+		State backState;
+		State frontState;
 		
 		if (hooksData.getFrontHooksDesiredState() == Position.ENABLED)
-			state = State.FORWARD;
+			frontState = State.FORWARD;
 		else
-			state = State.FORWARD;
+			frontState = State.REVERSE;
 		
 		
 		if (hooksData.getBackHooksDesiredState() == Position.ENABLED)
-			state = State.FORWARD;
+			backState = State.FORWARD;
 		else
-			state = State.FORWARD;
+			backState = State.REVERSE;
 		
-		frontHooks.Set(state);
-		backHooks.Set(state);
+		frontHooks.Set(frontState);
+		backHooks.Set(backState);
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		frontHooks.Set(State.FORWARD);
-		backHooks.Set(State.FORWARD);
+		frontHooks.Set(State.REVERSE);
+		backHooks.Set(State.REVERSE);
 	}
 
 	@Override

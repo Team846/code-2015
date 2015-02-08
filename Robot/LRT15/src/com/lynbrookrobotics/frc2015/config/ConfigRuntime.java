@@ -54,7 +54,7 @@ public class ConfigRuntime
 		SaveConfig(CONFIG_FILE_PATH);
 	}
 	
-	//TODO: add different methods for values bc java generics sux 
+	@SuppressWarnings("unchecked")
 	public <T extends Number> T Get(String section, String key, T defaultValue)
 	{
 		if (config.containsKey(section + '.' + key))
