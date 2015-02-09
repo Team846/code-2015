@@ -29,7 +29,7 @@ public class AsyncPrinter
 	
 	public static void warn(String msg)
 	{
-		toLog.add("[WARN] " + msg);
+		toLog.add("[WARNING] " + msg);
 	}
 	
 	public static void error(String msg)

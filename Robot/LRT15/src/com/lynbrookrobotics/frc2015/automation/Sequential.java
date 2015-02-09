@@ -21,6 +21,12 @@ public class Sequential extends Automation {
 		routines = sequence;
 		started = false;
 	}
+	
+	Sequential(String name)
+	{
+		this(name, false, false);
+		
+	}
 
 
 	public void AllocateResources()

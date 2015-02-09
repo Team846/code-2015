@@ -42,34 +42,36 @@ public class LRT15Robot extends LRTRobotBase
 		
 		Component.CreateComponents();
 		AsyncPrinter.info("Created Components...");
-		
-		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
-//
+
 		Brain.Initialize();
 		AsyncPrinter.info("Initialized Brain...");
-//
-//		Pneumatics.CreateCompressor();
-//
+
 		SensorFactory.Initialize();
 		AsyncPrinter.info("Initialized Sensor Factory...");
+		
+		Pneumatics.CreateCompressor();
+		AsyncPrinter.info("Creating Compressor...");
+		
+		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 	}
 
 	public void Tick() {
-		Profiler.time(Void->RobotState.Instance().Update(), "RobotState.Update");
-
-		Profiler.time(Void->LRTDriverStation.Update(), "LRTDriverStation.Update");
-
-		Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
-
-		Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
-//
+		//Profiler.time(Void->RobotState.Instance().Update(), "RobotState.Update");
+		RobotState.Instance().Update();
+		//Profiler.time(Void->LRTDriverStation.Update(), "LRTDriverStation.Update");
+		LRTDriverStation.Update();
+		//Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
+		Brain.Instance().Update();
+		//Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
+		Component.UpdateAll();
 //		Profiler.time(Void->Actuator.OutputAll(), "Actuator.OutputAll");
-//
+		Actuator.OutputAll();
 //		Profiler.time(Void->DashboardLogger.getInstance().tick(), "DashboardLogger.tick");
 //
 		if(RobotState.Instance().GameMode() == GameState.DISABLED)
 		{
-			Profiler.time(Void->ConfigRuntime.Instance().CheckForFileUpdates(), "ConfigRuntime.CheckForFileUpdates");
+			ConfigRuntime.Instance().CheckForFileUpdates();
+			//Profiler.time(Void->ConfigRuntime.Instance().CheckForFileUpdates(), "ConfigRuntime.CheckForFileUpdates");
 		}
 		
 		ComponentData.ResetAllCommands();

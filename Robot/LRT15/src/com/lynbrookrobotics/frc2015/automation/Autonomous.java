@@ -17,8 +17,9 @@ public class Autonomous extends Sequential {
 
 	private double autonomousStartTime = 0.0;
 
-	Autonomous(String name, boolean queueIfBlocked, boolean restartable) {
-		super(name, queueIfBlocked, restartable);
+	Autonomous() {
+		super("Autonomous");
+		autonomousStartTime=0.0;
 		// TODO Auto-generated constructor stub
 	}
 	

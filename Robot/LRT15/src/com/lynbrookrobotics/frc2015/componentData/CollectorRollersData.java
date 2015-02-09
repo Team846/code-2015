@@ -17,12 +17,12 @@ public class CollectorRollersData extends ComponentData
 	
 	public static CollectorRollersData get()
 	{
-		return (CollectorRollersData) ComponentData.GetComponentData("Collector");
+		return (CollectorRollersData) ComponentData.GetComponentData("CollectorRollersData");
 	}
 
 	public CollectorRollersData()
 	{
-		super("Collector");
+		super("CollectorRollersData");
 		running = false;
 		speed = 0.0;
 		ResetCommands();

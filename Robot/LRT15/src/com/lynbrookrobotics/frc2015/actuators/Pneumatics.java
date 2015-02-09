@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
 import com.lynbrookrobotics.frc2015.config.Configurable;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -37,7 +38,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		System.out.println("Created DoubleSolenoid " + name);
+		AsyncPrinter.println("Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -54,7 +55,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		System.out.println("Created DoubleSolenoid " + name);
+		AsyncPrinter.println("Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(module, forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -72,7 +73,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		System.out.println("Created Solenoid " + name);
+		AsyncPrinter.println("Created Solenoid " + name);
 		solenoid = new Solenoid(forward);
 		counter = 0;
 		pulsed = false;
@@ -90,7 +91,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		System.out.println("Created Solenoid " +  name);
+		AsyncPrinter.println("Created Solenoid " +  name);
 		solenoid = new Solenoid(pcmModule, forward);
 		counter = 0;
 		pulsed = false;
@@ -224,7 +225,7 @@ public class Pneumatics extends Actuator implements Configurable{
 
 	public void Configure()
 	{
-		pulse_length = GetConfig("pulseLength", 25);
+		pulse_length = (int)GetConfig("pulseLength", 25);
 	}
 //
 //	void Log()

@@ -16,7 +16,7 @@ public class ConfigRuntime
 	private static ConfigRuntime instance = null;
 	private static ArrayList<Configurable> configurables = new ArrayList<Configurable>();
 	
-	private final static String CONFIG_FILE_PATH = RobotConfig.CONFIG_FILE_PATH;;
+	private final static String CONFIG_FILE_PATH = RobotConfig.CONFIG_FILE_PATH;
 	private final static char COMMENT_DELIMITERS = '#'; 
 	
 	private HierarchicalINIConfiguration config;
@@ -25,7 +25,7 @@ public class ConfigRuntime
 	private ConfigRuntime()
 	{
 		lastReadTimestamp = 0;
-		config = new HierarchicalINIConfiguration();
+			config = new HierarchicalINIConfiguration();
 		Load();
 	}
 
@@ -46,6 +46,7 @@ public class ConfigRuntime
 	{
 		LoadConfig(CONFIG_FILE_PATH);
 		AsyncPrinter.println("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
+		//Save();
 		ConfigureAll();
 	}
 	
@@ -55,15 +56,30 @@ public class ConfigRuntime
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends Number> T Get(String section, String key, T defaultValue)
+	public int Get(String section, String key, int defaultValue)
 	{
 		if (config.containsKey(section + '.' + key))
 		{
-			return (T) config.getProperty(section + '.' + key);
+			return  (config.getInt(section + '.' + key));
 		}
 		else
 		{
-			AsyncPrinter.warn("Cannnot find, setting default value in file");
+			AsyncPrinter.warn("Cannnot find " + key  + " in " + section+ ", setting default value in file");
+			Set(section, key, defaultValue);
+			return defaultValue;
+		}
+		
+	}
+	
+	public double Get(String section, String key, double defaultValue)
+	{
+		if (config.containsKey(section + '.' + key))
+		{
+			return config.getDouble(section + '.' + key);
+		}
+		else
+		{
+			AsyncPrinter.warn("Cannnot find " + key  + " in " + section+ ", setting default value in file");
 			Set(section, key, defaultValue);
 			return defaultValue;
 		}
@@ -99,6 +115,7 @@ public class ConfigRuntime
 		long currentFileTimestamp = config.getFile().lastModified();
 		if(lastReadTimestamp != currentFileTimestamp)
 		{
+			AsyncPrinter.println("Change detected, reloading config");
 			Load();
 			lastReadTimestamp = currentFileTimestamp;
 		}
@@ -126,7 +143,7 @@ public class ConfigRuntime
 	private void SaveConfig(String path)
 	{
 		try {
-			config.save();
+			config.save(new File(RobotConfig.CONFIG_FILE_PATH));
 		} catch (ConfigurationException e) {
 			
 			e.printStackTrace();

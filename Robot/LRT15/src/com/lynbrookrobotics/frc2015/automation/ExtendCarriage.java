@@ -1,7 +1,5 @@
 package com.lynbrookrobotics.frc2015.automation;
 
-import org.luaj.vm2.ast.Stat.Return;
-
 import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData;
 
 public class ExtendCarriage extends Automation {

@@ -7,7 +7,7 @@ public class DelayedEvent extends Event {
 	int m_delay;
 	int m_count;
 	
-	DelayedEvent(Event event, int delayCycles) {
+	public DelayedEvent(Event event, int delayCycles) {
 		m_event = event;
 		m_delay = delayCycles;
 		m_count = 0;

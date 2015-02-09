@@ -6,12 +6,12 @@ import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
 import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
 
-public class CollectorRollersInput extends InputProcessor
+public class CollectorRollersInputs extends InputProcessor
 {
 	LRTJoystick operatorStick;
 	CollectorRollersData collectorRollers;
 	
-	public CollectorRollersInput()
+	public CollectorRollersInputs()
 	{
 		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		collectorRollers = CollectorRollersData.get();

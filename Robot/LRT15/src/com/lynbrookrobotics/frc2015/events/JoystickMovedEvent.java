@@ -9,11 +9,16 @@ public class JoystickMovedEvent extends Event {
     float m_sensitivity;
     int m_lastFiredAxis;
 	
-	JoystickMovedEvent(LRTJoystick joystick, int axis, float sensitivity) {
+	public JoystickMovedEvent(LRTJoystick joystick, int axis, float sensitivity) {
 		m_joystick = joystick;
         m_axis = axis;
         m_sensitivity = sensitivity;
         m_lastFiredAxis = axis;
+	}
+	
+	public JoystickMovedEvent(LRTJoystick joy)
+	{
+		this(joy, 0,0.02f);
 	}
 	
 	public boolean CheckCondition() {

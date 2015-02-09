@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
+
 
 public abstract class ComponentData 
 {
@@ -13,17 +15,17 @@ public abstract class ComponentData
 	public ComponentData(String name)
 	{
 		componentData_map.put(name, this);
+		AsyncPrinter.println("Created componentData: " + name);
 	}
 
 	public static void createComponentDatas()
 	{
 		data.add(new DrivetrainData());
 		data.add(new ElevatorData());
-		//data.add(new CarriageData());
+		data.add(new CarriageExtenderData());
+		data.add(new CarriageHooksData());
 		data.add(new CollectorRollersData());
 		data.add(new CollectorArmData());
-//		data.add(new RakeArmData());
-		//data.add(new RakeExtenderData());
 
 	}
 

@@ -95,11 +95,11 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	public void Configure()
 	{
-		retractSetpoint = GetConfig("retractSetpoint", 10);
-		extendSetpoint = GetConfig("extendSetpoint", 200);
+		retractSetpoint =(int) GetConfig("retractSetpoint", 10);
+		extendSetpoint = (int)GetConfig("extendSetpoint", 200);
 		
-		retractSoftLimit = GetConfig("retractSoftLimit", 5);
-		extendSoftLimit = GetConfig("extendSoftLimit", 10);
+		retractSoftLimit = (int) GetConfig("retractSoftLimit", 5);
+		extendSoftLimit = (int) GetConfig("extendSoftLimit", 10);
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		

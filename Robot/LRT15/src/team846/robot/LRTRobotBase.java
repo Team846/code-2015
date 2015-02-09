@@ -51,8 +51,8 @@ public abstract class LRTRobotBase extends RobotBase
 			if(delta > RobotConfig.LOOP_PERIOD)
 			{
 				System.out.println("[WARNING] Loop time exceeded " + RobotConfig.LOOP_PERIOD + "ms");
-				Profiler.show();
-				Profiler.clear();
+//				Profiler.show();
+//				Profiler.clear();
 			}
 		}
 	}

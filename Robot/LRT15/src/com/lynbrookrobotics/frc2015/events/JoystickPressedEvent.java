@@ -8,11 +8,15 @@ public class JoystickPressedEvent extends Event {
     private int m_button;
     private int m_lastFiredButton;
 	
-	JoystickPressedEvent(LRTJoystick joystick, int button) {
+	public JoystickPressedEvent(LRTJoystick joystick, int button) {
 		m_joystick = joystick;
 
         m_button = button;	
         m_lastFiredButton = button;
+	}
+	
+	public JoystickPressedEvent(LRTJoystick joy) {
+		this(joy, 0);
 	}
 	
 	public int GetButton() {

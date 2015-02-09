@@ -9,7 +9,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	private ElevatorData elevatorData;
 	private float startingPosition;
-	private float dropHeight;
+	private double dropHeight;
 
 	public ReleaseStack() {
 		super("ReleaseStack");
@@ -40,7 +40,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	@Override
 	protected boolean Run() {
 		elevatorData.setControlMode(ControlMode.POSITION);
-		elevatorData.setPosition(startingPosition - dropHeight);
+		elevatorData.setPosition((float) (startingPosition - dropHeight));
 		return true;
 	}
 

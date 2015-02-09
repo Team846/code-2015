@@ -7,7 +7,21 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 
+import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData;
+import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
+import com.lynbrookrobotics.frc2015.driverstation.GameState;
+import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
+import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
+import com.lynbrookrobotics.frc2015.events.DelayedEvent;
 import com.lynbrookrobotics.frc2015.events.Event;
+import com.lynbrookrobotics.frc2015.events.JoystickMovedEvent;
+import com.lynbrookrobotics.frc2015.events.JoystickPressedEvent;
+import com.lynbrookrobotics.frc2015.events.JoystickReleasedEvent;
+import com.lynbrookrobotics.frc2015.inputProcessors.CarriageExtenderInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.CollectorArmInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.CollectorRollersInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.DrivetrainInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.ElevatorInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.InputProcessor;
 import com.lynbrookrobotics.frc2015.utils.Pair;
 
@@ -32,6 +46,55 @@ public class Brain
 	{
 		if (instance == null)
 			instance = new Brain();
+	}
+	
+	private Brain()
+	{
+		
+		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
+		LRTJoystick driverWheel= LRTDriverStation.Instance().GetOperatorStick();
+
+		
+		
+		
+		inputs.add(new DrivetrainInputs());
+		inputs.add(new CollectorArmInputs());
+		inputs.add(new CollectorRollersInputs());
+		inputs.add(new ElevatorInputs());
+		inputs.add(new CarriageExtenderInputs());
+		inputs.add(new CarriageHookInputs());
+
+		
+		Automation auton = new Autonomous();
+//		
+//		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
+//		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
+//		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
+//		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
+//		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
+//		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
+//		
+//		Event collect_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT);
+//		Event collect_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT);
+//	
+//		Event fire_start_long = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LONG_SHOT);
+//		Event fire_start_short = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.SHORT_SHOT);
+//		
+//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event dribble_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
+//		Event dribble_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
+//		Event pass_back_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.);
+//		Event pass_back_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.PASS_BACK);
+//		
+		//map events to tasks
+//		to_auto.AddStartListener(auton);
+//		driver_stick_moved.AddAbortListener(auton);
+//		operator_stick_moved.AddAbortListener(auton);
+//		driver_stick_pressed.AddAbortListener(auton);
+//		operator_stick_pressed.AddAbortListener(auton);
+//		disabled_timeout.AddAbortListener(auton);
 	}
 	
 	public void Update()
@@ -133,12 +196,12 @@ public class Brain
 		}
 		
 //	    // Update running tasks
-//	    for (list<Automation*>::iterator a = runningTasks.begin(); a != runningTasks.end(); a++)
+//	    for (list<Automation*>.iterator a = runningTasks.begin(); a != runningTasks.end(); a++)
 //	    {
-//	    	bool complete = (*a)->Update();
+//	    	bool complete = (*a).Update();
 //		    if (complete)
 //		    {
-//		    	(*a)->DeallocateResources();
+//		    	(*a).DeallocateResources();
 //		    	runningTasks.erase(a++);
 //		    	a--;
 //		    }
@@ -158,19 +221,19 @@ public class Brain
 
 //	void Log()
 //	{
-//		for (vector<Automation*>::iterator it = automation.begin(); it < automation.end(); it++)
+//		for (vector<Automation*>.iterator it = automation.begin(); it < automation.end(); it++)
 //		{
-//			LogToFile(find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end(), Event.event_list.get(i)->GetName());
+//			LogToFile(find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end(), Event.event_list.get(i).GetName());
 //		}
 //	}
 
 //	void PrintRunningAutomation()
 //	{
-//		BufferedConsole::Printf("Running Automation Routines:\n");
-//		for (vector<Automation*>::iterator it = automation.begin(); it < automation.end(); it++)
+//		BufferedConsole.Printf("Running Automation Routines:\n");
+//		for (vector<Automation*>.iterator it = automation.begin(); it < automation.end(); it++)
 //		{
 //			if (find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end())
-//				BufferedConsole::Printf("%s\n", Event.event_list.get(i)->GetName().c_str());
+//				BufferedConsole.Printf("%s\n", Event.event_list.get(i).GetName().c_str());
 //		}
 //	}
 

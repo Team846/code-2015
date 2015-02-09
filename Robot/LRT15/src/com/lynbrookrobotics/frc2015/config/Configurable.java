@@ -7,9 +7,18 @@ public interface Configurable {
 	
 	public void Configure();
 	
-	public default <T extends Number> T GetConfig(String key, T defaultValue)
+	public default int GetConfig(String key, int defaultValue)
 	{
-		return ConfigRuntime.Instance().Get(this.getClass().getName(),key,defaultValue);
+		String simpleClassName = this.getClass().getName();
+		simpleClassName = simpleClassName.substring(simpleClassName.lastIndexOf('.')+1);
+		return ConfigRuntime.Instance().Get(simpleClassName,key,defaultValue);
+	}
+	
+	public default double GetConfig(String key, double defaultValue)
+	{
+		String simpleClassName = this.getClass().getName();
+		simpleClassName = simpleClassName.substring(simpleClassName.lastIndexOf('.')+1);
+		return ConfigRuntime.Instance().Get(simpleClassName,key,defaultValue);
 	}
 }
 

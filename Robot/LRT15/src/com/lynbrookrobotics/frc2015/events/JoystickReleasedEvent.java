@@ -8,7 +8,7 @@ public class JoystickReleasedEvent extends Event {
     private int m_button;
     private int m_lastFiredButton;
 	
-	JoystickReleasedEvent(LRTJoystick joystick, int button) {
+	public JoystickReleasedEvent(LRTJoystick joystick, int button) {
 		m_joystick = joystick;
         m_button = button;
         m_lastFiredButton = button;
