@@ -21,16 +21,16 @@ public class LogView {
 	static JTextPane warnTab;
 	static JTextPane infoTab;
 	static JTextPane logTab;
-	
-	static boolean cmdMode = false; 
+
+	static boolean cmdMode = false;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 		cmdMode = args.length > 0 && args[0].equals("-cmd");
-		
+
 		System.out.println(cmdMode);
-		
+
 		if (!cmdMode) {
 			UiInit();
 		}
@@ -39,39 +39,44 @@ public class LogView {
 	}
 
 	private static void appendToPane(JTextPane tp, String msg, Color c) {
-		tp.setEditable(true); // set textArea editable
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				tp.setEditable(true); // set textArea editable
 
-		StyleContext sc = StyleContext.getDefaultStyleContext();
-		AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-				StyleConstants.Foreground, c);
+				StyleContext sc = StyleContext.getDefaultStyleContext();
+				AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+						StyleConstants.Foreground, c);
 
-		aset = sc.addAttribute(aset, StyleConstants.FontFamily,
-				"Lucida Console");
-		aset = sc.addAttribute(aset, StyleConstants.Alignment,
-				StyleConstants.ALIGN_JUSTIFIED);
+				aset = sc.addAttribute(aset, StyleConstants.FontFamily,
+						"Lucida Console");
+				aset = sc.addAttribute(aset, StyleConstants.Alignment,
+						StyleConstants.ALIGN_JUSTIFIED);
 
-		int len = tp.getDocument().getLength();
-		tp.setCaretPosition(len);
-		tp.setCharacterAttributes(aset, false);
-		tp.replaceSelection(msg.trim() + "\n");
+				int len = tp.getDocument().getLength();
+				tp.setCaretPosition(len);
+				tp.setCharacterAttributes(aset, false);
+				tp.replaceSelection(msg.trim() + "\n");
 
-		tp.setEditable(false); // set textArea non-editable
+				tp.setEditable(false); // set textArea non-editable
 
-		// check log length and trim if necessary
-		int lineCount = tp.getText().split("\n").length;
+				// check log length and trim if necessary
+				int lineCount = tp.getText().split("\n").length;
 
-		try {
-			Element root = tp.getDocument().getDefaultRootElement();
-			Element first = root.getElement(0);
+				try {
+					Element root = tp.getDocument().getDefaultRootElement();
+					Element first = root.getElement(0);
 
-			if (lineCount > 142.0) {
-				tp.getDocument().remove(first.getStartOffset(),
-						first.getEndOffset());
+					if (lineCount > 142.0) {
+						tp.getDocument().remove(first.getStartOffset(),
+								first.getEndOffset());
+					}
+
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
 			}
+		});
 
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private static void UiInit() {
@@ -138,15 +143,22 @@ public class LogView {
 	private static void printCmd(Entry msg) {
 		String text = msg.getContent().trim();
 		String ANSI_RESET = "\u001B[m";
-		switch (msg.getLevel())
-		{
-			case "error": System.out.println("\u001B[31m" + text + ANSI_RESET); break;
-			case "info": System.out.println("\u001B[32m" + text + ANSI_RESET); break;
-			case "warning": System.out.println("\u001B[33m" + text + ANSI_RESET); break;
-			case "log": System.out.println(text + ANSI_RESET); break;
+		switch (msg.getLevel()) {
+		case "error":
+			System.out.println("\u001B[31m" + text + ANSI_RESET);
+			break;
+		case "info":
+			System.out.println("\u001B[32m" + text + ANSI_RESET);
+			break;
+		case "warning":
+			System.out.println("\u001B[33m" + text + ANSI_RESET);
+			break;
+		case "log":
+			System.out.println(text + ANSI_RESET);
+			break;
 		}
 	}
-	
+
 	private static void networkLoop() {
 		while (true) {
 			try {
@@ -167,26 +179,30 @@ public class LogView {
 
 					if (!disabled) {
 						if (packet.getLength() > 1) {
-							for (String message: str.split("\n")) {
+							for (String message : str.split("\n")) {
 								if (message.trim().length() > 0) {
 									Entry newMessage = new Entry(message);
-									
+
 									if (cmdMode) {
 										printCmd(newMessage);
 									} else {
 										// add to ui
-										String content = newMessage.getContent();
+										String content = newMessage
+												.getContent();
 										Color color = newMessage.getColor();
 										String level = newMessage.getLevel();
-	
+
 										appendToPane(allTab, content, color);
-	
+
 										if (level == "error") {
-											appendToPane(errorTab, content, color);
+											appendToPane(errorTab, content,
+													color);
 										} else if (level == "info") {
-											appendToPane(infoTab, content, color);
+											appendToPane(infoTab, content,
+													color);
 										} else if (level == "warning") {
-											appendToPane(warnTab, content, color);
+											appendToPane(warnTab, content,
+													color);
 										} else if (level == "log") {
 											appendToPane(logTab, content, color);
 										}
