@@ -66,7 +66,7 @@ public class LogView {
 					Element root = tp.getDocument().getDefaultRootElement();
 					Element first = root.getElement(0);
 
-					if (lineCount > 142.0) {
+					if (lineCount > 300) {
 						tp.getDocument().remove(first.getStartOffset(),
 								first.getEndOffset());
 					}
