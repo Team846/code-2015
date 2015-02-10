@@ -15,8 +15,8 @@ gulp.task('image', function() {
 });
 
 gulp.task('datasets', function() {
-  gulp.src(['./datasets/*.json'])
-    .pipe(gulp.dest('./dashboard-bin/datasets/'));
+  gulp.src(['./datasets.json'])
+    .pipe(gulp.dest('./dashboard-bin/'));
 });
 
 gulp.task('groups', function() {
@@ -41,7 +41,7 @@ gulp.task('font', function() {
 });
 
 gulp.task('sass', function() {
-  sass('./sass/main.scss')
+  return sass('./sass/main.scss')
     .on('error', function (err) { console.log(err.message); })
     .pipe(minifyCSS())
     .pipe(gulp.dest('./dashboard-bin/css'));

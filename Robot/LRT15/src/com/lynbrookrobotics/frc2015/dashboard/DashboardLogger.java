@@ -27,17 +27,17 @@ public class DashboardLogger
 	private SocketIOServer server;
 
 	// Use on prod
-	private boolean buttonsPressed() {
-		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
-		
-		return driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
-				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
-	}
+//	private boolean buttonsPressed() {
+//		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
+//		
+//		return driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+//				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
+//	}
 	
 	// Use on dev
-//	private boolean buttonsPressed() {
-//		return true;
-//	}
+	private boolean buttonsPressed() {
+		return true;
+	}
 	
 	public DashboardLogger()
 	{
