@@ -109,14 +109,14 @@ public class DriveESC
 
 	void SetDutyCycle(double dutyCycle)
 	{
-		double speed = encoder.GetRate()
-					/ DriveEncoders.GetMaxEncoderRate();
-		
-		speed = MathUtils.clamp(speed, -1.0, 1.0);
-		
-		dutyCycle = DitheredBraking(dutyCycle, speed);
-		dutyCycle = CurrentLimit(dutyCycle, speed);
-		this.dutyCycle = dutyCycle;
+//		double speed = encoder.GetRate()
+//					/ DriveEncoders.GetMaxEncoderRate();
+//		
+//		speed = MathUtils.clamp(speed, -1.0, 1.0);
+//		
+//		dutyCycle = DitheredBraking(dutyCycle, speed);
+//		dutyCycle = CurrentLimit(dutyCycle, speed);
+//		this.dutyCycle = dutyCycle;
 		
 		controller1.SetDutyCycle(dutyCycle);
 		if (controller2 != null)

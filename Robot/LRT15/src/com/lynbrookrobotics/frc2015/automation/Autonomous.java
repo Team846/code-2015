@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 import org.apache.commons.lang.NotImplementedException;
 
-import com.lynbrookrobotics.frc2015.actuators.Parallel;
 import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
 import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 

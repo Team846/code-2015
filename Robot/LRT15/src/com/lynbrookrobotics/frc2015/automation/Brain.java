@@ -55,9 +55,6 @@ public class Brain
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
 		LRTJoystick driverWheel= LRTDriverStation.Instance().GetOperatorStick();
 
-		
-		
-		
 		inputs.add(new DrivetrainInputs());
 		inputs.add(new CollectorArmInputs());
 		inputs.add(new CollectorRollersInputs());

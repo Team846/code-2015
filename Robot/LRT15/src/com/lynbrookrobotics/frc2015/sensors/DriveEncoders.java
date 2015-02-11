@@ -3,17 +3,23 @@ package com.lynbrookrobotics.frc2015.sensors;
 import com.lynbrookrobotics.frc2015.config.Configurable;
 import com.lynbrookrobotics.frc2015.config.RobotConfig;
 
+import edu.wpi.first.wpilibj.CANTalon;
+
 public class DriveEncoders implements Configurable
 {
 	public enum Side 
 	{
-		LEFT,
-		RIGHT
+		FRONT_LEFT,
+		FRONT_RIGHT,
+		BACK_LEFT,
+		BACK_RIGHT
 	}
 	
-	static DriveEncoders instance = null;
+	private static DriveEncoders instance = null;
 
-	LRTEncoder[] encoders;
+	CANTalon[] encoders;
+	
+	int[] initialValues;
 
 	static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
 	static double MAX_ENCODER_RATE;
@@ -22,28 +28,37 @@ public class DriveEncoders implements Configurable
 	static double WHEEL_DIAMETER; // Inches
 	static double GEAR_RATIO;
 	
-	DriveEncoders(int leftSourceA, int leftSourceB, int rightSourceA, int rightSourceB)
+	DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
-		encoders = new LRTEncoder[2];
-		encoders[Side.LEFT.ordinal()] = SensorFactory.GetLRTEncoder("Side.LEFTDriveEncoder", leftSourceA, leftSourceB);
-		encoders[Side.RIGHT.ordinal()] = SensorFactory.GetLRTEncoder("Side.RIGHTDriveEncoder", rightSourceA, rightSourceB);
-
-		encoders[Side.LEFT.ordinal()].setDistancePerPulse(1);
-		encoders[Side.RIGHT.ordinal()].setDistancePerPulse(1);
+		encoders = new CANTalon[4];
+		initialValues = new int[4];
+		encoders[Side.FRONT_LEFT.ordinal()] = frontLeft;
+		encoders[Side.FRONT_RIGHT.ordinal()] = frontRight;
+		encoders[Side.BACK_LEFT.ordinal()] = backLeft;
+		encoders[Side.BACK_RIGHT.ordinal()] = backRight;
+		
+		initialValues[Side.FRONT_LEFT.ordinal()] = frontLeft.getEncPosition();
+		initialValues[Side.FRONT_RIGHT.ordinal()] = frontRight.getEncPosition();
+		initialValues[Side.BACK_LEFT.ordinal()] = backLeft.getEncPosition();
+		initialValues[Side.BACK_RIGHT.ordinal()] = backRight.getEncPosition();
 		
 		if (instance == null)
 			instance = this;
 	}
 
 
-	public DriveEncoders Get()
+	public static DriveEncoders Get()
 	{
 		return instance;
 	}
 
 	public double GetRawForwardSpeed()
 	{
-		return (encoders[Side.LEFT.ordinal()].GetRate() + encoders[Side.RIGHT.ordinal()].GetRate()) / 2;
+		double frontSpeed = encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity()
+				+ encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity() / 2;
+		double backSpeed =  encoders[Side.BACK_LEFT.ordinal()].getEncVelocity()
+				+ encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity() / 2;
+		return (frontSpeed + backSpeed) / 2;
 	}
 
 	public double GetNormalizedForwardSpeed()
@@ -58,7 +73,9 @@ public class DriveEncoders implements Configurable
 
 	public double GetRawTurningSpeed()
 	{
-		return encoders[Side.RIGHT.ordinal()].GetRate() - encoders[Side.LEFT.ordinal()].GetRate();
+		int rightVel = (encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity() + encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity()) /2;
+		int leftVel =  (encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity() + encoders[Side.BACK_LEFT.ordinal()].getEncVelocity()) /2;
+		return rightVel - leftVel;
 	}
 
 	public double GetNormalizedTurningSpeed()
@@ -68,12 +85,17 @@ public class DriveEncoders implements Configurable
 
 	public double GetRobotDist()
 	{
-		return (GetWheelDist(Side.LEFT) + GetWheelDist(Side.RIGHT)) / 2.0;
+		double frontDist = (GetWheelDist(Side.FRONT_RIGHT) + GetWheelDist(Side.BACK_RIGHT)) / 2.0;
+		double backDist =  (GetWheelDist(Side.FRONT_LEFT) + GetWheelDist(Side.BACK_LEFT)) / 2.0;
+		
+		return frontDist + backDist / 2;
 	}
 
 	public int GetTurnTicks()
 	{
-		return encoders[Side.RIGHT.ordinal()].Get() - encoders[Side.LEFT.ordinal()].Get();
+		int rightTicks = (encoders[Side.FRONT_RIGHT.ordinal()].getEncPosition() + encoders[Side.BACK_RIGHT.ordinal()].getEncPosition()) /2;
+		int leftTicks =  (encoders[Side.FRONT_LEFT.ordinal()].getEncPosition() + encoders[Side.BACK_LEFT.ordinal()].getEncPosition()) /2;
+		return rightTicks - leftTicks; 
 	}
 
 	public double GetTurnRevolutions()
@@ -88,18 +110,18 @@ public class DriveEncoders implements Configurable
 
 	public double GetWheelDist(Side side)
 	{
-		LRTEncoder e = encoders[side.ordinal()];
-		double dist = (double) ((e.Get() * 1.0) / PULSES_PER_REVOLUTION
+		CANTalon e = encoders[side.ordinal()];
+		double dist = (double) ((e.getEncPosition() * 1.0) / PULSES_PER_REVOLUTION
 				* GEAR_RATIO * WHEEL_DIAMETER * Math.PI); // pulses / ( pulses / encoder revolution ) * encoder to wheel gear ratio * distance / wheel revolution = inch distance
 		return dist;
 	}
 
 	public double GetNormalizedSpeed(Side side)
 	{
-		return encoders[side.ordinal()].GetRate() / MAX_ENCODER_RATE;
+		return encoders[side.ordinal()].getEncVelocity() / MAX_ENCODER_RATE;
 	}
 
-	public LRTEncoder GetEncoder(Side side)
+	public CANTalon GetEncoder(Side side)
 	{
 		return encoders[side.ordinal()];
 	}
@@ -123,15 +145,16 @@ public class DriveEncoders implements Configurable
 	{
 		double faster;
 		double slower;
-		if (Math.abs(GetNormalizedSpeed(Side.LEFT)) > Math.abs(GetNormalizedSpeed(Side.RIGHT)))
+		if (Math.abs((GetNormalizedSpeed(Side.BACK_LEFT) +GetNormalizedSpeed(Side.FRONT_LEFT)) / 2) > 
+			Math.abs( (GetNormalizedSpeed(Side.BACK_RIGHT) +GetNormalizedSpeed(Side.FRONT_RIGHT)) / 2))
 		{
-			faster = GetNormalizedSpeed(Side.LEFT);
-			slower = GetNormalizedSpeed(Side.RIGHT);
+			faster = (GetNormalizedSpeed(Side.BACK_RIGHT) +GetNormalizedSpeed(Side.FRONT_RIGHT)) / 2;
+			slower = (GetNormalizedSpeed(Side.BACK_LEFT) +GetNormalizedSpeed(Side.FRONT_LEFT)) / 2;
 		}
 		else
 		{
-			faster = GetNormalizedSpeed(Side.RIGHT);
-			slower = GetNormalizedSpeed(Side.LEFT);
+			faster = (GetNormalizedSpeed(Side.BACK_RIGHT) +GetNormalizedSpeed(Side.FRONT_RIGHT)) / 2;
+			slower = (GetNormalizedSpeed(Side.BACK_LEFT) +GetNormalizedSpeed(Side.FRONT_LEFT)) / 2;
 		}
 		if (faster == 0 && slower == 0)
 			return 0;
@@ -140,23 +163,12 @@ public class DriveEncoders implements Configurable
 
 	public void Configure()
 	{
-//		PULSES_PER_REVOLUTION = GetConfig("pulses_per_revolution", 250.0);
-//		MAX_ENCODER_RATE = GetConfig("max_encoder_rate", 2214.762);
-//		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782);
-//		WHEEL_DIAMETER = GetConfig("wheel_diameter", 4.0); // Inches
-//		GEAR_RATIO = GetConfig("gear_ratio", 1 .0);
-//		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", 2.0 * 26.574 * PI / (GEAR_RATIO * WHEEL_DIAMETER * PI) * PULSES_PER_REVOLUTION);
-	}
-
-	public void Log()
-	{
-//		LogToFile(GetNormalizedForwardSpeed(), "NormalizedDriveSpeed");
-//		LogToFile(GetNormalizedTurningSpeed(), "NormalizedTurningSpeed");
-//		LogToFile(GetRobotDist(), "DriveDistance");
-//		LogToFile(GetTurnAngle(), "TurnAngle");
-//		LogToFile(GetTurnTicks(), "TurnTicks");
-//		LogToFile(GetNormalizedSpeed(Side.LEFT), "NormalizedSide.LEFTSpeed");
-//		LogToFile(GetNormalizedSpeed(Side.RIGHT), "NormalizedSide.RIGHTSpeed");
+		PULSES_PER_REVOLUTION = GetConfig("pulses_per_revolution", 50.0);
+		MAX_ENCODER_RATE = GetConfig("max_encoder_rate", 2214.762);
+		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782);
+		WHEEL_DIAMETER = GetConfig("wheel_diameter", 6.0); // Inches
+		GEAR_RATIO = GetConfig("gear_ratio", 4.0);
+		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", 2.0 * 26.574 * Math.PI / (GEAR_RATIO * WHEEL_DIAMETER * Math.PI) * PULSES_PER_REVOLUTION);
 	}
 }
 

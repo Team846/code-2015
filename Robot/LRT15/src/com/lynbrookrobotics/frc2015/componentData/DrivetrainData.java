@@ -1,95 +1,185 @@
 package com.lynbrookrobotics.frc2015.componentData;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import com.lynbrookrobotics.frc2015.sensors.DriveEncoders;
 import com.lynbrookrobotics.frc2015.sensors.LRTGyro;
 
 public class DrivetrainData extends ComponentData
 {
-	public static final int FORWARD = 0;
-	public static final int STRAFE = 1;
-	public static final int TURN = 2;
-
-	private double[] desiredRates = new double[3];
-	private double[] desiredOpenLoopOutputs = new double[3];
-	private boolean[] resetPositionSetpoint = new boolean[3];
+	ControlMode[] controlModes;
+	double[] desiredOpenLoopOutputs;
+	double[] desiredRates;
+	double[] positionSetpoints;
+	double[] maxSpeeds;
+	float zeroHeading;
+	boolean overrideCurrentLimitForward;
+	boolean overrideCurrentLimitReverse;
+	float currentLimitForward;
+	float currentLimitReverse;
 	
-	boolean fieldCentric;
+	boolean[] resetPositionSetpoint;
+	 
+	public enum ControlMode
+	{
+		POSITION_CONTROL,
+		VELOCITY_CONTROL, 
+		OPEN_LOOP
+	}
 
-	 private double[] positionSetpoints = new double[3];
-	 private double[] maxSpeeds = new double[3];
+	public enum Axis
+	{
+		FORWARD,
+		STRAFE,
+		TURN
+	}
 
-	public DrivetrainData()
+	public enum Side
+	{
+		LEFT,
+		RIGHT
+	}
+
+	public DrivetrainData() 
 	{
 		super("DrivetrainData");
 		ResetCommands();
-	}
-	
-	public void setFieldCentric(boolean state)
-	{
-		fieldCentric = state;
-	}
-	
-	public boolean getFieldCentric()
-	{
-		return fieldCentric;
+		Arrays.fill(resetPositionSetpoint, true);
+		Arrays.fill(positionSetpoints, 0);
+		Arrays.fill(maxSpeeds, 0);
+		Arrays.fill(controlModes, ControlMode.OPEN_LOOP);
 	}
 
-	public double getVelocity(int type)
+	public static DrivetrainData Get()
 	{
-		return desiredRates[type];
+		return (DrivetrainData) ComponentData.GetComponentData("DrivetrainData");
 	}
 
-	public void setVelocity(int type, double newValue)
+	public void ResetCommands()
 	{
-		desiredRates[type] = newValue;
+		overrideCurrentLimitForward = false;
+		overrideCurrentLimitReverse = false;
+		currentLimitForward = 0.5f;
+		currentLimitReverse = 0.5f;
+		
+		Arrays.fill(desiredRates, 0.0);
 	}
 
-	public double getOpenLoopOutput(int type)
+//	void Log()
+//	{
+//		LogToFile(&controlModes, "ControlModes");
+//		LogToFile(&desiredOpenLoopOutputs, "OpenLoopOutputs");
+//		LogToFile(&desiredRates, "DesiredRates");
+//		LogToFile(&positionSetpoints, "PositionSetpoints");
+//		LogToFile(&maxSpeeds, "MaxSpeeds");
+//		LogToFile(&zeroHeading, "ZeroHeading");
+//		LogToFile(&overrideCurrentLimitForward, "OverrideForwardCurrentLimit");
+//		LogToFile(&overrideCurrentLimitReverse, "OverrideReverseCurrentLimit");
+//		LogToFile(&currentLimitForward, "ForwardCurrentLimit");
+//		LogToFile(&currentLimitReverse, "ReverseCurrentLimit");
+//	}
+
+	public void SetControlMode(Axis axis, ControlMode mode)
 	{
-		return desiredOpenLoopOutputs[type];
+		if (controlModes[axis.ordinal()] != ControlMode.POSITION_CONTROL && mode == ControlMode.POSITION_CONTROL && resetPositionSetpoint[0])
+			positionSetpoints[axis.ordinal()] = axis == Axis.FORWARD ? DriveEncoders.Get().GetRobotDist() : DriveEncoders.Get().GetTurnAngle();
+		if (controlModes[axis.ordinal()] == ControlMode.POSITION_CONTROL && mode != ControlMode.POSITION_CONTROL)
+			resetPositionSetpoint[axis.ordinal()] = true;
+		controlModes[axis.ordinal()] = mode;
 	}
 
-	public void setOpenLoopOutput(int type, double newValue)
+	public void SetVelocitySetpoint(Axis axis, float velocity)
 	{
-		desiredOpenLoopOutputs[type] = newValue;
+		desiredRates[axis.ordinal()] = velocity;
 	}
 
-	// TODO: Evaluate usage of an optical sensor
-	// public double getPositionSetpoint(int type) {
-	// return positionSetpoints[type];
-	// }
-	//
-	// public void setPositionSetpoint(int type, double newValue) {
-	// resetPositionSetpoint[type] = false;
-	// positionSetpoints[type] = newValue;
-	// }
-	//
-	// public void setRelativePositionSetpoint(int type, double newValue) {
-	// resetPositionSetpoint[type] = false;
-	// positionSetpoints[type] += newValue;
-	// }
-	//
-	// public double getPositionControlMaxSpeed(int type) {
-	// return maxSpeeds[type];
-	// }
-	//
-	// public void setPositionControlMaxSpeed(int type, double newValue) {
-	// maxSpeeds[type] = newValue;
-	// }
-
-	@Override
-	protected void ResetCommands()
+	public void SetOpenLoopOutput(Axis axis, double setpoint)
 	{
-		int[] types = { FORWARD, STRAFE, TURN };
-		for (int type : types)
-		{
-			desiredRates[type] = 0;
-			desiredOpenLoopOutputs[type] = 0;
-			resetPositionSetpoint[type] = true;
-			positionSetpoints[type] = 0;
-			maxSpeeds[type] = 0;
-		}
-		fieldCentric = true;
+		desiredOpenLoopOutputs[axis.ordinal()] = setpoint;
 	}
-	
-	
+
+	public void SetPositionSetpoint(Axis axis, double setpoint)
+	{
+		resetPositionSetpoint[axis.ordinal()] = false;
+		positionSetpoints[axis.ordinal()] = setpoint;
+	}
+
+	public void SetRelativePositionSetpoint(Axis axis, double setpoint)
+	{
+		resetPositionSetpoint[axis.ordinal()] = false;
+		positionSetpoints[axis.ordinal()] += setpoint;
+	}
+
+	public void SetPositionControlMaxSpeed(Axis axis, double speed)
+	{
+		maxSpeeds[axis.ordinal()] = speed;
+	}
+
+	public ControlMode GetControlMode(Axis axis)
+	{
+		return controlModes[axis.ordinal()];
+	}
+
+	public double GetOpenLoopOutput(Axis axis)
+	{
+		return desiredOpenLoopOutputs[axis.ordinal()];
+	}
+
+	public double GetVelocitySetpoint(Axis axis)
+	{
+		return desiredRates[axis.ordinal()];
+	}
+
+	public double GetPositionSetpoint(Axis axis)
+	{
+		return positionSetpoints[axis.ordinal()];
+	}
+
+	public double GetPositionControlMaxSpeed(Axis axis)
+	{
+		return maxSpeeds[axis.ordinal()];
+	}
+
+	public void OverrideForwardCurrentLimit(float limit)
+	{
+		overrideCurrentLimitForward = true;
+		if (limit < 0)
+			limit = 0;
+		else if (limit > 1.0)
+			limit = 1.0f;
+		currentLimitForward = limit;
+	}
+
+	public void OverrideReverseCurrentLimit(float limit)
+	{
+		overrideCurrentLimitReverse = true;
+		if (limit < 0)
+			limit = 0;
+		else if (limit > 1.0)
+			limit = 1.0f;
+		currentLimitReverse = limit;
+	}
+
+	public float GetForwardCurrentLimit()
+	{
+		overrideCurrentLimitForward = false;
+		return currentLimitForward;
+	}
+
+	public float GetReverseCurrentLimit()
+	{
+		overrideCurrentLimitReverse = false;
+		return currentLimitReverse;
+	}
+
+	public boolean ShouldOverrideForwardCurrentLimit()
+	{
+		return overrideCurrentLimitForward;
+	}
+
+	public boolean ShouldOverrideReverseCurrentLimit()
+	{
+		return overrideCurrentLimitReverse;
+	}
 }

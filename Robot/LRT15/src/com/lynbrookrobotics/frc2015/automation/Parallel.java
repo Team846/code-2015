@@ -1,9 +1,7 @@
-package com.lynbrookrobotics.frc2015.actuators;
+package com.lynbrookrobotics.frc2015.automation;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
-
-import com.lynbrookrobotics.frc2015.automation.Automation;
 
 public class Parallel extends Automation {
 
