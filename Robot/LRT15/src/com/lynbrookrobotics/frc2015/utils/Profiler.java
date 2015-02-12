@@ -39,8 +39,9 @@ public class Profiler {
 
 	static private final String tab = "\t";
 
-	private static ConcurrentHashMap<String, Float> profilingData = new ConcurrentHashMap<String, Float>();
-
+	private static ConcurrentHashMap<String, Long> profilingData = new ConcurrentHashMap<String, Long>();
+	private static ConcurrentHashMap<String, Long> startTimes = new ConcurrentHashMap<String, Long>();
+	
 	private static void log(String msg) {
 		AsyncPrinter.println(msg.toString());
 	}
@@ -50,7 +51,20 @@ public class Profiler {
 		aFunction.accept(null);
 		long endTime = System.nanoTime();
 
-		profilingData.put(methodName, (float) (endTime - startTime) / 1000000);
+		profilingData.put(methodName, (endTime - startTime) / 1000000);
+	}
+	
+	public static void start(String methodName) {
+		long startTime = System.nanoTime();
+		
+		startTimes.put(methodName, startTime);
+	}
+	
+	public static void end(String methodName) {
+		long endTime = System.nanoTime();
+		
+		profilingData.put(methodName, (endTime - startTimes.get(methodName)) / 1000000);
+		startTimes.put(methodName, null);
 	}
 
 	public static void show(String methodName) {
@@ -63,7 +77,7 @@ public class Profiler {
 	public static void show()
 	{
 		log("Profiler output:");
-		for(Map.Entry<String, Float> e: profilingData.entrySet())
+		for(Map.Entry<String, Long> e: profilingData.entrySet())
 		{
 			log(tab + "Method name: " + e.getKey());
 			log(tab + "Time taken: " + e.getValue() + " ms");
