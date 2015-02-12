@@ -39,7 +39,7 @@ public class PID {
 		return 2 * 3.14159 * freq / 50;
 	}
 
-	void SetParameters(double p_gain, double i_gain, double d_gain,
+	public void SetParameters(double p_gain, double i_gain, double d_gain,
 			double ff_gain, double i_decay, boolean feedforward, double filterFreq)
 	{
 		Reset();

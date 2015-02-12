@@ -6,11 +6,12 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 
 /*!
- * Implementation of a sensor attached to a Talon SRX
+ * Implementation of a quadrature encoder attached to a Talon SRX
  */
 public class LRTCANEncoder {
 	
 	private CANTalon attachedEncoder = null;
+	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
 	
 	public LRTCANEncoder(CANTalon talon)
 	{
@@ -25,5 +26,20 @@ public class LRTCANEncoder {
 	{
 		this.attachedEncoder = talon;
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
+	}
+	
+	public void Start() 
+	{
+		zeroCount = attachedEncoder.getEncPosition();
+	}
+
+	public double GetRate() 
+	{
+		return attachedEncoder.getEncPosition();
+	}
+
+	public int Get() 
+	{
+		return attachedEncoder.getEncPosition() - zeroCount;
 	}
 }

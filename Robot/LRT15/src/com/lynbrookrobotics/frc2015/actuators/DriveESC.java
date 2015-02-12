@@ -1,8 +1,11 @@
 package com.lynbrookrobotics.frc2015.actuators;
 
 import com.lynbrookrobotics.frc2015.sensors.DriveEncoders;
+import com.lynbrookrobotics.frc2015.sensors.LRTCANEncoder;
 import com.lynbrookrobotics.frc2015.sensors.LRTEncoder;
 import com.lynbrookrobotics.frc2015.utils.MathUtils;
+
+import edu.wpi.first.wpilibj.CANTalon;
 
 public class DriveESC
 {
@@ -17,9 +20,8 @@ public class DriveESC
 			braking = 0;
 		}
 	}
-	LRTEncoder encoder;
-	LRTSpeedController controller1;
-	LRTSpeedController controller2;
+
+	CANTalon controller1;
 	
 	double dutyCycle;
 	
@@ -30,32 +32,25 @@ public class DriveESC
 
 	int shouldBrakeThisCycle;
 	
-	DriveESC(LRTSpeedController esc, LRTEncoder encoder, String name) 
-		//Loggable(name),
-	{
-		this.encoder = encoder;
-		controller1 = esc;
-		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
-		
-		dutyCycle = 0.0;
-		cycle_count = 0;
-		shouldBrakeThisCycle = 0;
-		
-		forwardCurrentLimit = 50.0 / 100.0;
-		reverseCurrentLimit = 50.0 / 100.0;
-	}
+//	DriveESC(LRTSpeedController esc, LRTEncoder encoder, String name) 
+//		//Loggable(name),
+//	{
+//		controller1 = esc;
+//		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+//		
+//		dutyCycle = 0.0;
+//		cycle_count = 0;
+//		shouldBrakeThisCycle = 0;
+//		
+//		forwardCurrentLimit = 50.0 / 100.0;
+//		reverseCurrentLimit = 50.0 / 100.0;
+//	}
 	
-	DriveESC(LRTSpeedController esc1, LRTSpeedController esc2, LRTEncoder encoder, String name) 
-//		Loggable(name),
-//		encoder(encoder),
-//		controller1(esc1),
-//		controller2(esc2)
+	public DriveESC(CANTalon esc1) 
 	{
-		this.encoder = encoder;
 		controller1 = esc1;
-		controller2 = esc2;
-		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
-		controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		
+		controller1.enableBrakeMode(false);
 
 		dutyCycle = 0.0;
 		cycle_count = 0;
@@ -107,8 +102,9 @@ public class DriveESC
 		return command;
 	}
 
-	void SetDutyCycle(double dutyCycle)
+	public void SetDutyCycle(double dutyCycle)
 	{
+		//TODO: evaluate need for dithered braking/current limiting w/ mecanum
 //		double speed = encoder.GetRate()
 //					/ DriveEncoders.GetMaxEncoderRate();
 //		
@@ -118,9 +114,7 @@ public class DriveESC
 //		dutyCycle = CurrentLimit(dutyCycle, speed);
 //		this.dutyCycle = dutyCycle;
 		
-		controller1.SetDutyCycle(dutyCycle);
-		if (controller2 != null)
-			controller2.SetDutyCycle(dutyCycle);
+		controller1.set(dutyCycle);
 	}
 
 	double DitheredBraking(double dutyCycle, double speed)
@@ -130,9 +124,7 @@ public class DriveESC
 		command.dutyCycle = MathUtils.clamp(command.dutyCycle, -1.0, 1.0);
 
 		// Default to coast
-		controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
-		if (controller2 != null)
-			controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Coast);
+		controller1.enableBrakeMode(false);
 		
 		if (Math.abs(command.dutyCycle) < 1E-4) //brake only when duty cycle = 0
 		{
@@ -163,9 +155,7 @@ public class DriveESC
 
 			if (shouldBrakeThisCycle == 1)
 			{
-				controller1.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
-				if (controller2 != null)
-					controller2.ConfigNeutralMode(LRTSpeedController.NeutralMode.kNeutralMode_Brake);
+				controller1.enableBrakeMode(false);
 			}
 		}
 
@@ -204,9 +194,7 @@ public class DriveESC
 
 	public void Disable()
 	{
-		controller1.SetDutyCycle(0.0);
-		if (controller2 != null)
-			controller2.SetDutyCycle(0.0);
+		controller1.set(0.0);
 	}
 
 	void ResetCache()

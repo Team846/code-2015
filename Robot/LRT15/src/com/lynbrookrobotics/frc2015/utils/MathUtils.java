@@ -7,4 +7,13 @@ public class MathUtils
 	    else if(val.compareTo(max) > 0) return max;
 	    else return val;
 	}
+
+	public static <T extends Number> int Sign(T number) {
+		if(number.doubleValue() > 0)
+			return 1;
+		else if(number.doubleValue() < 0)
+			return -1;
+		else
+		return 0;
+	}
 }

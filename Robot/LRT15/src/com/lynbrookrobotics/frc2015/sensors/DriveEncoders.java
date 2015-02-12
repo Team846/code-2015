@@ -22,13 +22,13 @@ public class DriveEncoders implements Configurable
 	int[] initialValues;
 
 	static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
-	static double MAX_ENCODER_RATE;
-	static double MAX_TURNING_RATE;
+	static double MAX_ENCODER_RATE; //TODO: Calibrate after running robot
+	static double MAX_TURNING_RATE;  //TODO: Calibrate after running robot
 	static double TICKS_PER_FULL_TURN;
-	static double WHEEL_DIAMETER; // Inches
-	static double GEAR_RATIO;
+	static double WHEEL_DIAMETER; // //TODO: Calibrate after running robot
+	static double GEAR_RATIO;  //TODO: Talk to drivetrain team
 	
-	DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
+	public DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
 		encoders = new CANTalon[4];
 		initialValues = new int[4];
@@ -54,11 +54,13 @@ public class DriveEncoders implements Configurable
 
 	public double GetRawForwardSpeed()
 	{
-		double frontSpeed = encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity()
-				+ encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity() / 2;
-		double backSpeed =  encoders[Side.BACK_LEFT.ordinal()].getEncVelocity()
+		double leftSpeed = encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity()
+				+ encoders[Side.BACK_LEFT.ordinal()].getEncVelocity() / 2;
+		
+		double rightSpeed =  encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity()
 				+ encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity() / 2;
-		return (frontSpeed + backSpeed) / 2;
+		
+		return (leftSpeed + rightSpeed) / 2;
 	}
 
 	public double GetNormalizedForwardSpeed()

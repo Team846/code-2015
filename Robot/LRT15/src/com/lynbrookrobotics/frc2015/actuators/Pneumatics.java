@@ -38,7 +38,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		AsyncPrinter.println("Created DoubleSolenoid " + name);
+		AsyncPrinter.println("[Pneumatics] Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -55,7 +55,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		AsyncPrinter.println("Created DoubleSolenoid " + name);
+		AsyncPrinter.println("[Pneumatics] Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(module, forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -73,7 +73,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		AsyncPrinter.println("Created Solenoid " + name);
+		AsyncPrinter.println("[Pneumatics] Created Solenoid " + name);
 		solenoid = new Solenoid(forward);
 		counter = 0;
 		pulsed = false;
@@ -91,7 +91,7 @@ public class Pneumatics extends Actuator implements Configurable{
 //		configSection("Pneumatics")
 	{
 		super(name);
-		AsyncPrinter.println("Created Solenoid " +  name);
+		AsyncPrinter.println("[Pneumatics] Created Solenoid " +  name);
 		solenoid = new Solenoid(pcmModule, forward);
 		counter = 0;
 		pulsed = false;
