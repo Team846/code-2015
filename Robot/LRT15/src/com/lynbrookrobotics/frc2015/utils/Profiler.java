@@ -1,6 +1,7 @@
 package com.lynbrookrobotics.frc2015.utils;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,58 +35,56 @@ import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
  */
 
 public class Profiler {
-	private Profiler()
-	{}
+	private Profiler() {
+	}
 
 	static private final String tab = "\t";
 
-	private static ConcurrentHashMap<String, Long> profilingData = new ConcurrentHashMap<String, Long>();
-	private static ConcurrentHashMap<String, Long> startTimes = new ConcurrentHashMap<String, Long>();
-	
+	private static ConcurrentHashMap<String, Pair<Long, Long>> profilingData = 
+			new ConcurrentHashMap<String, Pair<Long, Long>>();
+
 	private static void log(String msg) {
 		AsyncPrinter.println(msg.toString());
-	}
-
-	public static void time(Consumer<Object> aFunction, String methodName) {
-		long startTime = System.nanoTime();
-		aFunction.accept(null);
-		long endTime = System.nanoTime();
-
-		profilingData.put(methodName, (endTime - startTime) / 1000000);
 	}
 	
 	public static void start(String methodName) {
 		long startTime = System.nanoTime();
-		
-		startTimes.put(methodName, startTime);
+
+		profilingData.get(methodName).setFirst(startTime);
 	}
-	
+
 	public static void end(String methodName) {
 		long endTime = System.nanoTime();
-		
-		profilingData.put(methodName, (endTime - startTimes.get(methodName)) / 1000000);
-		startTimes.put(methodName, null);
+
+		profilingData.get(methodName).setSecond(endTime);
 	}
 
 	public static void show(String methodName) {
 		log("Profiler output:");
 
+		long endTime = profilingData.get(methodName).getSecond();
+		long startTime = profilingData.get(methodName).getFirst();
+		
+		long totalTime = (endTime - startTime / 1000000);
+		
 		log(tab + "Method name: " + methodName);
-		log(tab + "Time taken: " + profilingData.get(methodName) + "ms");
+		log(tab + "Time taken: " + totalTime + "ms");
 	}
-	
-	public static void show()
-	{
+
+	public static void show() {
 		log("Profiler output:");
-		for(Map.Entry<String, Long> e: profilingData.entrySet())
-		{
+		for (Entry<String, Pair<Long, Long>> e : profilingData.entrySet()) {
+			long endTime = e.getValue().getSecond();
+			long startTime = e.getValue().getFirst();
+			
+			long totalTime = (endTime - startTime / 1000000);
+			
 			log(tab + "Method name: " + e.getKey());
-			log(tab + "Time taken: " + e.getValue() + " ms");
+			log(tab + "Time taken: " + totalTime + " ms");
 		}
 	}
-	
-	public static void clear()
-	{
+
+	public static void clear() {
 		profilingData.clear();
 	}
 }
