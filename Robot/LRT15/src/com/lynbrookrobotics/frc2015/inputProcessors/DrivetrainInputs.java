@@ -120,13 +120,22 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
 			drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, (float)turnComposite);
+		}
+		if(axis == Axis.STRAFE)
+		{
+			double strafe = Math.pow(driverStick.getAxis(Joystick.AxisType.kX), throttleExponent);
+			//TODO: implement strafe deadband
+			
+			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
+			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
+		}
+	
+		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
+		{
+			constRadius = !constRadius;
+		}
 	}
-
-	if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
-	{
-		constRadius = !constRadius;
-	}
-}
+	
 	public void Configure()
 	{
 		blendExponent = GetConfig("blend_exponent", 1);

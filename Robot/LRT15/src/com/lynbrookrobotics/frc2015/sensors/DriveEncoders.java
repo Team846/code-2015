@@ -32,6 +32,7 @@ public class DriveEncoders implements Configurable
 	{
 		encoders = new CANTalon[4];
 		initialValues = new int[4];
+		
 		encoders[Side.FRONT_LEFT.ordinal()] = frontLeft;
 		encoders[Side.FRONT_RIGHT.ordinal()] = frontRight;
 		encoders[Side.BACK_LEFT.ordinal()] = backLeft;
@@ -54,11 +55,11 @@ public class DriveEncoders implements Configurable
 
 	public double GetRawForwardSpeed()
 	{
-		double leftSpeed = encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity()
-				+ encoders[Side.BACK_LEFT.ordinal()].getEncVelocity() / 2;
+		double leftSpeed = (encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity()
+				+ encoders[Side.BACK_LEFT.ordinal()].getEncVelocity()) / 2;
 		
-		double rightSpeed =  encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity()
-				+ encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity() / 2;
+		double rightSpeed =  (encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity()
+				+ encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity()) / 2;
 		
 		return (leftSpeed + rightSpeed) / 2;
 	}
