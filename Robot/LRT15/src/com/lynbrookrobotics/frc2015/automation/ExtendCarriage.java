@@ -35,7 +35,7 @@ public class ExtendCarriage extends Automation {
 
 	@Override
 	protected boolean Run() {
-		extenderData.setDesiredPositionSetpoint(carriagePosition);
+		extenderData.setPositionSetpoint(carriagePosition);
 		double error = Math.abs(carriagePosition - extenderData.getCurrentPosition());
 		return error < errorThreshold;
 	}

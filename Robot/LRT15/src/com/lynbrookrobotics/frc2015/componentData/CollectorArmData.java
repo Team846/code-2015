@@ -25,12 +25,12 @@ public class CollectorArmData extends ComponentData
 		return (CollectorArmData)ComponentData.GetComponentData("CollectorArmData");
 	}
 	
-	public void setDesiredCollectorState(Position newPosition)
+	public void setDesiredCollectorPosition(Position newPosition)
 	{
 		desiredPosition = newPosition;
 	}
 	
-	public Position getDesiredCollectorState()
+	public Position getDesiredCollectorPosition()
 	{
 		return desiredPosition;
 	}
@@ -40,7 +40,6 @@ public class CollectorArmData extends ComponentData
 		return currentPosition;
 	}
 	
-	//Note: no equivalent for cpp friend constructor, will explore package specific modifiers
 	public void setCurrentCollectorPosition(Position p)
 	{
 		currentPosition = p;

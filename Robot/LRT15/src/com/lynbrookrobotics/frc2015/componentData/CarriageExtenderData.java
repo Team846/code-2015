@@ -9,11 +9,11 @@ public class CarriageExtenderData extends ComponentData
 	private double speed;
 	
 	private double desiredCarriagePosition;
-	private double currentPosition;
+	private int currentPosition;
 	
 	public enum ControlMode
 	{
-		SETPOINT,
+		AUTOMATED,
 		VELOCITY,
 		POSITION
 	}
@@ -75,12 +75,12 @@ public class CarriageExtenderData extends ComponentData
 		return setpoint;
 	}
 
-	public void setDesiredPositionSetpoint(double pos)
+	public void setPositionSetpoint(double pos)
 	{
 		this.desiredCarriagePosition = pos;	
 	}
 	
-	public double getDesiredPositionSetpoint()
+	public double getPositionSetpoint()
 	{
 		return desiredCarriagePosition;
 	}
@@ -90,7 +90,7 @@ public class CarriageExtenderData extends ComponentData
 		return currentPosition;
 	}
 	
-	public void setCurrentPosition(double d)
+	public void setCurrentPosition(int d)
 	{
 		currentPosition = d;
 	}

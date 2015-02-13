@@ -69,8 +69,6 @@ public class OpticalFlow {
 					position[COMPONENT_Y] += delta[COMPONENT_Y];
 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					// log("shit happend bro");
 					e.printStackTrace();
 				}
 			}
@@ -101,7 +99,6 @@ public class OpticalFlow {
 					this);
 			mouseThread.start();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

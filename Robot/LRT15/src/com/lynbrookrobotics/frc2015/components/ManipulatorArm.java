@@ -5,7 +5,6 @@ import com.lynbrookrobotics.frc2015.actuators.Pneumatics.State;
 import com.lynbrookrobotics.frc2015.componentData.ComponentData;
 import com.lynbrookrobotics.frc2015.componentData.ManipulatorArmData;
 import com.lynbrookrobotics.frc2015.componentData.ManipulatorArmData.Arm;
-import com.lynbrookrobotics.frc2015.componentData.ManipulatorArmData.ArmState;
 import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 
@@ -13,8 +12,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class ManipulatorArm extends Component{
 	
-	private Pneumatics leftArm = null;
-	private Pneumatics rightArm = null;
+	private Pneumatics leftArm;
+	private Pneumatics rightArm;
+	
+	private Pneumatics leftExtender;
+	private Pneumatics rightExtender;
 
 	private ManipulatorArmData armData;
 	
@@ -24,9 +26,14 @@ public class ManipulatorArm extends Component{
 		armData = ManipulatorArmData.get();
 		
 		leftArm = new Pneumatics(
-				ConfigPortMappings.Instance().Get("Pneumatics/MANIPULATOR_LEFT"), "RakeA");
+				ConfigPortMappings.Instance().get("Pneumatics/MANIPULATOR_LEFT"), "RakeA");
 		rightArm = new Pneumatics(
-				ConfigPortMappings.Instance().Get("Pneumatics/MANIPULATOR_RIGHT"), "RakeB");
+				ConfigPortMappings.Instance().get("Pneumatics/MANIPULATOR_RIGHT"), "RakeB");
+		
+		leftExtender = new Pneumatics(
+				ConfigPortMappings.Instance().get("Pneumatics/EXTENDER_LEFT"), "leftExtender");
+		rightExtender = new Pneumatics(
+				ConfigPortMappings.Instance().get("Pneumatics/EXTENDER_RIGHT"), "rightExtender");
 	}
 
 	@Override
@@ -35,25 +42,47 @@ public class ManipulatorArm extends Component{
 		Pneumatics.State leftArmState;
 		Pneumatics.State rightArmState;
 		
-		if(armData.getDesiredArmState(Arm.LEFT) == ArmState.DEPLOYED)
+		Pneumatics.State leftExtenderState;
+		Pneumatics.State  rightExtenderState;
+		
+		//Arm
+		if(armData.getDeployed(Arm.LEFT))
 			leftArmState = State.FORWARD;
 		else
-			leftArmState = State.REVERSE;
-		if(armData.getDesiredArmState(Arm.RIGHT) == ArmState.DEPLOYED)
+			leftArmState = State.OFF;
+		if(armData.getDeployed(Arm.RIGHT))
 			rightArmState = State.FORWARD;
 		else
-			rightArmState = State.REVERSE;
+			rightArmState = State.OFF;
 		
-		leftArm.Set(leftArmState);
-		rightArm.Set(rightArmState);	
+		
+		if(armData.getExtend(Arm.LEFT))
+			leftExtenderState = State.FORWARD;
+		else
+			leftExtenderState = State.OFF;
+		
+		if(armData.getExtend(Arm.RIGHT))
+			rightExtenderState = State.FORWARD;
+		else
+			rightExtenderState = State.OFF;
+		
+		leftArm.set(leftArmState);
+		rightArm.set(rightArmState);	
+		
+		leftExtender.set(leftExtenderState);
+		rightExtender.set(rightExtenderState);
 
 	}
 
 	@Override
 	protected void UpdateDisabled() 
 	{
-		leftArm.Set(State.OFF);
-		rightArm.Set(State.OFF);
+		leftArm.set(State.OFF);
+		rightArm.set(State.OFF);
+		
+
+		leftExtender.set(State.OFF);
+		rightExtender.set(State.OFF);
 	}
 
 	@Override

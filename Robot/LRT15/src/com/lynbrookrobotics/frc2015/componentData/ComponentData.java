@@ -45,5 +45,4 @@ public abstract class ComponentData
 	}
 	
 	protected abstract void ResetCommands();
-
 }

@@ -19,7 +19,6 @@ public class Autonomous extends Sequential {
 	Autonomous() {
 		super("Autonomous");
 		autonomousStartTime=0.0;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public boolean Start()

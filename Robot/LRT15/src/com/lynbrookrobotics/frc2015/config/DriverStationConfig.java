@@ -22,9 +22,8 @@ public class DriverStationConfig {
 	public class JoystickButtons
 	{
 		// Driver Joystick
-		public static final int COLLECT = 1;
-		public static final int TURN_90 = 1;
-		public static final int TURN_180 = 2;
+		public static final int COLLECT_TOTE = 1;
+		public static final int COLLECT_UPRIGHT_TOTE = 2;
 		
 		// Operator Joystick
 		public static final int PASS = 1;
@@ -33,9 +32,7 @@ public class DriverStationConfig {
 		public static final int UNLOAD_LAUNCHER = 12;
 		
 		// Driver Wheel
-		public static final int QUICK_TURN = 5;
-		public static final int REVERSE_DRIVE = 6;
-		public static final int POSITION_HOLD = 7;
+		public static final int FIELD_CENTRIC = 7;
 		
 		//Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 6;
@@ -60,5 +57,4 @@ public class DriverStationConfig {
 		public static final int AUTONOMOUS_DELAY = 1;
 		public static final int AUTONOMOUS_SELECT = 2;
 	}
-	
 }

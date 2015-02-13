@@ -41,7 +41,7 @@ public class ConfigPortMappings
 		AsyncPrinter.println("ConfigPortMappings: Done loading " +  CONFIG_FILE_PATH);
 	}
 	
-	public int Get(String name)
+	public int get(String name)
 	{
 		String key;
 		key = name.replace('/', '.');

@@ -29,7 +29,7 @@ public class LRTCANEncoder {
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
 	}
 	
-	public void Start() 
+	public void Reset() 
 	{
 		zeroCount = attachedEncoder.getEncPosition();
 	}

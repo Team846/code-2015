@@ -7,16 +7,30 @@ import team846.robot.RobotState;
 
 public class GameModeChangeEvent extends Event
 {
-	GameState from;
-	GameState to;
+	GameState fromMode;
+	GameState toMode;
+	boolean from;
+	
+	public GameModeChangeEvent(GameState toMode)
+	{
+		this.toMode  = toMode;
+		from = false;
+	}
+	
+	public GameModeChangeEvent(GameState toMode, GameState fromMode)
+	{
+		this.toMode = toMode;
+		this.fromMode = fromMode;
+		from = false;
+	}
 	
 	@Override
 	public boolean CheckCondition()
 	{
-		if (from != null) {
-			return RobotState.Instance().LastGameMode() == from && RobotState.Instance().GameMode() == to;
+		if (fromMode != null) {
+			return RobotState.Instance().LastGameMode() == fromMode && RobotState.Instance().GameMode() == toMode;
 		} else {
-			return RobotState.Instance().GameMode() == to;
+			return RobotState.Instance().GameMode() == toMode;
 		}
 	}
 }

@@ -25,7 +25,7 @@ public class CarriageExtenderInputs extends InputProcessor {
 		{
 			extenderData.setControlMode(ControlMode.POSITION);
 			double pos = -operatorStick.getAxis(AxisType.kY);
-			extenderData.setDesiredPositionSetpoint(pos);
+			extenderData.setPositionSetpoint(pos);
 		}
 
 	}

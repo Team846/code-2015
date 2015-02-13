@@ -5,12 +5,10 @@ public class LoadContainer extends Automation {
 
 	public LoadContainer(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void AllocateResources() {
-		// TODO Auto-generated method stub
 		
 	}
 

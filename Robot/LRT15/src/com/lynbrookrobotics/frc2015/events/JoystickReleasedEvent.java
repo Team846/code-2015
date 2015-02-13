@@ -14,6 +14,11 @@ public class JoystickReleasedEvent extends Event {
         m_lastFiredButton = button;
 	}
 	
+	public JoystickReleasedEvent(LRTJoystick joystick)
+	{
+		this(joystick, 0);
+	}
+	
 	public boolean CheckCondition() {
 	if (m_button == 0)
         {	

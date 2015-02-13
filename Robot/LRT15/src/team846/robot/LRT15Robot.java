@@ -52,6 +52,8 @@ public class LRT15Robot extends LRTRobotBase
 		Pneumatics.CreateCompressor();
 		AsyncPrinter.info("Creating Compressor...");
 		
+		DashboardLogger.Initialize();
+		
 		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 	}
 
@@ -77,6 +79,6 @@ public class LRT15Robot extends LRTRobotBase
 		ComponentData.ResetAllCommands();
 
 	//	Profiler.time(Void->DashboardLogger.getInstance().tick(), "DashboardLogger.tick");
-
+		DashboardLogger.getInstance().tick();
 	}
 }

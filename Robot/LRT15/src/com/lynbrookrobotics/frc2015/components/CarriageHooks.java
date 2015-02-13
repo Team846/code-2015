@@ -19,9 +19,9 @@ public class CarriageHooks extends Component{
 		super("CarriageHooks", DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 frontHooks = new Pneumatics(
-				ConfigPortMappings.Instance().Get("Pneumatics/FORWARD_HOOKS"), "ForwardHooks");
+				ConfigPortMappings.Instance().get("Pneumatics/FORWARD_HOOKS"), "ForwardHooks");
 		 backHooks = new Pneumatics(
-				ConfigPortMappings.Instance().Get("Pneumatics/BACK_HOOKS"), "BackHooks");
+				ConfigPortMappings.Instance().get("Pneumatics/BACK_HOOKS"), "BackHooks");
 		
 		 hooksData = CarriageHooksData.get();
 	}
@@ -34,22 +34,25 @@ public class CarriageHooks extends Component{
 		if (hooksData.getFrontHooksDesiredState() == Position.ENABLED)
 			frontState = State.FORWARD;
 		else
-			frontState = State.REVERSE;
+			frontState = State.OFF;
 		
 		
 		if (hooksData.getBackHooksDesiredState() == Position.ENABLED)
 			backState = State.FORWARD;
 		else
-			backState = State.REVERSE;
+			backState = State.OFF;
 		
-		frontHooks.Set(frontState);
-		backHooks.Set(backState);
+		frontHooks.set(frontState);
+		backHooks.set(backState);
+		
+		hooksData.setFrontHooksCurrentState(frontState == State.FORWARD ? Position.ENABLED : Position.DISABLED);
+		hooksData.setBackHooksCurrentState(backState == State.FORWARD ? Position.ENABLED : Position.DISABLED);
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		frontHooks.Set(State.REVERSE);
-		backHooks.Set(State.REVERSE);
+		frontHooks.set(State.OFF);
+		backHooks.set(State.OFF);
 	}
 
 	@Override

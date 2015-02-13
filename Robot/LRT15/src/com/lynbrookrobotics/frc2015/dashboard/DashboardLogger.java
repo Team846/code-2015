@@ -15,6 +15,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
 import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,25 +26,25 @@ public class DashboardLogger
 
 	private Configuration config;
 	private SocketIOServer server;
-
-	// Use on prod
-//	private boolean buttonsPressed() {
-//		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
-//		
-//		return driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
-//				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
-//	}
 	
-	// Use on dev
-	private boolean buttonsPressed() {
-		return true;
+	public static void Initialize()
+	{
+		if (instance == null)
+			instance = new DashboardLogger();
+	}
+
+	public static DashboardLogger getInstance()
+	{
+		if (instance == null)
+			instance = new DashboardLogger();
+		return instance;
 	}
 	
 	public DashboardLogger()
 	{
 		if (buttonsPressed())
 		{
-			System.out.println("starting funkyDashboard");
+			AsyncPrinter.info("Starting funkyDashboard");
 			config = new Configuration();
 			config.setPort(8080);
 			config.getSocketConfig().setReuseAddress(true);
@@ -53,22 +54,20 @@ public class DashboardLogger
 			server.start();
 		}
 	}
+	
+	// Use on prod
+	private boolean buttonsPressed() {
+		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
+		
+		return driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
+	}
 
 	public void log(DashboardLog message)
 	{
 		if (server != null) {
 			server.getBroadcastOperations().sendEvent("data-update", message.json());
 		}
-	}
-
-	public static DashboardLogger getInstance()
-	{
-		if (instance == null)
-		{
-			instance = new DashboardLogger();
-		}
-
-		return instance;
 	}
 
 	public void tick()
@@ -97,19 +96,19 @@ public class DashboardLogger
 		}
 	}
 
-	// Comment out while building, it may get used as an entrypoint
-	public static void main(String[] args)
-	{
-		while (true)
-		{
-			getInstance().log(new DoubleLog("motor-speed", Math.random() * 5));
-			Long curTime = System.currentTimeMillis();
-			getInstance().log(new StringLog("my-fancy-logs", curTime.toString()));
-			getInstance().log(new StringLog("my-fancy-strings", curTime.toString()));
-			try
-			{
-				Thread.sleep(50);
-			} catch (InterruptedException e) {}
-		}
-	}
+//	// Comment out while building, it may get used as an entrypoint
+//	public static void main(String[] args)
+//	{
+//		while (true)
+//		{
+//			getInstance().log(new DoubleLog("motor-speed", Math.random() * 5));
+//			Long curTime = System.currentTimeMillis();
+//			getInstance().log(new StringLog("my-fancy-logs", curTime.toString()));
+//			getInstance().log(new StringLog("my-fancy-strings", curTime.toString()));
+//			try
+//			{
+//				Thread.sleep(50);
+//			} catch (InterruptedException e) {}
+//		}
+//	}
 }

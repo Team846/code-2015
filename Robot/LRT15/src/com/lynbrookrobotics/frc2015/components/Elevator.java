@@ -22,8 +22,8 @@ public class Elevator extends Component implements Configurable {
 
 	private ElevatorData elevatorData;
 
-	private int topLimit;
-	private int bottomLimit;
+	private int topSoftLimit;
+	private int bottomSoftLimit;
 	
 	private CANTalon motorA;
 	private CANTalon motorB;
@@ -32,24 +32,26 @@ public class Elevator extends Component implements Configurable {
 	
 	private int[] elevatorSetpoints;
 	
-	double Kp;
+	private int errorThreshold;
+	
+	double positionGain;
 
 	public Elevator() {
 		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		motorA = new CANTalon(
-				ConfigPortMappings.Instance().Get("CAN/ELEVATOR_MOTOR_A"));
+				ConfigPortMappings.Instance().get("CAN/ELEVATOR_MOTOR_A"));
 		motorB = new CANTalon(
-				ConfigPortMappings.Instance().Get("CAN/ELEVATOR_MOTOR_B"));
+				ConfigPortMappings.Instance().get("CAN/ELEVATOR_MOTOR_B"));
 		
 		elevatorPot = SensorFactory.GetAnalogInput(
-				ConfigPortMappings.Instance().Get("Analog/ELEVATOR_POT"));
+				ConfigPortMappings.Instance().get("Analog/ELEVATOR_POT"));
 		
 		elevatorData = ElevatorData.get();
 		
-		Kp = 1.0;
+		positionGain = 0;
 		
-		elevatorSetpoints = new int[]{10,20,30,40,50};
+		elevatorSetpoints = new int[]{0,0,0,0,0};
 		
 		ConfigRuntime.Register(this);
 	}
@@ -57,9 +59,9 @@ public class Elevator extends Component implements Configurable {
 	@Override
 	protected void UpdateEnabled() {
 
-		int curPos = elevatorPot.getAverageValue();
+		int currentPosition = elevatorPot.getAverageValue();
 		
-		if(curPos >= topLimit || curPos <= bottomLimit)
+		if(currentPosition >= topSoftLimit || currentPosition <= bottomSoftLimit)
 		{
 			AsyncPrinter.error("Elevator in invalid state! Disable and fix");
 			motorA.set(0.0);
@@ -74,10 +76,10 @@ public class Elevator extends Component implements Configurable {
 		}
 		else
 		{
-			float posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - curPos;
-			double speed = posErr * Kp;
-			motorA.set(speed);
-			motorB.set(speed);
+			float posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - currentPosition;
+			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr;
+			motorA.set(speed * positionGain);
+			motorB.set(speed * positionGain);
 		}
 	
 	}
@@ -99,10 +101,18 @@ public class Elevator extends Component implements Configurable {
 
 	@Override
 	public void Configure() {
-		GetConfig("topLimit", 100);
-		GetConfig("bottomLimit", 10);
+		topSoftLimit = GetConfig("topLimit", 100);
+		topSoftLimit = GetConfig("bottomLimit", 10);
 		
-		GetConfig("Kp", 1.0);
+		positionGain = GetConfig("positionGain", 1.0);
+		
+		errorThreshold = GetConfig("errorThreshold", 5);
+		
+		elevatorSetpoints[Setpoint.GROUND.ordinal()] = GetConfig("ground", 10);
+		elevatorSetpoints[Setpoint.TOTE_1.ordinal()] = GetConfig("tote1", 50);
+		elevatorSetpoints[Setpoint.TOTE_2.ordinal()]= GetConfig("tote2", 60);
+		elevatorSetpoints[Setpoint.TOTE_3.ordinal()]= GetConfig("tote3", 80);
+		elevatorSetpoints[Setpoint.TOTE_4.ordinal()]= GetConfig("tote4", 80);
 	}
 
 

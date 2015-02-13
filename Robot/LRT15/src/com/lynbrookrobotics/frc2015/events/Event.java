@@ -62,5 +62,4 @@ public abstract class Event
 	{
 		return continue_listeners;
 	}
-
 }

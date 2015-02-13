@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.SolenoidBase;
 public class Pneumatics extends Actuator implements Configurable{
 	private String configSection;
 
-	private int pulse_length;
+	private int pulseLength;
 
 	private static Compressor compressor = new Compressor(0);
 	public static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
@@ -32,10 +32,6 @@ public class Pneumatics extends Actuator implements Configurable{
 	}
 	
 	public Pneumatics(int forward, int reverse, String name) 
-//		Actuator(name),
-//		Configurable("Pneumatics"),
-//		Loggable("Pneumatics" + name),
-//		configSection("Pneumatics")
 	{
 		super(name);
 		AsyncPrinter.println("[Pneumatics] Created DoubleSolenoid " + name);
@@ -49,10 +45,6 @@ public class Pneumatics extends Actuator implements Configurable{
 	}
 
 	public Pneumatics(int forward, int reverse, int module, String name) 
-//		Actuator(name),
-//		Configurable("Pneumatics"),
-//		Loggable("Pneumatics" + name),
-//		configSection("Pneumatics")
 	{
 		super(name);
 		AsyncPrinter.println("[Pneumatics] Created DoubleSolenoid " + name);
@@ -67,10 +59,6 @@ public class Pneumatics extends Actuator implements Configurable{
 	}
 
 	public Pneumatics(int forward, String name) 
-//		Actuator(name),;
-//		Configurable("Pneumatics"),
-//		Loggable("Pneumatics" + name),
-//		configSection("Pneumatics")
 	{
 		super(name);
 		AsyncPrinter.println("[Pneumatics] Created Solenoid " + name);
@@ -85,10 +73,6 @@ public class Pneumatics extends Actuator implements Configurable{
 	}
 
 	public Pneumatics(int forward, short pcmModule, String name) 
-//		Actuator(name),
-//		Configurable("Pneumatics"),
-//		Loggable("Pneumatics" + name),
-//		configSection("Pneumatics")
 	{
 		super(name);
 		AsyncPrinter.println("[Pneumatics] Created Solenoid " +  name);
@@ -186,12 +170,12 @@ public class Pneumatics extends Actuator implements Configurable{
 			}
 			if (pulsed)
 			{
-				counter = pulse_length;
+				counter = pulseLength;
 			}
 		}
 	}
 	
-	public void Set(State on)
+	public void set(State on)
 	{
 		Set(on, false);
 	}
@@ -225,17 +209,8 @@ public class Pneumatics extends Actuator implements Configurable{
 
 	public void Configure()
 	{
-		pulse_length = (int)GetConfig("pulseLength", 25);
+		pulseLength = GetConfig("pulseLength", 25);
 	}
-//
-//	void Log()
-//	{
-//		LogToFile(&state, "State");
-//	}
-//
-//	void Send()
-//	{
-//		SendToNetwork(state == State.FORWARD ? true : false, "P_" + String(GetName()), "ActuatorData");
-//	}
+
 
 }

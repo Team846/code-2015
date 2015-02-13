@@ -27,6 +27,7 @@ public class CarriageExtender extends Component implements Configurable
 	private int extendSoftLimit;
 	
 	private double positionGain;
+	private int errorThreshold;
 	
 	private CarriageExtenderData extenderData;
 
@@ -35,11 +36,11 @@ public class CarriageExtender extends Component implements Configurable
 		super("CarriageExtender", DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		carriagePot = SensorFactory.GetAnalogInput(
-				ConfigPortMappings.Instance().Get("Analog/CARRIAGE_POT"));
+				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
 		
-		motor = new CANTalon(ConfigPortMappings.Instance().Get("CAN/CARRIAGE"));
+		motor = new CANTalon(ConfigPortMappings.Instance().get("CAN/CARRIAGE_MOTOR"));
 		
-		positionGain = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit = 0;
+		positionGain = errorThreshold = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit = 0;
 		
 		extenderData = CarriageExtenderData.get();	
 		ConfigRuntime.Register(this);
@@ -57,24 +58,31 @@ public class CarriageExtender extends Component implements Configurable
 			return;
 		}
 		
-		if(extenderData.getControlMode() == ControlMode.SETPOINT)
+		if(extenderData.getControlMode() == ControlMode.AUTOMATED)
 		{
 			if(extenderData.getAutomatedSetpoint() == Setpoint.RETRACT)
-				motor.set((retractSetpoint - position) * positionGain);
+			{
+				double error = Math.abs(retractSetpoint - position) <  errorThreshold ? 0.0 : retractSetpoint - position ;
+				motor.set(error * positionGain);
+			}
 			else
-				motor.set((extendSetpoint - position) * positionGain);
+			{
+				double error = Math.abs(extendSetpoint - position) <  errorThreshold ? 0.0 : extendSetpoint - position ;
+				motor.set(error * positionGain);
+			}
 		}
 			
 		else if(extenderData.getControlMode() == ControlMode.POSITION)
 		{
 			
-			int desiredPos = (int) Rescale(extenderData.getDesiredPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
-			motor.set((desiredPos - position)*positionGain);
+			int desiredPos = (int) Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : desiredPos - position ;
+			motor.set(error*positionGain);
 		}
 		else
 			motor.set(extenderData.getSpeed()); //open loop velocity
 		
-		extenderData.setCurrentPosition(Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
+		extenderData.setCurrentPosition((int)Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
 		
 	}
 
@@ -95,11 +103,13 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	public void Configure()
 	{
-		retractSetpoint =(int) GetConfig("retractSetpoint", 10);
-		extendSetpoint = (int)GetConfig("extendSetpoint", 200);
+		retractSetpoint = GetConfig("retractSetpoint", 10);
+		extendSetpoint = GetConfig("extendSetpoint", 200);
 		
-		retractSoftLimit = (int) GetConfig("retractSoftLimit", 5);
-		extendSoftLimit = (int) GetConfig("extendSoftLimit", 10);
+		retractSoftLimit = GetConfig("retractSoftLimit", 10);
+		extendSoftLimit = GetConfig("extendSoftLimit", 1000);
+		
+		errorThreshold = GetConfig("errorThreshold", 5);
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		

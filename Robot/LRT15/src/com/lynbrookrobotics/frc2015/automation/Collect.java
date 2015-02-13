@@ -79,7 +79,7 @@ public class Collect extends Automation
 			hooksData.setBackHooksState(com.lynbrookrobotics.frc2015.componentData.CarriageHooksData.Position.ENABLED);
 		}
 		
-		armData.setDesiredCollectorState(Position.EXTEND);
+		armData.setDesiredCollectorPosition(Position.EXTEND);
 		rollersData.setRunning(true);
         rollersData.setDirection(Direction.FORWARD);
 		rollersData.setSpeed(1.0);

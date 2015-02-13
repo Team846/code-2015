@@ -1,56 +1,51 @@
 package com.lynbrookrobotics.frc2015.componentData;
 
-import java.util.ArrayList;
+import com.lynbrookrobotics.frc2015.componentData.ManipulatorHookData.Arm;
 
-import com.lynbrookrobotics.frc2015.actuators.Pneumatics;
-import com.lynbrookrobotics.frc2015.actuators.Pneumatics.State;
-import com.lynbrookrobotics.frc2015.utils.Pair;
-
-
-public class ManipulatorArmData extends ComponentData{
-
-	private ArmState[] armStates;
+public class ManipulatorArmData extends ComponentData {
 	
-	public enum ArmState
-	{
-		UNDEPLOYED,
-		DEPLOYED
-	}
+	private boolean[] armStates;
+	private boolean[] armExtendStates;
 	
 	public enum Arm
 	{
 		LEFT,
 		RIGHT
 	}
-	
-	public ManipulatorArmData(){
-		super("ContainerHook");
-		armStates = new ArmState[2];
-		armStates[0] = ArmState.UNDEPLOYED;
-		armStates[1] = ArmState.UNDEPLOYED;
-		ResetCommands();
-	}
-	
-	public static ManipulatorArmData get()
-	{
-		return (ManipulatorArmData) ComponentData.GetComponentData("ContainerHook");
-	}
 
-	@Override
-	protected void ResetCommands() 
-	{ 
-		
+	public ManipulatorArmData() {
+		super("RakeHookData");
+		armStates = new boolean[]{false, false};
+		armExtendStates = new boolean[]{false, false};
 	}
 	
-	public ArmState getDesiredArmState(Arm arm)
+	public static ManipulatorArmData get(){
+		return (ManipulatorArmData) ComponentData.GetComponentData("RakeExtenderData");
+	}
+	
+	public boolean getDeployed(Arm arm)
 	{
 		return armStates[arm.ordinal()];
-		
 	}
 	
-	public void setDesiredArmState(Arm arm, ArmState state)
+	public void setDeployed(Arm arm, boolean state)
 	{
 		armStates[arm.ordinal()] = state;	
 	}
 	
+	public boolean getExtend(Arm arm)
+	{
+		return armExtendStates[arm.ordinal()];
+	}
+	
+	public void setExtend(Arm arm, boolean state)
+	{
+		armExtendStates[arm.ordinal()] = state;	
+	}
+
+	@Override
+	protected void ResetCommands() 
+	{
+	}
+
 }

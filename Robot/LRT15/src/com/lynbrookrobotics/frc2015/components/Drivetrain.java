@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 public class Drivetrain extends Component implements Configurable {
 	
-	public enum SIDE
+	public enum Side
 	{
 		FRONT_LEFT,
 		FRONT_RIGHT,
@@ -50,18 +50,18 @@ public class Drivetrain extends Component implements Configurable {
 		
 		ConfigPortMappings portMapping = ConfigPortMappings.Instance();
 		
-		frontLeft = new CANTalon(portMapping.Get("CAN/DRIVE_FRONT_LEFT"));
-		backLeft = new CANTalon(portMapping.Get("CAN/DRIVE_BACK_LEFT"));
+		frontLeft = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_LEFT"));
+		backLeft = new CANTalon(portMapping.get("CAN/DRIVE_BACK_LEFT"));
 		
-		frontRight = new CANTalon(portMapping.Get("CAN/DRIVE_FRONT_RIGHT"));
-		backRight = new CANTalon(portMapping.Get("CAN/DRIVE_BACK_RIGHT"));
+		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
+		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
 		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
 		
-		escs[SIDE.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
-		escs[SIDE.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
-		escs[SIDE.BACK_LEFT.ordinal()] = new DriveESC(frontLeft);
-		escs[SIDE.BACK_RIGHT.ordinal()] = new DriveESC(frontRight);
+		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
+		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
+		escs[Side.BACK_LEFT.ordinal()] = new DriveESC(frontLeft);
+		escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(frontRight);
 		
 		drivetrainData = DrivetrainData.Get();
 	}
@@ -139,20 +139,20 @@ public class Drivetrain extends Component implements Configurable {
 //			ConfigureReverseCurrentLimit();
 //		}
 		
-		escs[SIDE.FRONT_LEFT.ordinal()].SetDutyCycle(leftFrontOutput);
-		escs[SIDE.FRONT_RIGHT.ordinal()].SetDutyCycle(rightFrontOutput);
+		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(leftFrontOutput);
+		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(rightFrontOutput);
 		
-		escs[SIDE.BACK_LEFT.ordinal()].SetDutyCycle(leftBackOutput);
-		escs[SIDE.BACK_RIGHT.ordinal()].SetDutyCycle(rightBackOutput);
+		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(leftBackOutput);
+		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(rightBackOutput);
 	}
 
 	public void UpdateDisabled()
 	{
-		escs[SIDE.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
-		escs[SIDE.BACK_LEFT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(0.0);
 		
-		escs[SIDE.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-		escs[SIDE.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
 		
 		//coast when disabled
 		frontLeft.enableBrakeMode(false);
@@ -167,11 +167,11 @@ public class Drivetrain extends Component implements Configurable {
 
 	public void OnDisabled()
 	{
-		escs[SIDE.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
-		escs[SIDE.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
 		
-		escs[SIDE.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-		escs[SIDE.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
 	}
 
 	public void Configure()

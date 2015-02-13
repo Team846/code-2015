@@ -28,6 +28,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	int constRadiusTurnExponent;
 	int throttleExponent;
 	double deadband;
+	double strafeExponent;
 	
 	Axis axis;
 	private DrivetrainData drivetrainData;
@@ -38,11 +39,12 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		TURN,
 		STRAFE
 	}
-	public DrivetrainInputs() {
+	public DrivetrainInputs(Axis axis) {
 		 driverStick = LRTDriverStation.Instance().GetDriverStick();
 		 driverWheel = LRTDriverStation.Instance().GetDriverWheel();
 		 
 		 drivetrainData = DrivetrainData.Get();
+		 this.axis = axis;
 	}
 
 	public void Update()
@@ -113,9 +115,9 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		
 			double turnComposite;
 			
-			if (constRadius && !driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.QUICK_TURN))
-				turnComposite = constRadiusTurn;
-			else
+//			if (constRadius && !driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.QUICK_TURN))
+//				turnComposite = constRadiusTurn;
+//			else
 				turnComposite = turnInPlace * (blend) + constRadiusTurn * (1 - blend); // Blended function
 	
 			drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.VELOCITY_CONTROL);
@@ -123,17 +125,17 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		}
 		if(axis == Axis.STRAFE)
 		{
-			double strafe = Math.pow(driverStick.getAxis(Joystick.AxisType.kX), throttleExponent);
-			//TODO: implement strafe deadband
+			double strafe = Math.pow(driverStick.getAxis(Joystick.AxisType.kX), strafeExponent);
+			
 			
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 		}
 	
-		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
-		{
-			constRadius = !constRadius;
-		}
+//		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
+//		{
+//			constRadius = !constRadius;
+//		}
 	}
 	
 	public void Configure()
@@ -142,6 +144,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		turnExponent = GetConfig("turn_exponent", 2);
 		constRadiusTurnExponent = GetConfig("const_radius_turn_exponent", 1);
 		throttleExponent = GetConfig("throttle_exponent", 1);
+		strafeExponent = GetConfig("strafeExponent", 1);
 		deadband = GetConfig("deadband", 0.01);
 		negInertiaScalar = GetConfig("neg_inertia_scalar", 5.0);
 	}

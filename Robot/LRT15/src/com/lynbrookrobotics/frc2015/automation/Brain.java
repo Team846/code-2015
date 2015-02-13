@@ -21,6 +21,7 @@ import com.lynbrookrobotics.frc2015.inputProcessors.CarriageExtenderInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.CollectorArmInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.CollectorRollersInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.DrivetrainInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.DrivetrainInputs.Axis;
 import com.lynbrookrobotics.frc2015.inputProcessors.ElevatorInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.InputProcessor;
 import com.lynbrookrobotics.frc2015.utils.Pair;
@@ -55,7 +56,9 @@ public class Brain
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
 		LRTJoystick driverWheel= LRTDriverStation.Instance().GetOperatorStick();
 
-		inputs.add(new DrivetrainInputs());
+		inputs.add(new DrivetrainInputs(Axis.DRIVE));
+		inputs.add(new DrivetrainInputs(Axis.TURN));
+		inputs.add(new DrivetrainInputs(Axis.STRAFE));
 		inputs.add(new CollectorArmInputs());
 		inputs.add(new CollectorRollersInputs());
 		inputs.add(new ElevatorInputs());
@@ -64,22 +67,28 @@ public class Brain
 
 		
 		Automation auton = new Autonomous();
-//		
-//		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
-//		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
-//		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
-//		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
-//		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
-//		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
-//		
-//		Event collect_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT);
-//		Event collect_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT);
-//	
+		
+		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
+		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
+		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
+		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
+		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
+		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
+		
+		Event collect_tote_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
+		Event collect_tote_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
+		
+//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+
 //		Event fire_start_long = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LONG_SHOT);
 //		Event fire_start_short = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.SHORT_SHOT);
 //		
-//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
+
 //		Event dribble_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
 //		Event dribble_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
 //		Event pass_back_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.);

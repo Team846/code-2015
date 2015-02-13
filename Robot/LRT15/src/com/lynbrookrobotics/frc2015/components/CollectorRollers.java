@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class CollectorRollers extends Component
 {
-	private CollectorRollersData collectorData;
+	private CollectorRollersData rollersData;
 	
 	private CANTalon leftMotor;
 	private CANTalon rightMotor;
@@ -20,12 +20,12 @@ public class CollectorRollers extends Component
 	public CollectorRollers()
 	{
 		super("Collector", DriverStationConfig.DigitalIns.NO_DS_DI);
-		collectorData = CollectorRollersData.get();
+		rollersData = CollectorRollersData.get();
 		
 		leftMotor = new CANTalon(
-				ConfigPortMappings.Instance().Get("CAN/COLLECTOR_LEFT"));
+				ConfigPortMappings.Instance().get("CAN/COLLECTOR_LEFT"));
 		rightMotor = new CANTalon(
-				ConfigPortMappings.Instance().Get("CAN/COLLECTOR_RIGHT"));
+				ConfigPortMappings.Instance().get("CAN/COLLECTOR_RIGHT"));
 		
 	}
 
@@ -34,12 +34,12 @@ public class CollectorRollers extends Component
 	{
 		double speed;
 		
-		if(collectorData.isRunning())
+		if(rollersData.isRunning())
 		{
-			if(collectorData.getDirection() == Direction.FORWARD)
-				speed = collectorData.getSpeed();
+			if(rollersData.getDirection() == Direction.FORWARD)
+				speed = rollersData.getSpeed();
 			else
-				speed = -collectorData.getSpeed();
+				speed = -rollersData.getSpeed();
 		}
 		else
 		{
@@ -47,7 +47,7 @@ public class CollectorRollers extends Component
 		}
 		
 		leftMotor.set(speed);
-		rightMotor.set(speed);
+		rightMotor.set(-speed);
 
 	}
 

@@ -7,17 +7,17 @@ import com.lynbrookrobotics.frc2015.componentData.CollectorArmData.Position;
 import com.lynbrookrobotics.frc2015.config.ConfigPortMappings;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 
-public class CollectorArm extends Component 
+public class CollectorArms extends Component 
 {
 	Pneumatics arms;
 	CollectorArmData armData;
 	
-	public CollectorArm()
+	public CollectorArms()
 	{
-		super("Collector", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super("CollectorArms", DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 arms = new Pneumatics(
-				 ConfigPortMappings.Instance().Get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
+				 ConfigPortMappings.Instance().get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
 		 
 		 armData = CollectorArmData.get();
 	}
@@ -27,18 +27,18 @@ public class CollectorArm extends Component
 	{
 		State state;
 		
-		if(armData.getDesiredCollectorState() == Position.EXTEND)
+		if(armData.getDesiredCollectorPosition() == Position.EXTEND)
 			state = State.FORWARD;
 		else
-			state = State.REVERSE;
+			state = State.OFF;
 		
-		arms.Set(state);
+		arms.set(state);
 		
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		arms.Set(State.REVERSE);
+		arms.set(State.OFF);
 		
 	}
 
