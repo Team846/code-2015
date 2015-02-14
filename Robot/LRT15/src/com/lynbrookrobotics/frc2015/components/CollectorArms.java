@@ -33,6 +33,7 @@ public class CollectorArms extends Component
 			state = State.OFF;
 		
 		arms.set(state);
+		armData.setCurrentCollectorPosition(state == State.OFF ? Position.STOWED : Position.EXTEND);
 		
 	}
 

@@ -4,6 +4,7 @@ public enum ControlResource
 {
 	DRIVE,
 	TURN,
+	STRAFE,
 	COLLECTOR_ARMS,
 	COLLECTOR_ROLLERS,
 	ELEVATOR,

@@ -55,7 +55,6 @@ public class ConfigRuntime
 		SaveConfig(CONFIG_FILE_PATH);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public int Get(String section, String key, int defaultValue)
 	{
 		if (config.containsKey(section + '.' + key))

@@ -89,9 +89,12 @@ public class Drivetrain extends Component implements Configurable {
 			if (axis == Axis.FORWARD)
 				PIDs[VELOCITY][axis.ordinal()].SetInput(
 						driveEncoders.GetNormalizedForwardSpeed());
-			else
+			else if (axis == Axis.TURN)
 				PIDs[VELOCITY][axis.ordinal()].SetInput(
 						driveEncoders.GetNormalizedTurningSpeed());
+			else
+				PIDs[VELOCITY][axis.ordinal()].SetInput(
+						driveEncoders.GetNormalizedStrafingSpeed());
 
 			PIDs[VELOCITY][axis.ordinal()].SetSetpoint(velocitySetpoint);
 
@@ -99,6 +102,11 @@ public class Drivetrain extends Component implements Configurable {
 			break;
 		case OPEN_LOOP:
 			break;
+		default:
+			AsyncPrinter.warn("Invalid control mode for axis: "+ axis);
+			break;
+
+			
 		}
 		return rawOutput;
 	}

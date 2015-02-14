@@ -27,6 +27,7 @@ public class DriveEncoders implements Configurable
 	static double TICKS_PER_FULL_TURN;
 	static double WHEEL_DIAMETER; // //TODO: Calibrate after running robot
 	static double GEAR_RATIO;  //TODO: Talk to drivetrain team
+	static double MAX_STRAFING_SPEED;
 	
 	public DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
@@ -79,6 +80,16 @@ public class DriveEncoders implements Configurable
 		int rightVel = (encoders[Side.FRONT_RIGHT.ordinal()].getEncVelocity() + encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity()) /2;
 		int leftVel =  (encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity() + encoders[Side.BACK_LEFT.ordinal()].getEncVelocity()) /2;
 		return rightVel - leftVel;
+	}
+	
+	public double GetRawStrafingSpeed()
+	{
+		return (encoders[Side.FRONT_LEFT.ordinal()].getEncVelocity() + encoders[Side.BACK_RIGHT.ordinal()].getEncVelocity()) /2;
+	}
+	
+	public double GetNormalizedStrafingSpeed()
+	{
+		return GetRawStrafingSpeed() / MAX_STRAFING_SPEED;
 	}
 
 	public double GetNormalizedTurningSpeed()
@@ -169,6 +180,7 @@ public class DriveEncoders implements Configurable
 		PULSES_PER_REVOLUTION = GetConfig("pulses_per_revolution", 50.0);
 		MAX_ENCODER_RATE = GetConfig("max_encoder_rate", 2214.762);
 		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782);
+		MAX_STRAFING_SPEED = GetConfig("max_strafing_speed", 29); //TODO: MUST TEST
 		WHEEL_DIAMETER = GetConfig("wheel_diameter", 6.0); // Inches
 		GEAR_RATIO = GetConfig("gear_ratio", 4.0);
 		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", 2.0 * 26.574 * Math.PI / (GEAR_RATIO * WHEEL_DIAMETER * Math.PI) * PULSES_PER_REVOLUTION);

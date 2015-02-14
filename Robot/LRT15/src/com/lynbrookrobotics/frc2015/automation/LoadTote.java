@@ -1,9 +1,22 @@
 package com.lynbrookrobotics.frc2015.automation;
 
+import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData;
+import com.lynbrookrobotics.frc2015.componentData.ElevatorData;
+import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData.Position;
+import com.lynbrookrobotics.frc2015.componentData.ElevatorData.ControlMode;
+import com.lynbrookrobotics.frc2015.componentData.ElevatorData.Setpoint;
+
 public class LoadTote extends Automation {
+
+	private ElevatorData elevatorData;
+	private CarriageHooksData hooksData;
+	private boolean movingUp;
 
 	public LoadTote() {
 		super("LoadElevator");
+		movingUp = false;
+		elevatorData = ElevatorData.get();
+		hooksData = CarriageHooksData.get();
 	}
 
 	@Override
@@ -17,19 +30,38 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Start() {
-		// TODO Auto-generated method stub
+		//turn off hooks
+		hooksData.setBackHooksState(Position.DISABLED);
+		hooksData.setFrontHooksState(Position.DISABLED);
+		
+		// bring carriage down to tote grab setpoint
 		return true;
 	}
 
 	@Override
 	protected boolean Abort() {
-		// TODO Auto-generated method stub
-		return false;
+		elevatorData.setControlMode(ControlMode.SPEED);
+		elevatorData.setSpeed(0.0);
+		return true;
 	}
 
 	@Override
 	protected boolean Run() {
-		// TODO Auto-generated method stub
+		elevatorData.setControlMode(ControlMode.SETPOINT);
+		elevatorData.setSetpoint(Setpoint.GRAB_TOTE);
+		
+		if(elevatorData.isAtSetpoint(Setpoint.GRAB_TOTE) && !movingUp)
+		{
+			movingUp = true;
+			hooksData.setBackHooksState(Position.ENABLED);
+			hooksData.setFrontHooksState(Position.ENABLED);
+			elevatorData.setSetpoint(Setpoint.HOME);
+			
+		}
+		
+		if(elevatorData.isAtSetpoint(Setpoint.HOME))
+			return true;
+		
 		return false;
 	}
 

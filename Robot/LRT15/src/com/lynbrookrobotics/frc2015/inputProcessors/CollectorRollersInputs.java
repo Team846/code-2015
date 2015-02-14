@@ -1,5 +1,6 @@
 package com.lynbrookrobotics.frc2015.inputProcessors;
 
+import com.lynbrookrobotics.frc2015.automation.ControlResource;
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData;
 import com.lynbrookrobotics.frc2015.componentData.CollectorRollersData.Direction;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
@@ -15,6 +16,7 @@ public class CollectorRollersInputs extends InputProcessor
 	{
 		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		collectorRollers = CollectorRollersData.get();
+		RegisterResource(ControlResource.COLLECTOR_ROLLERS);
 	}
 
 	@Override

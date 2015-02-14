@@ -27,7 +27,6 @@ public abstract class Event
 		return CheckCondition() && !lastFired;
 	}
 	
-	
 	public void Update()
 	{
 		lastFired = CheckCondition();

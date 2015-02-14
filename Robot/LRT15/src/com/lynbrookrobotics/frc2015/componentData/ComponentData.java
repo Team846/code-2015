@@ -33,7 +33,11 @@ public abstract class ComponentData
 	{
 		if (componentData_map.containsKey(name))
 			return componentData_map.get(name);
-		return null;
+		else
+		{
+			AsyncPrinter.warn(name + " not found in map! Returning null");
+			return null;
+		}
 	}
 
 	public static void ResetAllCommands()

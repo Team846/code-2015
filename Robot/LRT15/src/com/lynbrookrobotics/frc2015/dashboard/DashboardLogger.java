@@ -63,6 +63,7 @@ public class DashboardLogger
 				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void log(DashboardLog message)
 	{
 		if (server != null) {

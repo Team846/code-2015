@@ -65,6 +65,7 @@ public class LRT15Robot extends LRTRobotBase
 		//Profiler.time(Void->Brain.Instance().Update(), "Brain.Update");
 		Brain.Instance().Update();
 		//Profiler.time(Void->Component.UpdateAll(), "Component.UpdateAll");
+		
 		Component.UpdateAll();
 //		Profiler.time(Void->Actuator.OutputAll(), "Actuator.OutputAll");
 		Actuator.OutputAll();

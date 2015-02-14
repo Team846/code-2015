@@ -11,7 +11,7 @@ public class CollectorRollersData extends ComponentData
 	
 	public enum Direction
 	{
-		FORWARD,
+		INTAKE,
 		REVERSE
 	}
 	

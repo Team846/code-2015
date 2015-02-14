@@ -36,7 +36,7 @@ public class CollectorRollers extends Component
 		
 		if(rollersData.isRunning())
 		{
-			if(rollersData.getDirection() == Direction.FORWARD)
+			if(rollersData.getDirection() == Direction.INTAKE)
 				speed = rollersData.getSpeed();
 			else
 				speed = -rollersData.getSpeed();

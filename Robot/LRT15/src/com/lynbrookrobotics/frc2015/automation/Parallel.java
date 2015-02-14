@@ -18,7 +18,6 @@ public class Parallel extends Automation {
 	 {
 		 super(name, false , false, false);
 		 routines = sequence;
-		 this.abortOnFirst = abortOnFirst;//questionable declaration. should abortOnFirst be assigned to itself?
 	 }
 
 	public Parallel(String name, boolean qIfBlocked, boolean restartable, boolean abortOnFirst) 
@@ -115,7 +114,6 @@ public class Parallel extends Automation {
 	{
 		routines.ensureCapacity(routines.size() + automation.size());
 		routines.addAll(automation);
-		
 	}
 	
 	public void ClearAutomation()

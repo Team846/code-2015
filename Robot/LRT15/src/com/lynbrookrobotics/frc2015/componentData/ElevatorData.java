@@ -4,13 +4,16 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class ElevatorData extends ComponentData{
 	
-	private float speed;
-	private float position;
+	private double speed;
+	private double position;
 
 	private ControlMode controlMode;
 
 	private Setpoint setpoint;
 	private Setpoint currentSetpoint;
+	
+	private double errorThreshold  = 0.1f;
+	private double currentPosition = 0.0f;
 	
 	public enum ControlMode
 	{
@@ -25,7 +28,9 @@ public class ElevatorData extends ComponentData{
 		TOTE_1,
 		TOTE_2,
 		TOTE_3,
-		TOTE_4
+		TOTE_4,
+		GRAB_TOTE,
+		HOME
 	}
 
 	public ElevatorData() {
@@ -39,9 +44,9 @@ public class ElevatorData extends ComponentData{
 		return (ElevatorData)ComponentData.GetComponentData("ElevatorData");
 	}
 	
-	public void setSpeed(float desiredSpeed)
+	public void setSpeed(double d)
 	{
-		speed = desiredSpeed;
+		speed = d;
 	}
 
 	public double getSpeed(){
@@ -75,12 +80,22 @@ public class ElevatorData extends ComponentData{
 		currentSetpoint = s;
 	}
 	
-	public float getPosition() {
+	public boolean isAtPosition(double isAtPosition)
+	{
+		return Math.abs(isAtPosition - currentPosition) < errorThreshold;
+	}
+	
+	public void setCurrentPosition(double position)
+	{
+		currentPosition = position;
+	}
+	
+	public double getDesiredPosition() {
 		return position;
 	}
 
-	public void setPosition(float position) {
-		this.position = position;
+	public void setDesiredPosition(double d) {
+		this.position = d;
 	}
 
 	@Override

@@ -47,7 +47,10 @@ public class Collect extends Automation
 	@Override
 	public void AllocateResources()
 	{
-		AllocateResource(ControlResource.ELEVATOR);
+		if(dropCarriage)
+			AllocateResource(ControlResource.ELEVATOR);
+		if(enableBackHooks)
+			AllocateResource(ControlResource.CARRIAGE_HOOKS);
 		AllocateResource(ControlResource.COLLECTOR_ARMS);
 		AllocateResource(ControlResource.COLLECTOR_ROLLERS);
 	}
@@ -62,12 +65,19 @@ public class Collect extends Automation
 	protected boolean Abort()
 	{
 		rollersData.setRunning(false);
+		armData.setDesiredPosition(Position.STOWED);
 		return true;
 	}
 
 	@Override
 	protected boolean Run()
 	{
+		if(proximitySensor.get())
+		{
+			rollersData.setRunning(false);
+			return true;
+		}
+		
 		if(dropCarriage)
 		{
 			elevatorData.setControlMode(ControlMode.SETPOINT);
@@ -76,19 +86,13 @@ public class Collect extends Automation
 		
 		if(enableBackHooks)
 		{
-			hooksData.setBackHooksState(com.lynbrookrobotics.frc2015.componentData.CarriageHooksData.Position.ENABLED);
+			hooksData.setBackHooksState(CarriageHooksData.Position.ENABLED);
 		}
 		
-		armData.setDesiredCollectorPosition(Position.EXTEND);
+		armData.setDesiredPosition(Position.EXTEND);
 		rollersData.setRunning(true);
-        rollersData.setDirection(Direction.FORWARD);
+        rollersData.setDirection(Direction.INTAKE);
 		rollersData.setSpeed(1.0);
-		
-		if(proximitySensor.get())
-		{
-			rollersData.setRunning(false);
-			return true;
-		}
 			
 		return false;
 	}

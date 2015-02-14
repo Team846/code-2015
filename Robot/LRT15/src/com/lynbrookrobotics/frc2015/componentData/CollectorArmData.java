@@ -25,7 +25,7 @@ public class CollectorArmData extends ComponentData
 		return (CollectorArmData)ComponentData.GetComponentData("CollectorArmData");
 	}
 	
-	public void setDesiredCollectorPosition(Position newPosition)
+	public void setDesiredPosition(Position newPosition)
 	{
 		desiredPosition = newPosition;
 	}

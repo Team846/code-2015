@@ -1,20 +1,26 @@
 package com.lynbrookrobotics.frc2015.automation;
 
 import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData;
+import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData.ControlMode;
 
 public class ExtendCarriage extends Automation {
 	
-	float carriagePosition;//[0,1] 
-	float errorThreshold;
+	double carriagePosition;//[0,1] 
+	double errorThreshold;
 	
 	CarriageExtenderData extenderData;
 
-	public ExtendCarriage(float position ) //position control
+	public ExtendCarriage(double position ) //position control
 	{
 		super("Extend Carriage");
 		carriagePosition = position;	
 		extenderData = CarriageExtenderData.get();
 		errorThreshold = 0.1f; //TODO: make configurable
+	}
+	
+	public ExtendCarriage()
+	{
+		this(1.0);
 	}
 
 	@Override
@@ -30,6 +36,8 @@ public class ExtendCarriage extends Automation {
 
 	@Override
 	protected boolean Abort() {
+		extenderData.setControlMode(ControlMode.VELOCITY);
+		extenderData.setSpeed(0.0);
 		return true;
 	}
 
@@ -37,7 +45,7 @@ public class ExtendCarriage extends Automation {
 	protected boolean Run() {
 		extenderData.setPositionSetpoint(carriagePosition);
 		double error = Math.abs(carriagePosition - extenderData.getCurrentPosition());
-		return error < errorThreshold;
+		return Math.abs(error) < errorThreshold;
 	}
 
 }

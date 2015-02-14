@@ -45,6 +45,7 @@ public class Autonomous extends Sequential {
 		AllocateResource(ControlResource.CARRIAGE_HOOKS);
 	}
 	
+	@SuppressWarnings("unused")
 	private void LoadRoutine(String path)
 	{
 		Scanner in = null;

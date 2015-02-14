@@ -3,8 +3,10 @@ package com.lynbrookrobotics.frc2015.componentData;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+import com.lynbrookrobotics.frc2015.log.AsyncPrinter;
 import com.lynbrookrobotics.frc2015.sensors.DriveEncoders;
 import com.lynbrookrobotics.frc2015.sensors.LRTGyro;
+import com.lynbrookrobotics.frc2015.utils.MathUtils;
 
 public class DrivetrainData extends ComponentData
 {
@@ -13,7 +15,6 @@ public class DrivetrainData extends ComponentData
 	double[] desiredRates;
 	double[] positionSetpoints;
 	double[] maxSpeeds;
-	float zeroHeading;
 	boolean overrideCurrentLimitForward;
 	boolean overrideCurrentLimitReverse;
 	float currentLimitForward;
@@ -44,6 +45,14 @@ public class DrivetrainData extends ComponentData
 	public DrivetrainData() 
 	{
 		super("DrivetrainData");
+		
+		controlModes = new ControlMode[3];
+		desiredOpenLoopOutputs = new double[3];
+		desiredRates = new double[3];
+		positionSetpoints = new double[3];
+		maxSpeeds = new double[3];
+		resetPositionSetpoint = new boolean[3];
+		
 		ResetCommands();
 		Arrays.fill(resetPositionSetpoint, true);
 		Arrays.fill(positionSetpoints, 0);
@@ -66,24 +75,17 @@ public class DrivetrainData extends ComponentData
 		Arrays.fill(desiredRates, 0.0);
 	}
 
-//	void Log()
-//	{
-//		LogToFile(&controlModes, "ControlModes");
-//		LogToFile(&desiredOpenLoopOutputs, "OpenLoopOutputs");
-//		LogToFile(&desiredRates, "DesiredRates");
-//		LogToFile(&positionSetpoints, "PositionSetpoints");
-//		LogToFile(&maxSpeeds, "MaxSpeeds");
-//		LogToFile(&zeroHeading, "ZeroHeading");
-//		LogToFile(&overrideCurrentLimitForward, "OverrideForwardCurrentLimit");
-//		LogToFile(&overrideCurrentLimitReverse, "OverrideReverseCurrentLimit");
-//		LogToFile(&currentLimitForward, "ForwardCurrentLimit");
-//		LogToFile(&currentLimitReverse, "ReverseCurrentLimit");
-//	}
-
 	public void SetControlMode(Axis axis, ControlMode mode)
 	{
 		if (controlModes[axis.ordinal()] != ControlMode.POSITION_CONTROL && mode == ControlMode.POSITION_CONTROL && resetPositionSetpoint[0])
-			positionSetpoints[axis.ordinal()] = axis == Axis.FORWARD ? DriveEncoders.Get().GetRobotDist() : DriveEncoders.Get().GetTurnAngle();
+		{
+			if(axis == Axis.FORWARD)
+				positionSetpoints[axis.ordinal()] = DriveEncoders.Get().GetRobotDist();
+			else if(axis == Axis.TURN)
+				positionSetpoints[axis.ordinal()] = DriveEncoders.Get().GetTurnAngle();
+			else
+				AsyncPrinter.warn("Position setpoint for strafing not supported");
+		}
 		if (controlModes[axis.ordinal()] == ControlMode.POSITION_CONTROL && mode != ControlMode.POSITION_CONTROL)
 			resetPositionSetpoint[axis.ordinal()] = true;
 		controlModes[axis.ordinal()] = mode;
@@ -144,20 +146,14 @@ public class DrivetrainData extends ComponentData
 	public void OverrideForwardCurrentLimit(float limit)
 	{
 		overrideCurrentLimitForward = true;
-		if (limit < 0)
-			limit = 0;
-		else if (limit > 1.0)
-			limit = 1.0f;
+		limit = MathUtils.clamp(limit, 0.0f, 1.0f);
 		currentLimitForward = limit;
 	}
 
 	public void OverrideReverseCurrentLimit(float limit)
 	{
 		overrideCurrentLimitReverse = true;
-		if (limit < 0)
-			limit = 0;
-		else if (limit > 1.0)
-			limit = 1.0f;
+		limit = MathUtils.clamp(limit, 0.0f, 1.0f);
 		currentLimitReverse = limit;
 	}
 

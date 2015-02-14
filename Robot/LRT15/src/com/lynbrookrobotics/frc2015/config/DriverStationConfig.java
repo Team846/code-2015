@@ -21,22 +21,42 @@ public class DriverStationConfig {
 
 	public class JoystickButtons
 	{
+		// Driver Wheel
+		public static final int FIELD_CENTRIC = 4;
+				
 		// Driver Joystick
-		public static final int COLLECT_TOTE = 1;
-		public static final int COLLECT_UPRIGHT_TOTE = 2;
+		public static final int COLLECT_TOTE = 0;
+		public static final int COLLECT_UPRIGHT_CONTAINER = 1;
+		
 		
 		// Operator Joystick
-		public static final int PASS = 1;
-		public static final int DEPLOY_STACK = 1;
-		public static final int REVERSE_ROLLERS = 11;
-		public static final int UNLOAD_LAUNCHER = 12;
+		public static final int EXTEND_CARRIAGE = 0;
 		
-		// Driver Wheel
-		public static final int FIELD_CENTRIC = 7;
+		public static final int LOAD_TOTE = 1;
+		public static final int LOAD_UPRIGHT_CONTAINER = 2;
+		public static final int LOAD_CONTAINER = 3;
+		
+		public static final int ELEVATE_ONE = 1;
+		public static final int ELEVATE_TWO = 1;
+		public static final int ELEVATE_THREE = 1;
+		public static final int ELEVATE_FOUR = 1;
+
+		public static final int DEPLOY_STACK = 7;
+		
+		
+		
+		//Operator overrides
+		public static final int FRONT_HOOKS_OVERRIDE = 12;
+		public static final int BACK_HOOKS_OVERRIDE = 11;
+		
+		public static final int ELEVATOR_OVERRIDE = 10;
+		public static final int REVERSE_ROLLERS = 11;
+		
 		
 		//Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 6;
 		public static final int DASHBOARD_ENABLE2 = 7;
+		
 	}
 	
 	public class DigitalIns

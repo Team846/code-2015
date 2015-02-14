@@ -1,5 +1,8 @@
 package com.lynbrookrobotics.frc2015.automation;
 
+import com.lynbrookrobotics.frc2015.componentData.CarriageExtenderData;
+import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData;
+import com.lynbrookrobotics.frc2015.componentData.CarriageHooksData.Position;
 import com.lynbrookrobotics.frc2015.componentData.ElevatorData;
 import com.lynbrookrobotics.frc2015.componentData.ElevatorData.ControlMode;
 import com.lynbrookrobotics.frc2015.config.ConfigRuntime;
@@ -8,13 +11,17 @@ import com.lynbrookrobotics.frc2015.config.Configurable;
 public class ReleaseStack extends Automation implements Configurable {
 
 	private ElevatorData elevatorData;
-	private float startingPosition;
+	private double startingPosition;
 	private double dropHeight;
+	private CarriageHooksData hooksData;
+	private CarriageExtenderData extenderData;
 
 	public ReleaseStack() {
 		super("ReleaseStack");
 		
 		elevatorData = ElevatorData.get();
+		hooksData = CarriageHooksData.get();
+		extenderData = CarriageExtenderData.get();
 		dropHeight = 0;
 		ConfigRuntime.Register(this);
 		// TODO Auto-generated constructor stub
@@ -28,7 +35,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	protected boolean Start() {
-		startingPosition = elevatorData.getPosition();
+		startingPosition = elevatorData.getDesiredPosition();
 		return true;
 	}
 
@@ -40,8 +47,16 @@ public class ReleaseStack extends Automation implements Configurable {
 	@Override
 	protected boolean Run() {
 		elevatorData.setControlMode(ControlMode.POSITION);
-		elevatorData.setPosition((float) (startingPosition - dropHeight));
-		return true;
+		elevatorData.setDesiredPosition((startingPosition - dropHeight));
+		if(elevatorData.isAtPosition(startingPosition - dropHeight))
+		{
+			hooksData.setBackHooksCurrentState(Position.DISABLED);
+			hooksData.setFrontHooksCurrentState(Position.DISABLED);
+			extenderData.setControlMode(CarriageExtenderData.ControlMode.POSITION);
+			extenderData.setPositionSetpoint(0.0);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

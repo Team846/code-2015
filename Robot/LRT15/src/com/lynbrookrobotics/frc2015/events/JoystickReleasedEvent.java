@@ -4,12 +4,12 @@ import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
 import com.lynbrookrobotics.frc2015.events.Event;
 
 public class JoystickReleasedEvent extends Event {
-	private LRTJoystick m_joystick;
+	private LRTJoystick joystick;
     private int m_button;
     private int m_lastFiredButton;
 	
 	public JoystickReleasedEvent(LRTJoystick joystick, int button) {
-		m_joystick = joystick;
+		this.joystick = joystick;
         m_button = button;
         m_lastFiredButton = button;
 	}
@@ -22,15 +22,15 @@ public class JoystickReleasedEvent extends Event {
 	public boolean CheckCondition() {
 	if (m_button == 0)
         {	
-                for (int i = 1; i <= m_joystick.GetNumButtons(); i++)	
+            for (int i = 1; i <= joystick.GetNumButtons(); i++)	
+            {	
+                if (!joystick.IsButtonDown(i))	
                 {	
-                        if (!m_joystick.IsButtonDown(i))	
-                        {	
-                                return true;	
-                        }	
+                        return true;	
                 }	
+            }	
         }	
-        else if (!m_joystick.IsButtonDown(m_button))	
+        else if (!joystick.IsButtonDown(m_button))	
         {	
                 return true;	
         }	
@@ -42,6 +42,6 @@ public class JoystickReleasedEvent extends Event {
 	}
 	
 	public LRTJoystick GetJoystick() {
-		return m_joystick;
+		return joystick;
 	}
 }

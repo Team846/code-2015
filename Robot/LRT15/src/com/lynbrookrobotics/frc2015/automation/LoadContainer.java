@@ -3,8 +3,8 @@ package com.lynbrookrobotics.frc2015.automation;
 
 public class LoadContainer extends Automation {
 
-	public LoadContainer(String name) {
-		super(name);
+	public LoadContainer() {
+		super("LoadContainer");
 	}
 
 	@Override

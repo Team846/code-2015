@@ -1,11 +1,13 @@
 package com.lynbrookrobotics.frc2015.inputProcessors;
 
+import com.lynbrookrobotics.frc2015.automation.ControlResource;
 import com.lynbrookrobotics.frc2015.componentData.DrivetrainData;
 import com.lynbrookrobotics.frc2015.componentData.DrivetrainData.ControlMode;
 import com.lynbrookrobotics.frc2015.config.Configurable;
 import com.lynbrookrobotics.frc2015.config.DriverStationConfig;
 import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
 import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
+import com.lynbrookrobotics.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -45,13 +47,20 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		 
 		 drivetrainData = DrivetrainData.Get();
 		 this.axis = axis;
+		 if(axis == Axis.DRIVE)
+			 RegisterResource(ControlResource.DRIVE);
+		 else if(axis == Axis.TURN)
+			 RegisterResource(ControlResource.TURN);
+		 else
+			 RegisterResource(ControlResource.STRAFE);
+
 	}
 
 	public void Update()
 	{
 		double forward = -Math.pow(driverStick.getAxis(Joystick.AxisType.kY), throttleExponent);
 	
-		int signForward = forward > 0 ? 1 : -1;
+		int signForward = MathUtils.Sign(forward);
 	
 		if (Math.abs(forward) < deadband)
 			forward = 0.0;

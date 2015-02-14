@@ -14,10 +14,12 @@ import com.lynbrookrobotics.frc2015.driverstation.LRTDriverStation;
 import com.lynbrookrobotics.frc2015.driverstation.LRTJoystick;
 import com.lynbrookrobotics.frc2015.events.DelayedEvent;
 import com.lynbrookrobotics.frc2015.events.Event;
+import com.lynbrookrobotics.frc2015.events.GameModeChangeEvent;
 import com.lynbrookrobotics.frc2015.events.JoystickMovedEvent;
 import com.lynbrookrobotics.frc2015.events.JoystickPressedEvent;
 import com.lynbrookrobotics.frc2015.events.JoystickReleasedEvent;
 import com.lynbrookrobotics.frc2015.inputProcessors.CarriageExtenderInputs;
+import com.lynbrookrobotics.frc2015.inputProcessors.CarriageHooksInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.CollectorArmInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.CollectorRollersInputs;
 import com.lynbrookrobotics.frc2015.inputProcessors.DrivetrainInputs;
@@ -54,8 +56,8 @@ public class Brain
 		
 		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
-		LRTJoystick driverWheel= LRTDriverStation.Instance().GetOperatorStick();
 
+		//create input processor
 		inputs.add(new DrivetrainInputs(Axis.DRIVE));
 		inputs.add(new DrivetrainInputs(Axis.TURN));
 		inputs.add(new DrivetrainInputs(Axis.STRAFE));
@@ -63,10 +65,23 @@ public class Brain
 		inputs.add(new CollectorRollersInputs());
 		inputs.add(new ElevatorInputs());
 		inputs.add(new CarriageExtenderInputs());
-		inputs.add(new CarriageHookInputs());
-
+		inputs.add(new CarriageHooksInputs());
 		
 		Automation auton = new Autonomous();
+		
+		Automation collect_tote = new Collect();
+		Automation collect_upright_container = new Collect(true, true);	
+		Automation load_tote = new LoadTote();
+		Automation load_container = new LoadContainer();
+		Automation load_upright_container = new LoadUprightContainer();
+		
+		Automation elevate_1 = new Elevate(1);
+		Automation elevate_2 = new Elevate(2);
+		Automation elevate_3 = new Elevate(3);
+		Automation elevate_4 = new Elevate(4);
+		
+		Automation extendCarriage = new ExtendCarriage();
+		Automation releaseStack = new ReleaseStack();
 		
 		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
 		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
@@ -78,29 +93,77 @@ public class Brain
 		Event collect_tote_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
 		Event collect_tote_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
 		
-//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_start = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-//		Event load_abort = new JoystickReleasedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LOAD_LAUNCHER);
-
-//		Event fire_start_long = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.LONG_SHOT);
-//		Event fire_start_short = new JoystickPressedEvent(LRTDriverStation.Instance().GetOperatorStick(), DriverStationConfig.JoystickButtons.SHORT_SHOT);
-//		
-
-//		Event dribble_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
-//		Event dribble_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIBBLE);
-//		Event pass_back_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.);
-//		Event pass_back_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.PASS_BACK);
-//		
+		Event collect_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.COLLECT_UPRIGHT_CONTAINER);
+		Event collect_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.COLLECT_UPRIGHT_CONTAINER);
+		
+		Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+		Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+		
+		Event load_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER); 
+		Event load_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER);
+		
+		Event load_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
+		Event load_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
+		
+		Event elevate_one_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
+		Event elevate_one_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
+		
+		Event elevate_two_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_TWO);
+		Event elevate_two_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_TWO);
+		
+		Event elevate_three_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_THREE);
+		Event elevate_three_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_THREE);
+		
+		Event elevate_four_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_FOUR);
+		Event elevate_four_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_FOUR);
+		
+		Event extend_carriage_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
+		Event extend_carriage_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
+		
+		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
+		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
+		
 		//map events to tasks
-//		to_auto.AddStartListener(auton);
-//		driver_stick_moved.AddAbortListener(auton);
-//		operator_stick_moved.AddAbortListener(auton);
-//		driver_stick_pressed.AddAbortListener(auton);
-//		operator_stick_pressed.AddAbortListener(auton);
-//		disabled_timeout.AddAbortListener(auton);
+		to_auto.AddStartListener(auton);
+		driver_stick_moved.AddAbortListener(auton);
+		operator_stick_moved.AddAbortListener(auton);
+		driver_stick_pressed.AddAbortListener(auton);
+		operator_stick_pressed.AddAbortListener(auton);
+		disabled_timeout.AddAbortListener(auton);
+		
+		collect_tote_start.AddStartListener(collect_tote);
+		collect_tote_abort.AddAbortListener(collect_tote);
+		
+		collect_upright_container_start.AddStartListener(collect_upright_container);
+		collect_upright_container_abort.AddAbortListener(collect_upright_container);
+
+		extend_carriage_start.AddStartListener(extendCarriage);
+		extend_carriage_abort.AddAbortListener(extendCarriage);
+		
+		release_stack_start.AddStartListener(releaseStack);
+		release_stack_abort.AddAbortListener(releaseStack);
+		
+		
+		load_tote_start.AddStartListener(load_tote);
+		load_tote_abort.AddAbortListener(load_tote);
+		
+		load_container_start.AddStartListener(load_container);
+		load_container_abort.AddAbortListener(load_container);
+		
+		load_upright_container_start.AddStartListener(load_upright_container);
+		load_upright_container_abort.AddAbortListener(load_upright_container);
+		
+		elevate_one_start.AddStartListener(elevate_1);
+		elevate_one_abort.AddAbortListener(elevate_1);
+		
+		elevate_two_start.AddStartListener(elevate_2);
+		elevate_two_abort.AddAbortListener(elevate_2);
+		
+		elevate_three_start.AddStartListener(elevate_3);
+		elevate_three_abort.AddAbortListener(elevate_3);
+		
+		elevate_four_start.AddStartListener(elevate_4);
+		elevate_four_abort.AddAbortListener(elevate_4);
 	}
 	
 	public void Update()
@@ -224,14 +287,6 @@ public class Brain
 			}
 		}
 	}
-
-//	void Log()
-//	{
-//		for (vector<Automation*>.iterator it = automation.begin(); it < automation.end(); it++)
-//		{
-//			LogToFile(find(runningTasks.begin(), runningTasks.end(), *it) != runningTasks.end(), Event.event_list.get(i).GetName());
-//		}
-//	}
 
 //	void PrintRunningAutomation()
 //	{
