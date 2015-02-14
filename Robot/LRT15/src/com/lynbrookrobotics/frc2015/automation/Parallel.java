@@ -5,9 +5,9 @@ import java.util.ListIterator;
 
 public class Parallel extends Automation {
 
-	 private boolean abortOnFirst;
+	 private boolean abortOnFirst = false;
 	 private ArrayList<Automation> routines;
-	 private ArrayList<Automation> running;
+	 private ArrayList<Automation> running = new ArrayList<Automation>();
 	 
 	 public Parallel(String name)
 	 {
@@ -18,7 +18,7 @@ public class Parallel extends Automation {
 	 {
 		 super(name, false , false, false);
 		 routines = sequence;
-		 this.abortOnFirst = abortOnFirst;
+		 this.abortOnFirst = abortOnFirst;//questionable declaration. should abortOnFirst be assigned to itself?
 	 }
 
 	public Parallel(String name, boolean qIfBlocked, boolean restartable, boolean abortOnFirst) 

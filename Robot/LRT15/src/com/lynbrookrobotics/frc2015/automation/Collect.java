@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Collect extends Automation
 {
-	
-	private DigitalInput proximitySensor;
+	private static final int CHANGEME = 99;
+	private DigitalInput proximitySensor = new DigitalInput(CHANGEME);
 	
 	private CollectorRollersData rollersData = CollectorRollersData.get();
 	private CollectorArmData armData = CollectorArmData.get();

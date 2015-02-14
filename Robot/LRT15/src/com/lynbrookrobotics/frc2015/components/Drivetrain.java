@@ -35,7 +35,7 @@ public class Drivetrain extends Component implements Configurable {
 	PID PIDs[][];
 	DrivetrainData drivetrainData;
 	DriveEncoders driveEncoders;
-	DriveESC[] escs;
+	DriveESC[] escs = new DriveESC[4];
 	
 	CANTalon frontLeft;
 	CANTalon backLeft;
