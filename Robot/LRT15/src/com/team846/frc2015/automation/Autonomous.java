@@ -45,7 +45,28 @@ public class Autonomous extends Sequential {
 		AllocateResource(ControlResource.CARRIAGE_HOOKS);
 	}
 	
-	@SuppressWarnings("unused")
+	private void loadRoutine(String path) {
+		Scanner in = null;
+		try {
+			 in = new Scanner(new File(path));
+		} catch (FileNotFoundException e) {
+			AsyncPrinter.error("Cannot open autonomous file path: " + path);
+			e.printStackTrace();
+		}
+		
+		while (in.hasNext()) {
+			String line = in.nextLine();
+			String[] parallelSplit = line.split("||");
+			Automation[] parallelRoutines = new Automation[parallelSplit.length];
+			for (int i = 0; i < parallelSplit.length; i++) {
+				String automation = parallelSplit[i].trim();
+				String[] commandSplit = automation.split("(");
+				String args = commandSplit[1].substring(0, commandSplit[1].length() - 1);
+				String[] argsSplit = args.split(",");
+			}
+		}
+	}
+	
 	private void LoadRoutine(String path)
 	{
 		Scanner in = null;
