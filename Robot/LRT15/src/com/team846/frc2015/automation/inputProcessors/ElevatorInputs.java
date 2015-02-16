@@ -3,7 +3,7 @@ package com.team846.frc2015.automation.inputProcessors;
 import com.ni.vision.NIVision.VerticalTextAlignment;
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
@@ -28,7 +28,7 @@ public class ElevatorInputs extends InputProcessor {
 	public void Update() {
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATOR_OVERRIDE))
 		{
-			elevatorData.setControlMode(ControlMode.SPEED);
+			elevatorData.setControlMode(ElevatorControlMode.SPEED);
 			elevatorData.setSpeed(-operatorStick.getAxis(AxisType.kY));
 		}
 		

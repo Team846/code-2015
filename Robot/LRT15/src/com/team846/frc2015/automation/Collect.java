@@ -6,7 +6,7 @@ import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CollectorArmData.Position;
 import com.team846.frc2015.componentData.CollectorRollersData.Direction;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.Setpoint;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.sensors.SensorFactory;
@@ -83,13 +83,13 @@ public class Collect extends Automation
 		
 		if(dropCarriage)
 		{
-			elevatorData.setControlMode(ControlMode.SETPOINT);
+			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(Setpoint.GROUND);
 		}
 		
 		if(enableBackHooks)
 		{
-			hooksData.setBackHooksState(CarriageHooksData.Position.ENABLED);
+			hooksData.setBackHooksState(CarriageHooksData.HookState.ENGAGED);
 		}
 		
 		armData.setDesiredPosition(Position.EXTEND);

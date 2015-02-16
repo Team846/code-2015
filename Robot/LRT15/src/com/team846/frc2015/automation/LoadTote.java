@@ -2,8 +2,8 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.CarriageHooksData.Position;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.CarriageHooksData.HookState;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.Setpoint;
 
 public class LoadTote extends Automation {
@@ -31,8 +31,8 @@ public class LoadTote extends Automation {
 	@Override
 	protected boolean Start() {
 		//turn off hooks
-		hooksData.setBackHooksState(Position.DISABLED);
-		hooksData.setFrontHooksState(Position.DISABLED);
+		hooksData.setBackHooksState(HookState.DISENGAGED);
+		hooksData.setFrontHooksState(HookState.DISENGAGED);
 		
 		// bring carriage down to tote grab setpoint
 		return true;
@@ -40,21 +40,21 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Abort() {
-		elevatorData.setControlMode(ControlMode.SPEED);
+		elevatorData.setControlMode(ElevatorControlMode.SPEED);
 		elevatorData.setSpeed(0.0);
 		return true;
 	}
 
 	@Override
 	protected boolean Run() {
-		elevatorData.setControlMode(ControlMode.SETPOINT);
+		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 		elevatorData.setSetpoint(Setpoint.GRAB_TOTE);
 		
 		if(elevatorData.isAtSetpoint(Setpoint.GRAB_TOTE) && !movingUp)
 		{
 			movingUp = true;
-			hooksData.setBackHooksState(Position.ENABLED);
-			hooksData.setFrontHooksState(Position.ENABLED);
+			hooksData.setBackHooksState(HookState.ENGAGED);
+			hooksData.setFrontHooksState(HookState.ENGAGED);
 			elevatorData.setSetpoint(Setpoint.HOME);
 			
 		}

@@ -88,6 +88,7 @@ public class Pneumatics extends Actuator implements Configurable{
 
 	public void Output()
 	{
+		//System.out.println("Bruh");
 		if (pulsed && (solenoid instanceof DoubleSolenoid))
 		{
 			if (counter > 0)

@@ -3,8 +3,8 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.CarriageHooksData.Position;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.CarriageHooksData.HookState;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.Setpoint;
 
 public class LoadUprightContainer extends Automation {
@@ -37,7 +37,7 @@ public class LoadUprightContainer extends Automation {
 
 	@Override
 	protected boolean Abort() {
-		elevatorData.setControlMode(ControlMode.SPEED);
+		elevatorData.setControlMode(ElevatorControlMode.SPEED);
 		elevatorData.setSpeed(0.0);
 		return true;
 	}
@@ -45,8 +45,8 @@ public class LoadUprightContainer extends Automation {
 	@Override
 	protected boolean Run() 
 	{
-		hooksData.setFrontHooksState(Position.ENABLED);
-		elevatorData.setControlMode(ControlMode.SETPOINT);
+		hooksData.setFrontHooksState(HookState.ENGAGED);
+		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 		elevatorData.setSetpoint(Setpoint.HOME);
 		 
 		return elevatorData.isAtSetpoint(Setpoint.HOME);

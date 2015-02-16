@@ -7,15 +7,15 @@ public class ElevatorData extends ComponentData{
 	private double speed;
 	private double position;
 
-	private ControlMode controlMode;
+	private ElevatorControlMode controlMode;
 
 	private Setpoint setpoint;
 	private Setpoint currentSetpoint;
 	
-	private double errorThreshold  = 0.1f;
+	private double errorThreshold  = 10;
 	private double currentPosition = 0.0f;
 	
-	public enum ControlMode
+	public enum ElevatorControlMode
 	{
 		POSITION,
 		SPEED,
@@ -30,7 +30,8 @@ public class ElevatorData extends ComponentData{
 		TOTE_3,
 		TOTE_4,
 		GRAB_TOTE,
-		HOME
+		HOME,
+		NONE
 	}
 
 	public ElevatorData() {
@@ -62,11 +63,11 @@ public class ElevatorData extends ComponentData{
 		setpoint = s;
 	}
 	
-	public ControlMode getControlMode() {
+	public ElevatorControlMode getControlMode() {
 		return controlMode;
 	}
 
-	public void setControlMode(ControlMode control) {
+	public void setControlMode(ElevatorControlMode control) {
 		this.controlMode = control;
 	}
 	
@@ -100,7 +101,7 @@ public class ElevatorData extends ComponentData{
 
 	@Override
 	protected void ResetCommands() {
-		controlMode = ControlMode.SPEED;
+		controlMode = ElevatorControlMode.SPEED;
 		speed = 0.0f;
 		setpoint = Setpoint.GROUND;
 

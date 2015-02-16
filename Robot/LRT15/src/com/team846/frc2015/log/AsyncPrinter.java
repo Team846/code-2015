@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class AsyncPrinter
 {
-	private static long kSleepPeriod = 15; //ms
+	private static long kSleepPeriod = 20; //ms
 	private static AsyncPrinter instance = null;
 	
 	private static Queue<String> toLog = new ConcurrentLinkedQueue<String>();

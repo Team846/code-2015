@@ -2,7 +2,7 @@ package com.team846.frc2015.automation.inputProcessors;
 
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.CarriageExtenderData;
-import com.team846.frc2015.componentData.CarriageExtenderData.ControlMode;
+import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
@@ -24,13 +24,20 @@ public class CarriageExtenderInputs extends InputProcessor {
 
 	@Override
 	public void Update() {
-		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.DEPLOY_STACK))
+
+		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE))
 		{
-			extenderData.setControlMode(ControlMode.POSITION);
+			extenderData.setControlMode(CarriageControlMode.POSITION);
 			double pos = MathUtils.clamp(-operatorStick.getAxis(AxisType.kY),0.0,1.0);
 			extenderData.setPositionSetpoint(pos);
 		}
-
+		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.CARRIAGE_OVERRIDE))
+		{
+			extenderData.setControlMode(CarriageControlMode.VELOCITY);
+			double speed = MathUtils.clamp(-operatorStick.getAxis(AxisType.kY),-1.0,1.0);
+			extenderData.setSpeed(speed);
+		}
 	}
 
 }
+

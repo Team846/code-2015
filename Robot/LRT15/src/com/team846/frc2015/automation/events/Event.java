@@ -12,11 +12,11 @@ public abstract class Event
 	
 	boolean lastFired;
 	
-	public static ArrayList<Event> event_list = new ArrayList<Event>();
+	public static ArrayList<Event> event_vector = new ArrayList<Event>();
 	
 	public Event()
 	{
-		event_list.add(this);
+		event_vector.add(this);
 		lastFired = false;
 	}
 	

@@ -3,7 +3,7 @@ import com.team846.frc2015.actuators.LRTSpeedController;
 import com.team846.frc2015.actuators.LRTTalon;
 import com.team846.frc2015.componentData.ComponentData;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.Setpoint;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
@@ -68,19 +68,28 @@ public class Elevator extends Component implements Configurable {
 			motorB.set(0.0);
 			return;
 		}
-		if(elevatorData.getControlMode() == ControlMode.SPEED)
+		if(elevatorData.getControlMode() == ElevatorControlMode.SPEED)
 			
 		{
 			motorA.set(elevatorData.getSpeed());
 			motorB.set(elevatorData.getSpeed());
 		}
+		else if(elevatorData.getControlMode() == ElevatorControlMode.POSITION)
+		{
+			
+		}
 		else
 		{
-			float posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - currentPosition;
-			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr;
+			double posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - currentPosition;
+			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr / 1023.0;
+			if(speed == 0.0)
+				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+			else
+				elevatorData.setCurrentPosition(Setpoint.NONE);
 			motorA.set(speed * positionGain);
 			motorB.set(speed * positionGain);
 		}
+		elevatorData.setCurrentPosition(currentPosition);
 	
 	}
 

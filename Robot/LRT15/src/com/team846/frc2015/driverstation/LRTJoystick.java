@@ -68,7 +68,7 @@ public class LRTJoystick extends Joystick {
 		for (int i = 1; i < num_buttons + 1; ++i)
 		{
 			wasPressed[i] = isPressed[i];
-			//isPressed[i] = getRawButton(i);
+			isPressed[i] = getRawButton(i);
 		}
 
 		for (int i = 0; i < num_axes ; ++i)

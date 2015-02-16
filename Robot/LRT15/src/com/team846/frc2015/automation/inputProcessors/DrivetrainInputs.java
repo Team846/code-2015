@@ -74,6 +74,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		{
 			drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, (float)forward);
+			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.FORWARD, (float)forward);
 		}
 		else if (axis == Axis.TURN)
 		{
@@ -131,6 +132,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
 			drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, (float)turnComposite);
+			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.TURN, (float)turnComposite);
 		}
 		if(axis == Axis.STRAFE)
 		{
@@ -139,6 +141,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 			
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
+			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);
 		}
 	
 //		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))

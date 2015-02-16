@@ -3,7 +3,7 @@ package com.team846.frc2015.components;
 import com.team846.frc2015.actuators.Pneumatics;
 import com.team846.frc2015.actuators.Pneumatics.State;
 import com.team846.frc2015.componentData.CarriageHooksData;
-import com.team846.frc2015.componentData.CarriageHooksData.Position;
+import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.DriverStationConfig;
 
@@ -31,22 +31,22 @@ public class CarriageHooks extends Component{
 		State backState;
 		State frontState;
 		
-		if (hooksData.getFrontHooksDesiredState() == Position.ENABLED)
-			frontState = State.FORWARD;
-		else
+		if (hooksData.getFrontHooksDesiredState() == HookState.ENGAGED)
 			frontState = State.OFF;
-		
-		
-		if (hooksData.getBackHooksDesiredState() == Position.ENABLED)
-			backState = State.FORWARD;
 		else
+			frontState = State.FORWARD;
+		
+		
+		if (hooksData.getBackHooksDesiredState() == HookState.ENGAGED)
 			backState = State.OFF;
+		else
+			backState = State.FORWARD;
 		
 		frontHooks.set(frontState);
 		backHooks.set(backState);
 		
-		hooksData.setFrontHooksCurrentState(frontState == State.FORWARD ? Position.ENABLED : Position.DISABLED);
-		hooksData.setBackHooksCurrentState(backState == State.FORWARD ? Position.ENABLED : Position.DISABLED);
+		hooksData.setFrontHooksCurrentState(frontState == State.OFF ? HookState.ENGAGED : HookState.DISENGAGED);
+		hooksData.setBackHooksCurrentState(backState == State.OFF ? HookState.ENGAGED : HookState.DISENGAGED);
 	}
 
 	@Override
@@ -64,5 +64,4 @@ public class CarriageHooks extends Component{
 	protected void OnDisabled() {
 		
 	}
-
 }

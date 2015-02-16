@@ -2,7 +2,7 @@ package com.team846.frc2015.componentData;
 
 public class CarriageExtenderData extends ComponentData 
 {
-	private ControlMode control;
+	private CarriageControlMode control;
 	private Setpoint setpoint;
 	
 	private double maxSpeed;
@@ -11,7 +11,7 @@ public class CarriageExtenderData extends ComponentData
 	private double desiredCarriagePosition;
 	private int currentPosition;
 	
-	public enum ControlMode
+	public enum CarriageControlMode
 	{
 		AUTOMATED,
 		VELOCITY,
@@ -26,7 +26,7 @@ public class CarriageExtenderData extends ComponentData
 	
 	public CarriageExtenderData() {
 		super("CarriageExtenderData");
-		maxSpeed = 1.0;
+		maxSpeed = 0.8;
 		ResetCommands();
 	}
 	
@@ -55,12 +55,12 @@ public class CarriageExtenderData extends ComponentData
 		return speed;
 	}
 	
-	public ControlMode getControlMode()
+	public CarriageControlMode getControlMode()
 	{
 		return control;
 	}
 	
-	public void setControlMode(ControlMode controlMode)
+	public void setControlMode(CarriageControlMode controlMode)
 	{
 		control = controlMode;
 	}
@@ -99,7 +99,7 @@ public class CarriageExtenderData extends ComponentData
 	protected void ResetCommands() 
 	{
 		speed = 0.0;
-		control = ControlMode.VELOCITY;
+		control = CarriageControlMode.VELOCITY;
 		setpoint = Setpoint.RETRACT;
 	}
 

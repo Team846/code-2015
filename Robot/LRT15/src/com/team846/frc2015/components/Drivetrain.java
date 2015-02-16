@@ -113,21 +113,42 @@ public class Drivetrain extends Component implements Configurable {
 
 	public void UpdateEnabled()
 	{
+		double leftFrontOutput;
+		double rightFrontOutput;
+		
+		double leftBackOutput;
+		double rightBackOutput;
+		
+		if(drivetrainData.getClassicDrive())
+		{
 		double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
 		double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 		double strafeOutput = ComputeOutput(Axis.STRAFE); //positive is to the right
 		
-		double leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
-		double rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
+		 leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
+		 rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
 		
-		double leftBackOutput = fwdOutput + turnOutput - strafeOutput;
-		double rightBackOutput = fwdOutput - turnOutput + strafeOutput;
+		 leftBackOutput = fwdOutput + turnOutput - strafeOutput;
+		 rightBackOutput = fwdOutput - turnOutput + strafeOutput;
+		}
+		else
+		{
+			double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD); //positive means forward
+			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); //positive is to the right
+			
+			 leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
+			 rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
+			
+			 leftBackOutput = fwdOutput + turnOutput - strafeOutput;
+			 rightBackOutput = fwdOutput - turnOutput + strafeOutput;
+		}
 
 		leftFrontOutput = MathUtils.clamp(leftFrontOutput, -1.0, 1.0);
 		rightFrontOutput = MathUtils.clamp(rightFrontOutput, -1.0, 1.0);
 		leftBackOutput = MathUtils.clamp(leftBackOutput, -1.0, 1.0);
 		rightBackOutput = MathUtils.clamp(rightBackOutput, -1.0, 1.0);
-
+		
 //		if (drivetrainData.ShouldOverrideForwardCurrentLimit())
 //		{
 //			escs[LEFT].SetForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());

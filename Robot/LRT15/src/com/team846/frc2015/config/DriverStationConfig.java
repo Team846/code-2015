@@ -8,7 +8,7 @@ public class DriverStationConfig {
 	public class JoystickConfig
 	{
 		//Joystick Axis
-		public static final int NUM_JOYSTICK_BUTTONS = 12;// Max supported by the driver station
+		public static final int NUM_JOYSTICK_BUTTONS = 16;// Max supported by the driver station
 		public static final int NUM_JOYSTICK_AXES = 3; //Doesnt recognize slider
 		public static final int NUM_WHEEL_BUTTONS = 11;
 		public static final int NUM_WHEEL_AXES = 3;
@@ -30,11 +30,11 @@ public class DriverStationConfig {
 		
 		
 		// Operator Joystick
-		public static final int EXTEND_CARRIAGE = 0;
+		public static final int EXTEND_CARRIAGE = 1;
 		
-		public static final int LOAD_TOTE = 1;
-		public static final int LOAD_UPRIGHT_CONTAINER = 2;
-		public static final int LOAD_CONTAINER = 3;
+		public static final int LOAD_TOTE = 2;
+		public static final int LOAD_UPRIGHT_CONTAINER = 3;
+		public static final int LOAD_CONTAINER = 4;
 		
 		public static final int ELEVATE_ONE = 1;
 		public static final int ELEVATE_TWO = 1;
@@ -46,16 +46,18 @@ public class DriverStationConfig {
 		
 		
 		//Operator overrides
-		public static final int FRONT_HOOKS_OVERRIDE = 12;
-		public static final int BACK_HOOKS_OVERRIDE = 11;
+		public static final int FRONT_HOOKS_OVERRIDE = 13;
+		public static final int BACK_HOOKS_OVERRIDE = 12;
+		public static final int ELEVATOR_OVERRIDE = 14;
+		public static final int CARRIAGE_OVERRIDE = 11;
 		
-		public static final int ELEVATOR_OVERRIDE = 10;
 		public static final int REVERSE_ROLLERS = 11;
 		
 		
 		//Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 6;
 		public static final int DASHBOARD_ENABLE2 = 7;
+
 		
 	}
 	

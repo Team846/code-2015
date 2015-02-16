@@ -65,6 +65,7 @@ public class LRTDriverStation {
 	{
 		return driver_stick;
 	}
+	
 
 	public LRTJoystick GetDriverWheel()
 	{

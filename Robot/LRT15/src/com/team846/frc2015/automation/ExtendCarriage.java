@@ -1,7 +1,7 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageExtenderData;
-import com.team846.frc2015.componentData.CarriageExtenderData.ControlMode;
+import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
 
 public class ExtendCarriage extends Automation {
 	
@@ -36,7 +36,7 @@ public class ExtendCarriage extends Automation {
 
 	@Override
 	protected boolean Abort() {
-		extenderData.setControlMode(ControlMode.VELOCITY);
+		extenderData.setControlMode(CarriageControlMode.VELOCITY);
 		extenderData.setSpeed(0.0);
 		return true;
 	}

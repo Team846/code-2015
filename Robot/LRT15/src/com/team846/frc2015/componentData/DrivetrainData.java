@@ -21,6 +21,7 @@ public class DrivetrainData extends ComponentData
 	float currentLimitReverse;
 	
 	boolean[] resetPositionSetpoint;
+	private boolean classic;
 	 
 	public enum ControlMode
 	{
@@ -46,6 +47,8 @@ public class DrivetrainData extends ComponentData
 	{
 		super("DrivetrainData");
 		
+		classic = false;
+		
 		controlModes = new ControlMode[3];
 		desiredOpenLoopOutputs = new double[3];
 		desiredRates = new double[3];
@@ -67,6 +70,7 @@ public class DrivetrainData extends ComponentData
 
 	public void ResetCommands()
 	{
+		classic = false;
 		overrideCurrentLimitForward = false;
 		overrideCurrentLimitReverse = false;
 		currentLimitForward = 0.5f;
@@ -91,9 +95,9 @@ public class DrivetrainData extends ComponentData
 		controlModes[axis.ordinal()] = mode;
 	}
 
-	public void SetVelocitySetpoint(Axis axis, float velocity)
+	public void SetVelocitySetpoint(Axis axis, double d)
 	{
-		desiredRates[axis.ordinal()] = velocity;
+		desiredRates[axis.ordinal()] = d;
 	}
 
 	public void SetOpenLoopOutput(Axis axis, double setpoint)
@@ -177,5 +181,15 @@ public class DrivetrainData extends ComponentData
 	public boolean ShouldOverrideReverseCurrentLimit()
 	{
 		return overrideCurrentLimitReverse;
+	}
+	
+	public void setClassicDrive(boolean on)
+	{
+		classic = on;
+	}
+	
+	public boolean getClassicDrive()
+	{
+		return classic;
 	}
 }

@@ -4,70 +4,70 @@ import com.team846.frc2015.componentData.ComponentData;
 
 public class CarriageHooksData extends ComponentData{
 
-	public enum Position
+	public enum HookState
 	{
-		ENABLED,
-		DISABLED
+		ENGAGED,
+		DISENGAGED
 	}
 	
-	private Position desiredFrontState;
-	private Position desiredBackState;
+	private HookState desiredFrontState;
+	private HookState desiredBackState;
 	
-	private Position currentFrontState;
-	private Position currentBackState;
+	private HookState currentFrontState;
+	private HookState currentBackState;
 	
 	public CarriageHooksData() {
 		super("CarriageHooksData");
-		desiredFrontState = Position.ENABLED;
-		desiredBackState = Position.ENABLED;
-		currentFrontState = Position.ENABLED;
-		currentBackState = Position.ENABLED;
+		desiredFrontState = HookState.ENGAGED;
+		desiredBackState = HookState.ENGAGED;
+		currentFrontState = HookState.ENGAGED;
+		currentBackState = HookState.ENGAGED;
 	}
 	
 	public static CarriageHooksData get(){
 		return (CarriageHooksData) ComponentData.GetComponentData("CarriageHooksData");
 	}
 	
-	public Position getFrontHooksCurrentState(){
+	public HookState getFrontHooksCurrentState(){
 		return currentFrontState;
 	}
 	
-	public Position getFrontHooksDesiredState(){
+	public HookState getFrontHooksDesiredState(){
 		return desiredFrontState;
 	}
 	
-	public void setFrontHooksState(Position newState){
+	public void setFrontHooksState(HookState newState){
 		desiredFrontState = newState;
 	}
 	
-	public Position getBackHooksCurrentState(){
+	public HookState getBackHooksCurrentState(){
 		return currentBackState;
 	}
 	
-	public Position getBackHooksDesiredState(){
+	public HookState getBackHooksDesiredState(){
 		return desiredBackState;
 	}
 
-	public void setBackHooksState(Position newState){
+	public void setBackHooksState(HookState newState){
 		desiredBackState = newState;
 	}
 	
-	public void setFrontHooksCurrentState(Position curState)
+	public void setFrontHooksCurrentState(HookState curState)
 	{
 		currentFrontState = curState;
 	}
 	
-	public void setBackHooksCurrentState(Position curState)
+	public void setBackHooksCurrentState(HookState curState)
 	{
 		currentFrontState = curState;
 	}
 
 	@Override
 	protected void ResetCommands() {
-		desiredFrontState = Position.ENABLED;
-		desiredBackState = Position.ENABLED;
-		currentFrontState = Position.ENABLED;
-		currentBackState = Position.ENABLED;
+		desiredFrontState = HookState.ENGAGED;
+		desiredBackState = HookState.ENGAGED;
+		currentFrontState = HookState.ENGAGED;
+		currentBackState = HookState.ENGAGED;
 		
 	}
 

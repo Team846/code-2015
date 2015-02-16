@@ -3,8 +3,8 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.CarriageHooksData.Position;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.CarriageHooksData.HookState;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 
@@ -46,13 +46,13 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	protected boolean Run() {
-		elevatorData.setControlMode(ControlMode.POSITION);
+		elevatorData.setControlMode(ElevatorControlMode.POSITION);
 		elevatorData.setDesiredPosition((startingPosition - dropHeight));
 		if(elevatorData.isAtPosition(startingPosition - dropHeight))
 		{
-			hooksData.setBackHooksCurrentState(Position.DISABLED);
-			hooksData.setFrontHooksCurrentState(Position.DISABLED);
-			extenderData.setControlMode(CarriageExtenderData.ControlMode.POSITION);
+			hooksData.setBackHooksCurrentState(HookState.DISENGAGED);
+			hooksData.setFrontHooksCurrentState(HookState.DISENGAGED);
+			extenderData.setControlMode(CarriageExtenderData.CarriageControlMode.POSITION);
 			extenderData.setPositionSetpoint(0.0);
 			return true;
 		}

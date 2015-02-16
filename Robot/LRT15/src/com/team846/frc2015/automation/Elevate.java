@@ -2,7 +2,7 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.ElevatorData.ControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.Setpoint;
 import com.team846.frc2015.log.AsyncPrinter;
 
@@ -43,13 +43,12 @@ public class Elevate extends Automation {
 
 	@Override
 	protected boolean Abort() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected boolean Run() {
-		elData.setControlMode(ControlMode.SETPOINT);
+		elData.setControlMode(ElevatorControlMode.SETPOINT);
 		elData.setSetpoint(setpoint);
 		
 		return elData.isAtSetpoint(setpoint);
