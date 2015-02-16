@@ -57,20 +57,23 @@ public class Autonomous extends Sequential {
 		
 		while (in.hasNext()) {
 			String line = in.nextLine();
-			String[] parallelSplit = line.split("\\|\\|");
+			
+			String[] parallelSplit = line.split("\\|\\|"); // splits at "||"
 			ArrayList<Automation> parallelRoutines = new ArrayList<Automation>(parallelSplit.length);
-			System.out.println("begin one parallel group:");
+			
 			for (int i = 0; i < parallelSplit.length; i++) {
 				String automation = parallelSplit[i].trim();
-				String[] commandSplit = automation.split("\\(");
+				
+				String[] commandSplit = automation.split("\\("); // splits at "("
+				
 				String command = commandSplit[0];
+				
 				String args = commandSplit[1].substring(0, commandSplit[1].length() - 1);
 				String[] argsSplit = args.split(",");
+				
 				for (int argsI = 0; argsI < argsSplit.length; argsI++) {
 					argsSplit[argsI] = argsSplit[argsI].trim();
 				}
-				
-				System.out.println(command + ": " + Arrays.toString(argsSplit));
 				
 				try {
 					switch(command) {
