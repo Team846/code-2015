@@ -1,3 +1,12 @@
+/*
+ *
+ * WARNING
+ *
+ * ONLY WORKS WITH A GUI
+ * TODO: Change to work in headless mode
+ *
+ */
+
 #include "opencv2/opencv.hpp"
 #include <vector>
 #include <thread>
