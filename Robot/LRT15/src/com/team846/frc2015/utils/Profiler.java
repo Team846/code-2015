@@ -44,7 +44,7 @@ public class Profiler {
 			new HashMap<String, Pair<Long, Long>>();
 
 	private static void log(String msg) {
-		AsyncPrinter.println(msg.toString());
+		AsyncPrinter.info(msg.toString());
 	}
 	
 	public static void start(String methodName) {

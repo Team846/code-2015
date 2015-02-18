@@ -14,7 +14,7 @@ public class OpticalFlow {
 	private static String mousePathPrefix = "/dev/input/mouse";
 	
 	private static void log(Object msg) {
-		AsyncPrinter.println(msg.toString());
+		AsyncPrinter.info(msg.toString());
 	}
 
 	private static class MouseInterruptThread implements Runnable {

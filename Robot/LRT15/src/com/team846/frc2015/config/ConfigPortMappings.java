@@ -38,7 +38,7 @@ public class ConfigPortMappings
 	public void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
-		AsyncPrinter.println("ConfigPortMappings: Done loading " +  CONFIG_FILE_PATH);
+		AsyncPrinter.info("ConfigPortMappings: Done loading " +  CONFIG_FILE_PATH);
 	}
 	
 	public int get(String name)

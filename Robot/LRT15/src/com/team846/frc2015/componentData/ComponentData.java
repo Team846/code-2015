@@ -15,7 +15,7 @@ public abstract class ComponentData
 	public ComponentData(String name)
 	{
 		componentData_map.put(name, this);
-		AsyncPrinter.println("Created componentData: " + name);
+		AsyncPrinter.info("Created componentData: " + name);
 	}
 
 	public static void createComponentDatas()

@@ -45,7 +45,7 @@ public class ConfigRuntime
 	public void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
-		AsyncPrinter.println("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
+		AsyncPrinter.info("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
 		//Save();
 		ConfigureAll();
 	}
@@ -114,7 +114,7 @@ public class ConfigRuntime
 		long currentFileTimestamp = config.getFile().lastModified();
 		if(lastReadTimestamp != currentFileTimestamp)
 		{
-			AsyncPrinter.println("Change detected, reloading config");
+			AsyncPrinter.info("Change detected, reloading config");
 			Load();
 			lastReadTimestamp = currentFileTimestamp;
 		}
@@ -147,7 +147,7 @@ public class ConfigRuntime
 			
 			e.printStackTrace();
 		}	
-		AsyncPrinter.println("Done saving " + path);
+		AsyncPrinter.info("Done saving " + path);
 	}
 
 }
