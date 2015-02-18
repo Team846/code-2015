@@ -31,7 +31,7 @@ public abstract class Component
 		this.name = name;
 		digitalIn = driverStationDigitalIn;
 		lastEnabled = false;
-		AsyncPrinter.println("Created component: " + name);
+		AsyncPrinter.info("Created component: " + name);
 	}
 	
 	public static void CreateComponents()
