@@ -43,7 +43,7 @@ public class Autonomous extends Sequential
 
 		ConfigRuntime.ConfigureAll();
 
-		return ((Sequential) this).Start();
+		return super.Start();
 	}
 
 	public void AllocateResources()
