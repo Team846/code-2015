@@ -24,7 +24,7 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void RobotInit() 
 	{
-		//AsyncPrinter.Initialize();
+		AsyncPrinter.Initialize();
 		AsyncPrinter.info("Initialized Asynchronous Logging...");
 		
 		RobotState.Initialize();
