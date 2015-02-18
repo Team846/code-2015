@@ -12,6 +12,7 @@ import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.log.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Autonomous extends Sequential
 {
@@ -32,7 +33,7 @@ public class Autonomous extends Sequential
 
 		try
 		{
-			loadRoutine(FindRoutine(1));
+			loadRoutine(FindRoutine(SmartDashboard.getInt("DB/Slider 0"))); // WARNING: Rounds the current value DOWN
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
