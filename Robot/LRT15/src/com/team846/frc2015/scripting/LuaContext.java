@@ -11,6 +11,7 @@ public class LuaContext implements ScriptContext{
 	private Globals mGlobals;
 	private boolean mRun;
 	
+	private LuaValue mLuaState;
 	private LuaThread mLuaExecutionContext;
 	
 	public LuaContext() {
@@ -36,6 +37,8 @@ public class LuaContext implements ScriptContext{
 	
 	@Override
 	public ScriptExecutionState step() {
+		// TODO: since the context runs synchronously on a separate thread, need to kill the thread upon exit if it hasn't completed
+		
 		Varargs res = mLuaExecutionContext.resume(LuaValue.NONE); // resume the script
 		
 		boolean success = res.arg(1).checkboolean(); // check for failure
@@ -49,9 +52,16 @@ public class LuaContext implements ScriptContext{
 		}
 		return ScriptExecutionState.EXEC_ERROR;
 	}
+
+	public Varargs exec(String func, Varargs args) {
+		return mGlobals.invokemethod(func, args);
+	}
 	
 	private boolean setupContext(LuaValue chunk) {
-		mLuaExecutionContext = new LuaThread(mGlobals, chunk);
+		mLuaState = chunk;
+		chunk.call();
+		LuaValue mainMethod = mGlobals.get("main");
+		mLuaExecutionContext = new LuaThread(mGlobals, mainMethod);
 		
 		return true;
 	}
