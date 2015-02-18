@@ -59,7 +59,7 @@ public class LuaContext implements ScriptContext{
 	
 	private boolean setupContext(LuaValue chunk) {
 		mLuaState = chunk;
-		chunk.call();
+		chunk.call(); // load script functions and run any procedural calls
 		LuaValue mainMethod = mGlobals.get("main");
 		mLuaExecutionContext = new LuaThread(mGlobals, mainMethod);
 		
