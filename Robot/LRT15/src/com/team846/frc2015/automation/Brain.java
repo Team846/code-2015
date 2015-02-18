@@ -57,14 +57,14 @@ public class Brain
 		
 		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
-//
-//		//create input processor
-//		inputs.add(new DrivetrainInputs(Axis.DRIVE));
-//		inputs.add(new DrivetrainInputs(Axis.TURN));
-//		inputs.add(new DrivetrainInputs(Axis.STRAFE));
-//		inputs.add(new CollectorArmInputs());
-//		inputs.add(new CollectorRollersInputs());
-//		inputs.add(new ElevatorInputs());
+
+		//create input processor
+		inputs.add(new DrivetrainInputs(Axis.DRIVE));
+		inputs.add(new DrivetrainInputs(Axis.TURN));
+		inputs.add(new DrivetrainInputs(Axis.STRAFE));
+		inputs.add(new CollectorArmInputs());
+		inputs.add(new CollectorRollersInputs());
+		inputs.add(new ElevatorInputs());
 		inputs.add(new CarriageExtenderInputs());
 		inputs.add(new CarriageHooksInputs());
 //		
