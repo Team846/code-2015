@@ -30,7 +30,15 @@ public class Autonomous extends Sequential
 
 		ClearSequence();
 
-		loadRoutine(FindRoutine(1)); // TODO: Configurable routine
+		try
+		{
+			loadRoutine(FindRoutine(1));
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		// TODO: Configurable routine
 
 		ConfigRuntime.ConfigureAll();
 
@@ -48,15 +56,15 @@ public class Autonomous extends Sequential
 		AllocateResource(ControlResource.CARRIAGE_HOOKS);
 	}
 
-	private void loadRoutine(String path)
+	private void loadRoutine(File file)
 	{
 		Scanner in = null;
 		try
 		{
-			in = new Scanner(new File(path));
+			in = new Scanner(file);
 		} catch (FileNotFoundException e)
 		{
-			AsyncPrinter.error("Cannot open autonomous file path: " + path);
+			AsyncPrinter.error("Cannot open autonomous file: " + file);
 			e.printStackTrace();
 		}
 
@@ -270,9 +278,17 @@ public class Autonomous extends Sequential
 	//
 	// }
 
-	private String FindRoutine(int routineNumber)
+	private File FindRoutine(int routineNumber) throws FileNotFoundException
 	{
-		throw new NotImplementedException("Customizable routine not ");
+		File folder = new File("/home/lvuser/config/auto/");
+		File[] routines = folder.listFiles();
+		for (File routine: routines) {
+			if (routine.getName().endsWith(routineNumber + ".routine")) {
+				return routine;
+			}
+		}
+		
+		throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
 	}
 
 }
