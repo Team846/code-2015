@@ -3,12 +3,9 @@ package com.team846.frc2015.components;
 import java.util.ArrayList;
 
 import com.team846.frc2015.config.DriverStationConfig;
-import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.robot.RobotState;
-
-import edu.wpi.first.wpilibj.DriverStation;
 
 public abstract class Component 
 {
@@ -39,12 +36,12 @@ public abstract class Component
 	
 	public static void CreateComponents()
 	{
-//		component_list.add(new Drivetrain());
-//		component_list.add(new CollectorArms());
-//		component_list.add(new CollectorRollers());
+		component_list.add(new Drivetrain());
+		component_list.add(new CollectorArms());
+		component_list.add(new CollectorRollers());
 		component_list.add(new CarriageExtender());
 		component_list.add(new CarriageHooks());
-//		component_list.add(new Elevator());
+		component_list.add(new Elevator());
 	}
 	
 
