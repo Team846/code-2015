@@ -1,23 +1,8 @@
 [
   {
-    "id": "motor-speed",
-    "name": "Motor Speed",
-    "type": "graph"
-  },
-  {
     "id": "robot-on",
     "name": "Robot On",
     "type": "boolean"
-  },
-  {
-    "id": "my-fancy-logs",
-    "name": "My fancy logs",
-    "type": "log"
-  },
-  {
-    "id": "my-fancy-strings",
-    "name": "My fancy strings",
-    "type": "string"
   },
   {
     "id": "elevator-pot",

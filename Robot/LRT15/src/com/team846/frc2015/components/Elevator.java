@@ -10,6 +10,8 @@ import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.PID;
+import com.team846.frc2015.dashboard.DashboardLogger;
+import com.team846.frc2015.dashboard.IntegerLog;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
 
@@ -60,6 +62,8 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateEnabled() {
 
 		int currentPosition = elevatorPot.getAverageValue();
+		
+		DashboardLogger.getInstance().log(new IntegerLog("elevator-pot", currentPosition));
 		
 		if(currentPosition >= topSoftLimit || currentPosition <= bottomSoftLimit)
 		{

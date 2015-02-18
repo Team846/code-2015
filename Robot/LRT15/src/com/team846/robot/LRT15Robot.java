@@ -8,6 +8,7 @@ import com.team846.frc2015.components.Component;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.RobotConfig;
+import com.team846.frc2015.dashboard.BooleanLog;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
@@ -15,6 +16,8 @@ import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
 //import dashboard.DashboardLogger;
 import com.team846.frc2015.utils.Profiler;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class LRT15Robot extends LRTRobotBase
 {
@@ -51,7 +54,7 @@ public class LRT15Robot extends LRTRobotBase
 		Pneumatics.CreateCompressor();
 		AsyncPrinter.info("Creating Compressor...");
 		
-	//	DashboardLogger.Initialize();
+//		DashboardLogger.Initialize();
 		
 		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 	}
@@ -73,6 +76,6 @@ public class LRT15Robot extends LRTRobotBase
 		
 		ComponentData.ResetAllCommands();
 
-		//DashboardLogger.getInstance().tick();
+		DashboardLogger.getInstance().log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
 	}
 }
