@@ -3,7 +3,7 @@ package com.team846.frc2015.utils;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 import com.team846.frc2015.log.AsyncPrinter;
 
@@ -40,8 +40,8 @@ public class Profiler {
 
 	static private final String tab = "\t";
 
-	private static ConcurrentHashMap<String, Pair<Long, Long>> profilingData = 
-			new ConcurrentHashMap<String, Pair<Long, Long>>();
+	private static HashMap<String, Pair<Long, Long>> profilingData = 
+			new HashMap<String, Pair<Long, Long>>();
 
 	private static void log(String msg) {
 		AsyncPrinter.println(msg.toString());
