@@ -1,15 +1,16 @@
-/*
- *
- * WARNING
- *
- * ONLY WORKS WITH A GUI
- * TODO: Change to work in headless mode
- *
- */
+//Dependencies
+
+//OpenCV 2.4.10
+//Boost ASIO
+//pthread
 
 #include "opencv2/opencv.hpp"
+#include "server.hpp"
+#include "pid.hpp"
+
 #include <vector>
 #include <thread>
+#include <chrono>
 #include <iostream>
 #include <cstdio>
 
@@ -19,34 +20,71 @@ void initUI();
 void displayMat(Mat matToDisplay, std::string windowName);
 void detectAndDisplay();
 void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target);
+void wait(int ms);
+double normalize(double number);
 
-const int hLow = 70;
-const int hHigh = 120;
-const int sLow = 0;
-const int sHigh = 255;
-const int vLow = 150;
-const int vHigh = 255;
+// all time units are in ms
 
-const float maxAspectRatio = 4.0f;
-const int minimumArea = 5000;
-const int maximumArea = 100000;
+bool runHeadless = false;
+int loopHz = 25;
+int loopDelta = 1000 / loopHz;
+
+int hLow = 70;
+int hHigh = 120;
+int sLow = 0;
+int sHigh = 255;
+int vLow = 150;
+int vHigh = 255;
+
+double conversionFactor = 1.0f / 150.0f;
+
+int smallestBoxArea = 10000000; // arbitrary large number
+int smallestBoxPV = 0; // calculated input for smallest box
+
+float maxAspectRatio = 2.4f;
+float minimumArea = 0.2f;
+float maximumArea = 1.0f;
 
 VideoCapture capture;
 Mat image;
 
 int main(int argc, char** argv) {
-	initUI();
+	if (!runHeadless) {
+		std::cout << "Running with GUI" << std::endl;
+		initUI();
+	} else {
+		std::cout << "Running headless" << std::endl;
+	}
 
+	std::thread server(Server::start);
 	capture = VideoCapture(0);
+	capture.read(image);
+
+	PID pid(0.5, 0, 0, 0, 0, 0, 0);
+	smallestBoxPV = ((double) image.cols) / 2.0f;
+	pid.SetSetpoint(((double) image.cols) / 2.0f);
 
 	if (!capture.isOpened()) {
 		std::cout << "Did not connect to camera.";
 	} else {
 		while (true) {
+			if (!runHeadless) {
+				detectAndDisplay();
+				waitKey(loopDelta);
+			} else {
+				std::thread t1(detectAndDisplay);
+				std::thread t2(wait, loopDelta);
 
-			detectAndDisplay();
+				t2.join();
+				t1.join();
+			}
 
-			waitKey(10);
+			//TODO: Implement proper PID
+			pid.SetInput(smallestBoxPV);
+			double newThrottle = -1 * (pid.Update(loopDelta)); // positive value: turn right
+			newThrottle = normalize(newThrottle);
+
+			Server::updateThrottle(newThrottle);
 		}
 
 	}
@@ -104,10 +142,14 @@ void detectAndDisplay() {
 
 	iterateAndDrawContours(contoursGrey, imageCopy);
 	iterateAndDrawContours(contoursYellow, imageCopy);
+	smallestBoxArea = 10000000; // arbitrary large number
 
-	displayMat(imageCopy, "main");
-	displayMat(imageCopyGrey, "grey");
-	displayMat(imageCopyYellow, "yellow");
+	if (!runHeadless) {
+		displayMat(imageCopy, "main");
+		//displayMat(imageCopyGrey, "grey");
+		//displayMat(imageCopyYellow, "yellow");
+	}
+
 }
 
 void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target) {
@@ -117,24 +159,54 @@ void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target) {
 		Rect bound = boundingRect(Mat(*contour));
 
 		float aspectRatio = (float) bound.width / (float) bound.height;
-		int minimumArea = 100000;
-		int maximumArea = 200000;
+		int minimumActualArea = (image.rows * image.cols) * minimumArea;
+		int maximumActualArea = (image.rows * image.cols) * maximumArea;
+
+		if (aspectRatio < 1) {
+			aspectRatio = 1.0f / aspectRatio;
+		}
 
 		//std::printf("%f\n", aspectRatio);
 
-		if (bound.area() > minimumArea && bound.area() <= maximumArea
+		if (bound.area() > minimumActualArea
+				&& bound.area() <= maximumActualArea
 				&& maxAspectRatio > aspectRatio) {
+
 			rectangle(target, bound.tl(), bound.br(), Scalar(255, 255, 255));
+
+			if (bound.area() < smallestBoxArea) {
+				smallestBoxPV = (double) bound.x + ((double) bound.width / 2);
+				smallestBoxArea = bound.area();
+			}
 		}
 	}
 }
 
 void initUI() {
 	namedWindow("main");
-	namedWindow("yellow");
-	namedWindow("grey");
+	//namedWindow("yellow");
+	//namedWindow("grey");
 }
 
 void displayMat(Mat matToDisplay, std::string windowName) {
 	imshow(windowName, matToDisplay);
+}
+
+void wait(int ms) {
+	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
+double normalize(double number) {
+	number = number * conversionFactor;
+	std::cout << number << std::endl;
+
+	if (number > 1.0f) {
+		return 1.0f;
+	}
+
+	if (number < -1.0f) {
+		return -1.0f;
+	}
+
+	return number;
 }
