@@ -7,38 +7,9 @@ import java.util.HashMap;
 
 import com.team846.frc2015.log.AsyncPrinter;
 
-/*
- * USAGE
- * 
- * import Profiler;
- * 
- * public class someClass {
- * 		public static void someMethod(int i, int j) {
- * 			// sometask
- * 			
- * 			System.out.println(i + j); // 3
- * 		}
- * 
- *		public static void someVoidMethod() {
- * 			// sometask
- * 		}
- * 		
- * 		public static void main(String[] args) {
- * 			Profiler.time(Void -> someClass.someMethod(1, 2), "id1"); Lambda syntax
- *			Profiler.time(Void -> someClass.someVoidMethod(), "id2");
- *			
- *			Profiler.show("id1"); Show individual profiled method
- *			Profiler.show(); Show all profiled methods
- *			Profiler.clear(); Clear entries in profiler
- * 		}
- * }
- */
-
 public class Profiler {
 	private Profiler() {
 	}
-
-	static private final String tab = "\t";
 
 	private static HashMap<String, Pair<Long, Long>> profilingData = 
 			new HashMap<String, Pair<Long, Long>>();
@@ -67,8 +38,10 @@ public class Profiler {
 		
 		long totalTime = (endTime - startTime / 1000000);
 		
-		log(tab + "Method name: " + methodName);
-		log(tab + "Time taken: " + totalTime + "ms");
+		log("\tMethod name: " + methodName);
+		log("\tTime taken: " + totalTime + "ms");
+		
+		clear();
 	}
 
 	public static void show() {
@@ -79,9 +52,11 @@ public class Profiler {
 			
 			long totalTime = (endTime - startTime / 1000000);
 			
-			log(tab + "Method name: " + e.getKey());
-			log(tab + "Time taken: " + totalTime + " ms");
+			log("\tMethod name: " + e.getKey());
+			log("\tTime taken: " + totalTime + " ms");
 		}
+		
+		clear();
 	}
 
 	public static void clear() {
