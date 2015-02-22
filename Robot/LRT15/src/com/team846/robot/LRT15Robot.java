@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class LRT15Robot extends LRTRobotBase
 {
+	int accumulator = 1;
 
 	public void RobotInit() 
 	{
@@ -61,7 +62,10 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void Tick() {
 
-		RobotState.Instance().Update();
+		if (accumulator % 2 == 0) {
+			RobotState.Instance().Update();
+		}
+		accumulator++;
 
 		LRTDriverStation.Update();
 		
