@@ -9,8 +9,6 @@ import org.apache.commons.configuration.HierarchicalINIConfiguration;
 
 import com.team846.frc2015.log.AsyncPrinter;
 
-
-
 public class ConfigRuntime
 {
 	private static ConfigRuntime instance = null;

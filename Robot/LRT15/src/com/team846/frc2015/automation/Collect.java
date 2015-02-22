@@ -4,10 +4,10 @@ import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.componentData.CollectorArmData.Position;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.CollectorRollersData.Direction;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
-import com.team846.frc2015.componentData.ElevatorData.Setpoint;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.sensors.SensorFactory;
 
@@ -16,15 +16,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Collect extends Automation
 {
-	private AnalogInput proximitySensor = SensorFactory.GetAnalogInput(
-			ConfigPortMappings.Instance().get("Analog/COLLECTOR_SENSOR"));
+	private DigitalInput proximitySensor = SensorFactory.GetDigitalInput(
+			ConfigPortMappings.Instance().get("Digital/COLLECTOR_SENSOR"));
 	
 	private CollectorRollersData rollersData = CollectorRollersData.get();
 	private CollectorArmData armData = CollectorArmData.get();
 	private ElevatorData elevatorData = ElevatorData.get();
 	private CarriageHooksData hooksData = CarriageHooksData.get();
-	
-	private int collectThreshold = 5;
 	
 	private boolean dropCarriage;
 
@@ -42,7 +40,7 @@ public class Collect extends Automation
 	
 	public Collect(boolean dropCarriage, boolean enableBackHooks)
 	{
-		super("Collect", false, true, true); //TODO:verify order
+		super("Collect", false, false, true); 
 		this.dropCarriage = dropCarriage;
 		this.enableBackHooks = enableBackHooks;
 	}
@@ -68,14 +66,14 @@ public class Collect extends Automation
 	protected boolean Abort()
 	{
 		rollersData.setRunning(false);
-		armData.setDesiredPosition(Position.STOWED);
+		armData.setDesiredPosition(ArmPosition.STOWED);
 		return true;
 	}
 
 	@Override
 	protected boolean Run()
 	{
-		if(proximitySensor.getAverageValue() < collectThreshold)
+		if(proximitySensor.get())
 		{
 			rollersData.setRunning(false);
 			return true;
@@ -83,16 +81,14 @@ public class Collect extends Automation
 		
 		if(dropCarriage)
 		{
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(Setpoint.GROUND);
+			elevatorData.setControlMode(ElevatorControlMode.POSITION);
+			elevatorData.setDesiredPosition(0.0);
 		}
 		
 		if(enableBackHooks)
-		{
 			hooksData.setBackHooksState(CarriageHooksData.HookState.ENGAGED);
-		}
 		
-		armData.setDesiredPosition(Position.EXTEND);
+		armData.setDesiredPosition(ArmPosition.EXTEND);
 		rollersData.setRunning(true);
         rollersData.setDirection(Direction.INTAKE);
 		rollersData.setSpeed(1.0);

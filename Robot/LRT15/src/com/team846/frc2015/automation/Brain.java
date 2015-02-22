@@ -67,29 +67,30 @@ public class Brain
 		inputs.add(new ElevatorInputs());
 		inputs.add(new CarriageExtenderInputs());
 		inputs.add(new CarriageHooksInputs());
-//		
+		//All automation routines		
 //		Automation auton = new Autonomous();
 //		
-//		Automation collect_tote = new Collect();
-//		Automation collect_upright_container = new Collect(true, true);	
-//		Automation load_tote = new LoadTote();
-//		Automation load_container = new LoadContainer();
-//		Automation load_upright_container = new LoadUprightContainer();
-//		
-//		Automation elevate_1 = new Elevate(1);
-//		Automation elevate_2 = new Elevate(2);
-//		Automation elevate_3 = new Elevate(3);
-//		Automation elevate_4 = new Elevate(4);
-//		
-//		Automation extendCarriage = new ExtendCarriage();
-//		Automation releaseStack = new ReleaseStack();
-//		
-//		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
-//		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
-//		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
-//		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
-//		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
-//		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
+		Automation collect_tote = new Collect();
+		Automation collect_upright_container = new Collect(true, true);	
+		Automation load_tote = new LoadTote();
+		Automation load_container = new LoadContainer();
+		Automation load_upright_container = new LoadUprightContainer();
+		
+		Automation elevate_1 = new Elevate(1);
+		Automation elevate_2 = new Elevate(2);
+		Automation elevate_3 = new Elevate(3);
+		Automation elevate_4 = new Elevate(4);
+		
+		Automation extendCarriage = new ExtendCarriage();
+		Automation releaseStack = new ReleaseStack();
+		
+		//Declare event triggers		
+		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
+		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
+		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
+		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
+		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
+		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
 //		
 //		Event collect_tote_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
 //		Event collect_tote_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);

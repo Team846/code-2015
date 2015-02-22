@@ -9,8 +9,8 @@ public class ElevatorData extends ComponentData{
 
 	private ElevatorControlMode controlMode;
 
-	private Setpoint setpoint;
-	private Setpoint currentSetpoint;
+	private ElevatorSetpoint setpoint;
+	private ElevatorSetpoint currentSetpoint;
 	
 	private double errorThreshold  = 10;
 	private double currentPosition = 0.0f;
@@ -22,7 +22,7 @@ public class ElevatorData extends ComponentData{
 		SETPOINT
 	}
 	
-	public enum Setpoint
+	public enum ElevatorSetpoint
 	{
 		GROUND,
 		TOTE_1,
@@ -54,11 +54,11 @@ public class ElevatorData extends ComponentData{
 		return speed;
 	}
 
-	public Setpoint getDesiredSetpoint(){
+	public ElevatorSetpoint getDesiredSetpoint(){
 		return setpoint;
 	}
 
-	public void setSetpoint(Setpoint s)
+	public void setSetpoint(ElevatorSetpoint s)
 	{
 		setpoint = s;
 	}
@@ -71,12 +71,12 @@ public class ElevatorData extends ComponentData{
 		this.controlMode = control;
 	}
 	
-	public boolean isAtSetpoint(Setpoint s)
+	public boolean isAtSetpoint(ElevatorSetpoint s)
 	{
 		return currentSetpoint == s;
 	}
 
-	public void setCurrentPosition(Setpoint s)
+	public void setCurrentPosition(ElevatorSetpoint s)
 	{
 		currentSetpoint = s;
 	}
@@ -91,6 +91,11 @@ public class ElevatorData extends ComponentData{
 		currentPosition = position;
 	}
 	
+	public double getCurrentPosition()
+	{
+		return currentPosition;
+	}
+	
 	public double getDesiredPosition() {
 		return position;
 	}
@@ -103,7 +108,7 @@ public class ElevatorData extends ComponentData{
 	protected void ResetCommands() {
 		controlMode = ElevatorControlMode.SPEED;
 		speed = 0.0f;
-		setpoint = Setpoint.GROUND;
+		setpoint = ElevatorSetpoint.GROUND;
 
 	}
 

@@ -29,6 +29,8 @@ public class CarriageExtender extends Component implements Configurable
 	
 	private double maxRange;
 	
+	private double maxSpeed;
+	
 	private double positionGain;
 	private int errorThreshold;
 	
@@ -48,6 +50,7 @@ public class CarriageExtender extends Component implements Configurable
 		maxRange = positionGain = errorThreshold = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit =  0;
 		
 		extenderData = CarriageExtenderData.get();	
+		
 		ConfigRuntime.Register(this);
 	}
 
@@ -63,7 +66,7 @@ public class CarriageExtender extends Component implements Configurable
 			return;
 		}
 		
-		if(extenderData.getControlMode() == CarriageControlMode.AUTOMATED)
+		if(extenderData.getControlMode() == CarriageControlMode.SETPOINT)
 		{
 			double error = 0.0;
 			if(extenderData.getAutomatedSetpoint() == Setpoint.RETRACT)
@@ -115,10 +118,11 @@ public class CarriageExtender extends Component implements Configurable
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		
+		maxSpeed = GetConfig("maxSpeed",0.8);
+		
 		maxRange = extendSetpoint - retractSetpoint;
 		
 	}
-	
 	//TODO: put into math util
 	private static double Rescale(double d, double min0, double max0, double min1, double max1)
 	{
@@ -127,5 +131,4 @@ public class CarriageExtender extends Component implements Configurable
 		d = MathUtils.clamp(d, min0, max0);
 		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
 	}
-
 }

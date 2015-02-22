@@ -35,7 +35,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	protected boolean Start() {
-		startingPosition = elevatorData.getDesiredPosition();
+		startingPosition = elevatorData.getCurrentPosition();
 		return true;
 	}
 
@@ -61,7 +61,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	public void Configure() {
-		dropHeight = GetConfig("dropHeight", 20.0f); //TODO:Change default once pot comes in
+		dropHeight = GetConfig("dropHeight", 20.0); //TODO:Change default once pot comes in
 		// TODO Auto-generated method stub
 		
 	}

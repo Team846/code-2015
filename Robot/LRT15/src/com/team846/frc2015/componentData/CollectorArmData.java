@@ -4,20 +4,20 @@ import com.team846.frc2015.componentData.ComponentData;
 
 public class CollectorArmData extends ComponentData
 {
-	public enum Position
+	public enum ArmPosition
 	{
 		STOWED,
 		EXTEND
 	}
 	
-	private Position desiredPosition;
-	private Position currentPosition;
+	private ArmPosition desiredPosition;
+	private ArmPosition currentPosition;
 	
 	public CollectorArmData()
 	{
 		super("CollectorArmData");
-		desiredPosition = Position.STOWED;
-		currentPosition = Position.STOWED;
+		desiredPosition = ArmPosition.STOWED;
+		currentPosition = ArmPosition.STOWED;
 	}
 	
 	public static CollectorArmData get()
@@ -25,22 +25,22 @@ public class CollectorArmData extends ComponentData
 		return (CollectorArmData)ComponentData.GetComponentData("CollectorArmData");
 	}
 	
-	public void setDesiredPosition(Position newPosition)
+	public void setDesiredPosition(ArmPosition newPosition)
 	{
 		desiredPosition = newPosition;
 	}
 	
-	public Position getDesiredCollectorPosition()
+	public ArmPosition getDesiredCollectorPosition()
 	{
 		return desiredPosition;
 	}
 	
-	public Position getCurrentCollectorPosition()
+	public ArmPosition getCurrentCollectorPosition()
 	{
 		return currentPosition;
 	}
 	
-	public void setCurrentCollectorPosition(Position p)
+	public void setCurrentCollectorPosition(ArmPosition p)
 	{
 		currentPosition = p;
 	}

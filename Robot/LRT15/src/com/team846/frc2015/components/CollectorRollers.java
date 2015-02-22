@@ -47,7 +47,7 @@ public class CollectorRollers extends Component
 		}
 		
 		leftMotor.set(speed);
-		rightMotor.set(-speed);
+		rightMotor.set(speed);
 
 	}
 

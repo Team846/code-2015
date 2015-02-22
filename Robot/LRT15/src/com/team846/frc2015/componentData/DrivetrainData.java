@@ -57,6 +57,7 @@ public class DrivetrainData extends ComponentData
 		resetPositionSetpoint = new boolean[3];
 		
 		ResetCommands();
+		Arrays.fill(desiredOpenLoopOutputs, 0.0);
 		Arrays.fill(resetPositionSetpoint, true);
 		Arrays.fill(positionSetpoints, 0);
 		Arrays.fill(maxSpeeds, 0);
@@ -77,6 +78,7 @@ public class DrivetrainData extends ComponentData
 		currentLimitReverse = 0.5f;
 		
 		Arrays.fill(desiredRates, 0.0);
+		Arrays.fill(desiredOpenLoopOutputs, 0.0);
 	}
 
 	public void SetControlMode(Axis axis, ControlMode mode)

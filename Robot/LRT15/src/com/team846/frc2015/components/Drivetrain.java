@@ -60,8 +60,8 @@ public class Drivetrain extends Component implements Configurable {
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
-		escs[Side.BACK_LEFT.ordinal()] = new DriveESC(frontLeft);
-		escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(frontRight);
+		escs[Side.BACK_LEFT.ordinal()] = new DriveESC(backLeft);
+		escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(backRight);
 		
 		drivetrainData = DrivetrainData.Get();
 	}
@@ -119,7 +119,7 @@ public class Drivetrain extends Component implements Configurable {
 		double leftBackOutput;
 		double rightBackOutput;
 		
-		if(drivetrainData.getClassicDrive())
+		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{
 		double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
 		double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
@@ -133,9 +133,11 @@ public class Drivetrain extends Component implements Configurable {
 		}
 		else
 		{
-			double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD); //positive means forward
-			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
-			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); //positive is to the right
+			double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD); 
+			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); 
+			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); 
+			
+//			System.out.println("fwd: " + fwdOutput + "turn:" + turnOutput + "str:" + strafeOutput);
 			
 			 leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
 			 rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
@@ -148,6 +150,12 @@ public class Drivetrain extends Component implements Configurable {
 		rightFrontOutput = MathUtils.clamp(rightFrontOutput, -1.0, 1.0);
 		leftBackOutput = MathUtils.clamp(leftBackOutput, -1.0, 1.0);
 		rightBackOutput = MathUtils.clamp(rightBackOutput, -1.0, 1.0);
+		
+//		 frontLeft.set(leftFrontOutput);
+//		 frontRight.set(rightFrontOutput);
+//		
+//		 backLeft.set(leftBackOutput);
+//		 backRight.set(rightBackOutput);
 		
 //		if (drivetrainData.ShouldOverrideForwardCurrentLimit())
 //		{
@@ -166,6 +174,7 @@ public class Drivetrain extends Component implements Configurable {
 //		else
 //		{
 //			ConfigureReverseCurrentLimit();
+		
 //		}
 		
 		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(leftFrontOutput);
@@ -196,11 +205,11 @@ public class Drivetrain extends Component implements Configurable {
 
 	public void OnDisabled()
 	{
-		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
-		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-		
-		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
+//		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
+//		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
+//		
+//		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
+//		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
 	}
 
 	public void Configure()

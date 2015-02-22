@@ -1,22 +1,26 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageHooksData;
+import com.team846.frc2015.componentData.CollectorArmData;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
-import com.team846.frc2015.componentData.ElevatorData.Setpoint;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 
 public class LoadTote extends Automation {
 
 	private ElevatorData elevatorData;
 	private CarriageHooksData hooksData;
 	private boolean movingUp;
+	private CollectorArmData armData;
 
 	public LoadTote() {
 		super("LoadElevator");
 		movingUp = false;
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
+		armData = CollectorArmData.get();
 	}
 
 	@Override
@@ -30,9 +34,7 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Start() {
-		//turn off hooks
-		hooksData.setBackHooksState(HookState.DISENGAGED);
-		hooksData.setFrontHooksState(HookState.DISENGAGED);
+		
 		
 		// bring carriage down to tote grab setpoint
 		return true;
@@ -47,19 +49,24 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Run() {
+		//turn off hooks
+		hooksData.setBackHooksState(HookState.DISENGAGED);
+		hooksData.setFrontHooksState(HookState.DISENGAGED);
+				
+		armData.setDesiredPosition(ArmPosition.STOWED);
 		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-		elevatorData.setSetpoint(Setpoint.GRAB_TOTE);
+		elevatorData.setSetpoint(ElevatorSetpoint.GRAB_TOTE);
 		
-		if(elevatorData.isAtSetpoint(Setpoint.GRAB_TOTE) && !movingUp)
+		if(elevatorData.isAtSetpoint(ElevatorSetpoint.GRAB_TOTE) && !movingUp)
 		{
 			movingUp = true;
 			hooksData.setBackHooksState(HookState.ENGAGED);
 			hooksData.setFrontHooksState(HookState.ENGAGED);
-			elevatorData.setSetpoint(Setpoint.HOME);
+			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
 			
 		}
 		
-		if(elevatorData.isAtSetpoint(Setpoint.HOME))
+		if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
 			return true;
 		
 		return false;

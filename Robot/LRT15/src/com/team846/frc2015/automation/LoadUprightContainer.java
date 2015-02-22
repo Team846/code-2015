@@ -5,7 +5,7 @@ import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
-import com.team846.frc2015.componentData.ElevatorData.Setpoint;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 
 public class LoadUprightContainer extends Automation {
 	
@@ -47,9 +47,9 @@ public class LoadUprightContainer extends Automation {
 	{
 		hooksData.setFrontHooksState(HookState.ENGAGED);
 		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-		elevatorData.setSetpoint(Setpoint.HOME);
+		elevatorData.setSetpoint(ElevatorSetpoint.HOME);
 		 
-		return elevatorData.isAtSetpoint(Setpoint.HOME);
+		return elevatorData.isAtSetpoint(ElevatorSetpoint.HOME);
 	}
 
 }

@@ -13,7 +13,7 @@ public class CarriageExtenderData extends ComponentData
 	
 	public enum CarriageControlMode
 	{
-		AUTOMATED,
+		SETPOINT,
 		VELOCITY,
 		POSITION
 	}

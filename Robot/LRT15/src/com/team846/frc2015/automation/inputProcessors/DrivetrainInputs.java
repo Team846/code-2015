@@ -58,14 +58,15 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 
 	public void Update()
 	{
-		double forward = -Math.pow(driverStick.getAxis(Joystick.AxisType.kY), throttleExponent);
+		double forward = -driverStick.getAxis(Joystick.AxisType.kY);
 	
 		int signForward = MathUtils.Sign(forward);
-	
+		//System.out.println("fwd: " + forward);
 		if (Math.abs(forward) < deadband)
 			forward = 0.0;
 		else
 		{
+			
 			forward -= signForward * deadband;
 			forward /= 1.0 - deadband;
 		}
@@ -79,7 +80,8 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		else if (axis == Axis.TURN)
 		{
 			double turn = 0.0;
-			turn = -driverWheel.getAxis(AxisType.kX);
+			turn = driverWheel.getAxis(AxisType.kX);
+			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.TURN, (float)turn);
 		//	turn = -m_driver_stick.GetAxis(Joystick.kZAxis);
 			
 			int sign = turn > 0 ? 1 : -1;
@@ -132,17 +134,18 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
 			drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, (float)turnComposite);
-			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.TURN, (float)turnComposite);
+			
 		}
 		if(axis == Axis.STRAFE)
 		{
-			double strafe = Math.pow(driverStick.getAxis(Joystick.AxisType.kX), strafeExponent);
+			double strafe = driverStick.getAxis(Joystick.AxisType.kX);
 			
 			
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);
 		}
+		
 	
 //		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
 //		{
@@ -157,7 +160,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		constRadiusTurnExponent = GetConfig("const_radius_turn_exponent", 1);
 		throttleExponent = GetConfig("throttle_exponent", 1);
 		strafeExponent = GetConfig("strafeExponent", 1);
-		deadband = GetConfig("deadband", 0.01);
+		deadband = GetConfig("deadband", 0.04);
 		negInertiaScalar = GetConfig("neg_inertia_scalar", 5.0);
 	}
 

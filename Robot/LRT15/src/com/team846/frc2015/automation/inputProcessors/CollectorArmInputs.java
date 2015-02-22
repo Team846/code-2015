@@ -2,7 +2,7 @@ package com.team846.frc2015.automation.inputProcessors;
 
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.CollectorArmData;
-import com.team846.frc2015.componentData.CollectorArmData.Position;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
@@ -21,7 +21,7 @@ public class CollectorArmInputs extends InputProcessor {
 	@Override
 	public void Update() {
 		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT_TOTE))
-			armData.setDesiredPosition(Position.EXTEND);
+			armData.setDesiredPosition(ArmPosition.EXTEND);
 
 	}
 

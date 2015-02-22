@@ -15,6 +15,7 @@ public class LRTCANEncoder {
 	private CANTalon attachedEncoder = null;
 	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
 	private double minRate = 10; // units/period of time
+	private double prevRate = 0;
 	
 	public LRTCANEncoder(CANTalon talon)
 	{
@@ -41,8 +42,13 @@ public class LRTCANEncoder {
 	public double GetRate() 
 	{
 		double encVel = attachedEncoder.getEncVelocity();
-		if( encVel < minRate)
+		if( encVel < minRate || encVel == prevRate)
+		{
+			prevRate = encVel;
 			return 0.0;
+		}
+		prevRate = encVel;
+		
 		return encVel;
 	}
 

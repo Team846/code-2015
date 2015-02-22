@@ -25,8 +25,9 @@ public class DriverStationConfig {
 		public static final int FIELD_CENTRIC = 4;
 				
 		// Driver Joystick
-		public static final int COLLECT_TOTE = 0;
-		public static final int COLLECT_UPRIGHT_CONTAINER = 1;
+		public static final int COLLECT_TOTE = 1;
+		public static final int COLLECT_UPRIGHT_CONTAINER = 2;
+		
 		
 		
 		// Operator Joystick
@@ -36,12 +37,12 @@ public class DriverStationConfig {
 		public static final int LOAD_UPRIGHT_CONTAINER = 3;
 		public static final int LOAD_CONTAINER = 4;
 		
-		public static final int ELEVATE_ONE = 1;
-		public static final int ELEVATE_TWO = 1;
-		public static final int ELEVATE_THREE = 1;
-		public static final int ELEVATE_FOUR = 1;
+		public static final int ELEVATE_ONE = 5;
+		public static final int ELEVATE_TWO = 6;
+		public static final int ELEVATE_THREE = 7;
+		public static final int ELEVATE_FOUR = 10;
 
-		public static final int DEPLOY_STACK = 7;
+		public static final int DEPLOY_STACK = 8;
 		
 		
 		
@@ -51,7 +52,7 @@ public class DriverStationConfig {
 		public static final int ELEVATOR_OVERRIDE = 14;
 		public static final int CARRIAGE_OVERRIDE = 11;
 		
-		public static final int REVERSE_ROLLERS = 11;
+		public static final int REVERSE_ROLLERS = 16;
 		
 		
 		//Dashboard Mode
