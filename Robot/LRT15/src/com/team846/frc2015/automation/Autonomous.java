@@ -33,7 +33,7 @@ public class Autonomous extends Sequential
 
 		try
 		{
-			loadRoutine(FindRoutine(SmartDashboard.getInt("DB/Slider 0"))); // WARNING: Rounds the current value DOWN
+			loadRoutine(FindRoutine((int)SmartDashboard.getNumber("DB/Slider 0"))); // WARNING: Rounds the current value DOWN
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();

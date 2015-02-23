@@ -33,6 +33,8 @@ public class Drivetrain extends Component implements Configurable {
 	private final static int VELOCITY = 1; 
 	
 	PID PIDs[][];
+	
+	PID mecanumDrivePIDs[];
 	DrivetrainData drivetrainData;
 	DriveEncoders driveEncoders;
 	DriveESC[] escs = new DriveESC[4];
@@ -46,9 +48,11 @@ public class Drivetrain extends Component implements Configurable {
 	public Drivetrain() 
 	{	
 		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
+	
 		PIDs = new PID[2][4];
+		mecanumDrivePIDs = new PID[4];
 		
-		ConfigPortMappings portMapping = ConfigPortMappings.Instance();
+		ConfigPortMappings portMapping = ConfigPortMappings.Instance(); //reduce verbosity
 		
 		frontLeft = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_LEFT"));
 		backLeft = new CANTalon(portMapping.get("CAN/DRIVE_BACK_LEFT"));
@@ -137,13 +141,15 @@ public class Drivetrain extends Component implements Configurable {
 			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); 
 			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); 
 			
-//			System.out.println("fwd: " + fwdOutput + "turn:" + turnOutput + "str:" + strafeOutput);
-			
-			 leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
-			 rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
-			
-			 leftBackOutput = fwdOutput + turnOutput - strafeOutput;
-			 rightBackOutput = fwdOutput - turnOutput + strafeOutput;
+			double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
+			double rightFrontRawOutput = fwdOutput - turnOutput - strafeOutput;
+			double leftBackRawOutput = fwdOutput + turnOutput - strafeOutput;
+			double rightBackRawOutput = fwdOutput - turnOutput + strafeOutput;
+			 
+			leftFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_FRONT, leftFrontRawOutput);
+			rightFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.RIGHT_FRONT, rightFrontRawOutput);
+			leftBackOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_BACK, leftBackRawOutput);
+			rightBackOutput = ComputeMecanumOutput(DriveEncoders.Side.RIGHT_BACK, rightBackRawOutput);
 		}
 
 		leftFrontOutput = MathUtils.clamp(leftFrontOutput, -1.0, 1.0);
@@ -205,11 +211,6 @@ public class Drivetrain extends Component implements Configurable {
 
 	public void OnDisabled()
 	{
-//		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
-//		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-//		
-//		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-//		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
 	}
 
 	public void Configure()
@@ -226,13 +227,20 @@ public class Drivetrain extends Component implements Configurable {
 //		ConfigureReverseCurrentLimit();
 	}
 
-	void ConfigurePIDObject(PID pid, String objName, boolean feedForward)
+	private void ConfigurePIDObject(PID pid, String pidName, boolean feedForward)
 	{
-		double p = GetConfig(objName + "_P", 2.0);
-		double i = GetConfig(objName + "_I", 0.0);
-		double d = GetConfig(objName + "_D", 0.0);
+		double p = GetConfig(pidName + "_P", 2.0);
+		double i = GetConfig(pidName + "_I", 0.0);
+		double d = GetConfig(pidName + "_D", 0.0);
 
 		pid.SetParameters(p, i, d, 1.0, 0.87, feedForward,0.0);
+	}
+	
+	private double ComputeMecanumOutput(DriveEncoders.Side wheel, double idealOutput)
+	{
+		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(idealOutput);
+		mecanumDrivePIDs[wheel.ordinal()].SetInput(driveEncoders.GetNormalizedSpeed(wheel));
+		return mecanumDrivePIDs[wheel.ordinal()].Update(1/RobotConfig.LOOP_RATE);		
 	}
 
 //	void ConfigureForwardCurrentLimit()

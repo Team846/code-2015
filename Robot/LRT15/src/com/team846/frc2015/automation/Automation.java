@@ -57,7 +57,7 @@ public abstract class Automation {
 
 	public boolean CheckResources()
 	{
-		Map<ControlResource, Integer > original = allocated;
+		Map<ControlResource, Integer > original = new HashMap<ControlResource, Integer >(allocated);
 		AllocateResources();
 		boolean success = true;
 		for (Map.Entry<ControlResource, Integer> entry : allocated.entrySet())
