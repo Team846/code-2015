@@ -73,6 +73,7 @@ void start()
 	try
 	{
 		boost::asio::io_service io_service;
+		udp_server server(io_service);
 		io_service.run();
 	} catch (std::exception& e)
 	{

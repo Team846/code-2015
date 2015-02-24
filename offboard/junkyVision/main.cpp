@@ -16,12 +16,13 @@
 void wait(int ms);
 double normalize(double number);
 
-int main(int argc, char** argv) {
+int main() {
+
 	if (!runHeadless) {
-		std::cout << "Running with GUI" << std::endl;
+		std::printf("Running with GUI\n");
 		Vision::initUI();
 	} else {
-		std::cout << "Running headless" << std::endl;
+		std::printf("Running headless\n");
 	}
 
 	std::thread server(Server::start); // start udp server that serves rotational scalars
@@ -71,7 +72,6 @@ void wait(int ms) {
 
 double normalize(double number) {
 	number = number * conversionFactor;
-	std::cout << number << std::endl;
 
 	if (number > 1.0f) {
 		return 1.0f;
