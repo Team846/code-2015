@@ -87,7 +87,7 @@ public class Elevator extends Component implements Configurable {
 			motorA.set(speed * positionGain);
 			motorB.set(speed * positionGain);
 		}
-		else
+		else //Setpoint
 		{
 			double posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - currentPosition;
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr / 1023.0;
@@ -115,6 +115,15 @@ public class Elevator extends Component implements Configurable {
 	@Override
 	protected void OnDisabled() {
 	}
+	
+	//TODO: put into math util
+	private static double Rescale(double d, double min0, double max0, double min1, double max1)
+	{
+		if (max0 == min0)
+			return min1;
+		d = MathUtils.clamp(d, min0, max0);
+		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
+	}
 
 	@Override
 	public void Configure() {
@@ -134,12 +143,5 @@ public class Elevator extends Component implements Configurable {
 		elevatorSetpoints[ElevatorSetpoint.TOTE_4.ordinal()]= GetConfig("tote4", 80);
 	}
 	
-	//TODO: put into math util
-	private static double Rescale(double d, double min0, double max0, double min1, double max1)
-	{
-		if (max0 == min0)
-			return min1;
-		d = MathUtils.clamp(d, min0, max0);
-		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
-	}
+	
 }

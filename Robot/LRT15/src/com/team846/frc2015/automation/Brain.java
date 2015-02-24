@@ -53,23 +53,16 @@ public class Brain
 	}
 	
 	private Brain()
-	{
-		
+	{	
 		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
+		
+		createInputProcessors();
 
-		//create input processor
-		inputs.add(new DrivetrainInputs(Axis.DRIVE));
-		inputs.add(new DrivetrainInputs(Axis.TURN));
-		inputs.add(new DrivetrainInputs(Axis.STRAFE));
-		inputs.add(new CollectorArmInputs());
-		inputs.add(new CollectorRollersInputs());
-		inputs.add(new ElevatorInputs());
-		inputs.add(new CarriageExtenderInputs());
-		inputs.add(new CarriageHooksInputs());
+		
 		//All automation routines		
 //		Automation auton = new Autonomous();
-//		
+	
 		Automation collect_tote = new Collect();
 		Automation collect_upright_container = new Collect(true, true);	
 		Automation load_tote = new LoadTote();
@@ -168,6 +161,18 @@ public class Brain
 //		elevate_four_abort.AddAbortListener(elevate_4);
 	}
 	
+	private void createInputProcessors() {
+		//declare all input processors here
+		inputs.add(new DrivetrainInputs(Axis.DRIVE));
+		inputs.add(new DrivetrainInputs(Axis.TURN));
+		inputs.add(new DrivetrainInputs(Axis.STRAFE));
+		inputs.add(new CollectorArmInputs());
+		inputs.add(new CollectorRollersInputs());
+		inputs.add(new ElevatorInputs());
+		inputs.add(new CarriageExtenderInputs());
+		inputs.add(new CarriageHooksInputs());
+	}
+
 	public void Update()
 	{
 	 	ProcessAutomationTasks();
@@ -207,15 +212,15 @@ public class Brain
 		//Cant use nice nested foreach bc java is stupid
 		for ( int i = 0; i< Event.event_vector.size();i++)
 		{
-			Event e = Event.event_vector.get(i);
-			if (e.Fired())
+			Event event = Event.event_vector.get(i);
+			if (event.Fired())
 			{
 	        	// Tasks aborted by this event
-	        	for (Automation a : e.GetAbortListeners())
+	        	for (Automation a : event.GetAbortListeners())
 	        	{
 	        	    if (runningTasks.contains(a)) // If task is running
 	        	    {
-	        	    	boolean ret = a.AbortAutomation(e);
+	        	    	boolean ret = a.AbortAutomation(event);
 	        		    if (ret)
 	        		    {
 	        		    	a.DeallocateResources();
@@ -225,31 +230,31 @@ public class Brain
 	        	}
 	        	
 			    // Tasks started by this event
-	        	for ( Automation auto : e.GetStartListeners())
+	        	for ( Automation auto : event.GetStartListeners())
 	        	{
 	        		if (!runningTasks.contains(auto) || auto.IsRestartable()) // If task isn't running or is restartable
 	        		{
 	      
 	        			if (auto.CheckResources())
 	        			{
-							boolean ret = auto.StartAutomation(e);
+							boolean ret = auto.StartAutomation(event);
 							if(ret)
 								runningTasks.add(auto);
 	        			}
 	        			else
 	        			{
 	        				if (auto.QueueIfBlocked())
-	        					waitingTasks.put(auto, Event.event_vector.get(i));
+	        					waitingTasks.put(auto, event);
 	        			}
 	        		}
 	        	}
 
 	        	// Tasks continued by this event
-	        	for (Automation a : e.GetContinueListeners())
+	        	for (Automation a : event.GetContinueListeners())
 	        	{
 	        	    if (runningTasks.contains(a))//!= runningTasks.end()) // If task is running
 	        	    {
-	        		    a.ContinueAutomation(e);
+	        		    a.ContinueAutomation(event);
 	        		}
 	        	}
 			}

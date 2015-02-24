@@ -47,14 +47,14 @@ public abstract class LRTRobotBase extends RobotBase
 			loopSem.acquireUninterruptibly(); //Blocks until semaphore is available
 			long prevTime = System.currentTimeMillis();
 			Tick();
-			long delta = System.currentTimeMillis() - prevTime;
-			if(delta > RobotConfig.LOOP_PERIOD)
-			{
-				System.out.println("[WARNING] Loop time of " + RobotConfig.LOOP_PERIOD + "ms exceeded by "
-			+ (delta - RobotConfig.LOOP_PERIOD) + "ms");
+//			long delta = System.currentTimeMillis() - prevTime;
+//			if(delta > RobotConfig.LOOP_PERIOD)
+//			{
+//				System.out.println("[WARNING] Loop time of " + RobotConfig.LOOP_PERIOD + "ms exceeded by "
+//			+ (delta - RobotConfig.LOOP_PERIOD) + "ms");
 //				Profiler.show();
 //				Profiler.clear();
-			}
+//			}
 		}
 	}
 

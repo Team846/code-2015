@@ -34,9 +34,6 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Start() {
-		
-		
-		// bring carriage down to tote grab setpoint
 		return true;
 	}
 
@@ -49,24 +46,28 @@ public class LoadTote extends Automation {
 
 	@Override
 	protected boolean Run() {
-		//turn off hooks
-		hooksData.setBackHooksState(HookState.DISENGAGED);
-		hooksData.setFrontHooksState(HookState.DISENGAGED);
-				
-		armData.setDesiredPosition(ArmPosition.STOWED);
-		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-		elevatorData.setSetpoint(ElevatorSetpoint.GRAB_TOTE);
+		//moving carriage down, disengage hooks
+		if(!movingUp)
+		{
+			hooksData.setBackHooksState(HookState.DISENGAGED);
+			hooksData.setFrontHooksState(HookState.DISENGAGED);
+					
+			armData.setDesiredPosition(ArmPosition.STOWED);
+			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+			elevatorData.setSetpoint(ElevatorSetpoint.GRAB_TOTE);
+		}
 		
-		if(elevatorData.isAtSetpoint(ElevatorSetpoint.GRAB_TOTE) && !movingUp)
+		// going back up, engage hooks
+		else if((elevatorData.isAtSetpoint(ElevatorSetpoint.GRAB_TOTE) && !movingUp) || (movingUp && !elevatorData.isAtSetpoint(ElevatorSetpoint.HOME)))
 		{
 			movingUp = true;
 			hooksData.setBackHooksState(HookState.ENGAGED);
 			hooksData.setFrontHooksState(HookState.ENGAGED);
 			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
-			
+	
 		}
 		
-		if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
+		else if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
 			return true;
 		
 		return false;

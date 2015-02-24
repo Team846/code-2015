@@ -14,9 +14,6 @@ public class ManipulatorArm extends Component{
 	
 	private Pneumatics leftArm;
 	private Pneumatics rightArm;
-	
-	private Pneumatics leftExtender;
-	private Pneumatics rightExtender;
 
 	private ManipulatorArmData armData;
 	
@@ -29,11 +26,6 @@ public class ManipulatorArm extends Component{
 				ConfigPortMappings.Instance().get("Pneumatics/MANIPULATOR_LEFT"), "RakeA");
 		rightArm = new Pneumatics(
 				ConfigPortMappings.Instance().get("Pneumatics/MANIPULATOR_RIGHT"), "RakeB");
-		
-		leftExtender = new Pneumatics(
-				ConfigPortMappings.Instance().get("Pneumatics/EXTENDER_LEFT"), "leftExtender");
-		rightExtender = new Pneumatics(
-				ConfigPortMappings.Instance().get("Pneumatics/EXTENDER_RIGHT"), "rightExtender");
 	}
 
 	@Override
@@ -42,35 +34,11 @@ public class ManipulatorArm extends Component{
 		Pneumatics.State leftArmState;
 		Pneumatics.State rightArmState;
 		
-		Pneumatics.State leftExtenderState;
-		Pneumatics.State  rightExtenderState;
-		
-		//Arm
-		if(armData.getDeployed(Arm.LEFT))
-			leftArmState = State.FORWARD;
-		else
-			leftArmState = State.OFF;
-		if(armData.getDeployed(Arm.RIGHT))
-			rightArmState = State.FORWARD;
-		else
-			rightArmState = State.OFF;
-		
-		
-		if(armData.getExtend(Arm.LEFT))
-			leftExtenderState = State.FORWARD;
-		else
-			leftExtenderState = State.OFF;
-		
-		if(armData.getExtend(Arm.RIGHT))
-			rightExtenderState = State.FORWARD;
-		else
-			rightExtenderState = State.OFF;
-		
+		leftArmState = armData.getDeployed(Arm.LEFT) ? State.FORWARD : State.OFF;
+		rightArmState = armData.getDeployed(Arm.RIGHT) ? State.FORWARD : State.OFF;
+	
 		leftArm.set(leftArmState);
-		rightArm.set(rightArmState);	
-		
-		leftExtender.set(leftExtenderState);
-		rightExtender.set(rightExtenderState);
+		rightArm.set(rightArmState);
 
 	}
 
@@ -79,10 +47,6 @@ public class ManipulatorArm extends Component{
 	{
 		leftArm.set(State.OFF);
 		rightArm.set(State.OFF);
-		
-
-		leftExtender.set(State.OFF);
-		rightExtender.set(State.OFF);
 	}
 
 	@Override

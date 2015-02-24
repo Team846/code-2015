@@ -73,7 +73,7 @@ public class Autonomous extends Sequential
 		{
 			String line = in.nextLine();
 
-			String[] parallelSplit = line.split("\\|\\|"); // splits at "||"
+			String[] parallelSplit = line.split("\\|\\|"); // splits at "||" for parallel routines
 			ArrayList<Automation> parallelRoutines = new ArrayList<Automation>(
 					parallelSplit.length);
 
@@ -81,12 +81,12 @@ public class Autonomous extends Sequential
 			{
 				String automation = parallelSplit[i].trim();
 
-				String[] commandSplit = automation.split("\\("); // splits at "("
+				String[] commandSplit = automation.split("\\("); // splits at "(" separating command name + args
 
 				String command = commandSplit[0];
 
 				String args = commandSplit[1].substring(0,
-						commandSplit[1].length() - 1);
+						commandSplit[1].length() - 1); //getting rid of last paren
 				String[] argsSplit = args.split(",");
 
 				for (int argsI = 0; argsI < argsSplit.length; argsI++)
@@ -167,6 +167,50 @@ public class Autonomous extends Sequential
 						{
 						case 0:
 							parallelRoutines.set(i, new ReleaseStack());
+							break;
+						}
+						break;
+					case "pause":
+						switch (argsSplit.length)
+						{
+						case 1:
+							parallelRoutines.set(i, new Pause(Double.parseDouble(argsSplit[0])));
+							break;
+						}
+						break;
+					case "drive":
+						switch (argsSplit.length)
+						{
+						case 1:
+							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0])));
+							break;
+						case 2:
+							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0])
+									,Double.parseDouble(argsSplit[1])));
+							break;
+						case 3:
+							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1]),
+									Double.parseDouble(argsSplit[2])));
+							break;
+						case 4:
+							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1]),
+									Double.parseDouble(argsSplit[2]),
+									Boolean.parseBoolean(argsSplit[3])));
+							break;
+						}
+						break;
+					case "turn":
+						switch (argsSplit.length)
+						{
+						case 0:
+							parallelRoutines.set(i, new Turn());
+							break;
+						case 3:
+							parallelRoutines.set(i, new Turn(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1]),
+									Double.parseDouble(argsSplit[2])));
 							break;
 						}
 						break;

@@ -59,6 +59,10 @@ public class DriverStationConfig {
 		public static final int DASHBOARD_ENABLE1 = 6;
 		public static final int DASHBOARD_ENABLE2 = 7;
 
+		public static final int ELEVATOR_INCREMENT = 0;
+
+		public static final int ELEVATOR_FINALIZE = 0;
+
 		
 	}
 	
