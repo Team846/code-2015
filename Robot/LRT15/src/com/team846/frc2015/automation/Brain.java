@@ -100,18 +100,6 @@ public class Brain
 //		Event load_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
 //		Event load_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
 //		
-//		Event elevate_one_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
-//		Event elevate_one_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
-//		
-//		Event elevate_two_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_TWO);
-//		Event elevate_two_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_TWO);
-//		
-//		Event elevate_three_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_THREE);
-//		Event elevate_three_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_THREE);
-//		
-//		Event elevate_four_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_FOUR);
-//		Event elevate_four_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_FOUR);
-//		
 //		Event extend_carriage_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
 //		Event extend_carriage_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
 //		
@@ -147,18 +135,6 @@ public class Brain
 //		
 //		load_upright_container_start.AddStartListener(load_upright_container);
 //		load_upright_container_abort.AddAbortListener(load_upright_container);
-//		
-//		elevate_one_start.AddStartListener(elevate_1);
-//		elevate_one_abort.AddAbortListener(elevate_1);
-//		
-//		elevate_two_start.AddStartListener(elevate_2);
-//		elevate_two_abort.AddAbortListener(elevate_2);
-//		
-//		elevate_three_start.AddStartListener(elevate_3);
-//		elevate_three_abort.AddAbortListener(elevate_3);
-//		
-//		elevate_four_start.AddStartListener(elevate_4);
-//		elevate_four_abort.AddAbortListener(elevate_4);
 	}
 	
 	private void createInputProcessors() {

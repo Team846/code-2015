@@ -125,15 +125,14 @@ public class Drivetrain extends Component implements Configurable {
 		
 		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{
-		double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
-		double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
-		double strafeOutput = ComputeOutput(Axis.STRAFE); //positive is to the right
+			double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
+			double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 		
-		 leftFrontOutput = fwdOutput + turnOutput + strafeOutput;
-		 rightFrontOutput = fwdOutput - turnOutput - strafeOutput;
-		
-		 leftBackOutput = fwdOutput + turnOutput - strafeOutput;
-		 rightBackOutput = fwdOutput - turnOutput + strafeOutput;
+			 leftFrontOutput = fwdOutput - turnOutput;
+			 rightFrontOutput = fwdOutput + turnOutput;
+			
+			 leftBackOutput = leftFrontOutput;
+			 rightBackOutput = rightFrontOutput;
 		}
 		else
 		{
@@ -236,9 +235,9 @@ public class Drivetrain extends Component implements Configurable {
 		pid.SetParameters(p, i, d, 1.0, 0.87, feedForward,0.0);
 	}
 	
-	private double ComputeMecanumOutput(DriveEncoders.Side wheel, double idealOutput)
+	private double ComputeMecanumOutput(DriveEncoders.Side wheel, double desiredOutput)
 	{
-		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(idealOutput);
+		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(desiredOutput);
 		mecanumDrivePIDs[wheel.ordinal()].SetInput(driveEncoders.GetNormalizedSpeed(wheel));
 		return mecanumDrivePIDs[wheel.ordinal()].Update(1/RobotConfig.LOOP_RATE);		
 	}

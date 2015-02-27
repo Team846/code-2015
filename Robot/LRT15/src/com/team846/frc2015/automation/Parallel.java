@@ -59,7 +59,7 @@ public class Parallel extends Automation {
 		while(iter.hasNext())
 		{
 			Automation a = iter.next();
-			iter.previous();
+			//iter.previous();
 			if(!a.Update())
 			{
 				if(!abortOnFirst)

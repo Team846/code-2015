@@ -19,7 +19,7 @@ public class Autonomous extends Sequential
 
 	private double autonomousStartTime = 0.0;
 
-	Autonomous()
+	public Autonomous()
 	{
 		super("Autonomous");
 		autonomousStartTime = 0.0;
@@ -59,6 +59,7 @@ public class Autonomous extends Sequential
 
 	private void loadRoutine(File file)
 	{
+		AsyncPrinter.println("Loading autonomous file:" + file.getName());
 		Scanner in = null;
 		try
 		{

@@ -38,7 +38,7 @@ public class LoadUprightContainer extends Automation {
 	@Override
 	protected boolean Abort() {
 		elevatorData.setControlMode(ElevatorControlMode.SPEED);
-		elevatorData.setSpeed(0.0);
+		elevatorData.setDesiredSpeed(0.0);
 		return true;
 	}
 

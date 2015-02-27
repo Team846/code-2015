@@ -31,7 +31,7 @@ public class ManipulatorArm extends Component{
 	@Override
 	protected void UpdateEnabled() 
 	{
-		Pneumatics.State leftArmState;
+		Pneumatics.State leftArmState; 
 		Pneumatics.State rightArmState;
 		
 		leftArmState = armData.getDeployed(Arm.LEFT) ? State.FORWARD : State.OFF;
@@ -39,7 +39,6 @@ public class ManipulatorArm extends Component{
 	
 		leftArm.set(leftArmState);
 		rightArm.set(rightArmState);
-
 	}
 
 	@Override

@@ -80,6 +80,6 @@ public class LRT15Robot extends LRTRobotBase
 		
 		ComponentData.ResetAllCommands();
 
-		DashboardLogger.getInstance().log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
+		//DashboardLogger.getInstance().log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
 	}
 }

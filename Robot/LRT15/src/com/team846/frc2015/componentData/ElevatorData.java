@@ -45,7 +45,7 @@ public class ElevatorData extends ComponentData{
 		return (ElevatorData)ComponentData.GetComponentData("ElevatorData");
 	}
 	
-	public void setSpeed(double d)
+	public void setDesiredSpeed(double d)
 	{
 		speed = d;
 	}
