@@ -59,7 +59,7 @@ public class CarriageExtender extends Component implements Configurable
 	{
 		int position = carriageMotor.getAnalogInPosition();
 		
-		if(position <= retractSoftLimit || position >= extendSoftLimit)
+		if(position >= retractSoftLimit || position <= extendSoftLimit)
 		{
 			carriageMotor.set(0.0);
 			AsyncPrinter.error("Carriage out of bounds! Disable and fix");

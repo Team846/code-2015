@@ -1,6 +1,5 @@
 package com.team846.frc2015.automation.inputProcessors;
 
-import com.ni.vision.NIVision.VerticalTextAlignment;
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
@@ -27,7 +26,6 @@ public class ElevatorInputs extends InputProcessor {
 		levelSelector = 0;
 		elevatorSetpoints = ElevatorSetpoint.values(); //expensive call, storing array once is better for perf
 		RegisterResource(ControlResource.ELEVATOR);
-
 	}
 	
 	@Override
@@ -52,8 +50,6 @@ public class ElevatorInputs extends InputProcessor {
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(elevatorSetpoints[levelSelector]);
 		}
-
-		
 	}
 
 }

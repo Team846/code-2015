@@ -1,4 +1,7 @@
 package com.team846.frc2015.components;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import com.team846.frc2015.actuators.LRTSpeedController;
 import com.team846.frc2015.actuators.LRTTalon;
 import com.team846.frc2015.componentData.ComponentData;
@@ -54,7 +57,8 @@ public class Elevator extends Component implements Configurable {
 		
 		positionGain = 0;
 		
-		elevatorSetpoints = new int[]{0,0,0,0,0};
+		elevatorSetpoints = new int[8];
+		Arrays.fill(elevatorSetpoints, 0);
 		
 		ConfigRuntime.Register(this);
 	}
@@ -67,7 +71,7 @@ public class Elevator extends Component implements Configurable {
 		
 		DashboardLogger.getInstance().log(new IntegerLog("elevator-pot", currentPosition));
 		
-		if(currentPosition >= topSoftLimit || currentPosition <= bottomSoftLimit)
+		if(currentPosition <= topSoftLimit || currentPosition >= bottomSoftLimit)
 		{
 			AsyncPrinter.error("Elevator in invalid state! Disable and fix");
 			motorA.set(0.0);
