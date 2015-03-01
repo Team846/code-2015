@@ -103,9 +103,9 @@ public class Brain
 //		Event extend_carriage_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
 //		Event extend_carriage_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
 //		
-//		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
-//		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
-//		
+		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
+		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
+		
 //		//map events to tasks
 //		to_auto.AddStartListener(auton);
 //		driver_stick_moved.AddAbortListener(auton);
@@ -123,8 +123,8 @@ public class Brain
 //		extend_carriage_start.AddStartListener(extendCarriage);
 //		extend_carriage_abort.AddAbortListener(extendCarriage);
 //		
-//		release_stack_start.AddStartListener(releaseStack);
-//		release_stack_abort.AddAbortListener(releaseStack);
+		release_stack_start.AddStartListener(releaseStack);
+		release_stack_abort.AddAbortListener(releaseStack);
 //		
 //		
 //		load_tote_start.AddStartListener(load_tote);

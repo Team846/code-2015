@@ -49,8 +49,8 @@ public class LoadTote extends Automation {
 		//moving carriage down, disengage hooks
 		if(!movingUp)
 		{
-			hooksData.setBackHooksState(HookState.DISENGAGED);
-			hooksData.setFrontHooksState(HookState.DISENGAGED);
+			hooksData.setBackHooksDesiredState(HookState.DISENGAGED);
+			hooksData.setFrontHooksDesiredState(HookState.DISENGAGED);
 					
 			armData.setDesiredPosition(ArmPosition.STOWED);
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
@@ -61,8 +61,8 @@ public class LoadTote extends Automation {
 		else if((elevatorData.isAtSetpoint(ElevatorSetpoint.GRAB_TOTE) && !movingUp) || (movingUp && !elevatorData.isAtSetpoint(ElevatorSetpoint.HOME)))
 		{
 			movingUp = true;
-			hooksData.setBackHooksState(HookState.ENGAGED);
-			hooksData.setFrontHooksState(HookState.ENGAGED);
+			hooksData.setBackHooksDesiredState(HookState.ENGAGED);
+			hooksData.setFrontHooksDesiredState(HookState.ENGAGED);
 			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
 	
 		}

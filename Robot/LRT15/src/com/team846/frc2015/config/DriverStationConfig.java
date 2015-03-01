@@ -42,7 +42,7 @@ public class DriverStationConfig {
 		public static final int ELEVATE_THREE = 7;
 		public static final int ELEVATE_FOUR = 10;
 
-		public static final int DEPLOY_STACK = 8;
+		public static final int DEPLOY_STACK = 2;
 		
 		
 		

@@ -35,7 +35,7 @@ public class LoadContainer extends Automation {
 
 	@Override
 	protected boolean Run() {
-		hooksData.setBackHooksState(HookState.ENGAGED);
+		hooksData.setBackHooksDesiredState(HookState.ENGAGED);
 		elevatorData.setSetpoint(ElevatorSetpoint.HOME);
 		return elevatorData.isAtSetpoint(ElevatorSetpoint.HOME);
 	}

@@ -1,6 +1,7 @@
 package com.team846.frc2015.componentData;
 
 import com.team846.frc2015.componentData.ComponentData;
+import com.team846.frc2015.log.AsyncPrinter;
 
 public class CarriageHooksData extends ComponentData{
 
@@ -36,7 +37,7 @@ public class CarriageHooksData extends ComponentData{
 		return desiredFrontState;
 	}
 	
-	public void setFrontHooksState(HookState newState){
+	public void setFrontHooksDesiredState(HookState newState){
 		desiredFrontState = newState;
 	}
 	
@@ -48,7 +49,7 @@ public class CarriageHooksData extends ComponentData{
 		return desiredBackState;
 	}
 
-	public void setBackHooksState(HookState newState){
+	public void setBackHooksDesiredState(HookState newState){
 		desiredBackState = newState;
 	}
 	
@@ -59,7 +60,7 @@ public class CarriageHooksData extends ComponentData{
 	
 	public void setBackHooksCurrentState(HookState curState)
 	{
-		currentFrontState = curState;
+		currentBackState = curState;
 	}
 
 	@Override

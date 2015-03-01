@@ -16,7 +16,7 @@ public class Pneumatics extends Actuator implements Configurable{
 
 	private int pulseLength;
 
-	private static Compressor compressor = new Compressor(0);
+	private static Compressor compressor = new Compressor(1);
 	public static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
 
 	private SolenoidBase solenoid;

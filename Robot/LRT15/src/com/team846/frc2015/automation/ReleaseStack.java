@@ -8,12 +8,13 @@ import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
+import com.team846.frc2015.log.AsyncPrinter;
 
 public class ReleaseStack extends Automation implements Configurable {
 
 	private ElevatorData elevatorData;
-	private double startingPosition;
-	private double dropHeight;
+	private int startingPosition;
+	private int dropHeight;
 	private CarriageHooksData hooksData;
 	private CarriageExtenderData extenderData;
 	private boolean elevatorToHome;
@@ -25,7 +26,7 @@ public class ReleaseStack extends Automation implements Configurable {
 		hooksData = CarriageHooksData.get();
 		extenderData = CarriageExtenderData.get();
 		
-		dropHeight = 0.0;
+		dropHeight = 0;
 		elevatorToHome = false;
 		
 		ConfigRuntime.Register(this);
@@ -34,12 +35,15 @@ public class ReleaseStack extends Automation implements Configurable {
 	@Override
 	public void AllocateResources() {
 		AllocateResource(ControlResource.ELEVATOR);
+		AllocateResource(ControlResource.CARRIAGE_EXTENDER);
+		AllocateResource(ControlResource.CARRIAGE_HOOKS);
 		
 	}
 
 	@Override
 	protected boolean Start() {
 		startingPosition = elevatorData.getCurrentPosition();
+		elevatorToHome = false;
 		return true;
 	}
 
@@ -51,29 +55,26 @@ public class ReleaseStack extends Automation implements Configurable {
 	@Override
 	protected boolean Run() {
 		elevatorData.setControlMode(ElevatorControlMode.POSITION);
-		elevatorData.setDesiredPosition((startingPosition - dropHeight));
-		if(elevatorData.isAtPosition(startingPosition - dropHeight) || elevatorToHome)
+		elevatorData.setDesiredPosition((startingPosition + dropHeight)); // down is positive
+		if(elevatorData.isAtPosition(startingPosition + dropHeight) || elevatorToHome)
 		{
 			elevatorToHome = true;
-			hooksData.setBackHooksCurrentState(HookState.DISENGAGED);
-			hooksData.setFrontHooksCurrentState(HookState.DISENGAGED);
+			hooksData.setBackHooksDesiredState(HookState.DISENGAGED);
+			hooksData.setFrontHooksDesiredState(HookState.DISENGAGED);
 			
 			extenderData.setControlMode(CarriageExtenderData.CarriageControlMode.POSITION);
 			extenderData.setPositionSetpoint(0.0);
 			
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
-			if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
-				return true;
+//			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+//			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
+//			if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
 		}
 		return false;
 	}
 
 	@Override
 	public void Configure() {
-		dropHeight = GetConfig("dropHeight", 20.0); //TODO:Change default once pot comes in
-		// TODO Auto-generated method stub
-		
+		dropHeight = GetConfig("dropHeight", 20); //TODO:Change default once pot comes in
 	}
 
 }

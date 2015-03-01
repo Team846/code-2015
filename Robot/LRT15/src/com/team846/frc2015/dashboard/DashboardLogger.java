@@ -42,7 +42,8 @@ public class DashboardLogger
 	
 	public DashboardLogger()
 	{
-		if (buttonsPressed())
+//		if (buttonsPressed())
+		if (true)
 		{
 			AsyncPrinter.info("Starting funkyDashboard");
 			config = new Configuration();

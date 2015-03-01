@@ -73,7 +73,7 @@ public class Elevator extends Component implements Configurable {
 		
 		if(currentPosition <= topSoftLimit || currentPosition >= bottomSoftLimit)
 		{
-			AsyncPrinter.error("Elevator in invalid state! Disable and fix");
+			AsyncPrinter.error("Elevator in invalid state! Disable and fix (value: " + currentPosition + ")");
 			motorA.set(0.0);
 			motorB.set(0.0);
 			return;
@@ -83,24 +83,20 @@ public class Elevator extends Component implements Configurable {
 			motorA.set(elevatorData.getSpeed());
 			motorB.set(elevatorData.getSpeed());
 		}
-		else if(elevatorData.getControlMode() == ElevatorControlMode.POSITION)
+		else if(elevatorData.getControlMode() == ElevatorControlMode.POSITION
+				|| elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 		{
-			int desiredPos = (int) Rescale(elevatorData.getDesiredPosition(), 0, 1, bottomSoftLimit, topSoftLimit);
+			int desiredPos = elevatorData.getDesiredPosition();
+			if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
+				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
 			int posErr = desiredPos - currentPosition;
-			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr / 1023.0;
-			motorA.set(speed * positionGain);
-			motorB.set(speed * positionGain);
-		}
-		else //Setpoint
-		{
-			double posErr = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()] - currentPosition;
-			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr / 1023.0;
+			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
 			if(speed == 0.0)
 				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
 			else
 				elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
-			motorA.set(speed * positionGain);
-			motorB.set(speed * positionGain);
+			motorA.set(speed);
+			motorB.set(speed);
 		}
 	
 	}
@@ -132,7 +128,7 @@ public class Elevator extends Component implements Configurable {
 	@Override
 	public void Configure() {
 		topSoftLimit = GetConfig("topLimit", 100);
-		topSoftLimit = GetConfig("bottomLimit", 10);
+		bottomSoftLimit = GetConfig("bottomLimit", 10);
 		
 		positionGain = GetConfig("positionGain", 1.0);
 		

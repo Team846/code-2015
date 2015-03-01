@@ -7,6 +7,8 @@ import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.dashboard.DashboardLogger;
+import com.team846.frc2015.dashboard.IntegerLog;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.MathUtils;
@@ -19,7 +21,7 @@ public class CarriageExtender extends Component implements Configurable
 {
 	CANTalon carriageMotor;
 	
-//	AnalogInput carriagePot;
+	AnalogInput carriagePot;
 	
 	private int retractSetpoint;
 	private int extendSetpoint;
@@ -40,12 +42,11 @@ public class CarriageExtender extends Component implements Configurable
 	{
 		super("CarriageExtender", DriverStationConfig.DigitalIns.NO_DS_DI);
 		
-//		carriagePot = SensorFactory.GetAnalogInput(
-//				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
+		carriagePot = SensorFactory.GetAnalogInput(
+				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
 		
 		carriageMotor = new CANTalon(ConfigPortMappings.Instance().get("CAN/CARRIAGE_MOTOR"));
 		carriageMotor.setStatusFrameRateMs(StatusFrameRate.AnalogTempVbat, 20);
-
 		
 		maxRange = positionGain = errorThreshold = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit =  0;
 		
@@ -57,14 +58,10 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateEnabled() 
 	{
-		int position = carriageMotor.getAnalogInPosition();
+		int position = carriagePot.getAverageValue();
 		
-		if(position >= retractSoftLimit || position <= extendSoftLimit)
-		{
-			carriageMotor.set(0.0);
-			AsyncPrinter.error("Carriage out of bounds! Disable and fix");
-			return;
-		}
+		DashboardLogger.getInstance().log(new IntegerLog("extender-pot", position));
+		DashboardLogger.getInstance().log(new IntegerLog("extender-retractSoftLimit", retractSoftLimit));
 		
 		if(extenderData.getControlMode() == CarriageControlMode.SETPOINT)
 		{
@@ -76,11 +73,10 @@ public class CarriageExtender extends Component implements Configurable
 				
 			carriageMotor.set(error * positionGain);
 		}
-			
 		else if(extenderData.getControlMode() == CarriageControlMode.POSITION)
 		{
-			
 			int desiredPos = (int) Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+			DashboardLogger.getInstance().log(new IntegerLog("extender-desiredPos", desiredPos));
 			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : ( desiredPos - position ) / maxRange ;
 			carriageMotor.set(error*positionGain);
 		}
@@ -103,6 +99,17 @@ public class CarriageExtender extends Component implements Configurable
 
 	@Override
 	protected void OnDisabled() {
+	}
+	
+	private void sendOutput(float value)
+	{
+		int position = carriagePot.getAverageValue();
+		if(position >= retractSoftLimit || position <= extendSoftLimit)
+		{
+			carriageMotor.set(0.0);
+			AsyncPrinter.error("Carriage out of bounds! Disable and fix (value: " + position + ")");
+			return;
+		}
 	}
 
 	@Override

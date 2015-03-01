@@ -23,9 +23,9 @@ public class CarriageHooksInputs extends InputProcessor{
 	@Override
 	public void Update() {
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.FRONT_HOOKS_OVERRIDE))
-			hooksData.setFrontHooksState(HookState.DISENGAGED);
+			hooksData.setFrontHooksDesiredState(HookState.DISENGAGED);
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.BACK_HOOKS_OVERRIDE))
-			hooksData.setBackHooksState(HookState.DISENGAGED);
+			hooksData.setBackHooksDesiredState(HookState.DISENGAGED);
 		
 	}
 

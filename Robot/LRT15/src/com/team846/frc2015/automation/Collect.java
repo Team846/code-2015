@@ -82,11 +82,11 @@ public class Collect extends Automation
 		if(dropCarriage)
 		{
 			elevatorData.setControlMode(ElevatorControlMode.POSITION);
-			elevatorData.setDesiredPosition(0.0);
+//			elevatorData.setDesiredPosition(0.0);
 		}
 		
 		if(enableBackHooks)
-			hooksData.setBackHooksState(CarriageHooksData.HookState.ENGAGED);
+			hooksData.setBackHooksDesiredState(CarriageHooksData.HookState.ENGAGED);
 		
 		armData.setDesiredPosition(ArmPosition.EXTEND);
 		rollersData.setRunning(true);

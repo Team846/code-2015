@@ -45,7 +45,7 @@ public class LoadUprightContainer extends Automation {
 	@Override
 	protected boolean Run() 
 	{
-		hooksData.setFrontHooksState(HookState.ENGAGED);
+		hooksData.setFrontHooksDesiredState(HookState.ENGAGED);
 		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 		elevatorData.setSetpoint(ElevatorSetpoint.HOME);
 		 

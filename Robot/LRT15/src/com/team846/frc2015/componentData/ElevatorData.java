@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public class ElevatorData extends ComponentData{
 	
 	private double speed;
-	private double position;
+	private int position;
 
 	private ElevatorControlMode controlMode;
 
@@ -13,7 +13,7 @@ public class ElevatorData extends ComponentData{
 	private ElevatorSetpoint currentSetpoint;
 	
 	private double errorThreshold  = 10;
-	private double currentPosition = 0.0f;
+	private int currentPosition = 0;
 	
 	public enum ElevatorControlMode
 	{
@@ -86,21 +86,21 @@ public class ElevatorData extends ComponentData{
 		return Math.abs(isAtPosition - currentPosition) < errorThreshold;
 	}
 	
-	public void setCurrentPosition(double position)
+	public void setCurrentPosition(int position)
 	{
 		currentPosition = position;
 	}
 	
-	public double getCurrentPosition()
+	public int getCurrentPosition()
 	{
 		return currentPosition;
 	}
 	
-	public double getDesiredPosition() {
+	public int getDesiredPosition() {
 		return position;
 	}
 
-	public void setDesiredPosition(double d) {
+	public void setDesiredPosition(int d) {
 		this.position = d;
 	}
 
