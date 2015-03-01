@@ -101,15 +101,20 @@ public class CarriageExtender extends Component implements Configurable
 	protected void OnDisabled() {
 	}
 	
-	private void sendOutput(float value)
+	private void sendOutput(double value)
 	{
 		int position = carriagePot.getAverageValue();
-		if(position >= retractSoftLimit || position <= extendSoftLimit)
+		if(position <= extendSoftLimit)
 		{
-			carriageMotor.set(0.0);
-			AsyncPrinter.error("Carriage out of bounds! Disable and fix (value: " + position + ")");
-			return;
+			if (value > 0)
+				value = 0;
 		}
+		else if(position >= retractSoftLimit)
+		{
+			if (value < 0)
+				value = 0;
+		}
+		carriageMotor.set(value);
 	}
 
 	@Override

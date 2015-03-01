@@ -25,6 +25,8 @@ public class CarriageExtenderInputs extends InputProcessor {
 	@Override
 	public void Update() {
 
+		extenderData.setControlMode(CarriageControlMode.POSITION);
+		extenderData.setPositionSetpoint(0.0);
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE))
 		{
 			extenderData.setControlMode(CarriageControlMode.POSITION);

@@ -71,36 +71,54 @@ public class Elevator extends Component implements Configurable {
 		
 		DashboardLogger.getInstance().log(new IntegerLog("elevator-pot", currentPosition));
 		
-		if(currentPosition <= topSoftLimit || currentPosition >= bottomSoftLimit)
+		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)
 		{
-			AsyncPrinter.error("Elevator in invalid state! Disable and fix (value: " + currentPosition + ")");
-			motorA.set(0.0);
-			motorB.set(0.0);
-			return;
-		}
-		if(elevatorData.getControlMode() == ElevatorControlMode.SPEED)
-		{
-			motorA.set(elevatorData.getSpeed());
-			motorB.set(elevatorData.getSpeed());
+			sendOutput(elevatorData.getSpeed());
+			sendOutput(elevatorData.getSpeed());
 		}
 		else if(elevatorData.getControlMode() == ElevatorControlMode.POSITION
 				|| elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 		{
 			int desiredPos = elevatorData.getDesiredPosition();
 			if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
+			{
 				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
+			}
+			if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit)
+			{
+				AsyncPrinter.error("Setpoint out of bounds");
+				sendOutput(0);
+				return;
+			}
 			int posErr = desiredPos - currentPosition;
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
 			if(speed == 0.0)
 				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
 			else
 				elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
-			motorA.set(speed);
-			motorB.set(speed);
+			sendOutput(speed);
+			sendOutput(speed);
 		}
 	
 	}
 
+	private void sendOutput(double value)
+	{
+		int currentPosition = elevatorPot.getAverageValue();
+		if(currentPosition <= topSoftLimit)
+		{
+			if (value < 0)
+				value = 0;
+		}
+		else if(currentPosition >= bottomSoftLimit)
+		{
+			if (value > 0)
+				value = 0;
+		}
+		motorA.set(value);
+		motorB.set(value);
+	}
+	
 	@Override
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
@@ -135,12 +153,21 @@ public class Elevator extends Component implements Configurable {
 		errorThreshold = GetConfig("errorThreshold", 15);
 		
 		elevatorSetpoints[ElevatorSetpoint.GROUND.ordinal()] = GetConfig("ground", 10);
-		elevatorSetpoints[ElevatorSetpoint.HOME.ordinal()] = GetConfig("home", 10);
-		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = GetConfig("ground", 0);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_TOTE.ordinal()] = GetConfig("collect_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER.ordinal()] = GetConfig("collect_upright_container", 2050);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("collect_sideways_container", 1800);
+		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= GetConfig("grab_tote", 2100);
+		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= GetConfig("grab_sideways_container", 2400);
+		elevatorSetpoints[ElevatorSetpoint.HOME_TOTE.ordinal()] = GetConfig("home_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_UPRIGHT_CONTAINER.ordinal()] = GetConfig("home_upright_container", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("home_sideways_container", 2200);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_ADDITIONAL.ordinal()] = GetConfig("collect_additional", 1600);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = GetConfig("tote1", 50);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= GetConfig("tote2", 60);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_3.ordinal()]= GetConfig("tote3", 80);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_4.ordinal()]= GetConfig("tote4", 80);
+		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= GetConfig("step", 1800);
+		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = GetConfig("ground", 0);
 	}
 	
 	

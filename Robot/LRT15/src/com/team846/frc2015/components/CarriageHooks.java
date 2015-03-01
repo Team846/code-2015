@@ -31,13 +31,13 @@ public class CarriageHooks extends Component{
 		State backState;
 		State frontState;
 		
-		if (hooksData.getFrontHooksDesiredState() == HookState.ENGAGED)
+		if (hooksData.getFrontHooksDesiredState() == HookState.DOWN)
 			frontState = State.OFF;
 		else
 			frontState = State.FORWARD;
 		
 		
-		if (hooksData.getBackHooksDesiredState() == HookState.ENGAGED)
+		if (hooksData.getBackHooksDesiredState() == HookState.DOWN)
 			backState = State.OFF;
 		else
 			backState = State.FORWARD;
@@ -45,8 +45,8 @@ public class CarriageHooks extends Component{
 		frontHooks.set(frontState);
 		backHooks.set(backState);
 		
-		hooksData.setFrontHooksCurrentState(frontState == State.OFF ? HookState.ENGAGED : HookState.DISENGAGED);
-		hooksData.setBackHooksCurrentState(backState == State.OFF ? HookState.ENGAGED : HookState.DISENGAGED);
+		hooksData.setFrontHooksCurrentState(frontState == State.OFF ? HookState.DOWN : HookState.UP);
+		hooksData.setBackHooksCurrentState(backState == State.OFF ? HookState.DOWN : HookState.UP);
 	}
 
 	@Override

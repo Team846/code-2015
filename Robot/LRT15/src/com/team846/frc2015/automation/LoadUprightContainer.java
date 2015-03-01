@@ -7,49 +7,34 @@ import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 
-public class LoadUprightContainer extends Automation {
-	
+public class LoadUprightContainer extends LoadItem {
+
 	private CarriageHooksData hooksData;
-	private CarriageExtenderData extenderData;
-	private ElevatorData elevatorData;
-
-	public LoadUprightContainer()
-	{	
-		super("LoadUprightContainer");
-		hooksData = CarriageHooksData.get();
-		extenderData = CarriageExtenderData.get();
-		elevatorData = ElevatorData.get();
-	}
 	
+	public LoadUprightContainer() {
+		super("LoadUprightContainer", ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER,
+				ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_UPRIGHT_CONTAINER);
 
-	@Override
-	public void AllocateResources()
+		hooksData = CarriageHooksData.get();
+	}
+
+	protected boolean Run()
 	{
-		AllocateResource(ControlResource.CARRIAGE_EXTENDER);
-		AllocateResource(ControlResource.CARRIAGE_HOOKS);
-		AllocateResource(ControlResource.ELEVATOR);
-	}
+		boolean ret = super.Run();
 
-	@Override
-	protected boolean Start() {
-		return true;
+		// Override hook states
+		if (state == State.COLLECT)
+		{
+			hooksData.setFrontHooksDesiredState(HookState.UP);
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+		}
+		else if (state == State.GRAB)
+		{
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+		}
+		
+		return ret;
 	}
-
-	@Override
-	protected boolean Abort() {
-		elevatorData.setControlMode(ElevatorControlMode.SPEED);
-		elevatorData.setDesiredSpeed(0.0);
-		return true;
-	}
-
-	@Override
-	protected boolean Run() 
-	{
-		hooksData.setFrontHooksDesiredState(HookState.ENGAGED);
-		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-		elevatorData.setSetpoint(ElevatorSetpoint.HOME);
-		 
-		return elevatorData.isAtSetpoint(ElevatorSetpoint.HOME);
-	}
-
 }
+

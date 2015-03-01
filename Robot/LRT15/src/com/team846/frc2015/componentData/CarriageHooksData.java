@@ -7,8 +7,8 @@ public class CarriageHooksData extends ComponentData{
 
 	public enum HookState
 	{
-		ENGAGED,
-		DISENGAGED
+		DOWN,
+		UP
 	}
 	
 	private HookState desiredFrontState;
@@ -19,10 +19,10 @@ public class CarriageHooksData extends ComponentData{
 	
 	public CarriageHooksData() {
 		super("CarriageHooksData");
-		desiredFrontState = HookState.ENGAGED;
-		desiredBackState = HookState.ENGAGED;
-		currentFrontState = HookState.ENGAGED;
-		currentBackState = HookState.ENGAGED;
+		desiredFrontState = HookState.DOWN;
+		desiredBackState = HookState.DOWN;
+		currentFrontState = HookState.DOWN;
+		currentBackState = HookState.DOWN;
 	}
 	
 	public static CarriageHooksData get(){
@@ -65,10 +65,10 @@ public class CarriageHooksData extends ComponentData{
 
 	@Override
 	protected void ResetCommands() {
-		desiredFrontState = HookState.ENGAGED;
-		desiredBackState = HookState.ENGAGED;
-		currentFrontState = HookState.ENGAGED;
-		currentBackState = HookState.ENGAGED;
+		desiredFrontState = HookState.DOWN;
+		desiredBackState = HookState.DOWN;
+		currentFrontState = HookState.DOWN;
+		currentBackState = HookState.DOWN;
 		
 	}
 

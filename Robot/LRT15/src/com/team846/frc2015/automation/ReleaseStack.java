@@ -20,7 +20,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	private boolean elevatorToHome;
 
 	public ReleaseStack() {
-		super("ReleaseStack");
+		super("ReleaseStack", true, false, false);
 		
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
@@ -59,15 +59,19 @@ public class ReleaseStack extends Automation implements Configurable {
 		if(elevatorData.isAtPosition(startingPosition + dropHeight) || elevatorToHome)
 		{
 			elevatorToHome = true;
-			hooksData.setBackHooksDesiredState(HookState.DISENGAGED);
-			hooksData.setFrontHooksDesiredState(HookState.DISENGAGED);
+			hooksData.setBackHooksDesiredState(HookState.UP);
+			hooksData.setFrontHooksDesiredState(HookState.UP);
 			
 			extenderData.setControlMode(CarriageExtenderData.CarriageControlMode.POSITION);
 			extenderData.setPositionSetpoint(0.0);
 			
-//			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-//			elevatorData.setSetpoint(ElevatorSetpoint.HOME);
-//			if(elevatorData.isAtSetpoint(ElevatorSetpoint.HOME))
+			if (Aborting())
+			{
+				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+				elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
+				if (elevatorData.isAtSetpoint(ElevatorSetpoint.HOME_TOTE))
+					return true;
+			}
 		}
 		return false;
 	}

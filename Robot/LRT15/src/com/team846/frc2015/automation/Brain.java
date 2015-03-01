@@ -60,85 +60,57 @@ public class Brain
 		createInputProcessors();
 
 		
-		//All automation routines		
+		// All automation routines		
 //		Automation auton = new Autonomous();
 	
-		Automation collect_tote = new Collect();
-		Automation collect_upright_container = new Collect(true, true);	
 		Automation load_tote = new LoadTote();
-		Automation load_container = new LoadContainer();
+		Automation load_sideways_container = new LoadSidewaysContainer();
 		Automation load_upright_container = new LoadUprightContainer();
 		
-		Automation elevate_1 = new Elevate(1);
-		Automation elevate_2 = new Elevate(2);
-		Automation elevate_3 = new Elevate(3);
-		Automation elevate_4 = new Elevate(4);
-		
-		Automation extendCarriage = new ExtendCarriage();
 		Automation releaseStack = new ReleaseStack();
 		
-		//Declare event triggers		
+		// Declare event triggers
 		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
 		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
 		Event operator_stick_moved = new JoystickMovedEvent(operatorStick);
 		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
 		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
 		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
-//		
-//		Event collect_tote_start = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
-//		Event collect_tote_abort = new JoystickReleasedEvent(driverStick, DriverStationConfig.JoystickButtons.COLLECT_TOTE);
-//		
-//		Event collect_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.COLLECT_UPRIGHT_CONTAINER);
-//		Event collect_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.COLLECT_UPRIGHT_CONTAINER);
-//		
-//		Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
-//		Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
-//		
-//		Event load_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER); 
-//		Event load_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER);
-//		
-//		Event load_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
-//		Event load_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_CONTAINER);
-//		
-//		Event extend_carriage_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
-//		Event extend_carriage_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
-//		
+		
+		Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+		Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+		
+		Event load_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER); 
+		Event load_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER);
+		
+		Event load_sideways_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
+		Event load_sideways_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
+		
 		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		
-//		//map events to tasks
+		// Map events to routines
 //		to_auto.AddStartListener(auton);
 //		driver_stick_moved.AddAbortListener(auton);
 //		operator_stick_moved.AddAbortListener(auton);
 //		driver_stick_pressed.AddAbortListener(auton);
 //		operator_stick_pressed.AddAbortListener(auton);
 //		disabled_timeout.AddAbortListener(auton);
-//		
-//		collect_tote_start.AddStartListener(collect_tote);
-//		collect_tote_abort.AddAbortListener(collect_tote);
-//		
-//		collect_upright_container_start.AddStartListener(collect_upright_container);
-//		collect_upright_container_abort.AddAbortListener(collect_upright_container);
-//
-//		extend_carriage_start.AddStartListener(extendCarriage);
-//		extend_carriage_abort.AddAbortListener(extendCarriage);
-//		
+		
 		release_stack_start.AddStartListener(releaseStack);
 		release_stack_abort.AddAbortListener(releaseStack);
-//		
-//		
-//		load_tote_start.AddStartListener(load_tote);
-//		load_tote_abort.AddAbortListener(load_tote);
-//		
-//		load_container_start.AddStartListener(load_container);
-//		load_container_abort.AddAbortListener(load_container);
-//		
-//		load_upright_container_start.AddStartListener(load_upright_container);
-//		load_upright_container_abort.AddAbortListener(load_upright_container);
+		
+		load_tote_start.AddStartListener(load_tote);
+		load_tote_abort.AddAbortListener(load_tote);
+		
+		load_sideways_container_start.AddStartListener(load_sideways_container);
+		load_sideways_container_abort.AddAbortListener(load_sideways_container);
+		
+		load_upright_container_start.AddStartListener(load_upright_container);
+		load_upright_container_abort.AddAbortListener(load_upright_container);
 	}
 	
 	private void createInputProcessors() {
-		//declare all input processors here
 		inputs.add(new DrivetrainInputs(Axis.DRIVE));
 		inputs.add(new DrivetrainInputs(Axis.TURN));
 		inputs.add(new DrivetrainInputs(Axis.STRAFE));

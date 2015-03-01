@@ -18,19 +18,29 @@ public class ElevatorData extends ComponentData{
 	public enum ElevatorControlMode
 	{
 		POSITION,
-		SPEED,
+		VELOCITY,
 		SETPOINT
 	}
 	
 	public enum ElevatorSetpoint
 	{
+		// First object sequence is collect, grab, home
+		// Additional object sequence is COLLECT_ADDITIONAL, GRAB_TOTE, HOME_TOTE
 		GROUND,
+		COLLECT_TOTE,
+		COLLECT_UPRIGHT_CONTAINER,
+		COLLECT_SIDEWAYS_CONTAINER,
+		GRAB_TOTE,
+		GRAB_SIDEWAYS_CONTAINER,
+		HOME_TOTE,
+		HOME_UPRIGHT_CONTAINER,
+		HOME_SIDEWAYS_CONTAINER,
+		COLLECT_ADDITIONAL,
 		TOTE_1,
 		TOTE_2,
 		TOTE_3,
 		TOTE_4,
-		GRAB_TOTE,
-		HOME,
+		STEP,
 		NONE
 	}
 
@@ -106,9 +116,9 @@ public class ElevatorData extends ComponentData{
 
 	@Override
 	protected void ResetCommands() {
-		controlMode = ElevatorControlMode.SPEED;
+		controlMode = ElevatorControlMode.VELOCITY;
 		speed = 0.0f;
-		setpoint = ElevatorSetpoint.GROUND;
+		setpoint = ElevatorSetpoint.HOME_TOTE;
 
 	}
 
