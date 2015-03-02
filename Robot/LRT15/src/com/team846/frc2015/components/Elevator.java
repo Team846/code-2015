@@ -148,26 +148,30 @@ public class Elevator extends Component implements Configurable {
 		topSoftLimit = GetConfig("topLimit", 100);
 		bottomSoftLimit = GetConfig("bottomLimit", 10);
 		
-		positionGain = GetConfig("positionGain", 1.0);
+		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
 		
+		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = GetConfig("ground", 0);
 		elevatorSetpoints[ElevatorSetpoint.GROUND.ordinal()] = GetConfig("ground", 10);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_TOTE.ordinal()] = GetConfig("collect_tote", 2000);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER.ordinal()] = GetConfig("collect_upright_container", 2050);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("collect_sideways_container", 1800);
-		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= GetConfig("grab_tote", 2100);
-		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= GetConfig("grab_sideways_container", 2400);
-		elevatorSetpoints[ElevatorSetpoint.HOME_TOTE.ordinal()] = GetConfig("home_tote", 2000);
-		elevatorSetpoints[ElevatorSetpoint.HOME_UPRIGHT_CONTAINER.ordinal()] = GetConfig("home_upright_container", 2000);
-		elevatorSetpoints[ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("home_sideways_container", 2200);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_ADDITIONAL.ordinal()] = GetConfig("collect_additional", 1600);
+		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= GetConfig("step", 1800);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = GetConfig("tote1", 50);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= GetConfig("tote2", 60);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_3.ordinal()]= GetConfig("tote3", 80);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_4.ordinal()]= GetConfig("tote4", 80);
-		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= GetConfig("step", 1800);
-		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = GetConfig("ground", 0);
+		
+		elevatorSetpoints[ElevatorSetpoint.HOME_TOTE.ordinal()] = GetConfig("home_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_UPRIGHT_CONTAINER.ordinal()] = GetConfig("home_upright_container", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("home_sideways_container", 2200);
+		
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_TOTE.ordinal()] = GetConfig("collect_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER.ordinal()] = GetConfig("collect_upright_container", 2050);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("collect_sideways_container", 1800);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_ADDITIONAL.ordinal()] = GetConfig("collect_additional", 1600);
+
+		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= GetConfig("grab_tote", 2100);
+		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= GetConfig("grab_sideways_container", 2400);
+		
 	}
 	
 	

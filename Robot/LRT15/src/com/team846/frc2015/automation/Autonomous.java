@@ -33,13 +33,11 @@ public class Autonomous extends Sequential
 
 		try
 		{
-			loadRoutine(FindRoutine((int)SmartDashboard.getNumber("DB/Slider 0"))); // WARNING: Rounds the current value DOWN
+			loadRoutine(FindRoutine((int)Math.round(SmartDashboard.getNumber("DB/Slider 0")))); //Rounds value to int
 		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
-		
-		// TODO: Configurable routine
 
 		ConfigRuntime.ConfigureAll();
 

@@ -36,7 +36,10 @@ public class ManipulatorArm extends Component{
 		
 		leftArmState = armData.getDeployed(Arm.LEFT) ? State.FORWARD : State.OFF;
 		rightArmState = armData.getDeployed(Arm.RIGHT) ? State.FORWARD : State.OFF;
-	
+		
+		armData.setCurrentDeployed(Arm.LEFT, armData.getDeployed(Arm.LEFT));
+		armData.setCurrentDeployed(Arm.RIGHT, armData.getDeployed(Arm.RIGHT));
+
 		leftArm.set(leftArmState);
 		rightArm.set(rightArmState);
 	}

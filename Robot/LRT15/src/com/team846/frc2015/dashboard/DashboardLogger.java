@@ -43,9 +43,8 @@ public class DashboardLogger
 	public DashboardLogger()
 	{
 		if (buttonsPressed())
-		//if (true)
 		{
-			AsyncPrinter.info("Starting funkyDashboard");
+			AsyncPrinter.info("Starting funkyDashboard...");
 			config = new Configuration();
 			config.setPort(8080);
 			config.getSocketConfig().setReuseAddress(true);

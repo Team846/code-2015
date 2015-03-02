@@ -31,7 +31,7 @@ public class ElevatorInputs extends InputProcessor {
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATOR_OVERRIDE))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-			double speed = -operatorStick.getAxis(AxisType.kY);
+			double speed = operatorStick.getAxis(AxisType.kY);
 			elevatorData.setDesiredSpeed(speed);
 		}
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_ONE))

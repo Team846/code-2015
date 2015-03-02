@@ -65,6 +65,7 @@ public class Turn extends Automation {
 
 	protected boolean Run()
 	{
+		drivetrain.setClassicDrive(true);
 		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
 	}
 
