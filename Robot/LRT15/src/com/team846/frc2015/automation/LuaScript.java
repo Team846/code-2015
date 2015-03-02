@@ -17,7 +17,7 @@ public class LuaScript extends Automation {
 	private Automation mCurrentAutomation;
 	
 	public LuaScript(String file) {
-		super("LuaScript", true, true, false);
+		super("LuaScript", RoutineOption.REQUIRES_ABORT_CYCLES, RoutineOption.QUEUE_IF_BLOCKED);
 		
 		mLua = new LuaContext();
 		mLua.loadFromFile(file);

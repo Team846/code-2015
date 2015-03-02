@@ -3,6 +3,8 @@ package com.team846.frc2015.automation;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import com.team846.frc2015.automation.Automation.RoutineOption;
+
 public class Parallel extends Automation {
 
 	 private boolean abortOnFirst = false;
@@ -11,18 +13,20 @@ public class Parallel extends Automation {
 	 
 	 public Parallel(String name)
 	 {
-		 this(name, false, false, false);
+		 this(name, false);
 	 }
 	 
 	 public Parallel(String name, ArrayList<Automation> sequence)
 	 {
-		 super(name, false , false, false);
+		 super(name);
 		 routines = sequence;
 	 }
 
-	public Parallel(String name, boolean qIfBlocked, boolean restartable, boolean abortOnFirst) 
+	public Parallel(String name, boolean abortOnFirst, RoutineOption...options) 
 	 {
-		 super(name, false, qIfBlocked, restartable);
+		 super(name, options);
+		 if(routineOptions.contains(RoutineOption.REQUIRES_ABORT_CYCLES))
+				routineOptions.remove(RoutineOption.REQUIRES_ABORT_CYCLES);
 		 this.abortOnFirst = abortOnFirst;
 	 }
 

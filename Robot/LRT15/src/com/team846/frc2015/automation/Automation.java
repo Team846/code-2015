@@ -9,34 +9,37 @@ import com.team846.frc2015.automation.events.Event;
 public abstract class Automation {
 	public static ArrayList<Automation> automation_vector = new ArrayList<>();
 	static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
-	ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
+	protected ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
+	
+	ArrayList<RoutineOption> routineOptions = new ArrayList<RoutineOption>();
 	
 	Event startEvent;
 	Event abortEvent;
 	Event continueEvent;
 	
 	boolean aborting;
-	boolean restartable;
-	boolean queueIfBlocked;
-	boolean requiresAbortCycle;
 	
 	String name;
 	
-	public Automation(String name)
+	public enum RoutineOption
 	{
-		this(name, false, false, false);
+		REQUIRES_ABORT_CYCLES,
+		QUEUE_IF_BLOCKED,
+		RESTARTABLE
 	}
 	
 	//TODO: implement automation options instead of sequence of booleans
-	public Automation(String name, boolean requiresAbortCycles, boolean queueIfBlocked, boolean restartable)
+	public Automation(String name, RoutineOption... options)
 	{
 		startEvent = null;
 		abortEvent = null;
 		continueEvent = null;
 		aborting = false;
-		this.restartable = restartable;
-		this.queueIfBlocked = queueIfBlocked;
-		this.requiresAbortCycle = requiresAbortCycles;
+		for(RoutineOption option: options)
+		{
+			if(!routineOptions.contains(option))
+				routineOptions.add(option);
+		}
 		this.name = name;
 		automation_vector.add(this);
 	}
@@ -178,17 +181,17 @@ public abstract class Automation {
 
 	public boolean IsRestartable()
 	{
-		return restartable;
+		return routineOptions.contains(RoutineOption.RESTARTABLE);
 	}
 
 	public boolean QueueIfBlocked()
 	{
-		return queueIfBlocked;
+		return routineOptions.contains(RoutineOption.QUEUE_IF_BLOCKED);
 	}
 
 	public boolean RequiresAbortCycles()
 	{
-		return requiresAbortCycle;
+		return routineOptions.contains(RoutineOption.REQUIRES_ABORT_CYCLES);
 	}
 
 	public String GetName()

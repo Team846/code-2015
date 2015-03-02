@@ -20,7 +20,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	private boolean elevatorToHome;
 
 	public ReleaseStack() {
-		super("ReleaseStack", true, false, false);
+		super("ReleaseStack", RoutineOption.REQUIRES_ABORT_CYCLES);
 		
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();

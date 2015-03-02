@@ -9,25 +9,23 @@ public class Sequential extends Automation {
 	Queue<Automation> queued = new LinkedList<Automation>();
 	boolean started;
 	
-	Sequential(String name, boolean queueIfBlocked, boolean restartable) 
+	Sequential(String name, RoutineOption... options) 
 	{
-		super(name, false, queueIfBlocked, restartable);
+		super(name, options);
+		if(routineOptions.contains(RoutineOption.REQUIRES_ABORT_CYCLES))
+			routineOptions.remove(RoutineOption.REQUIRES_ABORT_CYCLES);
 		started = false;
 	}
 
-	Sequential(String name, ArrayList<Automation> sequence, boolean queueIfBlocked, boolean restartable) 
+	Sequential(String name, ArrayList<Automation> sequence,  boolean restartable, RoutineOption... options) 
 	{
-		super(name, false, queueIfBlocked, restartable);
+		super(name, options);
+		
+		if(routineOptions.contains(RoutineOption.REQUIRES_ABORT_CYCLES))
+			routineOptions.remove(RoutineOption.REQUIRES_ABORT_CYCLES);
 		routines = sequence;
 		started = false;
 	}
-	
-	Sequential(String name)
-	{
-		this(name, false, false);
-		
-	}
-
 
 	public void AllocateResources()
 	{
