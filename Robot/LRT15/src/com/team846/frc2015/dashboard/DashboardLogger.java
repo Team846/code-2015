@@ -42,8 +42,8 @@ public class DashboardLogger
 	
 	public DashboardLogger()
 	{
-//		if (buttonsPressed())
-		if (true)
+		if (buttonsPressed())
+		//if (true)
 		{
 			AsyncPrinter.info("Starting funkyDashboard");
 			config = new Configuration();
@@ -58,10 +58,10 @@ public class DashboardLogger
 	
 	// Use on prod
 	private boolean buttonsPressed() {
-		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
+		LRTJoystick driverWheel = LRTDriverStation.Instance().GetDriverWheel();
 		
-		return driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
-				driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
+		return driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+				driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
 	}
 
 	@SuppressWarnings("rawtypes")

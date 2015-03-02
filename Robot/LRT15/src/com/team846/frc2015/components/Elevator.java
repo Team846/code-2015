@@ -57,7 +57,7 @@ public class Elevator extends Component implements Configurable {
 		
 		positionGain = 0;
 		
-		elevatorSetpoints = new int[8];
+		elevatorSetpoints = new int[ElevatorData.ElevatorSetpoint.values().length];
 		Arrays.fill(elevatorSetpoints, 0);
 		
 		ConfigRuntime.Register(this);
@@ -70,10 +70,10 @@ public class Elevator extends Component implements Configurable {
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().log(new IntegerLog("elevator-pot", currentPosition));
+		AsyncPrinter.println("Position: " + currentPosition);
 		
 		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)
 		{
-			sendOutput(elevatorData.getSpeed());
 			sendOutput(elevatorData.getSpeed());
 		}
 		else if(elevatorData.getControlMode() == ElevatorControlMode.POSITION
@@ -82,21 +82,21 @@ public class Elevator extends Component implements Configurable {
 			int desiredPos = elevatorData.getDesiredPosition();
 			if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 			{
+				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
 				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
 			}
 			if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit)
 			{
 				AsyncPrinter.error("Setpoint out of bounds");
-				sendOutput(0);
+				sendOutput(0.0);
 				return;
 			}
 			int posErr = desiredPos - currentPosition;
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
-			if(speed == 0.0)
+			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
 			else
 				elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
-			sendOutput(speed);
 			sendOutput(speed);
 		}
 	

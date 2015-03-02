@@ -97,23 +97,6 @@ public class Autonomous extends Sequential
 				{
 					switch (command)
 					{
-					case "collect":
-						switch (argsSplit.length)
-						{
-						case 0:
-							parallelRoutines.set(i, new Collect());
-							break;
-						case 1:
-							parallelRoutines.set(i, new Collect(
-									parseBoolean(argsSplit[0])));
-							break;
-						case 2:
-							parallelRoutines.set(i, new Collect(
-									parseBoolean(argsSplit[0]),
-									parseBoolean(argsSplit[1])));
-							break;
-						}
-						break;
 
 					case "elevate":
 						switch (argsSplit.length)
@@ -136,15 +119,6 @@ public class Autonomous extends Sequential
 						}
 						break;
 
-					case "loadContainer":
-						switch (argsSplit.length)
-						{
-						case 0:
-							parallelRoutines.set(i, new LoadContainer());
-							break;
-						}
-						break;
-
 					case "loadTote":
 						switch (argsSplit.length)
 						{
@@ -162,20 +136,20 @@ public class Autonomous extends Sequential
 							break;
 						}
 						break;
+						
+					case "loadSidewaysContainer":
+						switch(argsSplit.length)
+						{
+						case 0:
+							parallelRoutines.set(i, new LoadSidewaysContainer());
+							break;
+						}
 
 					case "releaseStack":
 						switch (argsSplit.length)
 						{
 						case 0:
 							parallelRoutines.set(i, new ReleaseStack());
-							break;
-						}
-						break;
-					case "pause":
-						switch (argsSplit.length)
-						{
-						case 1:
-							parallelRoutines.set(i, new Pause(Double.parseDouble(argsSplit[0])));
 							break;
 						}
 						break;
@@ -212,6 +186,14 @@ public class Autonomous extends Sequential
 							parallelRoutines.set(i, new Turn(Double.parseDouble(argsSplit[0]),
 									Double.parseDouble(argsSplit[1]),
 									Double.parseDouble(argsSplit[2])));
+							break;
+						}
+						break;
+					case "pause":
+						switch (argsSplit.length)
+						{
+						case 1:
+							parallelRoutines.set(i, new Pause(Double.parseDouble(argsSplit[0])));
 							break;
 						}
 						break;

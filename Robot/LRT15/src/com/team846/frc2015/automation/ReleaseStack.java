@@ -69,8 +69,12 @@ public class ReleaseStack extends Automation implements Configurable {
 			{
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
+				hooksData.setBackHooksDesiredState(HookState.DOWN);
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				if (elevatorData.isAtSetpoint(ElevatorSetpoint.HOME_TOTE))
+				{
 					return true;
+				}
 			}
 		}
 		return false;

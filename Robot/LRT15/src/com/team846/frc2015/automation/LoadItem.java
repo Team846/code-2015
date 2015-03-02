@@ -20,22 +20,35 @@ public class LoadItem extends Automation {
 	private ElevatorSetpoint grab;
 	private ElevatorSetpoint home;
 	private LRTJoystick driverStick;
+	private int waitCycles;
+	private int waitTicks;
 	
 	enum State
 	{
 		COLLECT,
 		GRAB,
+		WAIT,
 		HOME
 	}
 	protected State state;
 
 	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint) {
+		this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20);
+	}
+	
+	
+	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint, int waitCycles) {
 		super(name);
 		state = State.COLLECT;
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
 		armData = CollectorArmData.get();
 		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		collect = collectSetpoint;
+		grab = grabSetpoint;
+		home = homeSetpoint;
+		this.waitCycles = waitCycles;
+		waitTicks = 0;
 	}
 
 	@Override
@@ -49,6 +62,7 @@ public class LoadItem extends Automation {
 	@Override
 	protected boolean Start() {
 		state = State.COLLECT;
+		waitTicks = 0;
 		return true;
 	}
 
@@ -82,7 +96,18 @@ public class LoadItem extends Automation {
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(grab);
 			if (elevatorData.isAtSetpoint(grab))
+			{
+				hooksData.setBackHooksDesiredState(HookState.DOWN);
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);
+				state = State.WAIT;
+			}
+		}
+		else if (state == State.WAIT)
+		{
+			if (waitTicks++ > waitCycles)
+			{
 				state = State.HOME;
+			}
 		}
 		else if (state == State.HOME)
 		{

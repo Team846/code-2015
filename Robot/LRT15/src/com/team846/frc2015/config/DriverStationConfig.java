@@ -49,8 +49,8 @@ public class DriverStationConfig {
 		public static final int REVERSE_ROLLERS = 16;
 		
 		// Dashboard Mode
-		public static final int DASHBOARD_ENABLE1 = 6;
-		public static final int DASHBOARD_ENABLE2 = 7;
+		public static final int DASHBOARD_ENABLE1 = 9;
+		public static final int DASHBOARD_ENABLE2 = 10;
 	}
 	
 	public class DigitalIns
