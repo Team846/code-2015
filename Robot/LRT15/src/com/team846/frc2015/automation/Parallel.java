@@ -71,9 +71,7 @@ public class Parallel extends Automation {
 			}
 			else
 			{
-				iter.next();
 				iter.remove();
-				iter.previous();
 				iter.previous();
 				if(abortOnFirst)
 					completed = true;

@@ -79,42 +79,49 @@ public class LoadItem extends Automation {
 	protected boolean Run() {
 		armData.setDesiredPosition(ArmPosition.STOWED);
 		
-		if(state == State.COLLECT)
+		switch(state)
 		{
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-			hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(collect);
-			if (driverStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.COLLECT))
-				state = State.GRAB;
-		}
-		else if(state == State.GRAB)
-		{
-			hooksData.setBackHooksDesiredState(HookState.UP);
-			hooksData.setFrontHooksDesiredState(HookState.UP);
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(grab);
-			if (elevatorData.isAtSetpoint(grab))
+			case COLLECT:
 			{
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				state = State.WAIT;
+				
+				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+				elevatorData.setSetpoint(collect);
+				if (driverStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.COLLECT))
+					state = State.GRAB;
+				break;
 			}
-		}
-		else if (state == State.WAIT)
-		{
-			if (waitTicks++ > waitCycles)
+			case GRAB:
 			{
-				state = State.HOME;
+				hooksData.setBackHooksDesiredState(HookState.UP);
+				hooksData.setFrontHooksDesiredState(HookState.UP);
+				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+				elevatorData.setSetpoint(grab);
+				if (elevatorData.isAtSetpoint(grab))
+				{
+					hooksData.setBackHooksDesiredState(HookState.DOWN);
+					hooksData.setFrontHooksDesiredState(HookState.DOWN);
+					state = State.WAIT;
+				}
+				break;
 			}
-		}
-		else if (state == State.HOME)
-		{
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-			hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(home);
+			case WAIT:
+			{
+				if (waitTicks++ > waitCycles)
+				{
+					state = State.HOME;
+				}
+				break;
+			}
+			case HOME:
+			{
+				hooksData.setBackHooksDesiredState(HookState.DOWN);
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);
+				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+				elevatorData.setSetpoint(home);
+				break;
+			}
 		}
 		
 		return false;

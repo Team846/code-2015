@@ -71,6 +71,7 @@ public class Turn extends Automation {
 
 	protected boolean Abort()
 	{
+		drivetrain.setClassicDrive(false);
 		return true;
 	}
 
