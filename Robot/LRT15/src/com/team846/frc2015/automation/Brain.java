@@ -61,7 +61,7 @@ public class Brain
 
 		
 		// All automation routines		
-//		Automation auton = new Autonomous();
+		Automation auton = new Autonomous();
 	
 		Automation load_tote = new LoadTote();
 		Automation load_sideways_container = new LoadSidewaysContainer();
@@ -90,12 +90,12 @@ public class Brain
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		
 		// Map events to routines
-//		to_auto.AddStartListener(auton);
-//		driver_stick_moved.AddAbortListener(auton);
-//		operator_stick_moved.AddAbortListener(auton);
-//		driver_stick_pressed.AddAbortListener(auton);
-//		operator_stick_pressed.AddAbortListener(auton);
-//		disabled_timeout.AddAbortListener(auton);
+		to_auto.AddStartListener(auton);
+		driver_stick_moved.AddAbortListener(auton);
+		operator_stick_moved.AddAbortListener(auton);
+		driver_stick_pressed.AddAbortListener(auton);
+		operator_stick_pressed.AddAbortListener(auton);
+		disabled_timeout.AddAbortListener(auton);
 		
 		release_stack_start.AddStartListener(releaseStack);
 		release_stack_abort.AddAbortListener(releaseStack);

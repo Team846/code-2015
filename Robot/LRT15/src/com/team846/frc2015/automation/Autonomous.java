@@ -9,6 +9,7 @@ import java.util.Scanner;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.team846.frc2015.config.ConfigRuntime;
+import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.log.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -306,7 +307,7 @@ public class Autonomous extends Sequential
 
 	private File FindRoutine(int routineNumber) throws FileNotFoundException
 	{
-		File folder = new File("/home/lvuser/config/auto/");
+		File folder = new File(RobotConfig.AUTO_FOLDER_PATH);
 		File[] routines = folder.listFiles();
 		for (File routine: routines) {
 			if (routine.getName().endsWith(routineNumber + ".routine")) {
