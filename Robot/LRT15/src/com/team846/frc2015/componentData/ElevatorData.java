@@ -26,7 +26,6 @@ public class ElevatorData extends ComponentData{
 	{
 		// First object sequence is collect, grab, home
 		// Additional object sequence is COLLECT_ADDITIONAL, GRAB_TOTE, HOME_TOTE
-		GROUND,
 		COLLECT_TOTE,
 		COLLECT_UPRIGHT_CONTAINER,
 		COLLECT_SIDEWAYS_CONTAINER,
@@ -70,6 +69,10 @@ public class ElevatorData extends ComponentData{
 
 	public void setSetpoint(ElevatorSetpoint s)
 	{
+		if (s != setpoint)
+		{
+			currentSetpoint = ElevatorSetpoint.NONE;
+		}
 		setpoint = s;
 	}
 	
@@ -78,6 +81,10 @@ public class ElevatorData extends ComponentData{
 	}
 
 	public void setControlMode(ElevatorControlMode control) {
+		if (controlMode != control)
+		{
+			currentSetpoint = ElevatorSetpoint.NONE;
+		}
 		this.controlMode = control;
 	}
 	
@@ -118,8 +125,7 @@ public class ElevatorData extends ComponentData{
 	protected void ResetCommands() {
 		controlMode = ElevatorControlMode.VELOCITY;
 		speed = 0.0f;
-		setpoint = ElevatorSetpoint.HOME_TOTE;
-
+		setpoint = ElevatorSetpoint.NONE;
 	}
 
 }

@@ -85,6 +85,11 @@ public class Elevator extends Component implements Configurable {
 			int desiredPos = elevatorData.getDesiredPosition();
 			if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 			{
+				if (elevatorData.getDesiredSetpoint() == ElevatorSetpoint.NONE)
+				{
+					sendOutput(0.0);
+					return;
+				}
 //				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
 				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
 //				AsyncPrinter.println("Setpoint: " + desiredPos);
@@ -159,8 +164,6 @@ public class Elevator extends Component implements Configurable {
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
 		
-		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = topSoftLimit + GetConfig("ground", 0);
-		elevatorSetpoints[ElevatorSetpoint.GROUND.ordinal()] = topSoftLimit + GetConfig("ground", 10);
 		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = topSoftLimit + GetConfig("tote1", 50);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= topSoftLimit + GetConfig("tote2", 60);
