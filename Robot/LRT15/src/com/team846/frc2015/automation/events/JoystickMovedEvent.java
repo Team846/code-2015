@@ -18,7 +18,7 @@ public class JoystickMovedEvent extends Event {
 	
 	public JoystickMovedEvent(LRTJoystick joy)
 	{
-		this(joy, 0,0.02f);
+		this(joy, 0,0.1f);
 	}
 	
 	public boolean CheckCondition() {

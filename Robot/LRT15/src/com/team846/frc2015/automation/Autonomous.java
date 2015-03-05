@@ -202,12 +202,17 @@ public class Autonomous extends Sequential
 					AsyncPrinter.error( e.getMessage());
 				}
 			}
-
-			if (parallelRoutines.size() == 1)
+			
+			if (parallelRoutines.size() == 0)
+			{
+				AsyncPrinter.warn("No routine found");
+			}
+			else if (parallelRoutines.size() == 1)
 			{
 				System.out.println("routine: " + parallelRoutines.get(0).GetName());
 				AddAutomation(parallelRoutines.get(0));
-			} else
+			} 
+			else
 			{
 				AsyncPrinter.println(parallelRoutines.toString());
 				AddAutomation(new Parallel("routineParallel", parallelRoutines));

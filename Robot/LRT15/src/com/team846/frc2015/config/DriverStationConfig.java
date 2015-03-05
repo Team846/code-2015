@@ -51,6 +51,8 @@ public class DriverStationConfig {
 		// Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 9;
 		public static final int DASHBOARD_ENABLE2 = 10;
+
+		public static final int PIVOT = 0;
 	}
 	
 	public class DigitalIns

@@ -113,8 +113,9 @@ public class ConfigRuntime
 		if(lastReadTimestamp != currentFileTimestamp)
 		{
 			AsyncPrinter.info("Change detected, reloading config");
-			config=new HierarchicalINIConfiguration();
-			Load();
+			config.reload();
+			ConfigureAll();
+			//Load();
 			lastReadTimestamp = currentFileTimestamp;
 		}
 		

@@ -1,5 +1,7 @@
 package com.team846.frc2015.components;
 
+import java.util.Arrays;
+
 import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
@@ -51,7 +53,10 @@ public class Drivetrain extends Component implements Configurable {
 		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
 	
 		PIDs = new PID[2][4];
+		Arrays.fill(PIDs, new PID());
+		
 		mecanumDrivePIDs = new PID[4]; //TODO: array init sux
+		Arrays.fill(mecanumDrivePIDs, new PID());
 		
 		ConfigPortMappings portMapping = ConfigPortMappings.Instance(); //reduce verbosity
 		
@@ -61,7 +66,7 @@ public class Drivetrain extends Component implements Configurable {
 		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
-		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
+		driveEncoders = new DriveEncoders(backLeft, backRight, backLeft, backRight);
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -232,6 +237,11 @@ public class Drivetrain extends Component implements Configurable {
 
 		ConfigurePIDObject(PIDs[POSITION][Axis.TURN.ordinal()], "position_turn", false);
 		ConfigurePIDObject(PIDs[POSITION][Axis.FORWARD.ordinal()], "position_fwd", false);
+		
+		ConfigurePIDObject(mecanumDrivePIDs[Side.BACK_LEFT.ordinal()], "mecanum", true);
+		ConfigurePIDObject(mecanumDrivePIDs[Side.BACK_RIGHT.ordinal()], "mecanum", true);
+		ConfigurePIDObject(mecanumDrivePIDs[Side.FRONT_LEFT.ordinal()], "mecanum", true);
+		ConfigurePIDObject(mecanumDrivePIDs[Side.FRONT_RIGHT.ordinal()], "mecanum", true);
 
 //		ConfigureForwardCurrentLimit();
 //		ConfigureReverseCurrentLimit();

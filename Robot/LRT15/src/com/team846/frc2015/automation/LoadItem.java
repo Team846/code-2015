@@ -18,15 +18,17 @@ import com.team846.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public class LoadItem extends Automation{
+public abstract class LoadItem extends Automation{
 
 	private ElevatorData elevatorData;
 	private CarriageHooksData hooksData;
 	private CollectorArmData armData;
 	private CollectorRollersData rollersData;
+	
 	private ElevatorSetpoint collect;
 	private ElevatorSetpoint grab;
 	private ElevatorSetpoint home;
+	
 	private LRTJoystick driverStick;
 	private int requiredWaitCycles;
 	private int waitTicks;
@@ -47,7 +49,6 @@ public class LoadItem extends Automation{
 	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint) {
 		this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20);
 	}
-	
 	
 	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint, int waitCycles) {
 		super(name);
