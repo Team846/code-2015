@@ -14,7 +14,6 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.PID;
 import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.dashboard.IntegerLog;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.MathUtils;
@@ -69,7 +68,7 @@ public class Elevator extends Component implements Configurable {
 		int currentPosition = elevatorPot.getAverageValue();
 		elevatorData.setCurrentPosition(currentPosition);
 		
-		DashboardLogger.getInstance().log(new IntegerLog("elevator-pot", currentPosition));
+		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
 		AsyncPrinter.println("Position: " + currentPosition);
 		
 		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)

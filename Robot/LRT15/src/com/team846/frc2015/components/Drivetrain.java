@@ -9,8 +9,6 @@ import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.control.PID;
 import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.dashboard.DoubleLog;
-import com.team846.frc2015.dashboard.IntegerLog;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.log.AsyncPrinter;
@@ -157,10 +155,10 @@ public class Drivetrain extends Component implements Configurable {
 		leftBackOutput = MathUtils.clamp(leftBackOutput, -1.0, 1.0);
 		rightBackOutput = MathUtils.clamp(rightBackOutput, -1.0, 1.0);
 
-		DashboardLogger.getInstance().log(new DoubleLog("drivetrain-leftFront", leftFrontOutput));
-		DashboardLogger.getInstance().log(new DoubleLog("drivetrain-rightFront", rightFrontOutput));
-		DashboardLogger.getInstance().log(new DoubleLog("drivetrain-leftBack", leftBackOutput));
-		DashboardLogger.getInstance().log(new DoubleLog("drivetrain-rightBack", rightBackOutput));
+		DashboardLogger.getInstance().logDouble("drivetrain-leftFront", leftFrontOutput);
+		DashboardLogger.getInstance().logDouble("drivetrain-rightFront", rightFrontOutput);
+		DashboardLogger.getInstance().logDouble("drivetrain-leftBack", leftBackOutput);
+		DashboardLogger.getInstance().logDouble("drivetrain-rightBack", rightBackOutput);
 		
 //		 frontLeft.set(leftFrontOutput);
 //		 frontRight.set(rightFrontOutput);

@@ -8,7 +8,6 @@ import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.dashboard.IntegerLog;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.MathUtils;
@@ -60,8 +59,8 @@ public class CarriageExtender extends Component implements Configurable
 	{
 		int position = carriagePot.getAverageValue();
 		
-		DashboardLogger.getInstance().log(new IntegerLog("extender-pot", position));
-		DashboardLogger.getInstance().log(new IntegerLog("extender-retractSoftLimit", retractSoftLimit));
+		DashboardLogger.getInstance().logInt("extender-pot", position);
+		DashboardLogger.getInstance().logInt("extender-retractSoftLimit", retractSoftLimit);
 		
 		if(extenderData.getControlMode() == CarriageControlMode.SETPOINT)
 		{
@@ -76,7 +75,7 @@ public class CarriageExtender extends Component implements Configurable
 		else if(extenderData.getControlMode() == CarriageControlMode.POSITION)
 		{
 			int desiredPos = (int) Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
-			DashboardLogger.getInstance().log(new IntegerLog("extender-desiredPos", desiredPos));
+			DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
 			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : ( desiredPos - position ) / maxRange ;
 			carriageMotor.set(error*positionGain);
 		}

@@ -8,7 +8,6 @@ import com.team846.frc2015.components.Component;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.RobotConfig;
-import com.team846.frc2015.dashboard.BooleanLog;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
@@ -79,7 +78,5 @@ public class LRT15Robot extends LRTRobotBase
 			ConfigRuntime.Instance().CheckForFileUpdates();
 		
 		ComponentData.ResetAllCommands();
-
-		//DashboardLogger.getInstance().log(new BooleanLog("robot-on", DriverStation.getInstance().isEnabled()));
 	}
 }

@@ -64,10 +64,50 @@ public class DashboardLogger
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void log(DashboardLog message)
+	public void logString(String id, String data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", message.json());
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void logInt(String id, Integer data)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void logDouble(String id, Double data)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void logFloat(String id, Float data)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void logBoolean(String id, Boolean data)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void log(String id, String data)
+	{
+		if (server != null) {
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": " + data + " }");
 		}
 	}
 
