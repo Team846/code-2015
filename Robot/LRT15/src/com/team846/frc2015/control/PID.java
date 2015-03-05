@@ -36,7 +36,7 @@ public class PID {
 	
 	private double IIR_DECAY (double freq)
 	{
-		return 2 * 3.14159 * freq / 50;
+		return 2 * Math.PI * freq / 50;
 	}
 
 	public void SetParameters(double p_gain, double i_gain, double d_gain,
@@ -73,7 +73,7 @@ public class PID {
 		// approximate with riemann sum and decay
 		acc_error *= integral_decay;
 		acc_error += error * dt;
-		if (acc_error != acc_error) // catch NaN
+		if (Double.isNaN(acc_error)) // catch NaN
 		{
 			acc_error = 0;
 		}

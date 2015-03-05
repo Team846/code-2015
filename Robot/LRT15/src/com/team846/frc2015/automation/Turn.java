@@ -1,6 +1,7 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.DrivetrainData;
+import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.DriveEncoders;
 
 public class Turn extends Automation {
@@ -14,6 +15,7 @@ public class Turn extends Automation {
 	public Turn(double angle, double maxSpeed, double errorThreshold)
 	{
 		super("Turn");
+		AsyncPrinter.println("srinturn");
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 		this.errorThreshold = errorThreshold;

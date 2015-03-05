@@ -3,25 +3,37 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
+import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
+import com.team846.frc2015.config.ConfigPortMappings;
+import com.team846.frc2015.config.ConfigRuntime;
+import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
+import com.team846.frc2015.sensors.SensorFactory;
 
-public class LoadItem extends Automation {
+import edu.wpi.first.wpilibj.AnalogInput;
+
+public class LoadItem extends Automation{
 
 	private ElevatorData elevatorData;
 	private CarriageHooksData hooksData;
 	private CollectorArmData armData;
+	private CollectorRollersData rollersData;
 	private ElevatorSetpoint collect;
 	private ElevatorSetpoint grab;
 	private ElevatorSetpoint home;
 	private LRTJoystick driverStick;
-	private int waitCycles;
+	private int requiredWaitCycles;
 	private int waitTicks;
+	
+	AnalogInput sensor;
+	
+	protected int analogThreshold = 0;
 	
 	enum State
 	{
@@ -43,11 +55,14 @@ public class LoadItem extends Automation {
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
 		armData = CollectorArmData.get();
+		rollersData = CollectorRollersData.get();
 		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		
+		sensor = SensorFactory.GetAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
 		collect = collectSetpoint;
 		grab = grabSetpoint;
 		home = homeSetpoint;
-		this.waitCycles = waitCycles;
+		this.requiredWaitCycles = waitCycles;
 		waitTicks = 0;
 	}
 
@@ -78,6 +93,7 @@ public class LoadItem extends Automation {
 	@Override
 	protected boolean Run() {
 		armData.setDesiredPosition(ArmPosition.STOWED);
+		rollersData.setRunning(false);
 		
 		switch(state)
 		{
@@ -86,9 +102,14 @@ public class LoadItem extends Automation {
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				
+				armData.setDesiredPosition(ArmPosition.EXTEND);
+				rollersData.setRunning(true);
+				rollersData.setSpeed(1.0);
+				
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(collect);
-				if (driverStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.COLLECT))
+				if (driverStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.COLLECT)
+						&& sensor.getAverageValue() < analogThreshold)
 					state = State.GRAB;
 				break;
 			}
@@ -108,7 +129,7 @@ public class LoadItem extends Automation {
 			}
 			case WAIT:
 			{
-				if (waitTicks++ > waitCycles)
+				if (waitTicks++ > requiredWaitCycles)
 				{
 					state = State.HOME;
 				}
@@ -125,5 +146,10 @@ public class LoadItem extends Automation {
 		}
 		
 		return false;
+	}
+	
+	protected void setAnalogThreshold(int a)
+	{
+		analogThreshold = a;
 	}
 }

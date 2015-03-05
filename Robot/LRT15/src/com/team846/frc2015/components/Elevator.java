@@ -13,6 +13,7 @@ import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.PID;
+import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public class Elevator extends Component implements Configurable {
 
 	private ElevatorData elevatorData;
+	private RunningSum errorSum;
 
 	private int topSoftLimit;
 	private int bottomSoftLimit;
@@ -52,6 +54,8 @@ public class Elevator extends Component implements Configurable {
 		elevatorPot = SensorFactory.GetAnalogInput(
 				ConfigPortMappings.Instance().get("Analog/ELEVATOR_POT"));
 		
+		//errorSum = new RunningSum();
+		
 		elevatorData = ElevatorData.get();
 		
 		positionGain = 0;
@@ -69,7 +73,7 @@ public class Elevator extends Component implements Configurable {
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
-		AsyncPrinter.println("Position: " + currentPosition);
+//		AsyncPrinter.println("Position: " + currentPosition);
 		
 		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)
 		{
@@ -81,8 +85,9 @@ public class Elevator extends Component implements Configurable {
 			int desiredPos = elevatorData.getDesiredPosition();
 			if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 			{
-				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
+//				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
 				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
+//				AsyncPrinter.println("Setpoint: " + desiredPos);
 			}
 			if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit)
 			{
@@ -122,6 +127,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
+		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override
@@ -145,31 +151,33 @@ public class Elevator extends Component implements Configurable {
 	@Override
 	public void Configure() {
 		topSoftLimit = GetConfig("topLimit", 100);
-		bottomSoftLimit = GetConfig("bottomLimit", 10);
+		
+		// Everything is offset from topSoftLimit
+		bottomSoftLimit = topSoftLimit + GetConfig("bottomLimit", 10);
 		
 		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
 		
-		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = GetConfig("ground", 0);
-		elevatorSetpoints[ElevatorSetpoint.GROUND.ordinal()] = GetConfig("ground", 10);
-		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= GetConfig("step", 1800);
-		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = GetConfig("tote1", 50);
-		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= GetConfig("tote2", 60);
-		elevatorSetpoints[ElevatorSetpoint.TOTE_3.ordinal()]= GetConfig("tote3", 80);
-		elevatorSetpoints[ElevatorSetpoint.TOTE_4.ordinal()]= GetConfig("tote4", 80);
+		elevatorSetpoints[ElevatorSetpoint.NONE.ordinal()] = topSoftLimit + GetConfig("ground", 0);
+		elevatorSetpoints[ElevatorSetpoint.GROUND.ordinal()] = topSoftLimit + GetConfig("ground", 10);
+		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
+		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = topSoftLimit + GetConfig("tote1", 50);
+		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= topSoftLimit + GetConfig("tote2", 60);
+		elevatorSetpoints[ElevatorSetpoint.TOTE_3.ordinal()]= topSoftLimit + GetConfig("tote3", 80);
+		elevatorSetpoints[ElevatorSetpoint.TOTE_4.ordinal()]= topSoftLimit + GetConfig("tote4", 80);
 		
-		elevatorSetpoints[ElevatorSetpoint.HOME_TOTE.ordinal()] = GetConfig("home_tote", 2000);
-		elevatorSetpoints[ElevatorSetpoint.HOME_UPRIGHT_CONTAINER.ordinal()] = GetConfig("home_upright_container", 2000);
-		elevatorSetpoints[ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("home_sideways_container", 2200);
+		elevatorSetpoints[ElevatorSetpoint.HOME_TOTE.ordinal()] = topSoftLimit + GetConfig("home_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_UPRIGHT_CONTAINER.ordinal()] = topSoftLimit + GetConfig("home_upright_container", 2000);
+		elevatorSetpoints[ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER.ordinal()] = topSoftLimit + GetConfig("home_sideways_container", 2200);
 		
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_TOTE.ordinal()] = GetConfig("collect_tote", 2000);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER.ordinal()] = GetConfig("collect_upright_container", 2050);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER.ordinal()] = GetConfig("collect_sideways_container", 1800);
-		elevatorSetpoints[ElevatorSetpoint.COLLECT_ADDITIONAL.ordinal()] = GetConfig("collect_additional", 1600);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_TOTE.ordinal()] = topSoftLimit + GetConfig("collect_tote", 2000);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER.ordinal()] = topSoftLimit + GetConfig("collect_upright_container", 2050);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER.ordinal()] = topSoftLimit + GetConfig("collect_sideways_container", 1800);
+		elevatorSetpoints[ElevatorSetpoint.COLLECT_ADDITIONAL.ordinal()] = topSoftLimit + GetConfig("collect_additional", 1600);
 
-		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= GetConfig("grab_tote", 2100);
-		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= GetConfig("grab_sideways_container", 2400);
+		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= topSoftLimit + GetConfig("grab_tote", 2100);
+		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= topSoftLimit + GetConfig("grab_sideways_container", 2400);
 		
 	}
 	

@@ -91,11 +91,11 @@ public class Brain
 		
 		// Map events to routines
 		to_auto.AddStartListener(auton);
-		driver_stick_moved.AddAbortListener(auton);
-		operator_stick_moved.AddAbortListener(auton);
-		driver_stick_pressed.AddAbortListener(auton);
-		operator_stick_pressed.AddAbortListener(auton);
-		disabled_timeout.AddAbortListener(auton);
+//		driver_stick_moved.AddAbortListener(auton);
+//		operator_stick_moved.AddAbortListener(auton);
+//		driver_stick_pressed.AddAbortListener(auton);
+//		operator_stick_pressed.AddAbortListener(auton);
+//		disabled_timeout.AddAbortListener(auton);
 		
 		release_stack_start.AddStartListener(releaseStack);
 		release_stack_abort.AddAbortListener(releaseStack);

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.team846.frc2015.log.AsyncPrinter;
+
 public class Sequential extends Automation {
-	ArrayList<Automation> routines;
+	ArrayList<Automation> routines = new ArrayList<Automation>();
 	Queue<Automation> queued = new LinkedList<Automation>();
 	boolean started;
 	
@@ -35,20 +37,25 @@ public class Sequential extends Automation {
 
 	public boolean Start()
 	{
+		AsyncPrinter.info("SRINSTART");
 		if (routines.isEmpty())
 			return false;
+		AsyncPrinter.info("SRINSTARTING");
 		while (!queued.isEmpty())
 			queued.remove();
 		for (Automation auto : routines)
 			queued.add(auto);
 		started = false;
+		AsyncPrinter.info("SRINSTARTED");
 		return true;
 	}
 
 	protected boolean Run()
 	{
+		AsyncPrinter.info("SRINQUEE");
 		if (!started && ContinueNextStep())
 		{
+			AsyncPrinter.info(queued.peek().GetName());
 			boolean res = queued.peek().StartAutomation(GetStartEvent());
 			if (res)
 				started = true;
@@ -71,6 +78,7 @@ public class Sequential extends Automation {
 	
 	public boolean Abort()
 	{
+		AsyncPrinter.info(GetAbortEvent().getClass().getName());
 		if (!queued.isEmpty())
 		{
 			boolean res = queued.peek().AbortAutomation(GetAbortEvent());

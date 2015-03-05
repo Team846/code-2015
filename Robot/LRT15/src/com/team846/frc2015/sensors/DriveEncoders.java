@@ -1,9 +1,11 @@
 package com.team846.frc2015.sensors;
 
+import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.RobotConfig;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
 public class DriveEncoders implements Configurable
 {
@@ -34,18 +36,24 @@ public class DriveEncoders implements Configurable
 		encoders = new CANTalon[4];
 		initialValues = new int[4];
 		
-		encoders[Side.LEFT_FRONT.ordinal()] = frontLeft;
-		encoders[Side.RIGHT_FRONT.ordinal()] = frontRight;
+		encoders[Side.LEFT_FRONT.ordinal()] = backLeft;//frontLeft;
+		encoders[Side.RIGHT_FRONT.ordinal()] = backRight;//frontRight;
 		encoders[Side.LEFT_BACK.ordinal()] = backLeft;
 		encoders[Side.RIGHT_BACK.ordinal()] = backRight;
 		
-		initialValues[Side.LEFT_FRONT.ordinal()] = frontLeft.getEncPosition();
-		initialValues[Side.RIGHT_FRONT.ordinal()] = frontRight.getEncPosition();
+//		encoders[Side.LEFT_FRONT.ordinal()].setFeedbackDevice(FeedbackDevice.QuadEncoder);// = frontLeft;
+//		encoders[Side.RIGHT_FRONT.ordinal()] = frontRight;
+//		encoders[Side.LEFT_BACK.ordinal()] = backLeft;
+//		encoders[Side.RIGHT_BACK.ordinal()] = backRight;
+		
+		initialValues[Side.LEFT_FRONT.ordinal()] = backLeft.getEncPosition();//frontLeft.getEncPosition();
+		initialValues[Side.RIGHT_FRONT.ordinal()] = backRight.getEncPosition();//frontRight.getEncPosition();
 		initialValues[Side.LEFT_BACK.ordinal()] = backLeft.getEncPosition();
 		initialValues[Side.RIGHT_BACK.ordinal()] = backRight.getEncPosition();
 		
 		if (instance == null)
 			instance = this;
+		ConfigRuntime.Register(this);
 	}
 
 

@@ -51,7 +51,7 @@ public class Drivetrain extends Component implements Configurable {
 		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
 	
 		PIDs = new PID[2][4];
-		mecanumDrivePIDs = new PID[4];
+		mecanumDrivePIDs = new PID[4]; //TODO: array init sux
 		
 		ConfigPortMappings portMapping = ConfigPortMappings.Instance(); //reduce verbosity
 		
@@ -85,6 +85,10 @@ public class Drivetrain extends Component implements Configurable {
 			velocitySetpoint += PIDs[POSITION][axis.ordinal()].Update(1.0 / RobotConfig.LOOP_RATE);
 			if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
 				velocitySetpoint = MathUtils.Sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
+			
+			rawOutput = velocitySetpoint;
+			
+			break;
 		case VELOCITY_CONTROL:
 			if (Math.abs(velocitySetpoint) < 2.0E-2)
 				PIDs[VELOCITY][axis.ordinal()].SetIIREnabled(true);
@@ -122,16 +126,19 @@ public class Drivetrain extends Component implements Configurable {
 		double leftBackOutput;
 		double rightBackOutput;
 		
+		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
+		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+		
 		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{
 			double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
 			double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 		
-			 leftFrontOutput = fwdOutput - turnOutput;
-			 rightFrontOutput = fwdOutput + turnOutput;
+			leftFrontOutput = fwdOutput - turnOutput;
+			rightFrontOutput = fwdOutput + turnOutput;
 			
-			 leftBackOutput = leftFrontOutput;
-			 rightBackOutput = rightFrontOutput;
+			leftBackOutput = leftFrontOutput;
+			rightBackOutput = rightFrontOutput;
 		}
 		else
 		{
@@ -143,7 +150,7 @@ public class Drivetrain extends Component implements Configurable {
 			double rightFrontRawOutput = fwdOutput - turnOutput - strafeOutput;
 			double leftBackRawOutput = fwdOutput + turnOutput - strafeOutput;
 			double rightBackRawOutput = fwdOutput - turnOutput + strafeOutput;
-			 
+			
 			leftFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_FRONT, leftFrontRawOutput);
 			rightFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.RIGHT_FRONT, rightFrontRawOutput);
 			leftBackOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_BACK, leftBackRawOutput);

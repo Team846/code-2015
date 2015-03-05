@@ -101,7 +101,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 1:
-							parallelRoutines.set(i, new Elevate(Integer.parseInt(argsSplit[0])));
+							parallelRoutines.add( new Elevate(Integer.parseInt(argsSplit[0])));
 							break;
 						}
 						break;
@@ -110,10 +110,10 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new ExtendCarriage());
+							parallelRoutines.add( new ExtendCarriage());
 							break;
 						case 1:
-							parallelRoutines.set(i, new ExtendCarriage(Double.parseDouble(argsSplit[0])));
+							parallelRoutines.add( new ExtendCarriage(Double.parseDouble(argsSplit[0])));
 							break;
 						}
 						break;
@@ -122,7 +122,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new LoadTote());
+							parallelRoutines.add( new LoadTote());
 							break;
 						}
 						break;
@@ -131,7 +131,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new LoadUprightContainer());
+							parallelRoutines.add( new LoadUprightContainer());
 							break;
 						}
 						break;
@@ -140,7 +140,7 @@ public class Autonomous extends Sequential
 						switch(argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new LoadSidewaysContainer());
+							parallelRoutines.add( new LoadSidewaysContainer());
 							break;
 						}
 
@@ -148,7 +148,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new ReleaseStack());
+							parallelRoutines.add( new ReleaseStack());
 							break;
 						}
 						break;
@@ -156,19 +156,19 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 1:
-							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0])));
+							parallelRoutines.add( new Drive(Double.parseDouble(argsSplit[0])));
 							break;
 						case 2:
-							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0])
+							parallelRoutines.add( new Drive(Double.parseDouble(argsSplit[0])
 									,Double.parseDouble(argsSplit[1])));
 							break;
 						case 3:
-							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0]),
+							parallelRoutines.add( new Drive(Double.parseDouble(argsSplit[0]),
 									Double.parseDouble(argsSplit[1]),
 									Double.parseDouble(argsSplit[2])));
 							break;
 						case 4:
-							parallelRoutines.set(i, new Drive(Double.parseDouble(argsSplit[0]),
+							parallelRoutines.add( new Drive(Double.parseDouble(argsSplit[0]),
 									Double.parseDouble(argsSplit[1]),
 									Double.parseDouble(argsSplit[2]),
 									Boolean.parseBoolean(argsSplit[3])));
@@ -179,10 +179,10 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.set(i, new Turn());
+							parallelRoutines.add( new Turn());
 							break;
 						case 3:
-							parallelRoutines.set(i, new Turn(Double.parseDouble(argsSplit[0]),
+							parallelRoutines.add( new Turn(Double.parseDouble(argsSplit[0]),
 									Double.parseDouble(argsSplit[1]),
 									Double.parseDouble(argsSplit[2])));
 							break;
@@ -192,22 +192,24 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 1:
-							parallelRoutines.set(i, new Pause(Double.parseDouble(argsSplit[0])));
+							parallelRoutines.add( new Pause(Double.parseDouble(argsSplit[0])));
 							break;
 						}
 						break;
 					}
 				} catch (Exception e)
 				{
-					AsyncPrinter.error(e.getMessage());
+					AsyncPrinter.error( e.getMessage());
 				}
 			}
 
 			if (parallelRoutines.size() == 1)
 			{
+				System.out.println("routine: " + parallelRoutines.get(0).GetName());
 				AddAutomation(parallelRoutines.get(0));
 			} else
 			{
+				AsyncPrinter.println(parallelRoutines.toString());
 				AddAutomation(new Parallel("routineParallel", parallelRoutines));
 			}
 		}
@@ -311,6 +313,7 @@ public class Autonomous extends Sequential
 		File[] routines = folder.listFiles();
 		for (File routine: routines) {
 			if (routine.getName().endsWith(routineNumber + ".routine")) {
+				System.out.println("Reading file: " + routine);
 				return routine;
 			}
 		}

@@ -23,8 +23,6 @@ public class CollectorRollersData extends ComponentData
 	public CollectorRollersData()
 	{
 		super("CollectorRollersData");
-		running = false;
-		speed = 0.0;
 		ResetCommands();
 	}
 
@@ -61,6 +59,7 @@ public class CollectorRollersData extends ComponentData
 	@Override
 	protected void ResetCommands()
 	{
+		direction = Direction.INTAKE;
 		running = false;
 		speed = 0.0;
 

@@ -38,16 +38,20 @@ public class Elevate extends Automation {
 
 	@Override
 	protected boolean Start() {
+		AsyncPrinter.info("srinfeg");
 		return true;
 	}
 
 	@Override
 	protected boolean Abort() {
-		return false;
+		elData.setControlMode(ElevatorControlMode.VELOCITY);
+		elData.setDesiredSpeed(0.0);
+		return true;
 	}
 
 	@Override
 	protected boolean Run() {
+		AsyncPrinter.info("nutmeg");
 		elData.setControlMode(ElevatorControlMode.SETPOINT);
 		elData.setSetpoint(setpoint);
 		
