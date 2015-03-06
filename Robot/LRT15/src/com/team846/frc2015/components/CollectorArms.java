@@ -28,12 +28,12 @@ public class CollectorArms extends Component
 		State state;
 		
 		if(armData.getDesiredCollectorPosition() == ArmPosition.EXTEND)
-			state = State.FORWARD;
-		else
 			state = State.OFF;
+		else
+			state = State.FORWARD;
 		
 		arms.set(state);
-		armData.setCurrentCollectorPosition(state == State.OFF ? ArmPosition.STOWED : ArmPosition.EXTEND);
+		armData.setCurrentCollectorPosition(state == State.OFF ? ArmPosition.EXTEND : ArmPosition.STOWED);
 		
 	}
 

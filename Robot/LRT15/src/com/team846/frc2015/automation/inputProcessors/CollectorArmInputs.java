@@ -21,7 +21,7 @@ public class CollectorArmInputs extends InputProcessor {
 	@Override
 	public void Update() {
 		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT))
-			armData.setDesiredPosition(ArmPosition.EXTEND);
+			armData.setDesiredPosition(ArmPosition.STOWED);
 
 	}
 
