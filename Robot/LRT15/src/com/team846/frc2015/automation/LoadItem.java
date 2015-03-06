@@ -86,6 +86,10 @@ public abstract class LoadItem extends Automation{
 	protected boolean Abort() {
 		elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
 		elevatorData.setDesiredSpeed(0.0);
+		
+		armData.setDesiredPosition(ArmPosition.STOWED);
+		rollersData.setRunning(false);
+		
 		hooksData.setBackHooksDesiredState(HookState.DOWN);
 		hooksData.setFrontHooksDesiredState(HookState.DOWN);
 		return true;

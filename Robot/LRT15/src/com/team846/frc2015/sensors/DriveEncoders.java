@@ -115,8 +115,10 @@ public class DriveEncoders implements Configurable
 
 	public int GetTurnTicks()
 	{
-		int rightTicks = (encoders[Side.RIGHT_FRONT.ordinal()].getEncPosition() + encoders[Side.RIGHT_BACK.ordinal()].getEncPosition()) /2;
-		int leftTicks =  (encoders[Side.LEFT_FRONT.ordinal()].getEncPosition() + encoders[Side.LEFT_BACK.ordinal()].getEncPosition()) /2;
+		int rightTicks = ((encoders[Side.RIGHT_FRONT.ordinal()].getEncPosition() - initialValues[Side.RIGHT_FRONT.ordinal()]) 
+				+ (encoders[Side.RIGHT_BACK.ordinal()].getEncPosition() - initialValues[Side.RIGHT_BACK.ordinal()])) /2;
+		int leftTicks =  ((encoders[Side.LEFT_FRONT.ordinal()].getEncPosition() - initialValues[Side.LEFT_FRONT.ordinal()])
+				+ (encoders[Side.LEFT_BACK.ordinal()].getEncPosition() - initialValues[Side.LEFT_BACK.ordinal()])) /2;
 		return rightTicks - leftTicks; 
 	}
 

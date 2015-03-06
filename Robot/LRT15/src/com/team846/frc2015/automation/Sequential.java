@@ -52,7 +52,7 @@ public class Sequential extends Automation {
 
 	protected boolean Run()
 	{
-		AsyncPrinter.info("SRINQUEE");
+		//AsyncPrinter.info("SRINQUEE");
 		if (!started && ContinueNextStep())
 		{
 			AsyncPrinter.info(queued.peek().GetName());

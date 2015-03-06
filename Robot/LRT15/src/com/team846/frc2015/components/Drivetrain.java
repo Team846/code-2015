@@ -6,6 +6,7 @@ import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.config.ConfigPortMappings;
+import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.config.RobotConfig;
@@ -53,7 +54,9 @@ public class Drivetrain extends Component implements Configurable {
 		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
 	
 		PIDs = new PID[2][4];
-		Arrays.fill(PIDs, new PID());
+		
+		for(PID[] row : PIDs)
+			Arrays.fill(row, new PID());
 		
 		mecanumDrivePIDs = new PID[4]; //TODO: array init sux
 		Arrays.fill(mecanumDrivePIDs, new PID());
@@ -74,13 +77,17 @@ public class Drivetrain extends Component implements Configurable {
 		escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(backRight);
 		
 		drivetrainData = DrivetrainData.Get();
+		
+		ConfigRuntime.Register(this);
 	}
 
 	private double ComputeOutput(DrivetrainData.Axis axis)
 	{
 		double positionSetpoint = drivetrainData.GetPositionSetpoint(axis);
+		System.out.println("position drivetrain setpoint:" + positionSetpoint);
 		double velocitySetpoint = drivetrainData.GetVelocitySetpoint(axis);
 		double rawOutput = drivetrainData.GetOpenLoopOutput(axis);
+		
 
 		switch (drivetrainData.GetControlMode(axis))
 		{
@@ -90,7 +97,7 @@ public class Drivetrain extends Component implements Configurable {
 			velocitySetpoint += PIDs[POSITION][axis.ordinal()].Update(1.0 / RobotConfig.LOOP_RATE);
 			if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
 				velocitySetpoint = MathUtils.Sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
-			
+			System.out.println("RAW PID OUTPUT: " + velocitySetpoint);
 			rawOutput = velocitySetpoint;
 			
 			break;
@@ -131,13 +138,15 @@ public class Drivetrain extends Component implements Configurable {
 		double leftBackOutput;
 		double rightBackOutput;
 		
-		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
-		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
 		
+//		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
+//		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+//		
 		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{
 			double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
-			double turnOutput = -ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+			double turnOutput = ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 		
 			leftFrontOutput = fwdOutput - turnOutput;
 			rightFrontOutput = fwdOutput + turnOutput;
