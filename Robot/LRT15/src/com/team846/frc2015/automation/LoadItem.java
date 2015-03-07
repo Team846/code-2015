@@ -131,7 +131,7 @@ public abstract class LoadItem extends Automation{
 					System.out.println(sensor.getAverageValue());
 					if(sensor.getAverageValue() > analogThreshold)
 					{
-						
+						rollersData.setSpeed(0.05);
 						hasItem = true;
 						state = State.GRAB;
 					}
@@ -145,6 +145,9 @@ public abstract class LoadItem extends Automation{
 				hooksData.setFrontHooksDesiredState(HookState.UP);
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(grab);
+				rollersData.setRunning(true);
+				rollersData.setDirection(Direction.INTAKE);
+				rollersData.setSpeed(0.05);
 				if (elevatorData.isAtSetpoint(grab))
 				{
 					hooksData.setBackHooksDesiredState(HookState.DOWN);
@@ -155,6 +158,9 @@ public abstract class LoadItem extends Automation{
 			}
 			case WAIT:
 			{
+				rollersData.setRunning(true);
+				rollersData.setDirection(Direction.INTAKE);
+				rollersData.setSpeed(0.05);
 				if (waitTicks++ > requiredWaitCycles)
 				{
 					state = State.HOME;
@@ -163,6 +169,9 @@ public abstract class LoadItem extends Automation{
 			}
 			case HOME:
 			{
+				rollersData.setRunning(true);
+				rollersData.setDirection(Direction.INTAKE);
+				rollersData.setSpeed(0.05);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
