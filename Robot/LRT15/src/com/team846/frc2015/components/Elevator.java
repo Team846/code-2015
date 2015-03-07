@@ -182,6 +182,8 @@ public class Elevator extends Component implements Configurable {
 		elevatorSetpoints[ElevatorSetpoint.GRAB_TOTE.ordinal()]= topSoftLimit + GetConfig("grab_tote", 2100);
 		elevatorSetpoints[ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER.ordinal()]= topSoftLimit + GetConfig("grab_sideways_container", 2400);
 		
+		elevatorSetpoints[ElevatorSetpoint.HUMAN_LOAD_PREPARE.ordinal()]= topSoftLimit + GetConfig("human_load_prepare", 1200);
+		elevatorSetpoints[ElevatorSetpoint.HUMAN_LOAD_GRAB.ordinal()]= topSoftLimit + GetConfig("human_load_grab", 1800);
 	}
 	
 	

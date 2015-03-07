@@ -59,13 +59,13 @@ public class Brain
 		
 		createInputProcessors();
 
-		
 		// All automation routines		
 		Automation auton = new Autonomous();
 	
 		Automation load_tote = new LoadTote();
 		Automation load_sideways_container = new LoadSidewaysContainer();
 		Automation load_upright_container = new LoadUprightContainer();
+		Automation human_load = new HumanLoad();
 		
 		Automation releaseStack = new ReleaseStack();
 		
@@ -85,6 +85,16 @@ public class Brain
 		
 		Event load_sideways_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
 		Event load_sideways_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
+
+		Event human_load_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
+		Event human_load_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
+		
+		Event load_abort_deploy = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
+		Event load_abort_1 = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
+		Event load_abort_2 = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_TWO);
+		Event load_abort_3 = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_THREE);
+		Event load_abort_4 = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_FOUR);
+		Event load_abort_step = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_STEP);
 		
 		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
@@ -102,12 +112,47 @@ public class Brain
 		
 		load_tote_start.AddStartListener(load_tote);
 		load_tote_abort.AddAbortListener(load_tote);
+		load_tote_start.AddAbortListener(load_tote);
 		
 		load_sideways_container_start.AddStartListener(load_sideways_container);
 		load_sideways_container_abort.AddAbortListener(load_sideways_container);
+		load_sideways_container_start.AddAbortListener(load_sideways_container);
 		
 		load_upright_container_start.AddStartListener(load_upright_container);
 		load_upright_container_abort.AddAbortListener(load_upright_container);
+		load_upright_container_start.AddAbortListener(load_upright_container);
+
+		human_load_start.AddStartListener(human_load);
+		human_load_abort.AddAbortListener(human_load);
+		
+		release_stack_start.AddAbortListener(load_tote);
+		release_stack_start.AddAbortListener(load_sideways_container);
+		release_stack_start.AddAbortListener(load_upright_container);
+		release_stack_start.AddAbortListener(human_load);
+		load_abort_deploy.AddAbortListener(load_tote);
+		load_abort_deploy.AddAbortListener(load_sideways_container);
+		load_abort_deploy.AddAbortListener(load_upright_container);
+		load_abort_deploy.AddAbortListener(human_load);
+		load_abort_1.AddAbortListener(load_tote);
+		load_abort_1.AddAbortListener(load_sideways_container);
+		load_abort_1.AddAbortListener(load_upright_container);
+		load_abort_1.AddAbortListener(human_load);
+		load_abort_2.AddAbortListener(load_tote);
+		load_abort_2.AddAbortListener(load_sideways_container);
+		load_abort_2.AddAbortListener(load_upright_container);
+		load_abort_2.AddAbortListener(human_load);
+		load_abort_3.AddAbortListener(load_tote);
+		load_abort_3.AddAbortListener(load_sideways_container);
+		load_abort_3.AddAbortListener(load_upright_container);
+		load_abort_3.AddAbortListener(human_load);
+		load_abort_4.AddAbortListener(load_tote);
+		load_abort_4.AddAbortListener(load_sideways_container);
+		load_abort_4.AddAbortListener(load_upright_container);
+		load_abort_4.AddAbortListener(human_load);
+		load_abort_step.AddAbortListener(load_tote);
+		load_abort_step.AddAbortListener(load_sideways_container);
+		load_abort_step.AddAbortListener(load_upright_container);
+		load_abort_step.AddAbortListener(human_load);
 	}
 	
 	private void createInputProcessors() {

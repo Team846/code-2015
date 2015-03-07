@@ -70,6 +70,7 @@ public class LoadTote extends LoadItem implements Configurable {
 	@Override
 	protected boolean Run()
 	{
+		boolean ret = super.Run();
 		if (additional)
 		{
 			if (state == State.COLLECT)
@@ -88,6 +89,6 @@ public class LoadTote extends LoadItem implements Configurable {
 				}
 			}
 		}
-		return super.Run();
+		return ret;
 	}
 }

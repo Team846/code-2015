@@ -41,12 +41,14 @@ public class DriverStationConfig {
 		public static final int ELEVATE_FOUR = 10;
 		public static final int ELEVATE_STEP = 9;
 		
+		public static final int HUMAN_LOAD_START = 15;
+		public static final int HUMAN_LOAD_FINISH = 16;
+		
 		// Overrides
 		public static final int FRONT_HOOKS_OVERRIDE = 13;
 		public static final int BACK_HOOKS_OVERRIDE = 12;
 		public static final int ELEVATOR_OVERRIDE = 14;
 		public static final int CARRIAGE_OVERRIDE = 11;
-		public static final int REVERSE_ROLLERS = 16;
 		
 		// Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 9;
