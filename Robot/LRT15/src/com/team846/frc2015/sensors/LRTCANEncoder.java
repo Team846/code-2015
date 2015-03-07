@@ -5,6 +5,7 @@ import org.apache.commons.lang.NullArgumentException;
 import com.team846.frc2015.config.Configurable;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 
 /*!
@@ -21,12 +22,13 @@ public class LRTCANEncoder {
 	{
 		if(talon == null)
 			throw new IllegalArgumentException("[ERROR] Talon must be already constructed");
-		this.attachedEncoder  = talon;
+		attachedEncoder  = talon;
+		attachedEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 	}
 	
 	public LRTCANEncoder(CANTalon talon, int updatePeriod) //ms
 	{
-		this.attachedEncoder = talon;
+		attachedEncoder = talon;
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
 	}
 	
@@ -39,7 +41,7 @@ public class LRTCANEncoder {
 	 * 
 	 * @return Current velocity of encoder
 	 */
-	public double GetRate() 
+	public double getRate() 
 	{
 		double encVel = attachedEncoder.getEncVelocity();
 		if( encVel < minRate || encVel == prevRate)
@@ -56,7 +58,7 @@ public class LRTCANEncoder {
 	 * Gets the currente encoder ticks from the attached encoder
 	 * @return current encoder ticks
 	 */
-	public int Get() 
+	public int get() 
 	{
 		return attachedEncoder.getEncPosition() - zeroCount;
 	}

@@ -19,7 +19,7 @@ public class DriveEncoders implements Configurable
 	
 	private static DriveEncoders instance = null;
 
-	CANTalon[] encoders;
+	LRTCANEncoder[] encoders;
 	
 	int[] initialValues;
 
@@ -33,23 +33,13 @@ public class DriveEncoders implements Configurable
 	
 	public DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
-		encoders = new CANTalon[4];
+		encoders = new LRTCANEncoder[4];
 		initialValues = new int[4];
 		
-		encoders[Side.LEFT_FRONT.ordinal()] = frontLeft;
-		encoders[Side.RIGHT_FRONT.ordinal()] = frontRight;
-		encoders[Side.LEFT_BACK.ordinal()] = backLeft;
-		encoders[Side.RIGHT_BACK.ordinal()] = backRight;
-		
-//		encoders[Side.LEFT_FRONT.ordinal()].setFeedbackDevice(FeedbackDevice.QuadEncoder);// = frontLeft;
-//		encoders[Side.RIGHT_FRONT.ordinal()] = frontRight;
-//		encoders[Side.LEFT_BACK.ordinal()] = backLeft;
-//		encoders[Side.RIGHT_BACK.ordinal()] = backRight;
-		
-		initialValues[Side.LEFT_FRONT.ordinal()] = frontLeft.getEncPosition();
-		initialValues[Side.RIGHT_FRONT.ordinal()] = frontRight.getEncPosition();
-		initialValues[Side.LEFT_BACK.ordinal()] = backLeft.getEncPosition();
-		initialValues[Side.RIGHT_BACK.ordinal()] = backRight.getEncPosition();
+		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft);
+		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight);
+		encoders[Side.LEFT_BACK.ordinal()] = new LRTCANEncoder(backLeft);
+		encoders[Side.RIGHT_BACK.ordinal()] = new LRTCANEncoder(backRight);
 		
 		if (instance == null)
 			instance = this;
@@ -64,11 +54,11 @@ public class DriveEncoders implements Configurable
 
 	public double GetRawForwardSpeed()
 	{
-		double leftSpeed = (encoders[Side.LEFT_FRONT.ordinal()].getEncVelocity()
-				+ encoders[Side.LEFT_BACK.ordinal()].getEncVelocity()) / 2;
+		double leftSpeed = (encoders[Side.LEFT_FRONT.ordinal()].getRate()
+				+ encoders[Side.LEFT_BACK.ordinal()].getRate()) / 2;
 		
-		double rightSpeed =  (encoders[Side.RIGHT_FRONT.ordinal()].getEncVelocity()
-				+ encoders[Side.RIGHT_BACK.ordinal()].getEncVelocity()) / 2;
+		double rightSpeed =  (encoders[Side.RIGHT_FRONT.ordinal()].getRate()
+				+ encoders[Side.RIGHT_BACK.ordinal()].getRate()) / 2;
 		
 		return (leftSpeed + rightSpeed) / 2;
 	}
@@ -85,14 +75,14 @@ public class DriveEncoders implements Configurable
 
 	public double GetRawTurningSpeed()
 	{
-		int rightVel = (encoders[Side.RIGHT_FRONT.ordinal()].getEncVelocity() + encoders[Side.RIGHT_BACK.ordinal()].getEncVelocity()) /2;
-		int leftVel =  (encoders[Side.LEFT_FRONT.ordinal()].getEncVelocity() + encoders[Side.LEFT_BACK.ordinal()].getEncVelocity()) /2;
+		double rightVel = (encoders[Side.RIGHT_FRONT.ordinal()].getRate() + encoders[Side.RIGHT_BACK.ordinal()].getRate()) /2;
+		double leftVel =  (encoders[Side.LEFT_FRONT.ordinal()].getRate() + encoders[Side.LEFT_BACK.ordinal()].getRate()) /2;
 		return rightVel - leftVel;
 	}
 	
 	public double GetRawStrafingSpeed()
 	{
-		return (encoders[Side.LEFT_FRONT.ordinal()].getEncVelocity() + encoders[Side.RIGHT_BACK.ordinal()].getEncVelocity()) /2;
+		return (encoders[Side.LEFT_FRONT.ordinal()].getRate() + encoders[Side.RIGHT_BACK.ordinal()].getRate()) /2;
 	}
 	
 	public double GetNormalizedStrafingSpeed()
@@ -115,10 +105,10 @@ public class DriveEncoders implements Configurable
 
 	public int GetTurnTicks()
 	{
-		int rightTicks = ((encoders[Side.RIGHT_FRONT.ordinal()].getEncPosition() - initialValues[Side.RIGHT_FRONT.ordinal()]) 
-				+ (encoders[Side.RIGHT_BACK.ordinal()].getEncPosition() - initialValues[Side.RIGHT_BACK.ordinal()])) /2;
-		int leftTicks =  ((encoders[Side.LEFT_FRONT.ordinal()].getEncPosition() - initialValues[Side.LEFT_FRONT.ordinal()])
-				+ (encoders[Side.LEFT_BACK.ordinal()].getEncPosition() - initialValues[Side.LEFT_BACK.ordinal()])) /2;
+		int rightTicks = (encoders[Side.RIGHT_FRONT.ordinal()].get()
+				+ encoders[Side.RIGHT_BACK.ordinal()].get()) /2;
+		int leftTicks =  (encoders[Side.LEFT_FRONT.ordinal()].get()
+				+ encoders[Side.LEFT_BACK.ordinal()].get()) /2;
 		return rightTicks - leftTicks; 
 	}
 
@@ -134,18 +124,18 @@ public class DriveEncoders implements Configurable
 
 	public double GetWheelDist(Side side)
 	{
-		CANTalon e = encoders[side.ordinal()];
-		double dist = (double) ((e.getEncPosition() * 1.0) / PULSES_PER_REVOLUTION
+		LRTCANEncoder e = encoders[side.ordinal()];
+		double dist = (double) ((e.get() * 1.0) / PULSES_PER_REVOLUTION
 				* GEAR_RATIO * WHEEL_DIAMETER * Math.PI); // pulses / ( pulses / encoder revolution ) * encoder to wheel gear ratio * distance / wheel revolution = inch distance
 		return dist;
 	}
 
 	public double GetNormalizedSpeed(Side side)
 	{
-		return encoders[side.ordinal()].getEncVelocity() / MAX_ENCODER_RATE;
+		return encoders[side.ordinal()].getRate() / MAX_ENCODER_RATE;
 	}
 
-	public CANTalon GetEncoder(Side side)
+	public LRTCANEncoder GetEncoder(Side side)
 	{
 		return encoders[side.ordinal()];
 	}

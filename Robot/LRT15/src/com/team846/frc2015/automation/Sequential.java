@@ -78,7 +78,7 @@ public class Sequential extends Automation {
 	
 	public boolean Abort()
 	{
-		AsyncPrinter.info(GetAbortEvent().getClass().getName());
+		AsyncPrinter.info("Abort Event: " + GetAbortEvent().getClass().getName());
 		if (!queued.isEmpty())
 		{
 			boolean res = queued.peek().AbortAutomation(GetAbortEvent());
@@ -100,7 +100,7 @@ public class Sequential extends Automation {
 	public void AddAutomation(ArrayList<Automation> automation)
 	{
 		routines.ensureCapacity(routines.size() + automation.size());
-		routines.addAll(routines.size()-1, automation);
+		routines.addAll(automation);
 	}
 
 	public void ClearSequence()

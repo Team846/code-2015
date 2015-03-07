@@ -28,6 +28,11 @@ public abstract class Automation {
 		RESTARTABLE
 	}
 	
+	public Automation(RoutineOption... options)
+	{
+		this(null, options);
+	}
+	
 	public Automation(String name, RoutineOption... options)
 	{
 		startEvent = null;
@@ -39,7 +44,13 @@ public abstract class Automation {
 			if(!routineOptions.contains(option))
 				routineOptions.add(option);
 		}
-		this.name = name;
+		if(name == null)
+		{
+			this.name = this.getClass().getName();
+			this.name = this.name.substring(this.name.lastIndexOf('.') + 1);
+		}
+		else
+			this.name = name;
 		automation_vector.add(this);
 	}
 	
