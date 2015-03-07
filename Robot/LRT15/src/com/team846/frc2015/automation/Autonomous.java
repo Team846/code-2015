@@ -274,7 +274,7 @@ public class Autonomous extends Sequential
 			{
 				System.out.println("routine: " + parallelRoutines.get(0).GetName());
 				AddAutomation(parallelRoutines.get(0));
-			} 
+			}
 			else
 			{
 				AsyncPrinter.println(parallelRoutines.toString());

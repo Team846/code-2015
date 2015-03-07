@@ -115,15 +115,11 @@ public abstract class LoadItem extends Automation{
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				
-				
-				
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(collect);
 
-				if ((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT)
-						/*&& hasItem*/) || auto)
+				if ((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
 				{
-					
 					armData.setDesiredPosition(ArmPosition.EXTEND);
 					rollersData.setRunning(true);
 					rollersData.setDirection(Direction.INTAKE);
@@ -136,7 +132,7 @@ public abstract class LoadItem extends Automation{
 						state = State.GRAB;
 					}
 				}
-					
+				
 				break;
 			}
 			case GRAB:
