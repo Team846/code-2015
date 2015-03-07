@@ -32,22 +32,39 @@ public class CollectorRollers extends Component
 	@Override
 	protected void UpdateEnabled()
 	{
-		double speed;
+		double left_speed = 0.0;
+		double right_speed = 0.0;
 		
-		if(rollersData.isRunning())
+		if (rollersData.isRunning())
 		{
-			if(rollersData.getDirection() == Direction.INTAKE)
-				speed = rollersData.getSpeed();
-			else
-				speed = -rollersData.getSpeed();
+			if (rollersData.getDirection() == Direction.INTAKE)
+			{
+				left_speed = rollersData.getSpeed();
+				right_speed = rollersData.getSpeed();
+			}
+			else if (rollersData.getDirection() == Direction.REVERSE)
+			{
+				left_speed = -rollersData.getSpeed();
+				right_speed = -rollersData.getSpeed();
+			}
+			else if (rollersData.getDirection() == Direction.SWEEP_LEFT)
+			{
+				left_speed = -rollersData.getSpeed();
+				right_speed = rollersData.getSpeed();
+			}
+			else if (rollersData.getDirection() == Direction.SWEEP_RIGHT)
+			{
+				left_speed = rollersData.getSpeed();
+				right_speed = -rollersData.getSpeed();
+			}
 		}
 		else
 		{
-			speed = 0.0;
+			left_speed = 0.0;
+			right_speed = 0.0;
 		}
-		
-		leftMotor.set(speed);
-		rightMotor.set(speed);
+		leftMotor.set(left_speed);
+		rightMotor.set(right_speed);
 
 	}
 

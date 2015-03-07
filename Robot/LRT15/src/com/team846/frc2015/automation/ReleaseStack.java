@@ -2,6 +2,8 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageHooksData;
+import com.team846.frc2015.componentData.CollectorArmData;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
@@ -17,6 +19,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	private int dropHeight;
 	private CarriageHooksData hooksData;
 	private CarriageExtenderData extenderData;
+	private CollectorArmData collectorArmData;
 	private boolean elevatorToHome;
 
 	public ReleaseStack() {
@@ -25,6 +28,7 @@ public class ReleaseStack extends Automation implements Configurable {
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
 		extenderData = CarriageExtenderData.get();
+		collectorArmData = CollectorArmData.get();
 		
 		dropHeight = 0;
 		elevatorToHome = false;
@@ -37,7 +41,7 @@ public class ReleaseStack extends Automation implements Configurable {
 		AllocateResource(ControlResource.ELEVATOR);
 		AllocateResource(ControlResource.CARRIAGE_EXTENDER);
 		AllocateResource(ControlResource.CARRIAGE_HOOKS);
-		
+		AllocateResource(ControlResource.COLLECTOR_ARMS);
 	}
 
 	@Override
@@ -54,6 +58,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	protected boolean Run() {
+		collectorArmData.setDesiredPosition(ArmPosition.STOWED);
 		elevatorData.setControlMode(ElevatorControlMode.POSITION);
 		elevatorData.setDesiredPosition((startingPosition + dropHeight)); // down is positive
 		if(elevatorData.isAtPosition(startingPosition + dropHeight) || elevatorToHome)

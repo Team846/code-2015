@@ -208,6 +208,57 @@ public class Autonomous extends Sequential
 							break;
 						}
 						break;
+					case "load+elevate":
+						switch (argsSplit.length)
+						{
+						case 1:
+							Sequential routine = new Sequential("LoadElevate");
+							routine.AddAutomation(new LoadTote(true));
+							routine.AddAutomation(new Elevate(Integer.parseInt(argsSplit[0])));
+							parallelRoutines.add(routine);
+						}
+						break;
+					case "drive+sweep":
+						Parallel routine = new Parallel("DriveSweep", true);
+						switch (argsSplit.length)
+						{
+						case 2:
+							routine.AddAutomation( new Drive(Double.parseDouble(argsSplit[0])));
+							if (argsSplit[1] == "left")
+								routine.AddAutomation(new Sweep(Sweep.Direction.LEFT));
+							else if (argsSplit[1] == "right")
+								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
+							break;
+						case 3:
+							routine.AddAutomation( new Drive(Double.parseDouble(argsSplit[0])
+									,Double.parseDouble(argsSplit[1])));
+							if (argsSplit[2] == "left")
+								routine.AddAutomation(new Sweep(Sweep.Direction.LEFT));
+							else if (argsSplit[2] == "right")
+								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
+							break;
+						case 4:
+							routine.AddAutomation( new Drive(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1]),
+									Double.parseDouble(argsSplit[2])));
+							if (argsSplit[3] == "left")
+								routine.AddAutomation(new Sweep(Sweep.Direction.LEFT));
+							else if (argsSplit[3] == "right")
+								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
+							break;
+						case 5:
+							routine.AddAutomation( new Drive(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1]),
+									Double.parseDouble(argsSplit[2]),
+									Boolean.parseBoolean(argsSplit[3])));
+							if (argsSplit[4] == "left")
+								routine.AddAutomation(new Sweep(Sweep.Direction.LEFT));
+							else if (argsSplit[4] == "right")
+								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
+							break;
+						}
+						parallelRoutines.add(routine);
+						break;
 					}
 				} catch (Exception e)
 				{

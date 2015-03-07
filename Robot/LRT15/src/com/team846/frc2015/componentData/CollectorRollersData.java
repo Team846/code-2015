@@ -12,7 +12,9 @@ public class CollectorRollersData extends ComponentData
 	public enum Direction
 	{
 		INTAKE,
-		REVERSE
+		REVERSE,
+		SWEEP_LEFT,
+		SWEEP_RIGHT
 	}
 	
 	public static CollectorRollersData get()

@@ -181,7 +181,17 @@ public abstract class LoadItem extends Automation{
 		}
 		System.out.println(state);
 		if(auto && elevatorData.isAtSetpoint(home))
+		{
+			elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+			elevatorData.setDesiredSpeed(0.0);
+			
+			armData.setDesiredPosition(ArmPosition.STOWED);
+			rollersData.setRunning(false);
+			
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
 			return true;
+		}
 		
 		return false;
 	}
