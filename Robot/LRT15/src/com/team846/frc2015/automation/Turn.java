@@ -19,7 +19,7 @@ public class Turn extends Automation {
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 		this.errorThreshold = errorThreshold;
-		drivetrain = DrivetrainData.Get();
+		drivetrain = DrivetrainData.get();
 	}
 
 	public Turn()
@@ -29,7 +29,7 @@ public class Turn extends Automation {
 		maxSpeed = 0;
 		errorThreshold = 0;
 		
-		drivetrain = DrivetrainData.Get();
+		drivetrain = DrivetrainData.get();
 	}
 
 	void setAngle(double angle)

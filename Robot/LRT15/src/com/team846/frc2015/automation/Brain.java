@@ -91,10 +91,10 @@ public class Brain
 		
 		// Map events to routines
 		to_auto.AddStartListener(auton);
-//		driver_stick_moved.AddAbortListener(auton);
-//		operator_stick_moved.AddAbortListener(auton);
-//		driver_stick_pressed.AddAbortListener(auton);
-//		operator_stick_pressed.AddAbortListener(auton);
+		driver_stick_moved.AddAbortListener(auton);
+		operator_stick_moved.AddAbortListener(auton);
+		driver_stick_pressed.AddAbortListener(auton);
+		operator_stick_pressed.AddAbortListener(auton);
 //		disabled_timeout.AddAbortListener(auton);
 		
 		release_stack_start.AddStartListener(releaseStack);
@@ -114,8 +114,8 @@ public class Brain
 		inputs.add(new DrivetrainInputs(Axis.DRIVE));
 		inputs.add(new DrivetrainInputs(Axis.TURN));
 		inputs.add(new DrivetrainInputs(Axis.STRAFE));
-//		inputs.add(new CollectorArmInputs());
-//		inputs.add(new CollectorRollersInputs());
+		inputs.add(new CollectorArmInputs());
+		inputs.add(new CollectorRollersInputs());
 		inputs.add(new ElevatorInputs());
 		inputs.add(new CarriageExtenderInputs());
 		inputs.add(new CarriageHooksInputs());

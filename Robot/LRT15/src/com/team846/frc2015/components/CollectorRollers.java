@@ -20,7 +20,7 @@ public class CollectorRollers extends Component
 	public CollectorRollers()
 	{
 		super("Collector", DriverStationConfig.DigitalIns.NO_DS_DI);
-		rollersData = CollectorRollersData.get();
+		rollersData = CollectorRollersData.get(); 
 		
 		leftMotor = new CANTalon(
 				ConfigPortMappings.Instance().get("CAN/COLLECTOR_LEFT"));

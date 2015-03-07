@@ -76,7 +76,7 @@ public class Drivetrain extends Component implements Configurable {
 		escs[Side.BACK_LEFT.ordinal()] = new DriveESC(backLeft);
 		escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(backRight);
 		
-		drivetrainData = DrivetrainData.Get();
+		drivetrainData = DrivetrainData.get();
 		
 		ConfigRuntime.Register(this);
 	}
@@ -138,7 +138,7 @@ public class Drivetrain extends Component implements Configurable {
 		double leftBackOutput;
 		double rightBackOutput;
 		
-		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
+//		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
 		
 //		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
 //		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());

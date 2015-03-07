@@ -6,6 +6,7 @@ import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
+import com.team846.frc2015.log.AsyncPrinter;
 
 public class CollectorArmInputs extends InputProcessor {
 
@@ -17,11 +18,13 @@ public class CollectorArmInputs extends InputProcessor {
 		armData = CollectorArmData.get();
 		driverStick = LRTDriverStation.Instance().GetDriverStick();
 	}
-	
 	@Override
 	public void Update() {
 		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT))
-			armData.setDesiredPosition(ArmPosition.STOWED);
+		{
+			armData.setDesiredPosition(ArmPosition.EXTEND);
+			//AsyncPrinter.info("Extend Collector");
+		}
 
 	}
 

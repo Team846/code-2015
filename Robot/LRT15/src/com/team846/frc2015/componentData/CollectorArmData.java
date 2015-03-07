@@ -47,6 +47,8 @@ public class CollectorArmData extends ComponentData
 	
 	@Override
 	protected void ResetCommands() 
-	{	}
+	{
+		desiredPosition = ArmPosition.STOWED;
+	}
 
 }

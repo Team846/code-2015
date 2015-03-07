@@ -122,7 +122,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.add( new LoadTote());
+							parallelRoutines.add( new LoadTote(true));
 							break;
 						}
 						break;
@@ -131,7 +131,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.add( new LoadUprightContainer());
+							parallelRoutines.add( new LoadUprightContainer(true));
 							break;
 						}
 						break;
@@ -140,7 +140,7 @@ public class Autonomous extends Sequential
 						switch(argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.add( new LoadSidewaysContainer());
+							parallelRoutines.add( new LoadSidewaysContainer(true));
 							break;
 						}
 
@@ -193,6 +193,18 @@ public class Autonomous extends Sequential
 						{
 						case 1:
 							parallelRoutines.add( new Pause(Double.parseDouble(argsSplit[0])));
+							break;
+						}
+						break;
+					case "strafe":
+						switch (argsSplit.length)
+						{
+						case 1:
+							parallelRoutines.add( new Strafe(Double.parseDouble(argsSplit[0])));
+							break;
+						case 2:
+							parallelRoutines.add( new Strafe(Double.parseDouble(argsSplit[0]),
+									Double.parseDouble(argsSplit[1])));
 							break;
 						}
 						break;

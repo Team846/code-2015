@@ -37,7 +37,7 @@ public class Drive extends Automation {
 		this.maxSpeed = maxSpeed;
 		this.errorThreshold = errThreshold;
 		this.continuous = continuous;
-		drivetrain = DrivetrainData.Get();
+		drivetrain = DrivetrainData.get();
 	}
 	
 	public void AllocateResources()

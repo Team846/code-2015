@@ -36,9 +36,9 @@ public abstract class Component
 	
 	public static void CreateComponents()
 	{
-//		component_list.add(new Drivetrain());
+		component_list.add(new Drivetrain());
 		component_list.add(new CollectorArms());
-//		component_list.add(new CollectorRollers());
+		component_list.add(new CollectorRollers());
 		component_list.add(new CarriageExtender());
 		component_list.add(new CarriageHooks());
 		component_list.add(new Elevator());

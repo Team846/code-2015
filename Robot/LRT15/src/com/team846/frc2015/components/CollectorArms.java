@@ -6,11 +6,16 @@ import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.sensors.SensorFactory;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 
 public class CollectorArms extends Component 
 {
 	Pneumatics arms;
 	CollectorArmData armData;
+	AnalogInput sensor = SensorFactory.GetAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
 	
 	public CollectorArms()
 	{
@@ -28,18 +33,20 @@ public class CollectorArms extends Component
 		State state;
 		
 		if(armData.getDesiredCollectorPosition() == ArmPosition.EXTEND)
-			state = State.OFF;
-		else
 			state = State.FORWARD;
+		else
+			state = State.OFF;
 		
 		arms.set(state);
-		armData.setCurrentCollectorPosition(state == State.OFF ? ArmPosition.EXTEND : ArmPosition.STOWED);
+		armData.setCurrentCollectorPosition(state == State.FORWARD ? ArmPosition.EXTEND : ArmPosition.STOWED);
+		AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
 		
 	}
 
 	@Override
 	protected void UpdateDisabled() {
 		arms.set(State.OFF);
+		
 		
 	}
 

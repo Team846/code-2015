@@ -45,7 +45,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		 driverStick = LRTDriverStation.Instance().GetDriverStick();
 		 driverWheel = LRTDriverStation.Instance().GetDriverWheel();
 		 
-		 drivetrainData = DrivetrainData.Get();
+		 drivetrainData = DrivetrainData.get();
 		 this.axis = axis;
 		 if(axis == Axis.DRIVE)
 			 RegisterResource(ControlResource.DRIVE);

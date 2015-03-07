@@ -64,7 +64,7 @@ public class DrivetrainData extends ComponentData
 		Arrays.fill(controlModes, ControlMode.OPEN_LOOP);
 	}
 
-	public static DrivetrainData Get()
+	public static DrivetrainData get()
 	{
 		return (DrivetrainData) ComponentData.GetComponentData("DrivetrainData");
 	}
