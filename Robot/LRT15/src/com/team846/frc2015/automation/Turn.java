@@ -1,8 +1,8 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.DrivetrainData;
-import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.DriveEncoders;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Turn extends Automation {
 	

@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.HashMap;
 
-import com.team846.frc2015.log.AsyncPrinter;
-
 public class Profiler {
 	private Profiler() {
 	}

@@ -28,7 +28,6 @@ public abstract class Automation {
 		RESTARTABLE
 	}
 	
-	//TODO: implement automation options instead of sequence of booleans
 	public Automation(String name, RoutineOption... options)
 	{
 		startEvent = null;

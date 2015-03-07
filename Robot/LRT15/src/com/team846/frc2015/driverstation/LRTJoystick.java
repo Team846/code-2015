@@ -1,6 +1,6 @@
 package com.team846.frc2015.driverstation;
 
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Joystick;
 

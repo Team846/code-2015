@@ -4,7 +4,7 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Elevate extends Automation {
 
@@ -38,7 +38,6 @@ public class Elevate extends Automation {
 
 	@Override
 	protected boolean Start() {
-		AsyncPrinter.info("srinfeg");
 		return true;
 	}
 
@@ -51,7 +50,6 @@ public class Elevate extends Automation {
 
 	@Override
 	protected boolean Run() {
-		AsyncPrinter.info("nutmeg");
 		elData.setControlMode(ElevatorControlMode.SETPOINT);
 		elData.setSetpoint(setpoint);
 		

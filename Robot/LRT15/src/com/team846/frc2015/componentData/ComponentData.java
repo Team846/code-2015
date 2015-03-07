@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 
 public abstract class ComponentData 

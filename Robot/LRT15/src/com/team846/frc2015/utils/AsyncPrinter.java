@@ -1,4 +1,4 @@
-package com.team846.frc2015.log;
+package com.team846.frc2015.utils;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

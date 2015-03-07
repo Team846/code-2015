@@ -1,7 +1,7 @@
 package com.team846.frc2015.componentData;
 
 import com.team846.frc2015.componentData.ComponentData;
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 public class CarriageHooksData extends ComponentData{
 

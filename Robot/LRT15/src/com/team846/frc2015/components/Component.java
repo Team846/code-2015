@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.GameState;
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.robot.RobotState;
 
 public abstract class Component 

@@ -25,13 +25,13 @@ public class CollectorRollersInputs extends InputProcessor
 	@Override
 	public void Update() {
 		
-		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
+		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.REVERSE);
 			collectorRollers.setSpeed(1.0);
 		}
-		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
+		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.SPIN_ROLLERS))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.INTAKE);

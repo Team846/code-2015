@@ -49,6 +49,10 @@ public class DriverStationConfig {
 		public static final int BACK_HOOKS_OVERRIDE = 12;
 		public static final int ELEVATOR_OVERRIDE = 14;
 		public static final int CARRIAGE_OVERRIDE = 11;
+
+		public static final int SPIN_ROLLERS = 15;
+		public static final int REVERSE_ROLLERS = 16;
+
 		
 		// Dashboard Mode
 		public static final int DASHBOARD_ENABLE1 = 9;

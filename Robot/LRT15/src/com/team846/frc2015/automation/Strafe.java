@@ -7,8 +7,6 @@ import com.team846.frc2015.sensors.DriveEncoders;
 
 import edu.wpi.first.wpilibj.Timer;
 
-
-//NOTE: Must change to position control once I figure it out
 public class Strafe extends Automation {
 	double time;
 	double maxSpeed;

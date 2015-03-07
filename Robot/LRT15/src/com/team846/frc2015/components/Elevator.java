@@ -15,8 +15,8 @@ import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.PID;
 import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -53,8 +53,6 @@ public class Elevator extends Component implements Configurable {
 		
 		elevatorPot = SensorFactory.GetAnalogInput(
 				ConfigPortMappings.Instance().get("Analog/ELEVATOR_POT"));
-		
-		//errorSum = new RunningSum();
 		
 		elevatorData = ElevatorData.get();
 		
@@ -155,7 +153,7 @@ public class Elevator extends Component implements Configurable {
 
 	@Override
 	public void Configure() {
-		topSoftLimit = GetConfig("topLimit", 100);
+		topSoftLimit = GetConfig("elevatorZero", 100);
 		
 		// Everything is offset from topSoftLimit
 		bottomSoftLimit = topSoftLimit + GetConfig("bottomLimit", 10);

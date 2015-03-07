@@ -8,8 +8,8 @@ import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.log.AsyncPrinter;
 import com.team846.frc2015.sensors.SensorFactory;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -45,7 +45,7 @@ public class CarriageExtender extends Component implements Configurable
 				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
 		
 		carriageMotor = new CANTalon(ConfigPortMappings.Instance().get("CAN/CARRIAGE_MOTOR"));
-		carriageMotor.setStatusFrameRateMs(StatusFrameRate.AnalogTempVbat, 20);
+		//carriageMotor.setStatusFrameRateMs(StatusFrameRate.AnalogTempVbat, 20);
 		
 		maxRange = positionGain = errorThreshold = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit =  0;
 		

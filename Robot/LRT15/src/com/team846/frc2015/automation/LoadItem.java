@@ -51,11 +51,13 @@ public abstract class LoadItem extends Automation{
 	protected State state;
 	private boolean auto;
 
-	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint, boolean auto) {
+	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+			ElevatorSetpoint homeSetpoint, boolean auto) {
 		this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20, auto);
 	}
 	
-	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint, ElevatorSetpoint homeSetpoint, int waitCycles, boolean auto) {
+	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+			ElevatorSetpoint homeSetpoint, int waitCycles, boolean auto) {
 		super(name);
 		state = State.COLLECT;
 		this.auto = auto; 
@@ -124,6 +126,7 @@ public abstract class LoadItem extends Automation{
 					rollersData.setRunning(true);
 					rollersData.setDirection(Direction.INTAKE);
 					rollersData.setSpeed(1.0);
+					
 					System.out.println(sensor.getAverageValue());
 					if(sensor.getAverageValue() > analogThreshold)
 					{

@@ -10,7 +10,7 @@ import org.apache.commons.lang.NotImplementedException;
 
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.RobotConfig;
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +32,7 @@ public class Autonomous extends Sequential
 
 		ClearSequence();
 
+		double loadStartTime = System.currentTimeMillis();
 		try
 		{
 			loadRoutine(FindRoutine((int)Math.round(SmartDashboard.getNumber("DB/Slider 0")))); //Rounds value to int
@@ -39,6 +40,8 @@ public class Autonomous extends Sequential
 		{
 			e.printStackTrace();
 		}
+		double totalTime = System.currentTimeMillis() - loadStartTime;
+		AsyncPrinter.info("Parsed routine in " + totalTime + "ms");
 
 		ConfigRuntime.ConfigureAll();
 
@@ -296,84 +299,6 @@ public class Autonomous extends Sequential
 			throw new Exception("unable to parse boolean: " + string);
 		}
 	}
-
-	// private void LoadRoutine(String path)
-	// {
-	// Scanner in = null;
-	// try {
-	// in = new Scanner(new File(path));
-	// } catch (FileNotFoundException e) {
-	// AsyncPrinter.error("Cannot open autonomous file path: " + path);
-	// e.printStackTrace();
-	// }
-	// int lineNumber = 1;
-	// while(in.hasNext())
-	// {
-	// String line = in.nextLine();
-	// line = line.substring(0, line.indexOf('#'));
-	// line = line.replaceAll("\\s+", "");
-	// if(line.length() == 0)
-	// continue;
-	//
-	// ArrayList<String> routineList = new ArrayList<String>();
-	// int pos;
-	//
-	// while(line.contains("),"))
-	// {
-	// pos = line.indexOf("),");
-	// routineList.add(line.substring(0, pos + 1));
-	// line = line.substring(pos + 2); //TODO: uncertain
-	// }
-	// routineList.add(line);
-	// ArrayList<Automation> parallelRoutines = new ArrayList<Automation>();
-	// for(String s : routineList)
-	// {
-	// Automation current;
-	// String command, args;
-	// ArrayList<String> argList = new ArrayList<String>();
-	// String temp;
-	// command = s.substring(0, s.indexOf('('));
-	// args = s.substring( s.indexOf('(') + 1, s.lastIndexOf(')'));
-	// while(args.contains(","))
-	// {
-	// argList.add(args.substring(0, args.indexOf(',')));
-	// args = args.substring(args.indexOf(',')+1);
-	// }
-	// boolean failed = false;
-	//
-	// //COMMAND CASES
-	// if(true) //TODO:add automation cases
-	// ;
-	// else
-	// {
-	// AsyncPrinter.warn("Unknwon routine " + command + " on line " + lineNumber
-	// + " ignoring");
-	// continue;
-	// }
-	// if(failed)
-	// {
-	// AsyncPrinter.warn("Incorrect number of args for " + command + " on line "
-	// + lineNumber + " ignoring");
-	// continue;
-	// }
-	// if(parallelRoutines.size() > 1)
-	// {
-	// AddAutomation(new Parallel("AutonomousParllel", parallelRoutines));
-	// }
-	// else if(parallelRoutines.size() == 1)
-	// {
-	// AddAutomation(parallelRoutines.get(0));
-	// }
-	// lineNumber++;
-	//
-	// }
-	// AsyncPrinter.info("Done loading auto routine at " + path);
-	// in.close();
-	//
-	//
-	// }
-	//
-	// }
 
 	private File FindRoutine(int routineNumber) throws FileNotFoundException
 	{

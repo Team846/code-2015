@@ -6,8 +6,8 @@ import com.team846.robot.RobotState;
 
 public class GameModeChangeEvent extends Event
 {
-	GameState fromMode;
-	GameState toMode;
+	GameState fromMode = null;
+	GameState toMode = null;
 	boolean from;
 	
 	public GameModeChangeEvent(GameState toMode)

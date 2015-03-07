@@ -12,10 +12,15 @@ public class ExtendCarriage extends Automation {
 
 	public ExtendCarriage(double position ) //position control
 	{
+		this(position, 0.05);
+	}
+	
+	public ExtendCarriage(double position, double errorThreshold)
+	{
 		super("Extend Carriage");
 		carriagePosition = position;	
 		extenderData = CarriageExtenderData.get();
-		errorThreshold = 0.1f; //TODO: make configurable
+		this.errorThreshold = errorThreshold; //TODO: make configurable
 	}
 	
 	public ExtendCarriage()

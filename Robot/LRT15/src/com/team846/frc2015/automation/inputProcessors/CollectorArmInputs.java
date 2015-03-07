@@ -6,7 +6,7 @@ import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
-import com.team846.frc2015.log.AsyncPrinter;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 public class CollectorArmInputs extends InputProcessor {
 
