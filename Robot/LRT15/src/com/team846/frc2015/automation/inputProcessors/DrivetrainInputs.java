@@ -19,11 +19,11 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	LRTJoystick driverWheel;
 	
 	boolean lastStop;
-	double negInertiaScalar;
-	double negInertiaAccumulator;
-	double lastTurn;
-	double stoppedForward;
-	double stoppedTurn;
+//	double negInertiaScalar;
+//	double negInertiaAccumulator;
+//	double lastTurn;
+//	double stoppedForward;
+//	double stoppedTurn;
 	boolean constRadius;
 	int blendExponent;
 	int turnExponent;
@@ -161,7 +161,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		throttleExponent = GetConfig("throttle_exponent", 1);
 		strafeExponent = GetConfig("strafeExponent", 1);
 		deadband = GetConfig("deadband", 0.04);
-		negInertiaScalar = GetConfig("neg_inertia_scalar", 5.0);
+		//negInertiaScalar = GetConfig("neg_inertia_scalar", 5.0);
 	}
 
 }

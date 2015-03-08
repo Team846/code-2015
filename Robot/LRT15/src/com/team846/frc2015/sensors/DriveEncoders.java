@@ -20,8 +20,6 @@ public class DriveEncoders implements Configurable
 	private static DriveEncoders instance = null;
 
 	LRTCANEncoder[] encoders;
-	
-	int[] initialValues;
 
 	static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
 	static double MAX_ENCODER_RATE; //TODO: Calibrate after running robot
@@ -34,7 +32,6 @@ public class DriveEncoders implements Configurable
 	public DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
 		encoders = new LRTCANEncoder[4];
-		initialValues = new int[4];
 		
 		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft);
 		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight);
@@ -115,6 +112,14 @@ public class DriveEncoders implements Configurable
 	public double GetTurnRevolutions()
 	{
 		return GetTurnTicks() / TICKS_PER_FULL_TURN;
+	}
+	
+	public void Reset()
+	{
+		for(LRTCANEncoder enc : encoders)
+		{
+			enc.reset();
+		}
 	}
 
 	public double GetTurnAngle()

@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 
-/*!
+/**
  * Implementation of a quadrature encoder attached to a Talon SRX
  */
-public class LRTCANEncoder {
-	
+public class LRTCANEncoder
+{
 	private CANTalon attachedEncoder = null;
 	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
 	private double minRate = 10; // units/period of time
@@ -20,19 +20,20 @@ public class LRTCANEncoder {
 	
 	public LRTCANEncoder(CANTalon talon)
 	{
-		if(talon == null)
-			throw new IllegalArgumentException("[ERROR] Talon must be already constructed");
-		attachedEncoder  = talon;
-		attachedEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		this(talon, 20);
 	}
 	
 	public LRTCANEncoder(CANTalon talon, int updatePeriod) //ms
 	{
-		attachedEncoder = talon;
+		if(talon == null)
+			throw new IllegalArgumentException("[ERROR] Talon must be already constructed");
+		attachedEncoder  = talon;
+		attachedEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
+		reset();
 	}
 	
-	public void Reset() 
+	public void reset() 
 	{
 		zeroCount = attachedEncoder.getEncPosition();
 	}
