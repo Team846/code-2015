@@ -9,6 +9,13 @@ public class Pivot
 	public Pivot(double r){
 		this.R = r;
 	}
+
+    public Pair<Double, Double> get(double angularChange) {
+        double W = angularVelocity(angularChange);
+        double strafe = strafeVelocity(W);
+
+        return new Pair<Double, Double>(W, strafe);
+    }
 	
 	public void update(double angularChange)
 	{

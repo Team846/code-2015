@@ -5,10 +5,12 @@ import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.control.Pivot;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.utils.MathUtils;
 
+import com.team846.frc2015.utils.Pair;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -34,6 +36,8 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
 	Axis axis;
 	private DrivetrainData drivetrainData;
+
+    private Pivot pivot = new Pivot(2);
 	
 	public enum Axis
 	{
@@ -151,6 +155,13 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //		{
 //			constRadius = !constRadius;
 //		}
+
+        if (driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.PIVOT)) {
+            double wheelRotation = driverWheel.getAxis(Joystick.AxisType.kX);
+            Pair<Double, Double> drivetrainValues = pivot.get(wheelRotation);
+            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, drivetrainValues.getFirst());
+            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, drivetrainValues.getSecond());
+        }
 	}
 	
 	public void Configure()
