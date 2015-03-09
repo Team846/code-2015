@@ -97,7 +97,7 @@ public class Drivetrain extends Component implements Configurable {
 			velocitySetpoint += PIDs[POSITION][axis.ordinal()].Update(1.0 / RobotConfig.LOOP_RATE);
 			if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
 				velocitySetpoint = MathUtils.Sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
-			System.out.println("RAW PID OUTPUT: " + velocitySetpoint);
+			AsyncPrinter.warn("RAW PID OUTPUT: " + velocitySetpoint);
 			rawOutput = velocitySetpoint;
 			
 			break;
@@ -176,10 +176,10 @@ public class Drivetrain extends Component implements Configurable {
 		leftBackOutput = MathUtils.clamp(leftBackOutput, -1.0, 1.0);
 		rightBackOutput = MathUtils.clamp(rightBackOutput, -1.0, 1.0);
 
-		DashboardLogger.getInstance().logDouble("drivetrain-leftFront", leftFrontOutput);
-		DashboardLogger.getInstance().logDouble("drivetrain-rightFront", rightFrontOutput);
-		DashboardLogger.getInstance().logDouble("drivetrain-leftBack", leftBackOutput);
-		DashboardLogger.getInstance().logDouble("drivetrain-rightBack", rightBackOutput);
+//		DashboardLogger.getInstance().logDouble("drivetrain-leftFront", leftFrontOutput);
+//		DashboardLogger.getInstance().logDouble("drivetrain-rightFront", rightFrontOutput);
+//		DashboardLogger.getInstance().logDouble("drivetrain-leftBack", leftBackOutput);
+//		DashboardLogger.getInstance().logDouble("drivetrain-rightBack", rightBackOutput);
 		
 //		 frontLeft.set(leftFrontOutput);
 //		 frontRight.set(rightFrontOutput);
@@ -258,7 +258,7 @@ public class Drivetrain extends Component implements Configurable {
 
 	private void ConfigurePIDObject(PID pid, String pidName, boolean feedForward)
 	{
-		double p = GetConfig(pidName + "_P", 2.0);
+		double p = GetConfig(pidName + "_P", 1.0);
 		double i = GetConfig(pidName + "_I", 0.0);
 		double d = GetConfig(pidName + "_D", 0.0);
 

@@ -15,7 +15,7 @@ import com.team846.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public class HumanLoad extends LoadTote {
+public class HumanLoad extends LoadTote implements Configurable{
 	
 	private ElevatorData elevatorData;
 	private CarriageHooksData hooksData;
@@ -34,6 +34,7 @@ public class HumanLoad extends LoadTote {
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
 		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		ConfigRuntime.Register(this);
 	}
 	
 	protected boolean Start()
@@ -83,4 +84,10 @@ public class HumanLoad extends LoadTote {
 		}
 		return ret;
 	}
+	
+	public void Configure()
+	{
+		
+	}
+	
 }

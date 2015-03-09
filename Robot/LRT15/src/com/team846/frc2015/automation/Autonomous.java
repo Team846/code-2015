@@ -33,13 +33,13 @@ public class Autonomous extends Sequential
 		ClearSequence();
 
 		double loadStartTime = System.currentTimeMillis();
-		try
-		{
+//		try
+//		{
 			loadRoutine(FindRoutine((int)Math.round(SmartDashboard.getNumber("DB/Slider 0")))); //Rounds value to int
-		} catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		//} catch (FileNotFoundException e)
+		//{
+		//	e.printStackTrace();
+		//}
 		double totalTime = System.currentTimeMillis() - loadStartTime;
 		AsyncPrinter.info("Parsed routine in " + totalTime + "ms");
 
@@ -95,8 +95,8 @@ public class Autonomous extends Sequential
 				for (int argsI = 0; argsI < argsSplit.length; argsI++)
 					argsSplit[argsI] = argsSplit[argsI].trim();
 
-				try
-				{
+//				try
+//				{
 					switch (command)
 					{
 
@@ -221,6 +221,16 @@ public class Autonomous extends Sequential
 							parallelRoutines.add(routine);
 						}
 						break;
+					case "loadAdditional+elevate":
+						switch (argsSplit.length)
+						{
+						case 1:
+							Sequential routine = new Sequential("LoadAdditionalElevate");
+							routine.AddAutomation(new LoadAdditional(true));
+							routine.AddAutomation(new Elevate(Integer.parseInt(argsSplit[0])));
+							parallelRoutines.add(routine);
+						}
+						break;
 					case "drive+sweep":
 						Parallel routine = new Parallel("DriveSweep", true);
 						switch (argsSplit.length)
@@ -254,19 +264,25 @@ public class Autonomous extends Sequential
 									Double.parseDouble(argsSplit[1]),
 									Double.parseDouble(argsSplit[2]),
 									Boolean.parseBoolean(argsSplit[3])));
-							if (argsSplit[4] == "left")
+							AsyncPrinter.error("sweep+arg: " + argsSplit[4]);
+//							if (argsSplit[4] == "left")
+//							{
+//
+//								AsyncPrinter.error("creatinglef+arg: " + argsSplit[4]);
 								routine.AddAutomation(new Sweep(Sweep.Direction.LEFT));
-							else if (argsSplit[4] == "right")
-								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
+//							}
+//							else if (argsSplit[4] == "right")
+//								routine.AddAutomation(new Sweep(Sweep.Direction.RIGHT));
 							break;
 						}
 						parallelRoutines.add(routine);
 						break;
 					}
-				} catch (Exception e)
-				{
-					AsyncPrinter.error( e.getMessage());
-				}
+					
+//				} catch (Exception e)
+//				{
+//					AsyncPrinter.error( e.toString());
+//				}
 			}
 			
 			if (parallelRoutines.size() == 0)
@@ -286,7 +302,7 @@ public class Autonomous extends Sequential
 		}
 	}
 
-	private boolean parseBoolean(String string) throws Exception
+	private boolean parseBoolean(String string)// throws Exception
 	{
 		if (string == "true")
 		{
@@ -296,11 +312,11 @@ public class Autonomous extends Sequential
 			return false;
 		} else
 		{
-			throw new Exception("unable to parse boolean: " + string);
+			return false;//throw new Exception("unable to parse boolean: " + string);
 		}
 	}
 
-	private File FindRoutine(int routineNumber) throws FileNotFoundException
+	private File FindRoutine(int routineNumber)// throws FileNotFoundException
 	{
 		File folder = new File(RobotConfig.AUTO_FOLDER_PATH);
 		File[] routines = folder.listFiles();
@@ -311,7 +327,7 @@ public class Autonomous extends Sequential
 			}
 		}
 		
-		throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
+		return null;//throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
 	}
 
 }

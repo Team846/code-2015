@@ -17,12 +17,13 @@ public class CollectorArmInputs extends InputProcessor {
 		RegisterResource(ControlResource.COLLECTOR_ARMS);
 		armData = CollectorArmData.get();
 		driverStick = LRTDriverStation.Instance().GetDriverStick();
+
 	}
 	@Override
 	public void Update() {
-		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT))
+		if(driverStick.IsButtonJustPressed(4))
 		{
-			armData.setDesiredPosition(ArmPosition.EXTEND);
+			armData.setDesiredPosition(armData.getCurrentCollectorPosition() == ArmPosition.EXTEND ? ArmPosition.STOWED : ArmPosition.EXTEND);
 			//AsyncPrinter.info("Extend Collector");
 		}
 

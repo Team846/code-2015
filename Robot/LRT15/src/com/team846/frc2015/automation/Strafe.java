@@ -47,9 +47,10 @@ public class Strafe extends Automation {
 
 	@Override
 	protected boolean Run() {
-		
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed);
+		drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0);
+		drivetrain.SetOpenLoopOutput(Axis.TURN, 0);
 		return timer.get() > time;
 	}
 

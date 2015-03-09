@@ -7,7 +7,7 @@ public class Pause extends Automation {
 	boolean timingCycles;
 	double time;
 	int cycles;
-	Timer timer;
+	Timer timer = new Timer();
 	int currentCycles;
 	
 	public Pause(double time)

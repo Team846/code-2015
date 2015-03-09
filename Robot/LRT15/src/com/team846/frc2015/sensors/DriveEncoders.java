@@ -94,10 +94,10 @@ public class DriveEncoders implements Configurable
 
 	public double GetRobotDist()
 	{
-		double frontDist = (GetWheelDist(Side.RIGHT_FRONT) + GetWheelDist(Side.RIGHT_BACK)) / 2.0;
-		double backDist =  (GetWheelDist(Side.LEFT_FRONT) + GetWheelDist(Side.LEFT_BACK)) / 2.0;
+		double rightDist = (GetWheelDist(Side.RIGHT_FRONT) + GetWheelDist(Side.RIGHT_BACK)) / 2.0;
+		double leftDist =  (GetWheelDist(Side.LEFT_FRONT) + GetWheelDist(Side.LEFT_BACK)) / 2.0;
 		
-		return frontDist + backDist / 2;
+		return (rightDist + leftDist) / 2;
 	}
 
 	public int GetTurnTicks()
@@ -130,7 +130,7 @@ public class DriveEncoders implements Configurable
 	public double GetWheelDist(Side side)
 	{
 		LRTCANEncoder e = encoders[side.ordinal()];
-		double dist = (double) ((e.get() * 1.0) / PULSES_PER_REVOLUTION
+		double dist = (double) ((e.get()) / PULSES_PER_REVOLUTION
 				* GEAR_RATIO * WHEEL_DIAMETER * Math.PI); // pulses / ( pulses / encoder revolution ) * encoder to wheel gear ratio * distance / wheel revolution = inch distance
 		return dist;
 	}

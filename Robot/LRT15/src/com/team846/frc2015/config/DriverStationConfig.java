@@ -26,6 +26,7 @@ public class DriverStationConfig {
 				
 		// Driver Joystick
 		public static final int COLLECT = 1;
+		public static final int ADVANCE_STATE =2;
 		
 		// Operator Joystick
 		public static final int EXTEND_CARRIAGE = 1;
@@ -39,14 +40,16 @@ public class DriverStationConfig {
 		public static final int ELEVATE_TWO = 6;
 		public static final int ELEVATE_THREE = 7;
 		public static final int ELEVATE_FOUR = 10;
-		public static final int ELEVATE_STEP = 9;
+		public static final int ELEVATE_STEP = 12;
 		
 		public static final int HUMAN_LOAD_START = 15;
 		public static final int HUMAN_LOAD_FINISH = 16;
 		
+		
+		
 		// Overrides
-		public static final int FRONT_HOOKS_OVERRIDE = 13;
-		public static final int BACK_HOOKS_OVERRIDE = 12;
+		public static final int HOOKS_OVERRIDE = 13;
+		public static final int LOAD_ADDITIONAL = 9;
 		public static final int ELEVATOR_OVERRIDE = 14;
 		public static final int CARRIAGE_OVERRIDE = 11;
 
@@ -59,6 +62,8 @@ public class DriverStationConfig {
 		public static final int DASHBOARD_ENABLE2 = 10;
 
 		public static final int PIVOT = 5;
+
+		public static final int SWEEP = 14;
 	}
 	
 	public class DigitalIns

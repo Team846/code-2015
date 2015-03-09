@@ -57,10 +57,9 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateEnabled() 
 	{
+		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 		int position = carriagePot.getAverageValue();
 		
-		DashboardLogger.getInstance().logInt("extender-pot", position);
-		DashboardLogger.getInstance().logInt("extender-retractSoftLimit", retractSoftLimit);
 		
 		if(extenderData.getControlMode() == CarriageControlMode.SETPOINT)
 		{
@@ -89,7 +88,7 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateDisabled() {
 		carriageMotor.set(0.0);
-		//AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+		
 	}
 
 	@Override

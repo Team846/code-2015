@@ -1,6 +1,7 @@
 package com.team846.frc2015.componentData;
 
 import com.team846.frc2015.componentData.ComponentData;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 public class CollectorRollersData extends ComponentData
 {
@@ -50,11 +51,26 @@ public class CollectorRollersData extends ComponentData
 	
 	public void setDirection(Direction d)
 	{
-		direction = d;
+		//try{
+			direction = d;
+//			throw new Exception();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+		
 	}
 	
 	public Direction getDirection()
 	{
+//		try{
+//			throw new Exception();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 		return direction;
 	}
 	

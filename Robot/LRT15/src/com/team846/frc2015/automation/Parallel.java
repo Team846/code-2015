@@ -8,7 +8,7 @@ import com.team846.frc2015.automation.Automation.RoutineOption;
 public class Parallel extends Automation {
 
 	 private boolean abortOnFirst = false;
-	 private ArrayList<Automation> routines;
+	 private ArrayList<Automation> routines = new ArrayList<Automation>();
 	 private ArrayList<Automation> running = new ArrayList<Automation>();
 	 
 	 public Parallel(String name)
@@ -72,7 +72,7 @@ public class Parallel extends Automation {
 			else
 			{
 				iter.remove();
-				iter.previous();
+				//iter.previous();
 				if(abortOnFirst)
 					completed = true;
 			}
@@ -97,7 +97,7 @@ public class Parallel extends Automation {
 			else
 			{
 				iter.remove();
-				iter.previous();
+				//iter.previous();
 				//.previous();
 			}
 		}

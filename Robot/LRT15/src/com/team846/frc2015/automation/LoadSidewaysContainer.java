@@ -19,23 +19,26 @@ public class LoadSidewaysContainer extends LoadItem implements Configurable {
 	
 	public LoadSidewaysContainer(boolean auto) {
 		super("LoadSidewaysContainer", ElevatorData.ElevatorSetpoint.COLLECT_SIDEWAYS_CONTAINER,
-				ElevatorData.ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER, auto);
+				ElevatorData.ElevatorSetpoint.GRAB_SIDEWAYS_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_SIDEWAYS_CONTAINER,0, auto);
 		ConfigRuntime.Register(this);
 
 	}
 	
 	protected boolean Abort() {
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent
-				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetButton() == DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER
+				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetButton() == DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER
 				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick()))
 			return false;
 		else
 			return super.Abort();
 	}
+	
+	
 
 	@Override
 	public void Configure() {
-		// TODO Auto-generated method stub
+		int toteAnalogValue = GetConfig("analog_container_value", 600);
+		super.setAnalogThreshold(toteAnalogValue);
 		
 	}
 }

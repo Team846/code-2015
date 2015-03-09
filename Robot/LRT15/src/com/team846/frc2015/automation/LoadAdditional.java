@@ -14,17 +14,19 @@ import com.team846.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public class LoadTote extends LoadItem implements Configurable {
-	
+public class LoadAdditional extends LoadItem implements Configurable {
+
+	private CarriageHooksData hooksData;
 	private int toteAnalogValue = 0;
 
-	public LoadTote(boolean auto)
+	public LoadAdditional(boolean auto)
 	{
-		super("LoadTote", ElevatorSetpoint.COLLECT_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE,0, auto );
+		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto );
+		hooksData = CarriageHooksData.get();
 		ConfigRuntime.Register(this);
 	}
 	
-	public LoadTote()
+	public LoadAdditional()
 	{
 		this(false);
 	}
@@ -40,10 +42,22 @@ public class LoadTote extends LoadItem implements Configurable {
 	protected boolean Abort()
 	{
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.LOAD_TOTE
+				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick())
 			return false;
 		else
 			return super.Abort();
+	}
+	
+	@Override
+	public boolean Run()
+	{
+		boolean ret = super.Run();
+		if (state == State.GRAB)
+		{
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
+		}
+		return ret;
 	}
 }

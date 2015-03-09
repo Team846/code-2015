@@ -47,7 +47,8 @@ public class CollectorArms extends Component
 	protected void UpdateDisabled() {
 		arms.set(State.OFF);
 		
-		
+		//AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
+
 	}
 
 	@Override

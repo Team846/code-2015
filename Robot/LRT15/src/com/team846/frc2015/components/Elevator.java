@@ -40,6 +40,7 @@ public class Elevator extends Component implements Configurable {
 	private int[] elevatorSetpoints;
 	
 	private int errorThreshold;
+	private boolean freezePosition;
 	
 	double positionGain;
 
@@ -68,6 +69,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateEnabled() {
 
 		int currentPosition = elevatorPot.getAverageValue();
+//		AsyncPrinter.warn("Current Pos: " + currentPosition);
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
@@ -99,6 +101,7 @@ public class Elevator extends Component implements Configurable {
 				return;
 			}
 			int posErr = desiredPos - currentPosition;
+			
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
 			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
@@ -153,7 +156,7 @@ public class Elevator extends Component implements Configurable {
 
 	@Override
 	public void Configure() {
-		topSoftLimit = GetConfig("elevatorZero", 100);
+		topSoftLimit = GetConfig("topLimit", 100);
 		
 		// Everything is offset from topSoftLimit
 		bottomSoftLimit = topSoftLimit + GetConfig("bottomLimit", 10);

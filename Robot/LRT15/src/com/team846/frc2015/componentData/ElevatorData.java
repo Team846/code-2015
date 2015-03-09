@@ -1,5 +1,7 @@
 package com.team846.frc2015.componentData;
 
+import com.team846.frc2015.utils.AsyncPrinter;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class ElevatorData extends ComponentData{
@@ -71,10 +73,10 @@ public class ElevatorData extends ComponentData{
 
 	public void setSetpoint(ElevatorSetpoint s)
 	{
-		if (s != setpoint)
-		{
-			currentSetpoint = ElevatorSetpoint.NONE;
-		}
+//		if (s != setpoint)
+//		{
+//			currentSetpoint = ElevatorSetpoint.NONE;
+//		}
 		setpoint = s;
 	}
 	
@@ -83,10 +85,10 @@ public class ElevatorData extends ComponentData{
 	}
 
 	public void setControlMode(ElevatorControlMode control) {
-		if (controlMode != control)
-		{
-			currentSetpoint = ElevatorSetpoint.NONE;
-		}
+//		if (controlMode != control)
+//		{
+//			currentSetpoint = ElevatorSetpoint.NONE;
+//		}
 		this.controlMode = control;
 	}
 	
@@ -98,6 +100,11 @@ public class ElevatorData extends ComponentData{
 	public void setCurrentPosition(ElevatorSetpoint s)
 	{
 		currentSetpoint = s;
+	}
+	
+	public ElevatorSetpoint getCurrentSetpoint()
+	{
+		return currentSetpoint;
 	}
 	
 	public boolean isAtPosition(double isAtPosition)

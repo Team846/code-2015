@@ -17,6 +17,7 @@ import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.sensors.SensorFactory;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
@@ -128,9 +129,10 @@ public abstract class LoadItem extends Automation{
 					rollersData.setSpeed(1.0);
 					
 					System.out.println(sensor.getAverageValue());
-					if(sensor.getAverageValue() > analogThreshold)
+					if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto &&  sensor.getAverageValue() > analogThreshold)
+							|| (auto && sensor.getAverageValue() > analogThreshold))
 					{
-						rollersData.setSpeed(0.05);
+						rollersData.setSpeed(0.1);
 						hasItem = true;
 						state = State.GRAB;
 					}
@@ -146,7 +148,9 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setSetpoint(grab);
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.05);
+				rollersData.setSpeed(0.2);
+				armData.setDesiredPosition(ArmPosition.EXTEND);
+				//AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
 				if (elevatorData.isAtSetpoint(grab))
 				{
 					hooksData.setBackHooksDesiredState(HookState.DOWN);
@@ -159,7 +163,10 @@ public abstract class LoadItem extends Automation{
 			{
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.05);
+				rollersData.setSpeed(0.2);
+				armData.setDesiredPosition(ArmPosition.EXTEND);
+				hooksData.setBackHooksDesiredState(HookState.DOWN);
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				if (waitTicks++ > requiredWaitCycles)
 				{
 					state = State.HOME;
@@ -170,28 +177,32 @@ public abstract class LoadItem extends Automation{
 			{
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.05);
+				rollersData.setSpeed(0.2);
+				armData.setDesiredPosition(ArmPosition.EXTEND);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(home);
+				if(elevatorData.isAtSetpoint(home))
+				{
+					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+					elevatorData.setDesiredSpeed(0.0);
+					
+					if (auto)
+					{
+						armData.setDesiredPosition(ArmPosition.STOWED);
+						rollersData.setRunning(false);
+						
+						hooksData.setBackHooksDesiredState(HookState.DOWN);
+						hooksData.setFrontHooksDesiredState(HookState.DOWN);
+						return true;
+					}
+					
+				}
 				break;
 			}
 		}
 		System.out.println(state);
-		if(auto && elevatorData.isAtSetpoint(home))
-		{
-			elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-			elevatorData.setDesiredSpeed(0.0);
-			
-			armData.setDesiredPosition(ArmPosition.STOWED);
-			rollersData.setRunning(false);
-			
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-			hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			return true;
-		}
-		
 		return false;
 	}
 	
