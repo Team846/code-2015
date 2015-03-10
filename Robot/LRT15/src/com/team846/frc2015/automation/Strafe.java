@@ -4,6 +4,7 @@ import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.sensors.DriveEncoders;
+import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -13,7 +14,7 @@ public class Strafe extends Automation {
 	private DrivetrainData drivetrain;
 	private Timer timer;
 	
-	public Strafe(double time)
+	public Strafe(double time) //seconds
 	{
 		this(time, 1.0);
 	}
@@ -47,10 +48,12 @@ public class Strafe extends Automation {
 
 	@Override
 	protected boolean Run() {
+		AsyncPrinter.error("Current Time: " + timer.get() + " thresh: " + time);
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed);
-		drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0);
-		drivetrain.SetOpenLoopOutput(Axis.TURN, 0);
+		AsyncPrinter.warn("Applied Throttle: " + drivetrain.GetOpenLoopOutput(Axis.STRAFE));
+//		drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0);
+//		drivetrain.SetOpenLoopOutput(Axis.TURN, 0);
 		return timer.get() > time;
 	}
 

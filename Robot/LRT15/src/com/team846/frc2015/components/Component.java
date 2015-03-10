@@ -37,11 +37,11 @@ public abstract class Component
 	public static void CreateComponents()
 	{
 		component_list.add(new Drivetrain());
-		component_list.add(new CollectorArms());
-		component_list.add(new CollectorRollers());
-		component_list.add(new CarriageExtender());
-		component_list.add(new CarriageHooks());
-		component_list.add(new Elevator());
+//		component_list.add(new CollectorArms());
+//		component_list.add(new CollectorRollers());
+//		component_list.add(new CarriageExtender());
+//		component_list.add(new CarriageHooks());
+//		component_list.add(new Elevator());
 	}
 	
 
@@ -57,7 +57,7 @@ public abstract class Component
 	{
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{
-			if (digitalIn == DriverStationConfig.DigitalIns.NO_DS_DI /*|| DriverStation.getInstance().getDigitalIn(digitalIn)*/) //TODO: find digital in replacement
+			if (digitalIn == DriverStationConfig.DigitalIns.NO_DS_DI )
 			{
 				if (!lastEnabled)
 					OnEnabled();

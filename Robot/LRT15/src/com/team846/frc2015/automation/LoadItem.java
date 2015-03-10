@@ -129,7 +129,7 @@ public abstract class LoadItem extends Automation{
 					rollersData.setSpeed(1.0);
 					
 					System.out.println(sensor.getAverageValue());
-					if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto &&  sensor.getAverageValue() > analogThreshold)
+					if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
 							|| (auto && sensor.getAverageValue() > analogThreshold))
 					{
 						rollersData.setSpeed(0.1);

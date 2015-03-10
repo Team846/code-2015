@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import com.team846.frc2015.actuators.LRTSpeedController;
 import com.team846.frc2015.actuators.LRTTalon;
+import com.team846.frc2015.componentData.CollectorArmData;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.ComponentData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
@@ -43,6 +45,8 @@ public class Elevator extends Component implements Configurable {
 	private boolean freezePosition;
 	
 	double positionGain;
+	private int collectorOutThreshold;
+	private CollectorArmData armData;
 
 	public Elevator() {
 		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
@@ -56,6 +60,7 @@ public class Elevator extends Component implements Configurable {
 				ConfigPortMappings.Instance().get("Analog/ELEVATOR_POT"));
 		
 		elevatorData = ElevatorData.get();
+		armData = CollectorArmData.get();
 		
 		positionGain = 0;
 		
@@ -125,6 +130,14 @@ public class Elevator extends Component implements Configurable {
 			if (value > 0)
 				value = 0;
 		}
+		else
+		{
+//			if(armData.getCurrentCollectorPosition() == ArmPosition.EXTEND)
+//			{
+//				if(currentPosition >= collectorOutThreshold)
+//					value = 0;
+//			}
+		}
 		motorA.set(value);
 		motorB.set(value);
 	}
@@ -164,6 +177,8 @@ public class Elevator extends Component implements Configurable {
 		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
+		
+		collectorOutThreshold = GetConfig("collectorOutThreshold", 2000);
 		
 		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = topSoftLimit + GetConfig("tote1", 50);

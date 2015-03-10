@@ -8,9 +8,10 @@ import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.Pivot;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
-
 import com.team846.frc2015.utils.Pair;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -144,7 +145,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		{
 			double strafe = driverStick.getAxis(Joystick.AxisType.kX);
 			
-			
+			AsyncPrinter.error("STRAFE IS RUNNING");
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);
@@ -157,6 +158,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //		}
 
         if (driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.PIVOT)) {
+        	AsyncPrinter.error("Pivot is a mistake");
             double wheelRotation = driverWheel.getAxis(Joystick.AxisType.kX);
             Pair<Double, Double> drivetrainValues = pivot.get(wheelRotation);
             drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, drivetrainValues.getFirst());

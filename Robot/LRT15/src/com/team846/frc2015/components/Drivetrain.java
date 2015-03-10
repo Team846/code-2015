@@ -159,6 +159,7 @@ public class Drivetrain extends Component implements Configurable {
 			double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD); 
 			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); 
 			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); 
+			AsyncPrinter.warn("strafe out: " + strafeOutput);
 			
 			double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
 			double rightFrontRawOutput = fwdOutput - turnOutput - strafeOutput;
