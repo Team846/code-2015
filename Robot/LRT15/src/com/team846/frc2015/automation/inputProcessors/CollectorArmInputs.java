@@ -21,10 +21,10 @@ public class CollectorArmInputs extends InputProcessor {
 	}
 	@Override
 	public void Update() {
-		if(driverStick.IsButtonJustPressed(4))
+		if(driverStick.IsButtonDown(4))
 		{
-			armData.setDesiredPosition(armData.getCurrentCollectorPosition() == ArmPosition.EXTEND ? ArmPosition.STOWED : ArmPosition.EXTEND);
-			//AsyncPrinter.info("Extend Collector");
+			armData.setDesiredPosition(ArmPosition.EXTEND);
+			AsyncPrinter.info("Extend Collector");
 		}
 
 	}

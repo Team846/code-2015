@@ -6,6 +6,7 @@ import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMod
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -30,14 +31,15 @@ public class CarriageExtenderInputs extends InputProcessor {
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE))
 		{
 			extenderData.setControlMode(CarriageControlMode.POSITION);
-			double pos = MathUtils.clamp(-operatorStick.getAxis(AxisType.kY),0.0,1.0);
-			extenderData.setPositionSetpoint(pos);
+			extenderData.setPositionSetpoint(1.0);
+			extenderData.setMaxSpeed(0.3);
 		}
 		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.CARRIAGE_OVERRIDE))
 		{
 			extenderData.setControlMode(CarriageControlMode.VELOCITY);
 			double speed = MathUtils.clamp(-operatorStick.getAxis(AxisType.kY),-1.0,1.0);
 			extenderData.setSpeed(speed);
+			AsyncPrinter.println("value: " + speed);
 		}
 	}
 

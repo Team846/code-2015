@@ -35,7 +35,7 @@ public class CollectorArmData extends ComponentData
 		return desiredPosition;
 	}
 	
-	public ArmPosition getCurrentCollectorPosition()
+	public ArmPosition getCurrentPosition()
 	{
 		return currentPosition;
 	}

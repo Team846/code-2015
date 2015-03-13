@@ -145,20 +145,13 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		{
 			double strafe = driverStick.getAxis(Joystick.AxisType.kX);
 			
-			AsyncPrinter.error("STRAFE IS RUNNING");
+		//	AsyncPrinter.error("STRAFE IS RUNNING");
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);
 		}
-		
-	
-//		if (driverWheel.IsButtonJustPressed(DriverStationConfig.JoystickButtons.REVERSE_DRIVE))
-//		{
-//			constRadius = !constRadius;
-//		}
 
         if (driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.PIVOT)) {
-        	AsyncPrinter.error("Pivot is a mistake");
             double wheelRotation = driverWheel.getAxis(Joystick.AxisType.kX);
             Pair<Double, Double> drivetrainValues = pivot.get(wheelRotation);
             drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, drivetrainValues.getFirst());

@@ -52,6 +52,7 @@ public class Autonomous extends Sequential
 	{
 		AllocateResource(ControlResource.DRIVE);
 		AllocateResource(ControlResource.TURN);
+		AllocateResource(ControlResource.STRAFE);
 		AllocateResource(ControlResource.ELEVATOR);
 		AllocateResource(ControlResource.COLLECTOR_ARMS);
 		AllocateResource(ControlResource.COLLECTOR_ROLLERS);
@@ -99,6 +100,14 @@ public class Autonomous extends Sequential
 //				{
 					switch (command)
 					{
+					case "test":
+						switch (argsSplit.length)
+						{
+						case 0:
+							parallelRoutines.add( new TestRoutine());
+							break;
+						}
+						break;
 
 					case "elevate":
 						switch (argsSplit.length)

@@ -13,7 +13,7 @@ public class Sweep extends Automation {
 	private CollectorArmData armData;
 	private CollectorRollersData rollersData;
 	
-	enum Direction
+	public enum Direction
 	{
 		LEFT,
 		RIGHT

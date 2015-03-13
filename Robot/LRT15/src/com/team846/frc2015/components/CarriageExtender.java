@@ -64,7 +64,7 @@ public class CarriageExtender extends Component implements Configurable
 		if(extenderData.getControlMode() == CarriageControlMode.SETPOINT)
 		{
 			double error = 0.0;
-			if(extenderData.getAutomatedSetpoint() == Setpoint.RETRACT)
+			if(extenderData.getSetpoint() == Setpoint.RETRACT)
 				 error = Math.abs(retractSetpoint - position) <  errorThreshold ? 0.0 : (retractSetpoint - position ) / maxRange;
 			else
 				 error = Math.abs(extendSetpoint - position) <  errorThreshold ? 0.0 : (extendSetpoint - position) / maxRange;
@@ -88,7 +88,7 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateDisabled() {
 		carriageMotor.set(0.0);
-		
+		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 	}
 
 	@Override

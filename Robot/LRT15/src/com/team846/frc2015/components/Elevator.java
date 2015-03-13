@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.team846.frc2015.actuators.LRTSpeedController;
 import com.team846.frc2015.actuators.LRTTalon;
+import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.ComponentData;
@@ -47,6 +48,7 @@ public class Elevator extends Component implements Configurable {
 	double positionGain;
 	private int collectorOutThreshold;
 	private CollectorArmData armData;
+	private CarriageExtenderData extenderData;
 
 	public Elevator() {
 		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
@@ -61,6 +63,7 @@ public class Elevator extends Component implements Configurable {
 		
 		elevatorData = ElevatorData.get();
 		armData = CollectorArmData.get();
+		extenderData = CarriageExtenderData.get();
 		
 		positionGain = 0;
 		
@@ -74,7 +77,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateEnabled() {
 
 		int currentPosition = elevatorPot.getAverageValue();
-//		AsyncPrinter.warn("Current Pos: " + currentPosition);
+		//AsyncPrinter.warn("Current Pos: " + currentPosition);
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
@@ -130,13 +133,12 @@ public class Elevator extends Component implements Configurable {
 			if (value > 0)
 				value = 0;
 		}
-		else
+		else if(currentPosition >= collectorOutThreshold && 
+				Math.abs(extenderData.getCurrentPosition()) < 0.05 &&
+				armData.getCurrentPosition() == ArmPosition.EXTEND)
 		{
-//			if(armData.getCurrentCollectorPosition() == ArmPosition.EXTEND)
-//			{
-//				if(currentPosition >= collectorOutThreshold)
-//					value = 0;
-//			}
+				if (value > 0)
+					value = 0;
 		}
 		motorA.set(value);
 		motorB.set(value);
@@ -146,7 +148,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
-		//AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
+		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override
@@ -177,9 +179,7 @@ public class Elevator extends Component implements Configurable {
 		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
-		
-		collectorOutThreshold = GetConfig("collectorOutThreshold", 2000);
-		
+				
 		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = topSoftLimit + GetConfig("tote1", 50);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_2.ordinal()]= topSoftLimit + GetConfig("tote2", 60);

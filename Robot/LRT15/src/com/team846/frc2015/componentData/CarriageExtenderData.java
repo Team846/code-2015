@@ -70,7 +70,7 @@ public class CarriageExtenderData extends ComponentData
 		setpoint = set;
 	}
 	
-	public Setpoint getAutomatedSetpoint()
+	public Setpoint getSetpoint()
 	{
 		return setpoint;
 	}

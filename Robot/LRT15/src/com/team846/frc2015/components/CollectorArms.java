@@ -10,12 +10,15 @@ import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class CollectorArms extends Component 
 {
 	Pneumatics arms;
 	CollectorArmData armData;
-	AnalogInput sensor = SensorFactory.GetAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
+//	DigitalInput leftReed;
+//	DigitalInput rightReed;
+	AnalogInput sensor;
 	
 	public CollectorArms()
 	{
@@ -25,6 +28,14 @@ public class CollectorArms extends Component
 				 ConfigPortMappings.Instance().get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
 		 
 		 armData = CollectorArmData.get();
+		 
+//		 leftReed = SensorFactory.GetDigitalInput(
+//				 ConfigPortMappings.Instance().get("Digital/LEFT_REED"));
+//		 rightReed = SensorFactory.GetDigitalInput(
+//				 ConfigPortMappings.Instance().get("Digital/RIGHT_REED"));
+		 
+//		 sensor = SensorFactory.GetAnalogInput(
+//				 ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
 	}
 
 	@Override
@@ -39,7 +50,13 @@ public class CollectorArms extends Component
 		
 		arms.set(state);
 		armData.setCurrentCollectorPosition(state == State.FORWARD ? ArmPosition.EXTEND : ArmPosition.STOWED);
-		AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
+		
+//		if(leftReed.get() || rightReed.get())
+//			armData.setCurrentCollectorPosition( ArmPosition.EXTEND);
+//		else
+//			armData.setCurrentCollectorPosition( ArmPosition.STOWED);
+		
+	//	AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
 		
 	}
 
