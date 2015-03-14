@@ -17,20 +17,40 @@ public class LRTCANEncoder
 	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
 	private double minRate = 10; // units/period of time
 	private double prevRate = 0;
+	private boolean reverse;
 	
+	public boolean isReverse() {
+		return reverse;
+	}
+
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+
 	public LRTCANEncoder(CANTalon talon)
 	{
-		this(talon, 20);
+		this(talon, 20, false);
 	}
 	
-	public LRTCANEncoder(CANTalon talon, int updatePeriod) //ms
+	public LRTCANEncoder(CANTalon talon, boolean reverse)
+	{
+		this(talon, 20, reverse);
+	}
+	
+	public LRTCANEncoder(CANTalon talon, int updatePeriod, boolean reverse) //ms
 	{
 		if(talon == null)
 			throw new IllegalArgumentException("[ERROR] Talon must be already constructed");
-		attachedEncoder  = talon;
+		this.reverse = reverse;
+		attachedEncoder = talon;
 		attachedEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
 		reset();
+	}
+	
+	public CANTalon getTalon()
+	{
+		return attachedEncoder;
 	}
 	
 	public void reset() 
@@ -45,22 +65,27 @@ public class LRTCANEncoder
 	public double getRate() 
 	{
 		double encVel = attachedEncoder.getEncVelocity();
-		if( encVel < minRate || encVel == prevRate)
+		if( Math.abs(encVel) < minRate || encVel == prevRate)
 		{
 			prevRate = encVel;
 			return 0.0;
 		}
 		prevRate = encVel;
 		
+		if(reverse)
+			encVel = -encVel;
 		return encVel;
 	}
 
 	/**
-	 * Gets the currente encoder ticks from the attached encoder
+	 * Gets the current encoder ticks from the attached encoder
 	 * @return current encoder ticks
 	 */
 	public int get() 
 	{
-		return attachedEncoder.getEncPosition() - zeroCount;
+		int count = attachedEncoder.getEncPosition() - zeroCount;
+		if(reverse)
+			count = -count;
+		return count;
 	}
 }

@@ -63,7 +63,7 @@ public class DriverStationConfig {
 
 		public static final int PIVOT = 5;
 
-		public static final int SWEEP = 14;
+		public static final int DRIVER_SWEEP = 3;
 	}
 	
 	public class DigitalIns

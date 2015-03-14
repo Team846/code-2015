@@ -27,12 +27,13 @@ public class CarriageExtenderInputs extends InputProcessor {
 
 		extenderData.setControlMode(CarriageControlMode.POSITION);
 		extenderData.setPositionSetpoint(0.0);
+		extenderData.setMaxSpeed(0.5);
 		
 		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE))
 		{
 			extenderData.setControlMode(CarriageControlMode.POSITION);
 			extenderData.setPositionSetpoint(1.0);
-			extenderData.setMaxSpeed(0.3);
+			extenderData.setMaxSpeed(0.5);
 		}
 		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.CARRIAGE_OVERRIDE))
 		{

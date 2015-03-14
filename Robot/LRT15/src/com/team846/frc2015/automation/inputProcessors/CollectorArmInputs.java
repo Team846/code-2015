@@ -21,10 +21,10 @@ public class CollectorArmInputs extends InputProcessor {
 	}
 	@Override
 	public void Update() {
-		if(driverStick.IsButtonDown(4))
+		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP))
 		{
 			armData.setDesiredPosition(ArmPosition.EXTEND);
-			AsyncPrinter.info("Extend Collector");
+			//AsyncPrinter.info("Extend Collector");
 		}
 
 	}

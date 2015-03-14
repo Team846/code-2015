@@ -24,7 +24,7 @@ public class JoystickMovedEvent extends Event {
 	public boolean CheckCondition() {
         if (m_axis == 0)	
         {	
-                for (int i = 1; i <= m_joystick.GetNumAxes(); i++)
+                for (int i = 0; i < m_joystick.GetNumAxes(); i++)
                 {	
                         if (Math.abs(m_joystick.getRawAxis(i)) >= m_sensitivity)	
                         {	

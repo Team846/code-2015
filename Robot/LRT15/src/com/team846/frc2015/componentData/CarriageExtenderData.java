@@ -99,6 +99,7 @@ public class CarriageExtenderData extends ComponentData
 	protected void ResetCommands() 
 	{
 		speed = 0.0;
+		maxSpeed = 1.0;
 		control = CarriageControlMode.VELOCITY;
 		setpoint = Setpoint.RETRACT;
 	}

@@ -133,13 +133,13 @@ public class Elevator extends Component implements Configurable {
 			if (value > 0)
 				value = 0;
 		}
-		else if(currentPosition >= collectorOutThreshold && 
-				Math.abs(extenderData.getCurrentPosition()) < 0.05 &&
-				armData.getCurrentPosition() == ArmPosition.EXTEND)
-		{
-				if (value > 0)
-					value = 0;
-		}
+//		else if(currentPosition >= collectorOutThreshold && 
+//				Math.abs(extenderData.getCurrentPosition()) > 0.1 &&
+//				armData.getCurrentPosition() == ArmPosition.EXTEND)
+//		{
+//				if (value > 0)
+//					value = 0;
+//		}
 		motorA.set(value);
 		motorB.set(value);
 	}
@@ -148,7 +148,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
-		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
+		//AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override
@@ -179,6 +179,7 @@ public class Elevator extends Component implements Configurable {
 		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
+		collectorOutThreshold = topSoftLimit + GetConfig("collectorInterlock", 2000);
 				
 		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
 		elevatorSetpoints[ElevatorSetpoint.TOTE_1.ordinal()] = topSoftLimit + GetConfig("tote1", 50);

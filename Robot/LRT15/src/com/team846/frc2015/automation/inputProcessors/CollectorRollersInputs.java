@@ -37,7 +37,7 @@ public class CollectorRollersInputs extends InputProcessor
 			collectorRollers.setDirection(Direction.INTAKE);
 			collectorRollers.setSpeed(1.0);
 		}
-		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.SWEEP))
+		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.SWEEP_LEFT);

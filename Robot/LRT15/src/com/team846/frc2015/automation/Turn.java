@@ -24,12 +24,17 @@ public class Turn extends Automation {
 
 	public Turn()
 	{
-		super("Turn");
-		angle = 0;
-		maxSpeed = 0;
-		errorThreshold = 0;
-		
-		drivetrain = DrivetrainData.get();
+		this(0,0,0);
+	}
+	
+	public Turn(double angle)
+	{
+		this(angle, 1.0, 5);
+	}
+	
+	public Turn(double angle, double maxSpeed)
+	{
+		this(angle, maxSpeed, 5);
 	}
 
 	void setAngle(double angle)

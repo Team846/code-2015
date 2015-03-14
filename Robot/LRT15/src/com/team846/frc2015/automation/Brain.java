@@ -55,11 +55,12 @@ public class Brain
 	private Brain()
 	{	
 		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
-		LRTJoystick driverStick = LRTDriverStation.Instance().GetOperatorStick();
+		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
 		
 		createInputProcessors();
 
 		// All automation routines		
+		//NOT BEING USED
 		Automation auton = new Autonomous();
 	
 		Automation load_tote = new LoadTote();
@@ -70,6 +71,33 @@ public class Brain
 		
 		Automation releaseStack = new ReleaseStack();
 		
+		//rip scripted autonomous
+		Automation auton_fake = new Drive(116, 0.5, 3);
+		
+		Sequential auton_fake_yellowYOLO = new Sequential("yellowTote");
+		auton_fake_yellowYOLO.AddAutomation(new LoadTote(true));
+		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
+		auton_fake_yellowYOLO.AddAutomation(new Drive(116,0.5,3));
+		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
+		Parallel dropAndPop = new Parallel("DropMoveBack");
+		dropAndPop.AddAutomation(new ReleaseStack());
+		dropAndPop.AddAutomation(new Drive(36, 0.5));
+		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
+		
+		Sequential auton_fake_container = new Sequential("container");
+		auton_fake_container.AddAutomation(new LoadUprightContainer(true));
+		auton_fake_container.AddAutomation(new Turn(90.0,0.5));
+		auton_fake_container.AddAutomation(new Drive(116,0.5,3));
+		auton_fake_container.AddAutomation(new Turn(90.0,0.5));
+		Parallel greenDropAndPop = new Parallel("ContainerDropMoveBack");
+		greenDropAndPop .AddAutomation(new ReleaseStack());
+		greenDropAndPop .AddAutomation(new Drive(36, 0.5));
+		auton_fake_container.AddAutomation(greenDropAndPop );
+		
+		
+		
+		
+		
 		// Declare event triggers
 		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
 		Event driver_stick_moved = new JoystickMovedEvent(driverStick);
@@ -77,6 +105,10 @@ public class Brain
 		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
 		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
 		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
+		
+		Event driverAbort = new JoystickPressedEvent(driverStick, 8);
+		
+		Event driverSweep = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIVER_SWEEP);
 		
 		Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
 		Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
@@ -103,12 +135,24 @@ public class Brain
 		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		
+		//SHOULD BE ENABLED LATER
+//		// Map events to routines
+//		//to_auto.AddStartListener(auton);
+//		driver_stick_moved.AddAbortListener(auton);
+//		operator_stick_moved.AddAbortListener(auton);
+//		driver_stick_pressed.AddAbortListener(auton);
+//		operator_stick_pressed.AddAbortListener(auton);
+//		driverAbort.AddAbortListener(auton);
+////		disabled_timeout.AddAbortListener(auton);
+		
 		// Map events to routines
-		to_auto.AddStartListener(auton);
-		driver_stick_moved.AddAbortListener(auton);
-		operator_stick_moved.AddAbortListener(auton);
-		driver_stick_pressed.AddAbortListener(auton);
-		operator_stick_pressed.AddAbortListener(auton);
+		//SCRIPTING IS A LIE
+		to_auto.AddStartListener(auton_fake);
+		driver_stick_moved.AddAbortListener(auton_fake);
+		operator_stick_moved.AddAbortListener(auton_fake);
+		driver_stick_pressed.AddAbortListener(auton_fake);
+		operator_stick_pressed.AddAbortListener(auton_fake);
+		driverAbort.AddAbortListener(auton_fake);
 //		disabled_timeout.AddAbortListener(auton);
 		
 		release_stack_start.AddStartListener(releaseStack);
@@ -181,6 +225,12 @@ public class Brain
 		load_abort_step.AddAbortListener(load_upright_container);
 		load_abort_step.AddAbortListener(human_load);
 		load_abort_step.AddAbortListener(load_additional);
+		
+		driverSweep.AddAbortListener(load_tote);
+		driverSweep.AddAbortListener(load_additional);
+		driverSweep.AddAbortListener(load_sideways_container);
+		driverSweep.AddAbortListener(human_load);
+		driverSweep.AddAbortListener(load_upright_container);
 
 	}
 	
@@ -223,7 +273,7 @@ public class Brain
 					if (ret)
 					{
 						runningTasks.add(e.getKey());
-						it.remove(); //TODO: check remove/erase compatibbility
+						it.remove(); 
 					}
 				}
 	        }

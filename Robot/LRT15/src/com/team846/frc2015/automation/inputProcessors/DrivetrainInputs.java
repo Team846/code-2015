@@ -79,8 +79,8 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		if (axis == Axis.DRIVE)
 		{
 			drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
-			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, (float)forward);
-			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.FORWARD, (float)forward);
+			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, (float)(forward));
+			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.FORWARD, (float)(forward * 0.75));
 		}
 		else if (axis == Axis.TURN)
 		{
@@ -167,6 +167,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 		throttleExponent = GetConfig("throttle_exponent", 1);
 		strafeExponent = GetConfig("strafeExponent", 1);
 		deadband = GetConfig("deadband", 0.04);
+		
 		//negInertiaScalar = GetConfig("neg_inertia_scalar", 5.0);
 	}
 

@@ -33,10 +33,16 @@ public class DriveEncoders implements Configurable
 	{
 		encoders = new LRTCANEncoder[4];
 		
-		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft);
-		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight);
-		encoders[Side.LEFT_BACK.ordinal()] = new LRTCANEncoder(backLeft);
-		encoders[Side.RIGHT_BACK.ordinal()] = new LRTCANEncoder(backRight);
+		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft, true);
+		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight, false);
+		encoders[Side.LEFT_BACK.ordinal()] = new LRTCANEncoder(backLeft, true);
+		encoders[Side.RIGHT_BACK.ordinal()] = new LRTCANEncoder(backRight, false);
+		
+		//TODO: reverse not working, check later
+//		//NOTE: Reverse left encoders
+//		encoders[Side.LEFT_BACK.ordinal()].getTalon().reverseSensor(true);// = new LRTCANEncoder(backLeft);
+//		encoders[Side.LEFT_FRONT.ordinal()].getTalon().reverseSensor(true);// = new LRTCANEncoder(backLeft);
+
 		
 		if (instance == null)
 			instance = this;

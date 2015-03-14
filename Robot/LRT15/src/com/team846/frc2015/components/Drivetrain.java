@@ -69,7 +69,11 @@ public class Drivetrain extends Component implements Configurable {
 		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
-		driveEncoders = new DriveEncoders(backLeft, backRight, backLeft, backRight);
+		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
+		
+//		double backLeftDist  = driveEncoders.GetWheelDist(com.team846.frc2015.sensors.DriveEncoders.Side.LEFT_BACK);
+//		double backLeftDist  = driveEncoders.GetWheelDist(com.team846.frc2015.sensors.DriveEncoders.Side.LEFT_BACK);
+
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -141,7 +145,7 @@ public class Drivetrain extends Component implements Configurable {
 //		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
 		
 //		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
-//		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
 //		
 		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{

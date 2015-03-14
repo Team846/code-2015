@@ -148,7 +148,7 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setSetpoint(grab);
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.2);
+				rollersData.setSpeed(0.1);
 				armData.setDesiredPosition(ArmPosition.EXTEND);
 				//AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
 				if (elevatorData.isAtSetpoint(grab))
@@ -163,8 +163,8 @@ public abstract class LoadItem extends Automation{
 			{
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.2);
-				armData.setDesiredPosition(ArmPosition.EXTEND);
+				rollersData.setSpeed(0.1);
+				armData.setDesiredPosition(ArmPosition.STOWED);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				if (waitTicks++ > requiredWaitCycles)
@@ -177,8 +177,8 @@ public abstract class LoadItem extends Automation{
 			{
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.2);
-				armData.setDesiredPosition(ArmPosition.EXTEND);
+				rollersData.setSpeed(0.0);
+				armData.setDesiredPosition(ArmPosition.STOWED);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
@@ -187,6 +187,7 @@ public abstract class LoadItem extends Automation{
 				{
 					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
 					elevatorData.setDesiredSpeed(0.0);
+					armData.setDesiredPosition(ArmPosition.EXTEND);
 					
 					if (auto)
 					{

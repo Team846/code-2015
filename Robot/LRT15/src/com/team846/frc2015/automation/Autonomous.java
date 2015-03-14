@@ -104,7 +104,7 @@ public class Autonomous extends Sequential
 						switch (argsSplit.length)
 						{
 						case 0:
-							parallelRoutines.add( new TestRoutine());
+							parallelRoutines.add( new Elevate(Integer.parseInt(argsSplit[0])));
 							break;
 						}
 						break;

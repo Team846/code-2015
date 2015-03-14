@@ -57,7 +57,7 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateEnabled() 
 	{
-		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+		//AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 		int position = carriagePot.getAverageValue();
 		
 		
@@ -76,7 +76,7 @@ public class CarriageExtender extends Component implements Configurable
 			int desiredPos = (int) Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
 			DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
 			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : ( desiredPos - position ) / maxRange ;
-			carriageMotor.set(error*positionGain);
+			carriageMotor.set(MathUtils.clamp(error*positionGain, -extenderData.getMaxSpeed(), extenderData.getMaxSpeed()));
 		}
 		else
 			carriageMotor.set(extenderData.getSpeed()); //open loop velocity
