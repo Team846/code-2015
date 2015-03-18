@@ -72,12 +72,17 @@ public class Brain
 		Automation releaseStack = new ReleaseStack();
 		
 		//rip scripted autonomous
-		Automation auton_fake = new Drive(116, 0.5, 3);
+//		Automation auton_fake = new Drive(96, 0.5, 3);
+		
+		//EMERGENCY UNCOMMENT
+		Automation auton_fake = new TimeDrive(2.5,0.5);
+		
+		//Automation auton_fake = new Turn(90, 0.5, 3);
 		
 		Sequential auton_fake_yellowYOLO = new Sequential("yellowTote");
 		auton_fake_yellowYOLO.AddAutomation(new LoadTote(true));
 		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
-		auton_fake_yellowYOLO.AddAutomation(new Drive(116,0.5,3));
+		auton_fake_yellowYOLO.AddAutomation(new Drive(12,0.5,3));
 		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
 		Parallel dropAndPop = new Parallel("DropMoveBack");
 		dropAndPop.AddAutomation(new ReleaseStack());
@@ -85,18 +90,19 @@ public class Brain
 		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
 		
 		Sequential auton_fake_container = new Sequential("container");
+		
+		Parallel driveCollect = new Parallel("DriveCollect");
 		auton_fake_container.AddAutomation(new LoadUprightContainer(true));
+		auton_fake_container.AddAutomation(new Drive(24,0.5,3, true));
+
+		auton_fake_container.AddAutomation(driveCollect);
 		auton_fake_container.AddAutomation(new Turn(90.0,0.5));
 		auton_fake_container.AddAutomation(new Drive(116,0.5,3));
 		auton_fake_container.AddAutomation(new Turn(90.0,0.5));
 		Parallel greenDropAndPop = new Parallel("ContainerDropMoveBack");
-		greenDropAndPop .AddAutomation(new ReleaseStack());
-		greenDropAndPop .AddAutomation(new Drive(36, 0.5));
+		greenDropAndPop.AddAutomation(new ReleaseStack());
+		greenDropAndPop.AddAutomation(new Drive(36, 0.5));
 		auton_fake_container.AddAutomation(greenDropAndPop );
-		
-		
-		
-		
 		
 		// Declare event triggers
 		Event to_auto = new GameModeChangeEvent(GameState.AUTONOMOUS);
@@ -119,6 +125,7 @@ public class Brain
 		Event load_sideways_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
 		Event load_sideways_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
 
+		
 		Event load_additional_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL);
 		Event load_additional_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL);
 		
@@ -147,7 +154,7 @@ public class Brain
 		
 		// Map events to routines
 		//SCRIPTING IS A LIE
-		to_auto.AddStartListener(auton_fake);
+//		to_auto.AddStartListener(auton_fake);
 		driver_stick_moved.AddAbortListener(auton_fake);
 		operator_stick_moved.AddAbortListener(auton_fake);
 		driver_stick_pressed.AddAbortListener(auton_fake);

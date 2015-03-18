@@ -83,7 +83,7 @@ public class DrivetrainData extends ComponentData
 
 	public void SetControlMode(Axis axis, ControlMode mode)
 	{
-		if (controlModes[axis.ordinal()] != ControlMode.POSITION_CONTROL && mode == ControlMode.POSITION_CONTROL && resetPositionSetpoint[0])
+		if (controlModes[axis.ordinal()] != ControlMode.POSITION_CONTROL && mode == ControlMode.POSITION_CONTROL && resetPositionSetpoint[axis.ordinal()])
 		{
 			if(axis == Axis.FORWARD)
 				positionSetpoints[axis.ordinal()] = DriveEncoders.Get().GetRobotDist();

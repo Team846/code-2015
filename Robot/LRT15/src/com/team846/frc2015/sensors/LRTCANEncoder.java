@@ -19,10 +19,17 @@ public class LRTCANEncoder
 	private double prevRate = 0;
 	private boolean reverse;
 	
+	/** Returns a state indicating whether the CANEncoder
+	 * is reversing encoder output
+	 * @return is reversing sensor output
+	 */
 	public boolean isReverse() {
 		return reverse;
 	}
 
+	/** Sets a flag to reverse encoder output
+	 * @param reverse flip sign of encoder output
+	 */
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
 	}
@@ -48,11 +55,17 @@ public class LRTCANEncoder
 		reset();
 	}
 	
+	/**  Returns a reference to a Talon SRX
+	 * @return reference to attached Talon SRX
+	 */
 	public CANTalon getTalon()
 	{
 		return attachedEncoder;
 	}
 	
+	/**
+	 * Resets the current encoder tick count to zero
+	 */
 	public void reset() 
 	{
 		zeroCount = attachedEncoder.getEncPosition();

@@ -2,6 +2,7 @@ package com.team846.frc2015.automation.inputProcessors;
 
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.DrivetrainData;
+import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
@@ -78,12 +79,13 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
 		if (axis == Axis.DRIVE)
 		{
-			drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
+			drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.OPEN_LOOP);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, (float)(forward));
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.FORWARD, (float)(forward * 0.75));
 		}
 		else if (axis == Axis.TURN)
 		{
+			//drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
 			double turn = 0.0;
 			turn = driverWheel.getAxis(AxisType.kX);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.TURN, (float)turn);
@@ -137,7 +139,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //			else
 				turnComposite = turnInPlace * (blend) + constRadiusTurn * (1 - blend); // Blended function
 	
-			drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.VELOCITY_CONTROL);
+				drivetrainData.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.OPEN_LOOP);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, (float)turnComposite);
 			
 		}
@@ -146,17 +148,17 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 			double strafe = driverStick.getAxis(Joystick.AxisType.kX);
 			
 		//	AsyncPrinter.error("STRAFE IS RUNNING");
-			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.VELOCITY_CONTROL);
+			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.OPEN_LOOP);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);
 		}
 
-        if (driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.PIVOT)) {
-            double wheelRotation = driverWheel.getAxis(Joystick.AxisType.kX);
-            Pair<Double, Double> drivetrainValues = pivot.get(wheelRotation);
-            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, drivetrainValues.getFirst());
-            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, drivetrainValues.getSecond());
-        }
+//        if (driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.PIVOT)) {
+//            double wheelRotation = driverWheel.getAxis(Joystick.AxisType.kX);
+//            Pair<Double, Double> drivetrainValues = pivot.get(wheelRotation);
+//            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.TURN, drivetrainValues.getFirst());
+//            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, drivetrainValues.getSecond());
+//        }
 	}
 	
 	public void Configure()

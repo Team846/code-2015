@@ -48,7 +48,7 @@ public class Drive extends Automation {
 
 	public boolean Start()
 	{
-		DriveEncoders.Get().Reset();
+//		DriveEncoders.Get().Reset();
 		if (!constantSpeed)
 		{
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.POSITION_CONTROL);
@@ -59,8 +59,9 @@ public class Drive extends Automation {
 //			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
 //			drivetrain.SetVelocitySetpoint(Axis.FORWARD, MathUtils.Sign(distance) * maxSpeed);
 		}
-		drivetrain.SetPositionSetpoint(Axis.FORWARD, distance);
+		drivetrain.SetRelativePositionSetpoint(Axis.FORWARD, distance);
 		drivetrain.SetPositionControlMaxSpeed(Axis.FORWARD, maxSpeed);
+		
 		return true;
 	}
 
@@ -73,11 +74,13 @@ public class Drive extends Automation {
 
 		double robotLocation = DriveEncoders.Get().GetRobotDist();
 		double setpoint = drivetrain.GetPositionSetpoint(Axis.FORWARD);
+		
 		double distanceLeft = Math.abs(setpoint - robotLocation);
-		System.out.println("left encoder ticks: " + DriveEncoders.Get().GetEncoder(Side.LEFT_BACK).get()); 
-		System.out.println("right encoder ticks: " + DriveEncoders.Get().GetEncoder(Side.RIGHT_BACK).get());
-
+		
+		System.out.println("robot distance: " + robotLocation);
+		System.out.println("setpoint: " + drivetrain.GetPositionSetpoint(Axis.FORWARD));
 		System.out.println("distance left: " + distanceLeft);
+		System.out.println("ControlMode: " + drivetrain.GetControlMode(Axis.FORWARD));
 		return distanceLeft < errorThreshold;
 		
 //		if (distance > 0)

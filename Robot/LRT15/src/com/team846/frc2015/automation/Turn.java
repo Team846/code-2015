@@ -1,6 +1,8 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.DrivetrainData;
+import com.team846.frc2015.componentData.DrivetrainData.Axis;
+import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.AsyncPrinter;
 
@@ -81,6 +83,8 @@ public class Turn extends Automation {
 	protected boolean Abort()
 	{
 		drivetrain.setClassicDrive(false);
+		drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
+		drivetrain.SetOpenLoopOutput(Axis.TURN, 0.0);
 		return true;
 	}
 

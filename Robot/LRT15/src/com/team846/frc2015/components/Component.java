@@ -26,6 +26,12 @@ public abstract class Component
 	
 	abstract protected void OnDisabled();
 	
+	/**Constructs base component with associated 
+	 * NOTE: As of 2015, digitalIns are not supported
+	 * All components must be e
+	 * @param name
+	 * @param driverStationDigitalIn
+	 */
 	public Component(String name, int driverStationDigitalIn)
 	{
 		this.name = name;

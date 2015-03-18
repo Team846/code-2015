@@ -48,7 +48,6 @@ public class Drivetrain extends Component implements Configurable {
 	CANTalon frontRight;
 	CANTalon backRight;
 	
-	
 	public Drivetrain() 
 	{	
 		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
@@ -58,7 +57,7 @@ public class Drivetrain extends Component implements Configurable {
 		for(PID[] row : PIDs)
 			Arrays.fill(row, new PID());
 		
-		mecanumDrivePIDs = new PID[4]; //TODO: array init sux
+		mecanumDrivePIDs = new PID[4]; 
 		Arrays.fill(mecanumDrivePIDs, new PID());
 		
 		ConfigPortMappings portMapping = ConfigPortMappings.Instance(); //reduce verbosity
@@ -70,10 +69,6 @@ public class Drivetrain extends Component implements Configurable {
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
 		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
-		
-//		double backLeftDist  = driveEncoders.GetWheelDist(com.team846.frc2015.sensors.DriveEncoders.Side.LEFT_BACK);
-//		double backLeftDist  = driveEncoders.GetWheelDist(com.team846.frc2015.sensors.DriveEncoders.Side.LEFT_BACK);
-
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -90,6 +85,7 @@ public class Drivetrain extends Component implements Configurable {
 		double positionSetpoint = drivetrainData.GetPositionSetpoint(axis);
 		System.out.println("position drivetrain setpoint:" + positionSetpoint);
 		double velocitySetpoint = drivetrainData.GetVelocitySetpoint(axis);
+		
 		double rawOutput = drivetrainData.GetOpenLoopOutput(axis);
 		
 
@@ -146,12 +142,17 @@ public class Drivetrain extends Component implements Configurable {
 		
 //		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
 		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+		
+//		System.out.println("Turn input: " + drivetrainData.GetPositionSetpoint(Axis.TURN));
+//		System.out.println("Turn vel: " + drivetrainData.GetOpenLoopOutput(Axis.TURN));
 //		
 		if(drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
 		{
 			double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
 			double turnOutput = ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
-		
+			System.out.println("fwd: " + fwdOutput);
+			System.out.println("turn: " + turnOutput);
+	
 			leftFrontOutput = fwdOutput - turnOutput;
 			rightFrontOutput = fwdOutput + turnOutput;
 			
@@ -217,6 +218,8 @@ public class Drivetrain extends Component implements Configurable {
 		
 		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(leftBackOutput);
 		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(rightBackOutput);
+		
+		
 	}
 
 	public void UpdateDisabled()

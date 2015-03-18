@@ -20,7 +20,7 @@ public class LoadTote extends LoadItem implements Configurable {
 
 	public LoadTote(boolean auto)
 	{
-		super("LoadTote", ElevatorSetpoint.COLLECT_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE,20, auto );
+		super("LoadTote", ElevatorSetpoint.COLLECT_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE,10, auto );
 		ConfigRuntime.Register(this);
 	}
 	

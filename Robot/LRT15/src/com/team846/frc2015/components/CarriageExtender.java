@@ -88,7 +88,7 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateDisabled() {
 		carriageMotor.set(0.0);
-		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+		//AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 	}
 
 	@Override

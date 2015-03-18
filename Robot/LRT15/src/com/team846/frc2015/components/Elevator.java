@@ -81,7 +81,7 @@ public class Elevator extends Component implements Configurable {
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
-//		AsyncPrinter.println("Position: " + currentPosition);
+		AsyncPrinter.println("Position: " + currentPosition);
 		
 		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)
 		{
