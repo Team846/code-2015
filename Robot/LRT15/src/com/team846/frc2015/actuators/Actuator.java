@@ -2,8 +2,6 @@ package com.team846.frc2015.actuators;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.SafePWM;
-
 public abstract class Actuator 
 {
 	private String name;

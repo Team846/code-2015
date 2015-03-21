@@ -9,12 +9,10 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.SensorFactory;
-import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 
 public class CarriageExtender extends Component implements Configurable
 {

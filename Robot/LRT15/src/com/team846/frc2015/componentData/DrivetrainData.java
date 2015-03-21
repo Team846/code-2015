@@ -1,10 +1,8 @@
 package com.team846.frc2015.componentData;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.sensors.LRTGyro;
 import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 

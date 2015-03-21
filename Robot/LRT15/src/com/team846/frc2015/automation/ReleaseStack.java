@@ -10,7 +10,6 @@ import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
-import com.team846.frc2015.utils.AsyncPrinter;
 
 public class ReleaseStack extends Automation implements Configurable {
 

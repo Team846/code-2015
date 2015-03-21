@@ -2,8 +2,6 @@ package com.team846.frc2015.componentData;
 
 import java.util.Arrays;
 
-import com.team846.frc2015.componentData.ManipulatorHookData.Arm;
-
 public class ManipulatorArmData extends ComponentData {
 	
 	private boolean[] armStates;

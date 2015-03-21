@@ -1,6 +1,5 @@
 package com.team846.frc2015.automation;
 
-import com.team846.frc2015.automation.events.JoystickReleasedEvent;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
@@ -11,13 +10,10 @@ import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigPortMappings;
-import com.team846.frc2015.config.ConfigRuntime;
-import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.sensors.SensorFactory;
-import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 

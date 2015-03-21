@@ -1,9 +1,5 @@
 package com.team846.frc2015.componentData;
 
-import com.team846.frc2015.utils.AsyncPrinter;
-
-import edu.wpi.first.wpilibj.Ultrasonic;
-
 public class ElevatorData extends ComponentData{
 	
 	private double speed;

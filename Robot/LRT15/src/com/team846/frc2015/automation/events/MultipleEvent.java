@@ -1,7 +1,6 @@
 package com.team846.frc2015.automation.events;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MultipleEvent extends Event {
 	

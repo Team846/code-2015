@@ -1,8 +1,6 @@
 package com.team846.frc2015.components;
 
 
-import com.team846.frc2015.actuators.LRTSpeedController;
-import com.team846.frc2015.actuators.LRTTalon;
 import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.CollectorRollersData.*;
 import com.team846.frc2015.config.ConfigPortMappings;

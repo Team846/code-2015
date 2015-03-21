@@ -2,7 +2,6 @@ package com.team846.frc2015.components;
 
 import com.team846.frc2015.actuators.Pneumatics;
 import com.team846.frc2015.actuators.Pneumatics.State;
-import com.team846.frc2015.automation.Automation;
 import com.team846.frc2015.componentData.ClampData;
 import com.team846.frc2015.componentData.ClampData.ClampState;
 import com.team846.frc2015.config.ConfigPortMappings;

@@ -1,13 +1,8 @@
 package com.team846.frc2015.components;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
-import com.team846.frc2015.actuators.LRTSpeedController;
-import com.team846.frc2015.actuators.LRTTalon;
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CollectorArmData;
-import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
-import com.team846.frc2015.componentData.ComponentData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
@@ -15,7 +10,6 @@ import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
-import com.team846.frc2015.control.PID;
 import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.SensorFactory;
@@ -24,9 +18,7 @@ import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Elevator extends Component implements Configurable {
 

@@ -1,7 +1,6 @@
 package com.team846.frc2015.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.apache.commons.configuration.ConfigurationException;

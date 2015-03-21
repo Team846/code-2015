@@ -5,7 +5,6 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.RobotConfig;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
 public class DriveEncoders implements Configurable
 {

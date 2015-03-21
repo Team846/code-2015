@@ -1,8 +1,5 @@
 package com.team846.frc2015.actuators;
 
-import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.sensors.LRTCANEncoder;
-import com.team846.frc2015.sensors.LRTEncoder;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;

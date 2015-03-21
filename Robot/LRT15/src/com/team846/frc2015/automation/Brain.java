@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.team846.frc2015.automation.events.DelayedEvent;
 import com.team846.frc2015.automation.events.Event;
@@ -22,12 +21,10 @@ import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs;
 import com.team846.frc2015.automation.inputProcessors.ElevatorInputs;
 import com.team846.frc2015.automation.inputProcessors.InputProcessor;
 import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs.Axis;
-import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
-import com.team846.frc2015.utils.Pair;
 
 public class Brain 
 {

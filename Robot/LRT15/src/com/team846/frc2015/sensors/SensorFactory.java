@@ -2,7 +2,6 @@ package com.team846.frc2015.sensors;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.Pair;

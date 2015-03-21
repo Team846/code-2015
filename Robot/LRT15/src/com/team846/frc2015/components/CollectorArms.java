@@ -6,11 +6,8 @@ import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.DriverStationConfig;
-import com.team846.frc2015.sensors.SensorFactory;
-import com.team846.frc2015.utils.AsyncPrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class CollectorArms extends Component 
 {

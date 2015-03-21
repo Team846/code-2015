@@ -1,9 +1,5 @@
 package com.team846.frc2015.sensors;
 
-import org.apache.commons.lang.NullArgumentException;
-
-import com.team846.frc2015.config.Configurable;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;

@@ -2,12 +2,6 @@ package com.team846.frc2015.dashboard;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpResponseEncoder;
-
-import java.io.File;
-import java.util.Queue;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOChannelInitializer;
@@ -16,9 +10,6 @@ import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.utils.AsyncPrinter;
-
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class DashboardLogger
 {

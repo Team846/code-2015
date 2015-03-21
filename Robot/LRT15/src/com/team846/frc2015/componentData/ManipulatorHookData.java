@@ -1,11 +1,5 @@
 package com.team846.frc2015.componentData;
 
-import java.util.ArrayList;
-
-import com.team846.frc2015.actuators.Pneumatics;
-import com.team846.frc2015.actuators.Pneumatics.State;
-import com.team846.frc2015.utils.Pair;
-
 
 public class ManipulatorHookData extends ComponentData{
 

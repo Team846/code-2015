@@ -2,11 +2,8 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
-import com.team846.frc2015.componentData.CollectorRollersData.Direction;
 import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.utils.AsyncPrinter;
-
-import edu.wpi.first.wpilibj.AnalogInput;
 
 public class Sweep extends Automation {
 

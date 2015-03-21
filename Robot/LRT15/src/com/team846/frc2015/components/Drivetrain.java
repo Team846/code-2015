@@ -11,17 +11,11 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.control.PID;
-import com.team846.frc2015.dashboard.DashboardLogger;
-import com.team846.frc2015.driverstation.LRTDriverStation;
-import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
 public class Drivetrain extends Component implements Configurable {
 	

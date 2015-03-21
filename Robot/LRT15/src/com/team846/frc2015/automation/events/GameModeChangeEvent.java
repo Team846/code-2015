@@ -1,7 +1,6 @@
 package com.team846.frc2015.automation.events;
 
 import com.team846.frc2015.driverstation.GameState;
-import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.robot.RobotState;
 
 public class GameModeChangeEvent extends Event

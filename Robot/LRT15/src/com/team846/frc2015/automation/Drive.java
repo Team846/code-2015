@@ -4,7 +4,6 @@ import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.sensors.DriveEncoders.Side;
 import com.team846.frc2015.utils.MathUtils;
 
 public class Drive extends Automation {

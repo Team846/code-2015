@@ -1,8 +1,6 @@
 
 package com.team846.frc2015.config;
 
-import java.util.*;
-
 public interface Configurable {
 	
 	public void Configure();

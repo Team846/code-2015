@@ -4,10 +4,8 @@ import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
-import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.scripting.LuaContext;
 import com.team846.frc2015.scripting.ScriptExecutionState;
-import com.team846.frc2015.utils.AsyncPrinter;
 
 public class LuaScript extends Automation {
 
