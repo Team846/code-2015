@@ -71,10 +71,9 @@ public class Sequential extends Automation {
 				started = false;
 			}
 		}
-		if (queued.isEmpty())
-			return true;
-		return false;
-	}
+
+        return queued.isEmpty();
+    }
 	
 	public boolean Abort()
 	{

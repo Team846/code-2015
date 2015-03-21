@@ -29,8 +29,8 @@ public abstract class Component
 	/**Constructs base component with associated 
 	 * NOTE: As of 2015, digitalIns are not supported
 	 * All components must be e
-	 * @param name
-	 * @param driverStationDigitalIn
+	 * @param name name of the component
+	 * @param driverStationDigitalIn driverstation in
 	 */
     Component(String name, int driverStationDigitalIn)
 	{
