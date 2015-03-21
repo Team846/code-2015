@@ -11,7 +11,7 @@ public class Profiler {
 			new HashMap<String, Pair<Long, Long>>();
 
 	private static void log(String msg) {
-		AsyncPrinter.info(msg.toString());
+		AsyncPrinter.info(msg);
 	}
 	
 	public static void start(String methodName) {

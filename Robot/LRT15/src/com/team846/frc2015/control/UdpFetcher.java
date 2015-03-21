@@ -24,7 +24,7 @@ public class UdpFetcher {
 		DatagramPacket sendPacket;
 		
 		Semaphore responseAvailiability = new Semaphore(1);
-		String response = new String();
+		String response = "";
 
 		NetworkFetcher(String targetHost, int port)  {
 			try {
@@ -69,7 +69,7 @@ public class UdpFetcher {
 			String newResponse;
 			
 			responseAvailiability.acquire();
-			newResponse = new String(response);
+			newResponse = response;
 			responseAvailiability.release();
 			
 			return newResponse;
