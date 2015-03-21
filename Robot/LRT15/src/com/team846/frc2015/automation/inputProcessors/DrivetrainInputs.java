@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
-	LRTJoystick driverStick;
-	LRTJoystick driverWheel;
+	private LRTJoystick driverStick;
+	private LRTJoystick driverWheel;
 	
 	boolean lastStop;
 //	double negInertiaScalar;
@@ -23,15 +23,15 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //	double lastTurn;
 //	double stoppedForward;
 //	double stoppedTurn;
-	boolean constRadius;
-	int blendExponent;
-	int turnExponent;
-	int constRadiusTurnExponent;
-	int throttleExponent;
-	double deadband;
-	double strafeExponent;
+private boolean constRadius;
+	private int blendExponent;
+	private int turnExponent;
+	private int constRadiusTurnExponent;
+	private int throttleExponent;
+	private double deadband;
+	private double strafeExponent;
 	
-	Axis axis;
+	private Axis axis;
 	private DrivetrainData drivetrainData;
 
     private Pivot pivot = new Pivot(2);

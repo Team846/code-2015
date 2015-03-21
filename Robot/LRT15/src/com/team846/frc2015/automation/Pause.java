@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Pause extends Automation {
 
-	boolean timingCycles;
-	double time;
-	int cycles;
-	Timer timer = new Timer();
-	int currentCycles;
+	private boolean timingCycles;
+	private double time;
+	private int cycles;
+	private Timer timer = new Timer();
+	private int currentCycles;
 	
 	public Pause(double time)
 	{

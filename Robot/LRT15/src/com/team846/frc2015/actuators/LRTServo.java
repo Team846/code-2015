@@ -9,13 +9,13 @@ public class LRTServo extends Actuator
 		kValue, kMicroseconds, kAngle
 	}
 	private Servo servo;
-	public ControlMode controlMode;
-    double value; 
-    boolean enabled;
-    double previous_value;
+	private ControlMode controlMode;
+    private double value;
+    private boolean enabled;
+    private double previous_value;
     
-	static final int MIN_VAL = 727;
-	static final int MAX_VAL = 2252;
+	private static final int MIN_VAL = 727;
+	private static final int MAX_VAL = 2252;
 
 	public LRTServo(String name) {
 		super(name);

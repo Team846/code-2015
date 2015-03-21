@@ -5,17 +5,17 @@ import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMod
 
 public class ExtendCarriage extends Automation {
 	
-	double carriagePosition;//[0,1] 
-	double errorThreshold;
+	private double carriagePosition;//[0,1]
+	private double errorThreshold;
 	
-	CarriageExtenderData extenderData;
+	private CarriageExtenderData extenderData;
 
 	public ExtendCarriage(double position ) //position control
 	{
 		this(position, 0.05);
 	}
 	
-	public ExtendCarriage(double position, double errorThreshold)
+	private ExtendCarriage(double position, double errorThreshold)
 	{
 		super("Extend Carriage");
 		carriagePosition = position;	

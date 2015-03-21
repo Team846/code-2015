@@ -18,15 +18,15 @@ public class DriveEncoders implements Configurable
 	
 	private static DriveEncoders instance = null;
 
-	LRTCANEncoder[] encoders;
+	private LRTCANEncoder[] encoders;
 
-	static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
-	static double MAX_ENCODER_RATE; //TODO: Calibrate after running robot
-	static double MAX_TURNING_RATE;  //TODO: Calibrate after running robot
-	static double TICKS_PER_FULL_TURN;
-	static double WHEEL_DIAMETER; // //TODO: Calibrate after running robot
-	static double GEAR_RATIO;  //TODO: Talk to drivetrain team
-	static double MAX_STRAFING_SPEED;
+	private static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
+	private static double MAX_ENCODER_RATE; //TODO: Calibrate after running robot
+	private static double MAX_TURNING_RATE;  //TODO: Calibrate after running robot
+	private static double TICKS_PER_FULL_TURN;
+	private static double WHEEL_DIAMETER; // //TODO: Calibrate after running robot
+	private static double GEAR_RATIO;  //TODO: Talk to drivetrain team
+	private static double MAX_STRAFING_SPEED;
 	
 	public DriveEncoders(CANTalon frontLeft, CANTalon frontRight, CANTalon backLeft, CANTalon backRight)
 	{
@@ -54,7 +54,7 @@ public class DriveEncoders implements Configurable
 		return instance;
 	}
 
-	public double GetRawForwardSpeed()
+	double GetRawForwardSpeed()
 	{
 		double leftSpeed = (encoders[Side.LEFT_FRONT.ordinal()].getRate()
 				+ encoders[Side.LEFT_BACK.ordinal()].getRate()) / 2;
@@ -75,14 +75,14 @@ public class DriveEncoders implements Configurable
 		return GetRawForwardSpeed() / PULSES_PER_REVOLUTION * GEAR_RATIO * WHEEL_DIAMETER * Math.PI;
 	}
 
-	public double GetRawTurningSpeed()
+	double GetRawTurningSpeed()
 	{
 		double rightVel = (encoders[Side.RIGHT_FRONT.ordinal()].getRate() + encoders[Side.RIGHT_BACK.ordinal()].getRate()) /2;
 		double leftVel =  (encoders[Side.LEFT_FRONT.ordinal()].getRate() + encoders[Side.LEFT_BACK.ordinal()].getRate()) /2;
 		return rightVel - leftVel;
 	}
 	
-	public double GetRawStrafingSpeed()
+	double GetRawStrafingSpeed()
 	{
 		return (encoders[Side.LEFT_FRONT.ordinal()].getRate() + encoders[Side.RIGHT_BACK.ordinal()].getRate()) /2;
 	}
@@ -105,7 +105,7 @@ public class DriveEncoders implements Configurable
 		return (rightDist + leftDist) / 2;
 	}
 
-	public int GetTurnTicks()
+	int GetTurnTicks()
 	{
 		int rightTicks = (encoders[Side.RIGHT_FRONT.ordinal()].get()
 				+ encoders[Side.RIGHT_BACK.ordinal()].get()) /2;
@@ -114,7 +114,7 @@ public class DriveEncoders implements Configurable
 		return rightTicks - leftTicks; 
 	}
 
-	public double GetTurnRevolutions()
+	double GetTurnRevolutions()
 	{
 		return GetTurnTicks() / TICKS_PER_FULL_TURN;
 	}
@@ -132,7 +132,7 @@ public class DriveEncoders implements Configurable
 		return GetTurnRevolutions() * 360.0;
 	}
 
-	public double GetWheelDist(Side side)
+	double GetWheelDist(Side side)
 	{
 		LRTCANEncoder e = encoders[side.ordinal()];
 		double dist = ((e.get()) / PULSES_PER_REVOLUTION
@@ -140,7 +140,7 @@ public class DriveEncoders implements Configurable
 		return dist;
 	}
 
-	public double GetNormalizedSpeed(Side side)
+	double GetNormalizedSpeed(Side side)
 	{
 		return encoders[side.ordinal()].getRate() / MAX_ENCODER_RATE;
 	}

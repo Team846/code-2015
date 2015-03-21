@@ -31,7 +31,7 @@ public class DashboardLogger
 		return instance;
 	}
 	
-	public DashboardLogger()
+	private DashboardLogger()
 	{
 		if (buttonsPressed())
 		{

@@ -5,11 +5,11 @@ import com.team846.robot.RobotState;
 
 public class LRTDriverStation {
 
-	static LRTDriverStation instance = null;
+	private static LRTDriverStation instance = null;
 
-	LRTJoystick driver_stick;
-	LRTJoystick operator_stick;
-	LRTJoystick driver_wheel;
+	private LRTJoystick driver_stick;
+	private LRTJoystick operator_stick;
+	private LRTJoystick driver_wheel;
 
 	public static void Initialize()
 	{

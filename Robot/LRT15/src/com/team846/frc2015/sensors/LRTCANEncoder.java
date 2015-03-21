@@ -40,7 +40,7 @@ public class LRTCANEncoder
 		this(talon, 20, reverse);
 	}
 	
-	public LRTCANEncoder(CANTalon talon, int updatePeriod, boolean reverse) //ms
+	private LRTCANEncoder(CANTalon talon, int updatePeriod, boolean reverse) //ms
 	{
 		if(talon == null)
 			throw new IllegalArgumentException("[ERROR] Talon must be already constructed");

@@ -8,26 +8,26 @@ import com.team846.frc2015.config.RobotConfig;
 
 import edu.wpi.first.wpilibj.RobotBase;
 
-public abstract class LRTRobotBase extends RobotBase
+abstract class LRTRobotBase extends RobotBase
 {
-	protected Timer loopSynchronizer;
-	protected TimerTask loopGrabber = new TimerTask() {
+	private Timer loopSynchronizer;
+	private TimerTask loopGrabber = new TimerTask() {
 		@Override
 		public void run() {
 			
 			loopSem.release();
 		}
 	};
-	public Semaphore loopSem;
+	private Semaphore loopSem;
 	
-	public LRTRobotBase()
+	LRTRobotBase()
 	{
 		loopSem = new Semaphore(1); //binary semaphore
 		loopSynchronizer = new Timer();
 		loopSynchronizer.scheduleAtFixedRate(loopGrabber, 0, RobotConfig.LOOP_PERIOD);
 	}
 	
-	public abstract void Tick();
+	protected abstract void Tick();
 	
 	@Override
 	public void startCompetition()
@@ -37,7 +37,7 @@ public abstract class LRTRobotBase extends RobotBase
 		Main();
 	}
 
-	public abstract void RobotInit();
+	protected abstract void RobotInit();
 	
 	private void Main()
 	{

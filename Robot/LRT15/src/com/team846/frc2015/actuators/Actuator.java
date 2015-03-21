@@ -5,20 +5,20 @@ import java.util.ArrayList;
 public abstract class Actuator 
 {
 	private String name;
-	public static ArrayList<Actuator> actuator_list = new ArrayList<Actuator>();
+	private static ArrayList<Actuator> actuator_list = new ArrayList<Actuator>();
 
-	public Actuator(String name)
+	Actuator(String name)
 	{
 		this.name = name;
 		actuator_list.add(this);
 	}
 	
-	public String GetName()
+	String GetName()
 	{
 		return name;
 	}
 	
-	public abstract void Output();
+	protected abstract void Output();
 	
 	public static void OutputAll()
 	{

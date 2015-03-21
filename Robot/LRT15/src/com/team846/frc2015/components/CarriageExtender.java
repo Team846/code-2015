@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class CarriageExtender extends Component implements Configurable
 {
-	CANTalon carriageMotor;
+	private CANTalon carriageMotor;
 	
-	AnalogInput carriagePot;
+	private AnalogInput carriagePot;
 	
 	private int retractSetpoint;
 	private int extendSetpoint;

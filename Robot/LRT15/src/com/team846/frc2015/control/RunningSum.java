@@ -2,8 +2,8 @@ package com.team846.frc2015.control;
 
 public class RunningSum {
 	
-	double decayConstant;
-	double runningSum;
+	private double decayConstant;
+	private double runningSum;
 	
 	RunningSum(double decayConstant)
 	{

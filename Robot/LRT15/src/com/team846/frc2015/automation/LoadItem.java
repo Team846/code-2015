@@ -32,11 +32,11 @@ public abstract class LoadItem extends Automation{
 	private int requiredWaitCycles;
 	private int waitTicks;
 	
-	protected boolean hasItem = false;
+	boolean hasItem = false;
 	
-	AnalogInput sensor;
+	private AnalogInput sensor;
 	
-	protected int analogThreshold = 0;
+	private int analogThreshold = 0;
 	
 	enum State
 	{
@@ -45,16 +45,16 @@ public abstract class LoadItem extends Automation{
 		WAIT,
 		HOME
 	}
-	protected State state;
+	State state;
 	private boolean auto;
 
-	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
-			ElevatorSetpoint homeSetpoint, boolean auto) {
+	LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+             ElevatorSetpoint homeSetpoint, boolean auto) {
 		this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20, auto);
 	}
 	
-	public LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
-			ElevatorSetpoint homeSetpoint, int waitCycles, boolean auto) {
+	LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+             ElevatorSetpoint homeSetpoint, int waitCycles, boolean auto) {
 		super(name);
 		state = State.COLLECT;
 		this.auto = auto; 
@@ -208,7 +208,7 @@ public abstract class LoadItem extends Automation{
 		return false;
 	}
 	
-	protected void setAnalogThreshold(int a)
+	void setAnalogThreshold(int a)
 	{
 		analogThreshold = a;
 	}

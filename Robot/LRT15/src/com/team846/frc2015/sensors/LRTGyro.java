@@ -3,7 +3,7 @@ package com.team846.frc2015.sensors;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 
-public class LRTGyro extends SensorFactory 
+class LRTGyro extends SensorFactory
 {
 	
 	private byte OUT_X_L = 0B00101000;
@@ -13,7 +13,7 @@ public class LRTGyro extends SensorFactory
 	
 	private double angle = 0.0;
 	
-	SPI digitalInput;
+	private SPI digitalInput;
 	
 	private float minVoltage;
 	private float maxVoltage;
@@ -42,7 +42,7 @@ public class LRTGyro extends SensorFactory
 		return angle;
 	}
 	
-	public int read(byte adress)
+	int read(byte adress)
 	{
 		int retval;
 		

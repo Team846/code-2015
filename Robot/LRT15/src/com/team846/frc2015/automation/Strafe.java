@@ -7,8 +7,8 @@ import com.team846.frc2015.utils.AsyncPrinter;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Strafe extends Automation {
-	double time;
-	double maxSpeed;
+	private double time;
+	private double maxSpeed;
 	private DrivetrainData drivetrain;
 	private Timer timer;
 	

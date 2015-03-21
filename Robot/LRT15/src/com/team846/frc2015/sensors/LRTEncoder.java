@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class LRTEncoder extends Encoder {
 
-	double trim = 1.0;
+	private double trim = 1.0;
 
 	public LRTEncoder(int aChannel, int bChannel) 
 	{

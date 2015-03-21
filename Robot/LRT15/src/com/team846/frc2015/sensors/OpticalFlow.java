@@ -6,10 +6,10 @@ import java.io.IOException;
 
 import com.team846.frc2015.utils.AsyncPrinter;
 
-public class OpticalFlow {
+class OpticalFlow {
 
-	public static final int COMPONENT_X = 0;
-	public static final int COMPONENT_Y = 1;
+	private static final int COMPONENT_X = 0;
+	private static final int COMPONENT_Y = 1;
 
 	private static String mousePathPrefix = "/dev/input/mouse";
 	
@@ -91,7 +91,7 @@ public class OpticalFlow {
 		}
 	}
 
-	MouseInterruptThread mouseThread;
+	private MouseInterruptThread mouseThread;
 
 	public OpticalFlow(int mouseIndex) {
 		try {
@@ -103,7 +103,7 @@ public class OpticalFlow {
 		}
 	}
 	
-	public int DPI = 800;
+	private int DPI = 800;
 	
 	private double convertMouseUnitToInch(int mouseUnits) {
 		return mouseUnits / DPI;

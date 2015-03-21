@@ -28,13 +28,13 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class Brain 
 {
-	static Brain instance = null;
+	private static Brain instance = null;
 	
-	ArrayList<InputProcessor> inputs = new ArrayList<InputProcessor>();
+	private ArrayList<InputProcessor> inputs = new ArrayList<InputProcessor>();
 	ArrayList<Automation> automation = new ArrayList<Automation>();
 	
-	LinkedList<Automation> runningTasks = new LinkedList<Automation>();
-	HashMap<Automation, Event> waitingTasks = new HashMap<Automation, Event>();
+	private LinkedList<Automation> runningTasks = new LinkedList<Automation>();
+	private HashMap<Automation, Event> waitingTasks = new HashMap<Automation, Event>();
 	
 	public static Brain Instance()
 	{

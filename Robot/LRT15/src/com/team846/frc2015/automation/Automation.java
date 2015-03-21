@@ -7,19 +7,19 @@ import java.util.Map;
 import com.team846.frc2015.automation.events.Event;
 
 public abstract class Automation {
-	public static ArrayList<Automation> automation_vector = new ArrayList<>();
-	static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
-	protected ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
+	private static ArrayList<Automation> automation_vector = new ArrayList<>();
+	private static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
+	private ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
 	
 	ArrayList<RoutineOption> routineOptions = new ArrayList<RoutineOption>();
 	
-	Event startEvent;
-	Event abortEvent;
-	Event continueEvent;
+	private Event startEvent;
+	private Event abortEvent;
+	private Event continueEvent;
 	
-	boolean aborting;
+	private boolean aborting;
 	
-	String name;
+	private String name;
 	
 	public enum RoutineOption
 	{
@@ -33,7 +33,7 @@ public abstract class Automation {
 		this(null, options);
 	}
 	
-	public Automation(String name, RoutineOption... options)
+	Automation(String name, RoutineOption... options)
 	{
 		startEvent = null;
 		abortEvent = null;
@@ -66,7 +66,7 @@ public abstract class Automation {
 		return false;
 	}
 	
-	public abstract void AllocateResources();
+	protected abstract void AllocateResources();
 
 	public boolean CheckResources()
 	{
@@ -137,12 +137,12 @@ public abstract class Automation {
 		return continueEvent != null;
 	}
 
-	protected Event GetStartEvent()
+	Event GetStartEvent()
 	{
 		return startEvent;
 	}
 
-	protected Event GetAbortEvent()
+	Event GetAbortEvent()
 	{
 		return abortEvent;
 	}
@@ -156,7 +156,7 @@ public abstract class Automation {
 	protected abstract boolean Abort();
 	protected abstract boolean Run();
 
-	protected boolean AllocateResource(ControlResource resource)
+	boolean AllocateResource(ControlResource resource)
 	{
 		if (!allocated.containsKey(resource))
 		{
@@ -184,7 +184,7 @@ public abstract class Automation {
 		return false;
 	}
 
-	protected boolean Aborting()
+	boolean Aborting()
 	{
 		return aborting;
 	}
@@ -199,12 +199,12 @@ public abstract class Automation {
 		return routineOptions.contains(RoutineOption.QUEUE_IF_BLOCKED);
 	}
 
-	public boolean RequiresAbortCycles()
+	boolean RequiresAbortCycles()
 	{
 		return routineOptions.contains(RoutineOption.REQUIRES_ABORT_CYCLES);
 	}
 
-	public String GetName()
+	String GetName()
 	{
 		return name;
 	}

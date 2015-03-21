@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.Semaphore;
 
-public class UdpFetcher {
+class UdpFetcher {
 
 	class NetworkFetcher extends Thread {
 
@@ -76,7 +76,7 @@ public class UdpFetcher {
 		}
 	}
 	
-	NetworkFetcher instance;
+	private NetworkFetcher instance;
 
 	public UdpFetcher(String targetHost, int port) {
 		instance = new NetworkFetcher(targetHost, port);

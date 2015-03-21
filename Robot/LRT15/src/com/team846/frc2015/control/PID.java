@@ -2,22 +2,22 @@ package com.team846.frc2015.control;
 
 public class PID {
 	
-	double proportional_gain;
-	double integral_gain;
-	double derivative_gain;
-	double feedforward_gain;
-	double integral_decay;
-	double input;
-	double output;
-	double setpoint;
-	double error;
-	double prev_error;
-	double acc_error;
-	boolean is_feed_forward;
-	boolean enabled;
+	private double proportional_gain;
+	private double integral_gain;
+	private double derivative_gain;
+	private double feedforward_gain;
+	private double integral_decay;
+	private double input;
+	private double output;
+	private double setpoint;
+	private double error;
+	private double prev_error;
+	private double acc_error;
+	private boolean is_feed_forward;
+	private boolean enabled;
 	
-	boolean IIREnabled;
-	RunningSum runningSum;
+	private boolean IIREnabled;
+	private RunningSum runningSum;
 
 	PID(double p_gain, double i_gain, double d_gain, double ff_gain,
 			double i_decay, boolean feedforward, double filterFreq)
@@ -172,12 +172,12 @@ public class PID {
 		enabled = false;
 	}
 
-	public void EnablePID()
+	void EnablePID()
 	{
 		enabled = true;
 	}
 
-	public void Reset()
+	void Reset()
 	{
 		acc_error = 0.0;
 		error = 0.0;

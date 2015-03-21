@@ -9,12 +9,12 @@ import com.team846.frc2015.utils.Pair;
 import edu.wpi.first.wpilibj.*;
 
 public class SensorFactory {
-	static Map<Integer, AnalogInput> analog = new HashMap<Integer, AnalogInput>();
-	static Map<Integer, DigitalInput> digital = new HashMap<Integer, DigitalInput>();
-	static Map<Integer, Counter> counters = new HashMap<>();
-	static Map<Pair<Integer, Integer>, LRTEncoder> encoders = new HashMap<Pair<Integer, Integer>, LRTEncoder>();
+	private static Map<Integer, AnalogInput> analog = new HashMap<Integer, AnalogInput>();
+	private static Map<Integer, DigitalInput> digital = new HashMap<Integer, DigitalInput>();
+	private static Map<Integer, Counter> counters = new HashMap<>();
+	private static Map<Pair<Integer, Integer>, LRTEncoder> encoders = new HashMap<Pair<Integer, Integer>, LRTEncoder>();
 	
-	static SensorFactory instance = null;
+	private static SensorFactory instance = null;
 	
 	static public void Initialize()
 	{

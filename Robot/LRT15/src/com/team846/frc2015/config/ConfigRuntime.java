@@ -39,7 +39,7 @@ public class ConfigRuntime
 			instance = new ConfigRuntime();
 	}
 	
-	public void Load()
+	void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
 		AsyncPrinter.info("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
@@ -82,7 +82,7 @@ public class ConfigRuntime
 		
 	}
 	
-	public <T extends Number> void Set(String section, String key, T value)
+	<T extends Number> void Set(String section, String key, T value)
 	{
 	
 		String combinedKey = section + '.' + key;
@@ -120,7 +120,7 @@ public class ConfigRuntime
 		
 	}
 	
-	public void LoadConfig(String path)
+	void LoadConfig(String path)
 	{
 		File configFileHandle  = new File(path);
 		if(!configFileHandle.exists())

@@ -12,7 +12,7 @@ public abstract class ComponentData
 	private static Map<String, ComponentData> componentData_map = new HashMap<String, ComponentData>();
 	private static ArrayList<ComponentData> data = new ArrayList<ComponentData>();
 	
-	public ComponentData(String name)
+	ComponentData(String name)
 	{
 		componentData_map.put(name, this);
 		AsyncPrinter.info("Created componentData: " + name);
@@ -29,7 +29,7 @@ public abstract class ComponentData
 
 	}
 
-	public static ComponentData GetComponentData(String name)
+	static ComponentData GetComponentData(String name)
 	{
 		if (componentData_map.containsKey(name))
 			return componentData_map.get(name);

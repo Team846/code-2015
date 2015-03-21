@@ -18,16 +18,16 @@ public class DriveESC
 		}
 	}
 
-	CANTalon controller1;
+	private CANTalon controller1;
 	
-	double dutyCycle;
+	private double dutyCycle;
 	
-	int cycle_count;
+	private int cycle_count;
 	
-	double forwardCurrentLimit; // % stall current for acceleration
-	double reverseCurrentLimit; // % stall current for reversing direction
+	private double forwardCurrentLimit; // % stall current for acceleration
+	private double reverseCurrentLimit; // % stall current for reversing direction
 
-	int shouldBrakeThisCycle;
+	private int shouldBrakeThisCycle;
 	
 //	DriveESC(LRTSpeedController esc, LRTEncoder encoder, String name) 
 //		//Loggable(name),
@@ -159,7 +159,7 @@ public class DriveESC
 		return command.dutyCycle;
 	}
 
-	public double CurrentLimit(double dutyCycle, double speed)
+	double CurrentLimit(double dutyCycle, double speed)
 	{
 		if (speed < 0)
 		{

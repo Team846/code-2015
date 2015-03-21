@@ -17,7 +17,7 @@ public abstract class LRTSpeedController extends Actuator
 	private float threshold;
 	private Timer timer = new Timer();
 	
-	public LRTSpeedController(String name) {
+	LRTSpeedController(String name) {
 		super(name);
 		timeoutSeconds = 0;
 	}
@@ -48,16 +48,16 @@ public abstract class LRTSpeedController extends Actuator
 		this.threshold = threshold;
 	}
 	
-	public void SafetyCallback()
+	void SafetyCallback()
 	{
 		System.out.println("[ERROR] Safety failed in LRTSpeedController: " + GetName());
 		SetDutyCycle(0.0);
 	}
 	
-	public abstract void SetDutyCycle(double pwm);
-	public abstract double GetDutyCycle();
+	protected abstract void SetDutyCycle(double pwm);
+	protected abstract double GetDutyCycle();
 	public abstract double GetHardwareValue();
-	public abstract void Update();
+	protected abstract void Update();
 	public abstract void ConfigNeutralMode(LRTSpeedController.NeutralMode mode);
 	double CurrentLimit(double dutyCycle, float speed, float forwardLimit, float reverseLimit)
 	{

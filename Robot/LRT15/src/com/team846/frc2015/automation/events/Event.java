@@ -6,21 +6,21 @@ import com.team846.frc2015.automation.Automation;
 
 public abstract class Event 
 {
-	ArrayList<Automation> start_listeners = new ArrayList<>();
-	ArrayList<Automation> abort_listeners = new ArrayList<>();
-	ArrayList<Automation> continue_listeners = new ArrayList<>();
+	private ArrayList<Automation> start_listeners = new ArrayList<>();
+	private ArrayList<Automation> abort_listeners = new ArrayList<>();
+	private ArrayList<Automation> continue_listeners = new ArrayList<>();
 	
-	boolean lastFired;
+	private boolean lastFired;
 	
 	public static ArrayList<Event> event_vector = new ArrayList<Event>();
 	
-	public Event()
+	Event()
 	{
 		event_vector.add(this);
 		lastFired = false;
 	}
 	
-	public abstract boolean CheckCondition();
+	protected abstract boolean CheckCondition();
 	
 	public boolean Fired()
 	{

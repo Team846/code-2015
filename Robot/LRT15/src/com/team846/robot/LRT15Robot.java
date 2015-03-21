@@ -17,7 +17,7 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public class LRT15Robot extends LRTRobotBase
 {
-	int robotStateCounter = 1;
+	private int robotStateCounter = 1;
 
 	public void RobotInit() 
 	{

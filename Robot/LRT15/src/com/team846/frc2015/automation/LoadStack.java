@@ -14,7 +14,7 @@ public class LoadStack extends LoadItem implements Configurable {
 	private CarriageHooksData hooksData;
 	private int toteAnalogValue = 0;
 
-	public LoadStack(boolean auto)
+	private LoadStack(boolean auto)
 	{
 		super("LoadStack", ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto);
 		hooksData = CarriageHooksData.get();

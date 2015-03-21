@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LRTJoystick extends Joystick {
 	
-	int num_buttons;
-	int num_axes;
+	private int num_buttons;
+	private int num_axes;
 	
-	int port;
+	private int port;
 	
-	boolean wasPressed[];
-	boolean isPressed[];
-	double axisPrevValue[];
-	double axisValue[];
+	private boolean[] wasPressed;
+	private boolean[] isPressed;
+	private double[] axisPrevValue;
+	private double[] axisValue;
 	
 	public LRTJoystick(int port, int nBtns, int nAxes)
 	{
@@ -30,7 +30,7 @@ public class LRTJoystick extends Joystick {
         Init();
 	}
 	
-	public boolean ButtonInBounds(int button)
+	boolean ButtonInBounds(int button)
 	{
 		if(button < 1 || button > num_buttons  )
 		{
@@ -40,7 +40,7 @@ public class LRTJoystick extends Joystick {
 		return true;
 	}
 	
-	public boolean AxisInBounds(int axis)
+	boolean AxisInBounds(int axis)
 	{
 		if (axis < 0|| axis > num_axes - 1)
 		{
@@ -50,7 +50,7 @@ public class LRTJoystick extends Joystick {
 		return true;
 	}
 	
-	public void Init()
+	void Init()
 	{
 		 for (int i = 1; i < num_buttons + 1; ++i)
          {
@@ -133,14 +133,14 @@ public class LRTJoystick extends Joystick {
 				direction);
 	}
 
-	public boolean WasHatSwitchDown(int axis, int direction)
+	boolean WasHatSwitchDown(int axis, int direction)
 	{
 		if (!AxisInBounds(axis))
 			return false;
 		return (axisPrevValue[axis] * direction > 0.5);
 	}
 
-	public boolean IsHatSwitchDown(int axis, int direction)
+	boolean IsHatSwitchDown(int axis, int direction)
 	{
 		if (!AxisInBounds(axis))
 			return false;

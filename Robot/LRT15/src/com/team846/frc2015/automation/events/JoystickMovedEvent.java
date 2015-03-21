@@ -4,12 +4,12 @@ import com.team846.frc2015.automation.events.Event;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class JoystickMovedEvent extends Event {
-	LRTJoystick m_joystick;
-    int m_axis;	
-    float m_sensitivity;
-    int m_lastFiredAxis;
+	private LRTJoystick m_joystick;
+    private int m_axis;
+    private float m_sensitivity;
+    private int m_lastFiredAxis;
 	
-	public JoystickMovedEvent(LRTJoystick joystick, int axis, float sensitivity) {
+	private JoystickMovedEvent(LRTJoystick joystick, int axis, float sensitivity) {
 		m_joystick = joystick;
         m_axis = axis;
         m_sensitivity = sensitivity;

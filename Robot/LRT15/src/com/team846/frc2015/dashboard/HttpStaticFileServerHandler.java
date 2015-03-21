@@ -83,13 +83,13 @@ import static io.netty.handler.codec.http.HttpVersion.*;
  *
  * </pre>
  */
-public class HttpStaticFileServerHandler extends
+class HttpStaticFileServerHandler extends
 		SimpleChannelInboundHandler<FullHttpRequest>
 {
 
-	public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
-	public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
-	public static final int HTTP_CACHE_SECONDS = 60;
+	private static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
+	private static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
+	private static final int HTTP_CACHE_SECONDS = 60;
 
 	@Override
 	public boolean acceptInboundMessage(Object msg)

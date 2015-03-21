@@ -78,7 +78,7 @@ public class DriverStationConfig {
 		public static final int COMPRESSOR = 8;
 	}
 
-	public class AnalogIns
+	private class AnalogIns
 	{
 		public static final int AUTONOMOUS_DELAY = 1;
 		public static final int AUTONOMOUS_SELECT = 2;

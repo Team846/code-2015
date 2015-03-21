@@ -38,7 +38,7 @@ public class Elevator extends Component implements Configurable {
 	private int errorThreshold;
 	private boolean freezePosition;
 	
-	double positionGain;
+	private double positionGain;
 	private int collectorOutThreshold;
 	private CollectorArmData armData;
 	private CarriageExtenderData extenderData;

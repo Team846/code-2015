@@ -8,17 +8,17 @@ import com.team846.frc2015.utils.MathUtils;
 
 public class DrivetrainData extends ComponentData
 {
-	ControlMode[] controlModes;
-	double[] desiredOpenLoopOutputs;
-	double[] desiredRates;
-	double[] positionSetpoints;
-	double[] maxSpeeds;
-	boolean overrideCurrentLimitForward;
-	boolean overrideCurrentLimitReverse;
-	float currentLimitForward;
-	float currentLimitReverse;
+	private ControlMode[] controlModes;
+	private double[] desiredOpenLoopOutputs;
+	private double[] desiredRates;
+	private double[] positionSetpoints;
+	private double[] maxSpeeds;
+	private boolean overrideCurrentLimitForward;
+	private boolean overrideCurrentLimitReverse;
+	private float currentLimitForward;
+	private float currentLimitReverse;
 	
-	boolean[] resetPositionSetpoint;
+	private boolean[] resetPositionSetpoint;
 	private boolean classic;
 	 
 	public enum ControlMode
@@ -67,7 +67,7 @@ public class DrivetrainData extends ComponentData
 		return (DrivetrainData) ComponentData.GetComponentData("DrivetrainData");
 	}
 
-	public void ResetCommands()
+	protected void ResetCommands()
 	{
 		classic = false;
 		overrideCurrentLimitForward = false;

@@ -8,12 +8,12 @@ import com.team846.frc2015.utils.MathUtils;
 
 public class Drive extends Automation {
 	
-	DrivetrainData drivetrain;
+	private DrivetrainData drivetrain;
 		
-	double distance;
-	double maxSpeed;
-	double errorThreshold;
-	boolean constantSpeed;
+	private double distance;
+	private double maxSpeed;
+	private double errorThreshold;
+	private boolean constantSpeed;
 	
 	public Drive(double distance)
 	{

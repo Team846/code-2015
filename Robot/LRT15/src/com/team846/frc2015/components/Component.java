@@ -32,7 +32,7 @@ public abstract class Component
 	 * @param name
 	 * @param driverStationDigitalIn
 	 */
-	public Component(String name, int driverStationDigitalIn)
+    Component(String name, int driverStationDigitalIn)
 	{
 		this.name = name;
 		digitalIn = driverStationDigitalIn;

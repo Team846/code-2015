@@ -7,9 +7,9 @@ import java.util.Queue;
 import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Sequential extends Automation {
-	ArrayList<Automation> routines = new ArrayList<Automation>();
-	Queue<Automation> queued = new LinkedList<Automation>();
-	boolean started;
+	private ArrayList<Automation> routines = new ArrayList<Automation>();
+	private Queue<Automation> queued = new LinkedList<Automation>();
+	private boolean started;
 	
 	Sequential(String name, RoutineOption... options) 
 	{
@@ -35,7 +35,7 @@ public class Sequential extends Automation {
 			auto.AllocateResources();
 	}
 
-	public boolean Start()
+	protected boolean Start()
 	{
 		AsyncPrinter.info("SRINSTART");
 		if (routines.isEmpty())
@@ -103,12 +103,12 @@ public class Sequential extends Automation {
 		routines.addAll(automation);
 	}
 
-	public void ClearSequence()
+	void ClearSequence()
 	{
 		routines.clear();
 	}
 
-	protected boolean ContinueNextStep()
+	boolean ContinueNextStep()
 	{
 		return true;
 	}

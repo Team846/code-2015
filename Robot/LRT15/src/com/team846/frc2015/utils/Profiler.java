@@ -3,7 +3,7 @@ package com.team846.frc2015.utils;
 import java.util.Map.Entry;
 import java.util.HashMap;
 
-public class Profiler {
+class Profiler {
 	private Profiler() {
 	}
 
@@ -55,7 +55,7 @@ public class Profiler {
 		clear();
 	}
 
-	public static void clear() {
+	private static void clear() {
 		profilingData.clear();
 	}
 }
