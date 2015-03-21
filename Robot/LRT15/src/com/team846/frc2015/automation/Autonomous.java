@@ -70,7 +70,7 @@ public class Autonomous extends Sequential
 			e.printStackTrace();
 		}
 
-		while (in.hasNext())
+		while (in != null && in.hasNext())
 		{
 			String line = in.nextLine();
 
@@ -292,32 +292,20 @@ public class Autonomous extends Sequential
 		}
 	}
 
-	private boolean parseBoolean(String string)// throws Exception
-	{
-		if (string.equals("true"))
-		{
-			return true;
-		} else if (string.equals("false"))
-		{
-			return false;
-		} else
-		{
-			return false;//throw new Exception("unable to parse boolean: " + string);
-		}
-	}
-
 	private File FindRoutine(int routineNumber)// throws FileNotFoundException
 	{
 		File folder = new File(RobotConfig.AUTO_FOLDER_PATH);
 		File[] routines = folder.listFiles();
-		for (File routine: routines) {
-			if (routine.getName().endsWith(routineNumber + ".routine")) {
-				System.out.println("Reading file: " + routine);
-				return routine;
-			}
-		}
-		
-		return null;//throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
+        if (routines != null) {
+            for (File routine: routines) {
+                if (routine.getName().endsWith(routineNumber + ".routine")) {
+                    System.out.println("Reading file: " + routine);
+                    return routine;
+                }
+            }
+        }
+
+        return null;//throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
 	}
 
 }
