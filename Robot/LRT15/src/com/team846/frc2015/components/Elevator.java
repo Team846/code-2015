@@ -25,6 +25,7 @@ import com.team846.frc2015.utils.MathUtils;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Elevator extends Component implements Configurable {
@@ -49,6 +50,9 @@ public class Elevator extends Component implements Configurable {
 	private int collectorOutThreshold;
 	private CollectorArmData armData;
 	private CarriageExtenderData extenderData;
+	
+	private Timer stallTimer = new Timer();
+	private int stallPosition = 0;
 
 	public Elevator() {
 		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
@@ -140,6 +144,21 @@ public class Elevator extends Component implements Configurable {
 //				if (value > 0)
 //					value = 0;
 //		}
+		if (value > 0.1)
+		{
+			stallTimer.start();
+			if (stallTimer.get() > 3.0 && Math.abs(currentPosition - stallPosition) < 100)
+			{
+				value = 0;
+				AsyncPrinter.error("Elevator stalling (timer: " + stallTimer.get() + ", output: " + value);
+			}
+		}
+		else
+		{
+			stallTimer.stop();
+			stallTimer.reset();
+			stallPosition = currentPosition;
+		}
 		motorA.set(value);
 		motorB.set(value);
 	}
@@ -148,7 +167,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
-		//AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
+		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override
