@@ -313,10 +313,10 @@ public class Autonomous extends Sequential
 
 	private boolean parseBoolean(String string)// throws Exception
 	{
-		if (string == "true")
+		if (string.equals("true"))
 		{
 			return true;
-		} else if (string == "false")
+		} else if (string.equals("false"))
 		{
 			return false;
 		} else
