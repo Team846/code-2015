@@ -121,23 +121,28 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(collect);
 
-				if (elevatorData.isAtSetpoint(collect) && (driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
+				if (elevatorData.isAtSetpoint(collect))
 				{
-					armData.setDesiredPosition(ArmPosition.EXTEND);
-					rollersData.setRunning(true);
-					rollersData.setDirection(Direction.INTAKE);
-					rollersData.setSpeed(1.0);
+					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+					elevatorData.setDesiredSpeed(0.0);
 					
-					System.out.println(sensor.getAverageValue());
-					if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
-							|| (auto && sensor.getAverageValue() > analogThreshold))
+					if ((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
 					{
-						rollersData.setSpeed(0.1);
-						hasItem = true;
-						state = State.GRAB;
+						armData.setDesiredPosition(ArmPosition.EXTEND);
+						rollersData.setRunning(true);
+						rollersData.setDirection(Direction.INTAKE);
+						rollersData.setSpeed(1.0);
+						
+						System.out.println(sensor.getAverageValue());
+						if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
+								|| (auto && sensor.getAverageValue() > analogThreshold))
+						{
+							rollersData.setSpeed(0.1);
+							hasItem = true;
+							state = State.GRAB;
+						}
 					}
 				}
-				
 				break;
 			}
 			case GRAB:
