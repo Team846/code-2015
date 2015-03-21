@@ -283,7 +283,7 @@ public class Brain
 		Iterator<Map.Entry<Automation, Event>> it = waitingTasks.entrySet().iterator();
 		while(it.hasNext())
 		{
-			Map.Entry<Automation, Event> e = (Map.Entry<Automation, Event>)it.next();
+			Map.Entry<Automation, Event> e = it.next();
 			if (!runningTasks.contains(e.getKey())) // If task isn't running
 		    {
 				if (e.getKey().CheckResources())
