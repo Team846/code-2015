@@ -67,6 +67,7 @@ public class Brain
 		Automation load_sideways_container = new LoadSidewaysContainer();
 		Automation load_upright_container = new LoadUprightContainer();
 		Automation load_additional = new LoadAdditional();
+		Automation load_stack = new LoadStack();
 		Automation human_load = new HumanLoad();
 		
 		Automation releaseStack = new ReleaseStack();
@@ -125,9 +126,11 @@ public class Brain
 		Event load_sideways_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
 		Event load_sideways_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER);
 
-		
 		Event load_additional_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL);
 		Event load_additional_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL);
+
+		Event load_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_STACK);
+		Event load_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_STACK);
 		
 		Event human_load_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
 		Event human_load_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
@@ -180,10 +183,15 @@ public class Brain
 		load_additional_start.AddStartListener(load_additional);
 		load_additional_start.AddAbortListener(load_additional);
 		load_additional_abort.AddAbortListener(load_additional);
+
+		load_stack_start.AddStartListener(load_stack);
+		load_stack_start.AddAbortListener(load_stack);
+		load_stack_abort.AddAbortListener(load_stack);
+		
 		load_additional_abort.AddAbortListener(load_tote);
 		load_additional_abort.AddAbortListener(load_sideways_container);
 		load_additional_abort.AddAbortListener(load_upright_container);
-
+		load_additional_abort.AddAbortListener(load_stack);
 
 		human_load_start.AddStartListener(human_load);
 		human_load_abort.AddAbortListener(human_load);
@@ -193,12 +201,14 @@ public class Brain
 		release_stack_start.AddAbortListener(load_upright_container);
 		release_stack_start.AddAbortListener(human_load);
 		release_stack_start.AddAbortListener(load_additional);
+		release_stack_start.AddAbortListener(load_stack);
 		
 		load_abort_deploy.AddAbortListener(load_tote);
 		load_abort_deploy.AddAbortListener(load_sideways_container);
 		load_abort_deploy.AddAbortListener(load_upright_container);
 		load_abort_deploy.AddAbortListener(human_load);
 		load_abort_deploy.AddAbortListener(load_additional);
+		load_abort_deploy.AddAbortListener(load_stack);
 
 		
 		load_abort_1.AddAbortListener(load_tote);
@@ -206,12 +216,14 @@ public class Brain
 		load_abort_1.AddAbortListener(load_upright_container);
 		load_abort_1.AddAbortListener(human_load);
 		load_abort_1.AddAbortListener(load_additional);
+		load_abort_1.AddAbortListener(load_stack);
 		
 		load_abort_2.AddAbortListener(load_tote);
 		load_abort_2.AddAbortListener(load_sideways_container);
 		load_abort_2.AddAbortListener(load_upright_container);
 		load_abort_2.AddAbortListener(human_load);
 		load_abort_2.AddAbortListener(load_additional);
+		load_abort_2.AddAbortListener(load_stack);
 
 		
 		load_abort_3.AddAbortListener(load_tote);
@@ -219,12 +231,14 @@ public class Brain
 		load_abort_3.AddAbortListener(load_upright_container);
 		load_abort_3.AddAbortListener(human_load);
 		load_abort_3.AddAbortListener(load_additional);
+		load_abort_3.AddAbortListener(load_stack);
 
 		load_abort_4.AddAbortListener(load_tote);
 		load_abort_4.AddAbortListener(load_sideways_container);
 		load_abort_4.AddAbortListener(load_upright_container);
 		load_abort_4.AddAbortListener(human_load);
 		load_abort_4.AddAbortListener(load_additional);
+		load_abort_4.AddAbortListener(load_stack);
 
 		
 		load_abort_step.AddAbortListener(load_tote);
@@ -232,13 +246,14 @@ public class Brain
 		load_abort_step.AddAbortListener(load_upright_container);
 		load_abort_step.AddAbortListener(human_load);
 		load_abort_step.AddAbortListener(load_additional);
+		load_abort_step.AddAbortListener(load_stack);
 		
 		driverSweep.AddAbortListener(load_tote);
 		driverSweep.AddAbortListener(load_additional);
 		driverSweep.AddAbortListener(load_sideways_container);
 		driverSweep.AddAbortListener(human_load);
 		driverSweep.AddAbortListener(load_upright_container);
-
+		driverSweep.AddAbortListener(load_stack);
 	}
 	
 	private void createInputProcessors() {

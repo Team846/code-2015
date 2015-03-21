@@ -190,14 +190,16 @@ public class Elevator extends Component implements Configurable {
 
 	@Override
 	public void Configure() {
+		positionGain = GetConfig("positionGain", 0.01);
+		
+		errorThreshold = GetConfig("errorThreshold", 15);
+		
+		// Setpoints
 		topSoftLimit = GetConfig("topLimit", 100);
 		
 		// Everything is offset from topSoftLimit
 		bottomSoftLimit = topSoftLimit + GetConfig("bottomLimit", 10);
 		
-		positionGain = GetConfig("positionGain", 0.01);
-		
-		errorThreshold = GetConfig("errorThreshold", 15);
 		collectorOutThreshold = topSoftLimit + GetConfig("collectorInterlock", 2000);
 				
 		elevatorSetpoints[ElevatorSetpoint.STEP.ordinal()]= topSoftLimit + GetConfig("step", 1800);
@@ -220,6 +222,8 @@ public class Elevator extends Component implements Configurable {
 		
 		elevatorSetpoints[ElevatorSetpoint.HUMAN_LOAD_PREPARE.ordinal()]= topSoftLimit + GetConfig("human_load_prepare", 1200);
 		elevatorSetpoints[ElevatorSetpoint.HUMAN_LOAD_GRAB.ordinal()]= topSoftLimit + GetConfig("human_load_grab", 1800);
+		
+		elevatorSetpoints[ElevatorSetpoint.SWEEP_CONTAINER.ordinal()]= topSoftLimit + GetConfig("sweep_container", 1700);
 	}
 	
 	

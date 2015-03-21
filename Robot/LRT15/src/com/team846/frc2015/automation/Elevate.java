@@ -22,6 +22,8 @@ public class Elevate extends Automation {
 			setpoint = ElevatorSetpoint.TOTE_3;
 		else if (toteLevel == 4)
 			setpoint = ElevatorSetpoint.TOTE_4;
+		else if (toteLevel == 5)
+			setpoint = ElevatorSetpoint.SWEEP_CONTAINER;
 		else
 		{
 			AsyncPrinter.warn("Invalid tote level, defaulting to 1");

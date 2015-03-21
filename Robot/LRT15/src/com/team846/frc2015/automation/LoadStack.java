@@ -14,23 +14,19 @@ import com.team846.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public class LoadAdditional extends LoadItem implements Configurable {
+public class LoadStack extends LoadItem implements Configurable {
 
 	private CarriageHooksData hooksData;
-	private ElevatorData elevatorData;
 	private int toteAnalogValue = 0;
-	private int startPosition = 0;
-	private int hookDisengageDrop = 0;
 
-	public LoadAdditional(boolean auto)
+	public LoadStack(boolean auto)
 	{
-		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 10, auto );
+		super("LoadStack", ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto);
 		hooksData = CarriageHooksData.get();
-		elevatorData = ElevatorData.get();
 		ConfigRuntime.Register(this);
 	}
 	
-	public LoadAdditional()
+	public LoadStack()
 	{
 		this(false);
 	}
@@ -39,21 +35,14 @@ public class LoadAdditional extends LoadItem implements Configurable {
 	public void Configure()
 	{
 		toteAnalogValue = GetConfig("analog_tote_value", 1600);
-		hookDisengageDrop = GetConfig("hook_disengage_drop", 500);
 		super.setAnalogThreshold(toteAnalogValue);
-	}
-	
-	protected boolean Start()
-	{
-		startPosition = elevatorData.getCurrentPosition();
-		return super.Start();
 	}
 	
 	@Override
 	protected boolean Abort()
 	{
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL
+				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.LOAD_STACK
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick())
 			return false;
 		else
@@ -64,22 +53,15 @@ public class LoadAdditional extends LoadItem implements Configurable {
 	public boolean Run()
 	{
 		boolean ret = super.Run();
-		if (elevatorData.isAtSetpoint(ElevatorSetpoint.COLLECT_ADDITIONAL))
+		if (state == State.COLLECT)
 		{
-			startPosition = elevatorData.getCurrentPosition();
+			hooksData.setBackHooksDesiredState(HookState.UP);
+			hooksData.setFrontHooksDesiredState(HookState.UP);
 		}
 		if (state == State.GRAB)
 		{
-			if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop)
-			{
-				hooksData.setBackHooksDesiredState(HookState.UP);
-				hooksData.setFrontHooksDesiredState(HookState.UP);
-			}
-			else
-			{
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			}
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
 		}
 		return ret;
 	}

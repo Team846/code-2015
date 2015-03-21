@@ -35,6 +35,7 @@ public class DriverStationConfig {
 		public static final int LOAD_TOTE = 3;
 		public static final int LOAD_SIDEWAYS_CONTAINER = 4;
 		public static final int LOAD_UPRIGHT_CONTAINER = 8;
+		public static final int LOAD_STACK = 11;
 		
 		public static final int ELEVATE_ONE = 5;
 		public static final int ELEVATE_TWO = 6;
@@ -44,8 +45,6 @@ public class DriverStationConfig {
 		
 		public static final int HUMAN_LOAD_START = 15;
 		public static final int HUMAN_LOAD_FINISH = 16;
-		
-		
 		
 		// Overrides
 		public static final int HOOKS_OVERRIDE = 13;

@@ -121,7 +121,7 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(collect);
 
-				if ((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
+				if (elevatorData.isAtSetpoint(collect) && (driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
 				{
 					armData.setDesiredPosition(ArmPosition.EXTEND);
 					rollersData.setRunning(true);

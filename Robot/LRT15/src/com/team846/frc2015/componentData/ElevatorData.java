@@ -44,6 +44,7 @@ public class ElevatorData extends ComponentData{
 		TOTE_3,
 		TOTE_4,
 		STEP,
+		SWEEP_CONTAINER,
 		NONE
 	}
 
