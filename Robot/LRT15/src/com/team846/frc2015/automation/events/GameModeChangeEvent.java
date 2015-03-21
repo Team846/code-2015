@@ -7,7 +7,7 @@ public class GameModeChangeEvent extends Event
 {
 	private GameState fromMode = null;
 	private GameState toMode = null;
-	private boolean from;
+	private final boolean from;
 	
 	public GameModeChangeEvent(GameState toMode)
 	{

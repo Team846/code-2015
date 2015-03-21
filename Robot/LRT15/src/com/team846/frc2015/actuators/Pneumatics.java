@@ -16,12 +16,12 @@ public class Pneumatics extends Actuator implements Configurable{
 
 	private int pulseLength;
 
-	private static Compressor compressor = new Compressor(1);
-	private static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
+	private static final Compressor compressor = new Compressor(1);
+	private static final ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
 
-	private SolenoidBase solenoid;
+	private final SolenoidBase solenoid;
 	private int counter;
-	private boolean pulsed;
+	private final boolean pulsed;
 	private State state;
 	
 	public enum State

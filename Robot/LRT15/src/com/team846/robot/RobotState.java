@@ -11,11 +11,11 @@ public class RobotState {
 	
 	private GameState gameMode;
 	private GameState lastGameMode;
-	private Timer matchTimer = new Timer();
-	private Timer totalTimer = new Timer();
+	private final Timer matchTimer = new Timer();
+	private final Timer totalTimer = new Timer();
 	private double lastTime;
 	private double currentTime;
-	private DriverStation ds;
+	private final DriverStation ds;
 	private boolean fms;
 	
 	public static void Initialize()

@@ -9,8 +9,8 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class CollectorArmInputs extends InputProcessor {
 
-	private CollectorArmData armData;
-	private LRTJoystick driverStick;
+	private final CollectorArmData armData;
+	private final LRTJoystick driverStick;
 	public CollectorArmInputs()
 	{
 		RegisterResource(ControlResource.COLLECTOR_ARMS);

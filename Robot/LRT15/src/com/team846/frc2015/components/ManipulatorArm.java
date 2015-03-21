@@ -9,10 +9,10 @@ import com.team846.frc2015.config.DriverStationConfig;
 
 public class ManipulatorArm extends Component{
 	
-	private Pneumatics leftArm;
-	private Pneumatics rightArm;
+	private final Pneumatics leftArm;
+	private final Pneumatics rightArm;
 
-	private ManipulatorArmData armData;
+	private final ManipulatorArmData armData;
 	
 	public ManipulatorArm() {
 		super("ContainerHook", DriverStationConfig.DigitalIns.NO_DS_DI);

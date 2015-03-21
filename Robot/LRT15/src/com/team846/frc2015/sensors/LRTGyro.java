@@ -6,14 +6,14 @@ import edu.wpi.first.wpilibj.SPI.Port;
 class LRTGyro extends SensorFactory
 {
 	
-	private byte OUT_X_L = 0B00101000;
-	private byte OUT_X_H = 0B00101001;
-	private byte OUT_Y_L = 0B00101010;
-	private byte OUT_Y_H = 0B00101011;
+	private final byte OUT_X_L = 0B00101000;
+	private final byte OUT_X_H = 0B00101001;
+	private final byte OUT_Y_L = 0B00101010;
+	private final byte OUT_Y_H = 0B00101011;
 	
-	private double angle = 0.0;
+	private final double angle = 0.0;
 	
-	private SPI digitalInput;
+	private final SPI digitalInput;
 	
 	private float minVoltage;
 	private float maxVoltage;

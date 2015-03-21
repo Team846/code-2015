@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class ContinuousPotentiometer implements Configurable
 {
-	private AnalogInput channelA;
-	private AnalogInput channelB;
+	private final AnalogInput channelA;
+	private final AnalogInput channelB;
 	
 	private float minVoltage;
 	private float maxVoltage;

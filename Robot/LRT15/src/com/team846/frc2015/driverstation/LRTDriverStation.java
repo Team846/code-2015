@@ -7,9 +7,9 @@ public class LRTDriverStation {
 
 	private static LRTDriverStation instance = null;
 
-	private LRTJoystick driver_stick;
-	private LRTJoystick operator_stick;
-	private LRTJoystick driver_wheel;
+	private final LRTJoystick driver_stick;
+	private final LRTJoystick operator_stick;
+	private final LRTJoystick driver_wheel;
 
 	public static void Initialize()
 	{

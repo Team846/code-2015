@@ -9,7 +9,7 @@ public class Parallel extends Automation {
 
 	 private boolean abortOnFirst = false;
 	 private ArrayList<Automation> routines = new ArrayList<Automation>();
-	 private ArrayList<Automation> running = new ArrayList<Automation>();
+	 private final ArrayList<Automation> running = new ArrayList<Automation>();
 	 
 	 public Parallel(String name)
 	 {

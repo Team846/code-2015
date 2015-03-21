@@ -5,8 +5,8 @@ import com.team846.frc2015.automation.events.JoystickPressedEvent;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
 class JoystickHeldEvent extends DelayedEvent {
-	private LRTJoystick m_joystick;
-	private int m_lastFiredButton;
+	private final LRTJoystick m_joystick;
+	private final int m_lastFiredButton;
 	
 	JoystickHeldEvent(LRTJoystick joystick, int button, int cycles) {
 		super(new JoystickPressedEvent(joystick, button), cycles);

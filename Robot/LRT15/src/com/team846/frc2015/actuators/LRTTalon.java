@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class LRTTalon extends LRTSpeedController {
 	
-	private static ArrayList<LRTTalon> talon_list = new ArrayList<LRTTalon>();
+	private static final ArrayList<LRTTalon> talon_list = new ArrayList<LRTTalon>();
 	
 	private double pwm;
-	private DigitalOutput brake_jumper;
+	private final DigitalOutput brake_jumper;
 	private LRTSpeedController.NeutralMode neutral;
 	
-	private Talon talon;
+	private final Talon talon;
 
 	public LRTTalon(int channel, String name, int jumperChannel)
 		//LRTSpeedController("LRTTalon" + name),

@@ -15,15 +15,15 @@ class UdpFetcher {
 		DatagramSocket clientSocket;
 		InetAddress IpAddress;
 		
-		long loopDelta = 1000 / 15;
-		int IpPort;
+		final long loopDelta = 1000 / 15;
+		final int IpPort;
 		
-		byte[] sendData = new byte[1];
-		byte[] receiveData = new byte[128];
+		final byte[] sendData = new byte[1];
+		final byte[] receiveData = new byte[128];
 		
-		DatagramPacket sendPacket;
+		final DatagramPacket sendPacket;
 		
-		Semaphore responseAvailiability = new Semaphore(1);
+		final Semaphore responseAvailiability = new Semaphore(1);
 		String response = "";
 
 		NetworkFetcher(String targetHost, int port)  {
@@ -76,7 +76,7 @@ class UdpFetcher {
 		}
 	}
 	
-	private NetworkFetcher instance;
+	private final NetworkFetcher instance;
 
 	public UdpFetcher(String targetHost, int port) {
 		instance = new NetworkFetcher(targetHost, port);

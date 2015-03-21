@@ -10,15 +10,15 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 abstract class LRTRobotBase extends RobotBase
 {
-	private Timer loopSynchronizer;
-	private TimerTask loopGrabber = new TimerTask() {
+	private final Timer loopSynchronizer;
+	private final TimerTask loopGrabber = new TimerTask() {
 		@Override
 		public void run() {
 			
 			loopSem.release();
 		}
 	};
-	private Semaphore loopSem;
+	private final Semaphore loopSem;
 	
 	LRTRobotBase()
 	{

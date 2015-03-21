@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MultipleEvent extends Event {
 	
-	private ArrayList<Event> eventList;
+	private final ArrayList<Event> eventList;
 	
 	public MultipleEvent()
 	{

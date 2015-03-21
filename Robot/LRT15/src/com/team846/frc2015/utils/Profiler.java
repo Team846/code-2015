@@ -7,7 +7,7 @@ class Profiler {
 	private Profiler() {
 	}
 
-	private static HashMap<String, Pair<Long, Long>> profilingData = 
+	private static final HashMap<String, Pair<Long, Long>> profilingData =
 			new HashMap<String, Pair<Long, Long>>();
 
 	private static void log(String msg) {

@@ -9,8 +9,8 @@ import com.team846.frc2015.config.DriverStationConfig;
 
 public class CarriageClamp extends Component {
 	
-	private Pneumatics clamp;
-	private ClampData clampData;
+	private final Pneumatics clamp;
+	private final ClampData clampData;
 
 	public CarriageClamp() {
 		super("CarriageClamp", DriverStationConfig.DigitalIns.NO_DS_DI);

@@ -7,15 +7,15 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Sweep extends Automation {
 
-	private CollectorArmData armData;
-	private CollectorRollersData rollersData;
+	private final CollectorArmData armData;
+	private final CollectorRollersData rollersData;
 	
 	public enum Direction
 	{
 		LEFT,
 		RIGHT
 	}
-	private Direction direction;
+	private final Direction direction;
 
 	public Sweep(Direction dir)
 	{

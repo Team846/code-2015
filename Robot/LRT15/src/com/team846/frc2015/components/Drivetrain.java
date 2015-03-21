@@ -30,17 +30,17 @@ public class Drivetrain extends Component implements Configurable {
 	private final static int POSITION = 0;
 	private final static int VELOCITY = 1; 
 	
-	private PID[][] PIDs;
+	private final PID[][] PIDs;
 	
-	private PID[] mecanumDrivePIDs;
-	private DrivetrainData drivetrainData;
-	private DriveEncoders driveEncoders;
-	private DriveESC[] escs = new DriveESC[4];
+	private final PID[] mecanumDrivePIDs;
+	private final DrivetrainData drivetrainData;
+	private final DriveEncoders driveEncoders;
+	private final DriveESC[] escs = new DriveESC[4];
 	
-	private CANTalon frontLeft;
-	private CANTalon backLeft;
-	private CANTalon frontRight;
-	private CANTalon backRight;
+	private final CANTalon frontLeft;
+	private final CANTalon backLeft;
+	private final CANTalon frontRight;
+	private final CANTalon backRight;
 	
 	public Drivetrain() 
 	{	

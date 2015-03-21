@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class CollectorRollers extends Component
 {
-	private CollectorRollersData rollersData;
+	private final CollectorRollersData rollersData;
 	
-	private CANTalon leftMotor;
-	private CANTalon rightMotor;
+	private final CANTalon leftMotor;
+	private final CANTalon rightMotor;
 
 	public CollectorRollers()
 	{

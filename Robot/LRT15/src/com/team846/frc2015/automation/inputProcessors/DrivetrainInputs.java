@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class DrivetrainInputs extends InputProcessor implements Configurable {
 	
-	private LRTJoystick driverStick;
-	private LRTJoystick driverWheel;
+	private final LRTJoystick driverStick;
+	private final LRTJoystick driverWheel;
 	
 	boolean lastStop;
 //	double negInertiaScalar;
@@ -31,8 +31,8 @@ private boolean constRadius;
 	private double deadband;
 	private double strafeExponent;
 	
-	private Axis axis;
-	private DrivetrainData drivetrainData;
+	private final Axis axis;
+	private final DrivetrainData drivetrainData;
 
     private Pivot pivot = new Pivot(2);
 	

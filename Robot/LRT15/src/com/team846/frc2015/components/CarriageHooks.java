@@ -9,10 +9,10 @@ import com.team846.frc2015.config.DriverStationConfig;
 
 public class CarriageHooks extends Component{
 	
-	private Pneumatics frontHooks;
-	private Pneumatics backHooks;
+	private final Pneumatics frontHooks;
+	private final Pneumatics backHooks;
 	
-	private CarriageHooksData hooksData;
+	private final CarriageHooksData hooksData;
 	
 	public CarriageHooks() 
 	{

@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class TimeDrive extends Automation {
 	
-	private Timer timer;
-	private double maxSpeed;
+	private final Timer timer;
+	private final double maxSpeed;
 
-	private double time;
-	private DrivetrainData drivetrain;
+	private final double time;
+	private final DrivetrainData drivetrain;
 	
 	public TimeDrive(double time)
 	{

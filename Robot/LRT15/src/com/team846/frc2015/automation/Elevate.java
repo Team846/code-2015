@@ -8,8 +8,8 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Elevate extends Automation {
 
-	private ElevatorData elData;
-	private ElevatorSetpoint setpoint;
+	private final ElevatorData elData;
+	private final ElevatorSetpoint setpoint;
 	public Elevate(int toteLevel) {
 		super("Elevate");
 		elData = ElevatorData.get();

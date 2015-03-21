@@ -15,7 +15,7 @@ public class ConfigPortMappings
 	final static private String CONFIG_FILE_PATH = RobotConfig.PORT_MAPPINGS_FILE_PATH;
 	final static private char COMMENT_DELIMITER = '#';
 	
-	private HierarchicalINIConfiguration config;
+	private final HierarchicalINIConfiguration config;
 	
 	public static ConfigPortMappings Instance()
 	{

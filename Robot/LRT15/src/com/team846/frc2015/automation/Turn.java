@@ -8,7 +8,7 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Turn extends Automation {
 	
-	private DrivetrainData drivetrain;
+	private final DrivetrainData drivetrain;
 	
 	private double angle;
 	private double maxSpeed;

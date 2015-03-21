@@ -6,13 +6,13 @@ import com.team846.frc2015.automation.Automation;
 
 public abstract class Event 
 {
-	private ArrayList<Automation> start_listeners = new ArrayList<>();
-	private ArrayList<Automation> abort_listeners = new ArrayList<>();
-	private ArrayList<Automation> continue_listeners = new ArrayList<>();
+	private final ArrayList<Automation> start_listeners = new ArrayList<>();
+	private final ArrayList<Automation> abort_listeners = new ArrayList<>();
+	private final ArrayList<Automation> continue_listeners = new ArrayList<>();
 	
 	private boolean lastFired;
 	
-	public static ArrayList<Event> event_vector = new ArrayList<Event>();
+	public static final ArrayList<Event> event_vector = new ArrayList<Event>();
 	
 	Event()
 	{

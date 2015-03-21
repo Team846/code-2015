@@ -12,10 +12,10 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class HumanLoad extends LoadTote implements Configurable{
 	
-	private ElevatorData elevatorData;
-	private CarriageHooksData hooksData;
+	private final ElevatorData elevatorData;
+	private final CarriageHooksData hooksData;
 	private HumanLoadState humanLoadState;
-	private LRTJoystick operatorStick;
+	private final LRTJoystick operatorStick;
 	
 	enum HumanLoadState
 	{

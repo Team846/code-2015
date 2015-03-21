@@ -7,10 +7,10 @@ import com.team846.frc2015.utils.AsyncPrinter;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Strafe extends Automation {
-	private double time;
-	private double maxSpeed;
-	private DrivetrainData drivetrain;
-	private Timer timer;
+	private final double time;
+	private final double maxSpeed;
+	private final DrivetrainData drivetrain;
+	private final Timer timer;
 	
 	public Strafe(double time) //seconds
 	{

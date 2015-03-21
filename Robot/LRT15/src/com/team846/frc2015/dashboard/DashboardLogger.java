@@ -104,7 +104,7 @@ public class DashboardLogger
 
 	class StaticSocketIOChannel extends SocketIOChannelInitializer
 	{
-		Configuration configuration;
+		final Configuration configuration;
 
 		public StaticSocketIOChannel(Configuration configuration)
 		{

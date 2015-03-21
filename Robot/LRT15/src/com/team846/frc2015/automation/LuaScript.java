@@ -10,7 +10,7 @@ import com.team846.frc2015.scripting.ScriptExecutionState;
 
 public class LuaScript extends Automation {
 
-	private LuaContext mLua;
+	private final LuaContext mLua;
 	private boolean mAllocateError;
 	
 	private Automation mCurrentAutomation;

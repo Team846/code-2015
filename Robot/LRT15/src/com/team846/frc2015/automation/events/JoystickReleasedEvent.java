@@ -4,9 +4,9 @@ import com.team846.frc2015.automation.events.Event;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class JoystickReleasedEvent extends Event {
-	private LRTJoystick joystick;
-    private int m_button;
-    private int m_lastFiredButton;
+	private final LRTJoystick joystick;
+    private final int m_button;
+    private final int m_lastFiredButton;
 	
 	public JoystickReleasedEvent(LRTJoystick joystick, int button) {
 		this.joystick = joystick;

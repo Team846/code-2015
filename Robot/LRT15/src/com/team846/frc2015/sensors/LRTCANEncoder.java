@@ -11,7 +11,7 @@ public class LRTCANEncoder
 {
 	private CANTalon attachedEncoder = null;
 	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
-	private double minRate = 10; // units/period of time
+	private final double minRate = 10; // units/period of time
 	private double prevRate = 0;
 	private boolean reverse;
 	

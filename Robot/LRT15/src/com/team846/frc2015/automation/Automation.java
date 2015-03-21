@@ -7,11 +7,11 @@ import java.util.Map;
 import com.team846.frc2015.automation.events.Event;
 
 public abstract class Automation {
-	private static ArrayList<Automation> automation_vector = new ArrayList<>();
+	private static final ArrayList<Automation> automation_vector = new ArrayList<>();
 	private static Map<ControlResource, Integer> allocated = new HashMap<ControlResource, Integer>();
-	private ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
+	private final ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
 	
-	ArrayList<RoutineOption> routineOptions = new ArrayList<RoutineOption>();
+	final ArrayList<RoutineOption> routineOptions = new ArrayList<RoutineOption>();
 	
 	private Event startEvent;
 	private Event abortEvent;

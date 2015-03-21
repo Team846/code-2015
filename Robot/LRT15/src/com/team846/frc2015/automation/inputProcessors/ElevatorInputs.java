@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class ElevatorInputs extends InputProcessor {
 
-	private ElevatorData elevatorData;
-	private LRTJoystick operatorStick;
+	private final ElevatorData elevatorData;
+	private final LRTJoystick operatorStick;
 	
 	public ElevatorInputs()
 	{

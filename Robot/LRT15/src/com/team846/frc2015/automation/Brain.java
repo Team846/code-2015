@@ -30,11 +30,11 @@ public class Brain
 {
 	private static Brain instance = null;
 	
-	private ArrayList<InputProcessor> inputs = new ArrayList<InputProcessor>();
+	private final ArrayList<InputProcessor> inputs = new ArrayList<InputProcessor>();
 	ArrayList<Automation> automation = new ArrayList<Automation>();
 	
-	private LinkedList<Automation> runningTasks = new LinkedList<Automation>();
-	private HashMap<Automation, Event> waitingTasks = new HashMap<Automation, Event>();
+	private final LinkedList<Automation> runningTasks = new LinkedList<Automation>();
+	private final HashMap<Automation, Event> waitingTasks = new HashMap<Automation, Event>();
 	
 	public static Brain Instance()
 	{

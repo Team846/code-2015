@@ -11,12 +11,12 @@ import com.team846.frc2015.utils.AsyncPrinter;
 public class ConfigRuntime
 {
 	private static ConfigRuntime instance = null;
-	private static ArrayList<Configurable> configurables = new ArrayList<Configurable>();
+	private static final ArrayList<Configurable> configurables = new ArrayList<Configurable>();
 	
 	private final static String CONFIG_FILE_PATH = RobotConfig.CONFIG_FILE_PATH;
 	private final static char COMMENT_DELIMITERS = '#'; 
 	
-	private HierarchicalINIConfiguration config;
+	private final HierarchicalINIConfiguration config;
 	private long lastReadTimestamp;
 
 	private ConfigRuntime()

@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class CarriageExtenderInputs extends InputProcessor {
 	
-	private CarriageExtenderData extenderData;
-	private LRTJoystick operatorStick;
+	private final CarriageExtenderData extenderData;
+	private final LRTJoystick operatorStick;
 
 	public CarriageExtenderInputs() {
 		extenderData = CarriageExtenderData.get();

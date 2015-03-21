@@ -22,28 +22,28 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Elevator extends Component implements Configurable {
 
-	private ElevatorData elevatorData;
+	private final ElevatorData elevatorData;
 	private RunningSum errorSum;
 
 	private int topSoftLimit;
 	private int bottomSoftLimit;
 	
-	private CANTalon motorA;
-	private CANTalon motorB;
+	private final CANTalon motorA;
+	private final CANTalon motorB;
 	
-	private AnalogInput elevatorPot;
+	private final AnalogInput elevatorPot;
 	
-	private int[] elevatorSetpoints;
+	private final int[] elevatorSetpoints;
 	
 	private int errorThreshold;
 	private boolean freezePosition;
 	
 	private double positionGain;
 	private int collectorOutThreshold;
-	private CollectorArmData armData;
-	private CarriageExtenderData extenderData;
+	private final CollectorArmData armData;
+	private final CarriageExtenderData extenderData;
 	
-	private Timer stallTimer = new Timer();
+	private final Timer stallTimer = new Timer();
 	private int stallPosition = 0;
 
 	public Elevator() {

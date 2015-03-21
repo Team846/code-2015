@@ -17,7 +17,7 @@ public class PID {
 	private boolean enabled;
 	
 	private boolean IIREnabled;
-	private RunningSum runningSum;
+	private final RunningSum runningSum;
 
 	PID(double p_gain, double i_gain, double d_gain, double ff_gain,
 			double i_decay, boolean feedforward, double filterFreq)

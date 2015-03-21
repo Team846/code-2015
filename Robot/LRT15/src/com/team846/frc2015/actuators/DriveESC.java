@@ -18,9 +18,9 @@ public class DriveESC
 		}
 	}
 
-	private CANTalon controller1;
+	private final CANTalon controller1;
 	
-	private double dutyCycle;
+	private final double dutyCycle;
 	
 	private int cycle_count;
 	

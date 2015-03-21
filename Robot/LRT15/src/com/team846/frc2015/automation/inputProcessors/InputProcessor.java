@@ -7,7 +7,7 @@ import com.team846.frc2015.automation.ControlResource;
 
 public abstract class InputProcessor {
 	
-	private ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
+	private final ArrayList<ControlResource> resources = new ArrayList<ControlResource>();
 	
 	InputProcessor()
 	{

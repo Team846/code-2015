@@ -9,8 +9,8 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public abstract class ComponentData 
 {
-	private static Map<String, ComponentData> componentData_map = new HashMap<String, ComponentData>();
-	private static ArrayList<ComponentData> data = new ArrayList<ComponentData>();
+	private static final Map<String, ComponentData> componentData_map = new HashMap<String, ComponentData>();
+	private static final ArrayList<ComponentData> data = new ArrayList<ComponentData>();
 	
 	ComponentData(String name)
 	{

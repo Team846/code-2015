@@ -10,7 +10,7 @@ public class ElevatorData extends ComponentData{
 	private ElevatorSetpoint setpoint;
 	private ElevatorSetpoint currentSetpoint;
 	
-	private double errorThreshold  = 10;
+	private final double errorThreshold  = 10;
 	private int currentPosition = 0;
 	
 	public enum ElevatorControlMode

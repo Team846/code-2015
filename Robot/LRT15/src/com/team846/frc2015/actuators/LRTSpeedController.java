@@ -15,7 +15,7 @@ public abstract class LRTSpeedController extends Actuator
 	private CounterBase encoder = null;
 	private double timeoutSeconds;
 	private float threshold;
-	private Timer timer = new Timer();
+	private final Timer timer = new Timer();
 	
 	LRTSpeedController(String name) {
 		super(name);

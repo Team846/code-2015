@@ -9,10 +9,10 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class CollectorRollersInputs extends InputProcessor
 {
-	private LRTJoystick operatorStick;
-	private LRTJoystick driverStick;
+	private final LRTJoystick operatorStick;
+	private final LRTJoystick driverStick;
 
-	private CollectorRollersData collectorRollers;
+	private final CollectorRollersData collectorRollers;
 	
 	public CollectorRollersInputs()
 	{

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public abstract class Actuator 
 {
-	private String name;
-	private static ArrayList<Actuator> actuator_list = new ArrayList<Actuator>();
+	private final String name;
+	private static final ArrayList<Actuator> actuator_list = new ArrayList<Actuator>();
 
 	Actuator(String name)
 	{

@@ -6,15 +6,15 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class LRTJoystick extends Joystick {
 	
-	private int num_buttons;
-	private int num_axes;
+	private final int num_buttons;
+	private final int num_axes;
 	
-	private int port;
+	private final int port;
 	
-	private boolean[] wasPressed;
-	private boolean[] isPressed;
-	private double[] axisPrevValue;
-	private double[] axisValue;
+	private final boolean[] wasPressed;
+	private final boolean[] isPressed;
+	private final double[] axisPrevValue;
+	private final double[] axisValue;
 	
 	public LRTJoystick(int port, int nBtns, int nAxes)
 	{

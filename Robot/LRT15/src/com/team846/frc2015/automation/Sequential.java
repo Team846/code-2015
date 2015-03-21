@@ -8,7 +8,7 @@ import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Sequential extends Automation {
 	private ArrayList<Automation> routines = new ArrayList<Automation>();
-	private Queue<Automation> queued = new LinkedList<Automation>();
+	private final Queue<Automation> queued = new LinkedList<Automation>();
 	private boolean started;
 	
 	Sequential(String name, RoutineOption... options) 

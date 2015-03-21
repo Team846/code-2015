@@ -8,8 +8,8 @@ import org.luaj.vm2.lib.jse.JsePlatform;
 
 public class LuaContext implements ScriptContext{
 	
-	private Globals mGlobals;
-	private boolean mRun;
+	private final Globals mGlobals;
+	private final boolean mRun;
 	
 	private LuaValue mLuaState;
 	private LuaThread mLuaExecutionContext;

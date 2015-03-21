@@ -19,22 +19,22 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public abstract class LoadItem extends Automation{
 
-	private ElevatorData elevatorData;
-	private CarriageHooksData hooksData;
-	private CollectorArmData armData;
-	private CollectorRollersData rollersData;
+	private final ElevatorData elevatorData;
+	private final CarriageHooksData hooksData;
+	private final CollectorArmData armData;
+	private final CollectorRollersData rollersData;
 	
-	private ElevatorSetpoint collect;
-	private ElevatorSetpoint grab;
-	private ElevatorSetpoint home;
+	private final ElevatorSetpoint collect;
+	private final ElevatorSetpoint grab;
+	private final ElevatorSetpoint home;
 	
-	private LRTJoystick driverStick;
-	private int requiredWaitCycles;
+	private final LRTJoystick driverStick;
+	private final int requiredWaitCycles;
 	private int waitTicks;
 	
 	boolean hasItem = false;
 	
-	private AnalogInput sensor;
+	private final AnalogInput sensor;
 	
 	private int analogThreshold = 0;
 	
@@ -46,7 +46,7 @@ public abstract class LoadItem extends Automation{
 		HOME
 	}
 	State state;
-	private boolean auto;
+	private final boolean auto;
 
 	LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
              ElevatorSetpoint homeSetpoint, boolean auto) {

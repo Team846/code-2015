@@ -10,9 +10,9 @@ import com.team846.robot.RobotState;
 public abstract class Component 
 {
 	
-	private static ArrayList<Component> component_list = new ArrayList<Component>();
-	private String name;
-	private int digitalIn;
+	private static final ArrayList<Component> component_list = new ArrayList<Component>();
+	private final String name;
+	private final int digitalIn;
 	private boolean lastEnabled;
 	
 	abstract protected void UpdateEnabled();

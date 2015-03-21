@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class CollectorArms extends Component 
 {
-	private Pneumatics arms;
-	private CollectorArmData armData;
+	private final Pneumatics arms;
+	private final CollectorArmData armData;
 //	DigitalInput leftReed;
 //	DigitalInput rightReed;
 	AnalogInput sensor;

@@ -10,8 +10,8 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 public class CarriageHooksInputs extends InputProcessor{
 	
 	
-	private CarriageHooksData hooksData;
-	private LRTJoystick operatorStick;
+	private final CarriageHooksData hooksData;
+	private final LRTJoystick operatorStick;
 
 	public CarriageHooksInputs() {
 

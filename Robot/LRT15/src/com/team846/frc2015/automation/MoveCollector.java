@@ -6,7 +6,7 @@ import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 public class MoveCollector extends Automation {
 
 	private CollectorArmData armData;
-	private ArmPosition desiredCollectorState;
+	private final ArmPosition desiredCollectorState;
 	
 	public MoveCollector(boolean state)
 	{

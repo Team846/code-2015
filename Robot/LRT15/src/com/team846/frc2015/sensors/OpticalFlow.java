@@ -11,7 +11,7 @@ class OpticalFlow {
 	private static final int COMPONENT_X = 0;
 	private static final int COMPONENT_Y = 1;
 
-	private static String mousePathPrefix = "/dev/input/mouse";
+	private static final String mousePathPrefix = "/dev/input/mouse";
 	
 	private static void log(Object msg) {
 		AsyncPrinter.info(msg.toString());
@@ -19,12 +19,12 @@ class OpticalFlow {
 
 	private static class MouseInterruptThread implements Runnable {
 		private Thread t;
-		private String mousePath;
+		private final String mousePath;
 		
-		int position[];
-		int delta[];
+		final int[] position;
+		final int[] delta;
 
-		byte[] mouseData;
+		final byte[] mouseData;
 
 		private FileInputStream mouse;
 		

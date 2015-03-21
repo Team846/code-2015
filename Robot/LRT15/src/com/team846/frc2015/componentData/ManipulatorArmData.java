@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public class ManipulatorArmData extends ComponentData {
 	
-	private boolean[] armStates;
-	private boolean[] currentArmStates;
+	private final boolean[] armStates;
+	private final boolean[] currentArmStates;
 	
 	public enum Arm
 	{

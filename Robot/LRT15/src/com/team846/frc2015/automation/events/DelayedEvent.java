@@ -3,8 +3,8 @@ package com.team846.frc2015.automation.events;
 import com.team846.frc2015.automation.events.Event;
 
 public class DelayedEvent extends Event {
-	private Event m_event;
-	private int m_delay;
+	private final Event m_event;
+	private final int m_delay;
 	private int m_count;
 	
 	public DelayedEvent(Event event, int delayCycles) {

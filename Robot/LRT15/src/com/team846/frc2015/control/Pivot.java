@@ -4,7 +4,7 @@ import com.team846.frc2015.utils.Pair;
 
 public class Pivot
 {
-	private double R;
+	private final double R;
 	
 	public Pivot(double r){
 		this.R = r;

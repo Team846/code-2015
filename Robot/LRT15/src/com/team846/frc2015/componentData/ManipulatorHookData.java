@@ -3,7 +3,7 @@ package com.team846.frc2015.componentData;
 
 public class ManipulatorHookData extends ComponentData{
 
-	private boolean[] armStates;
+	private final boolean[] armStates;
 	
 	public enum Arm
 	{

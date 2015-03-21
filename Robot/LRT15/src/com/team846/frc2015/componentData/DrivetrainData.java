@@ -8,17 +8,17 @@ import com.team846.frc2015.utils.MathUtils;
 
 public class DrivetrainData extends ComponentData
 {
-	private ControlMode[] controlModes;
-	private double[] desiredOpenLoopOutputs;
-	private double[] desiredRates;
-	private double[] positionSetpoints;
-	private double[] maxSpeeds;
+	private final ControlMode[] controlModes;
+	private final double[] desiredOpenLoopOutputs;
+	private final double[] desiredRates;
+	private final double[] positionSetpoints;
+	private final double[] maxSpeeds;
 	private boolean overrideCurrentLimitForward;
 	private boolean overrideCurrentLimitReverse;
 	private float currentLimitForward;
 	private float currentLimitReverse;
 	
-	private boolean[] resetPositionSetpoint;
+	private final boolean[] resetPositionSetpoint;
 	private boolean classic;
 	 
 	public enum ControlMode

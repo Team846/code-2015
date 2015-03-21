@@ -18,7 +18,7 @@ public class DriveEncoders implements Configurable
 	
 	private static DriveEncoders instance = null;
 
-	private LRTCANEncoder[] encoders;
+	private final LRTCANEncoder[] encoders;
 
 	private static double PULSES_PER_REVOLUTION; // Encoder pulses per wheel revolution
 	private static double MAX_ENCODER_RATE; //TODO: Calibrate after running robot

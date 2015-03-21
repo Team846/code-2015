@@ -12,9 +12,9 @@ import com.team846.frc2015.driverstation.LRTDriverStation;
 
 public class LoadUprightContainer extends LoadItem implements Configurable {
 
-	private CarriageHooksData hooksData;
+	private final CarriageHooksData hooksData;
 	private int toteAnalogValue = 0 ;
-	private CollectorArmData armData;
+	private final CollectorArmData armData;
 	
 	public LoadUprightContainer(boolean auto) {
 		super("LoadUprightContainer", ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER,
