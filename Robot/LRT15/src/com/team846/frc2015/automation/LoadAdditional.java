@@ -20,7 +20,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 
 	public LoadAdditional(boolean auto)
 	{
-		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 10, auto );
+		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto );
 		hooksData = CarriageHooksData.get();
 		elevatorData = ElevatorData.get();
 		ConfigRuntime.Register(this);

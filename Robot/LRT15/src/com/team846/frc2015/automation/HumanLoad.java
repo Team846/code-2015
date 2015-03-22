@@ -2,6 +2,7 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.automation.events.JoystickReleasedEvent;
 import com.team846.frc2015.componentData.CarriageHooksData;
+import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.config.ConfigRuntime;
@@ -14,6 +15,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 	
 	private final ElevatorData elevatorData;
 	private final CarriageHooksData hooksData;
+	private final CollectorArmData armData;
 	private HumanLoadState humanLoadState;
 	private final LRTJoystick operatorStick;
 	
@@ -28,6 +30,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 	{
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
+		armData = CollectorArmData.get();
 		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
 		ConfigRuntime.Register(this);
 	}
@@ -55,6 +58,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 		boolean ret = super.Run();
 		if (state == State.GRAB)
 		{
+			armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
 			switch (humanLoadState)
 			{
 			case PREPARE:

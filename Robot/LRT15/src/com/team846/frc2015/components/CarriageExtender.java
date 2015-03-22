@@ -9,6 +9,7 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.SensorFactory;
+import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -86,7 +87,7 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateDisabled() {
 		carriageMotor.set(0.0);
-		//AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 	}
 
 	@Override

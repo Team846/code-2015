@@ -159,7 +159,7 @@ public class Elevator extends Component implements Configurable {
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
-		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
+//		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override

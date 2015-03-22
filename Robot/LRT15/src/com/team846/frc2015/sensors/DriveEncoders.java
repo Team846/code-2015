@@ -105,7 +105,7 @@ public class DriveEncoders implements Configurable
 		return (rightDist + leftDist) / 2;
 	}
 
-	int GetTurnTicks()
+	public int GetTurnTicks()
 	{
 		int rightTicks = (encoders[Side.RIGHT_FRONT.ordinal()].get()
 				+ encoders[Side.RIGHT_BACK.ordinal()].get()) /2;

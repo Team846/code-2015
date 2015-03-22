@@ -70,22 +70,86 @@ public class Brain
 		Automation releaseStack = new ReleaseStack();
 		
 		//rip scripted autonomous
-//		Automation auton_fake = new Drive(96, 0.5, 3);
+		Sequential auton_fake = new Sequential("drive");
+		auton_fake.AddAutomation(new Turn(180, 0.5, 3));
 		
 		//EMERGENCY UNCOMMENT
-		Automation auton_fake = new TimeDrive(2.5,0.5);
+//		Automation auton_fake = new TimeDrive(2.5,0.5);
 		
 		//Automation auton_fake = new Turn(90, 0.5, 3);
 		
-		Sequential auton_fake_yellowYOLO = new Sequential("yellowTote");
-		auton_fake_yellowYOLO.AddAutomation(new LoadTote(true));
-		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
-		auton_fake_yellowYOLO.AddAutomation(new Drive(12,0.5,3));
-		auton_fake_yellowYOLO.AddAutomation(new Turn(90.0,0.5));
-		Parallel dropAndPop = new Parallel("DropMoveBack");
-		dropAndPop.AddAutomation(new ReleaseStack());
-		dropAndPop.AddAutomation(new Drive(36, 0.5));
-		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
+//		Sequential auton_fake_yellowYOLO = new Sequential("yellowTote");
+//		auton_fake_yellowYOLO.AddAutomation(new Turn(0));
+//		Parallel driveAndLoad = new Parallel("DriveAndLoad");
+//		driveAndLoad.AddAutomation(new LoadTote(true));
+//		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+//		auton_fake_yellowYOLO.AddAutomation(driveAndLoad);
+//		auton_fake_yellowYOLO.AddAutomation(new Turn(-90.0, 0.5, 3));
+//		auton_fake_yellowYOLO.AddAutomation(new Drive(108, 0.5,3));
+//		auton_fake_yellowYOLO.AddAutomation(new Turn(-90.0, 0.5, 3));
+//		Parallel dropAndPop = new Parallel("DropMoveBack", true);
+//		dropAndPop.AddAutomation(new ReleaseStack());
+//		dropAndPop.AddAutomation(new Drive(-120, 0.5, 3));
+//		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
+		
+
+		
+		Sequential auton_fake_three = new Sequential("threeTote");
+		auton_fake_three.AddAutomation(new Turn(0));
+		
+		Parallel driveAndLoad = new Parallel("DriveAndLoad");
+		Sequential loadAndElevate = new Sequential("LoadAndElevate");
+		loadAndElevate.AddAutomation(new LoadTote(true));
+		loadAndElevate.AddAutomation(new Elevate(3));
+		
+		driveAndLoad.AddAutomation(new Drive(60, 0.3, 3));
+		driveAndLoad.AddAutomation(loadAndElevate);
+		auton_fake_three.AddAutomation(driveAndLoad);
+
+		auton_fake_three.AddAutomation(new Turn(0));
+		
+		Parallel driveAndSweep = new Parallel("driveAndSweep", true);
+		driveAndSweep.AddAutomation(new Drive(120, 0.2, 3, true));
+		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
+		auton_fake_three.AddAutomation(driveAndSweep);
+
+		auton_fake_three.AddAutomation(new Turn(0));
+		
+		Automation drive = new Drive(120, 0.5, 6, true);
+		auton_fake_three.AddAutomation(drive);
+		
+		driveAndLoad = new Parallel("DriveAndLoad");
+		loadAndElevate = new Sequential("LoadAndElevate");
+		loadAndElevate.AddAutomation(new LoadAdditional(true));
+		loadAndElevate.AddAutomation(new Elevate(3));
+		
+		driveAndLoad.AddAutomation(new Drive(120, 0.3, 3));
+		driveAndLoad.AddAutomation(loadAndElevate);
+		
+		auton_fake_three.AddAutomation(driveAndLoad);
+		
+		auton_fake_three.AddAutomation(new Turn(0));
+		
+		auton_fake_three.AddAutomation(driveAndSweep);
+		
+		auton_fake_three.AddAutomation(new Turn(0));
+
+		Automation drive2 = new Drive(120, 0.5, 3);
+		auton_fake_three.AddAutomation(drive2);
+		
+		driveAndLoad = new Parallel("DriveAndLoad");
+		loadAndElevate = new Sequential("LoadAndElevate");
+		loadAndElevate.AddAutomation(new LoadAdditional(true));
+		
+		driveAndLoad.AddAutomation(new Drive(120, 0.3, 3));
+		driveAndLoad.AddAutomation(loadAndElevate);
+		
+//		Parallel dropAndPop = new Parallel("DropMoveBack", true);
+//		dropAndPop.AddAutomation(new ReleaseStack());
+//		dropAndPop.AddAutomation(new Drive(-120, 0.5, 3));
+//		auton_fake_three.AddAutomation(dropAndPop);
+		
+		
 		
 		Sequential auton_fake_container = new Sequential("container");
 		
@@ -144,7 +208,7 @@ public class Brain
 		
 		//SHOULD BE ENABLED LATER
 //		// Map events to routines
-//		//to_auto.AddStartListener(auton);
+//		to_auto.AddStartListener(auton);
 //		driver_stick_moved.AddAbortListener(auton);
 //		operator_stick_moved.AddAbortListener(auton);
 //		driver_stick_pressed.AddAbortListener(auton);
@@ -154,13 +218,13 @@ public class Brain
 		
 		// Map events to routines
 		//SCRIPTING IS A LIE
-//		to_auto.AddStartListener(auton_fake);
-		driver_stick_moved.AddAbortListener(auton_fake);
-		operator_stick_moved.AddAbortListener(auton_fake);
-		driver_stick_pressed.AddAbortListener(auton_fake);
-		operator_stick_pressed.AddAbortListener(auton_fake);
-		driverAbort.AddAbortListener(auton_fake);
-//		disabled_timeout.AddAbortListener(auton);
+		to_auto.AddStartListener(auton_fake_three);
+		driver_stick_moved.AddAbortListener(auton_fake_three);
+		operator_stick_moved.AddAbortListener(auton_fake_three);
+		driver_stick_pressed.AddAbortListener(auton_fake_three);
+		operator_stick_pressed.AddAbortListener(auton_fake_three);
+		driverAbort.AddAbortListener(auton_fake_three);
+//		disabled_timeout.AddAbortListener(auton_fake_three);
 		
 		release_stack_start.AddStartListener(releaseStack);
 		release_stack_abort.AddAbortListener(releaseStack);

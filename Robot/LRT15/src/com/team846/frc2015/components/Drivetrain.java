@@ -62,7 +62,7 @@ public class Drivetrain extends Component implements Configurable {
 		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
-		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
+		driveEncoders = new DriveEncoders(backLeft, backRight, backLeft, backRight);
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -134,7 +134,7 @@ public class Drivetrain extends Component implements Configurable {
 		
 //		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
 		
-//		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks());
+		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
 		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
 		
 //		System.out.println("Turn input: " + drivetrainData.GetPositionSetpoint(Axis.TURN));
