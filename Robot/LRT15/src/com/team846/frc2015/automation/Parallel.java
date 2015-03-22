@@ -10,6 +10,7 @@ public class Parallel extends Automation {
 	 private boolean abortOnFirst = false;
 	 private ArrayList<Automation> routines = new ArrayList<Automation>();
 	 private final ArrayList<Automation> running = new ArrayList<Automation>();
+	 private boolean aborting = false;
 	 
 	 public Parallel(String name)
 	 {
@@ -20,6 +21,7 @@ public class Parallel extends Automation {
 	 {
 		 super(name);
 		 routines = sequence;
+		 aborting = false;
 	 }
 
 	public Parallel(String name, boolean abortOnFirst, RoutineOption...options) 
@@ -53,6 +55,7 @@ public class Parallel extends Automation {
 		{
 			running.addAll(0, routines);
 		}
+		aborting = false;
 		return success;
 	}
 
@@ -77,8 +80,15 @@ public class Parallel extends Automation {
 					completed = true;
 			}
 		}
-		if(completed && abortOnFirst)
-			Abort();
+		if(completed && abortOnFirst && !aborting)
+		{
+			boolean ret = Abort();
+			if (!ret)
+			{
+				aborting = true;
+				return false;
+			}
+		}
 		return completed;
 	}
 	

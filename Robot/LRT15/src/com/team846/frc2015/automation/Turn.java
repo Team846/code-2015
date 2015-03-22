@@ -66,6 +66,7 @@ public class Turn extends Automation {
 
 	protected boolean Start()
 	{
+		drivetrain.setClassicDrive(true);
 		drivetrain.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.POSITION_CONTROL);
 		drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, angle);
 		drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);

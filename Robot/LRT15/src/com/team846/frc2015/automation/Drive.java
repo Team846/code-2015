@@ -47,6 +47,7 @@ public class Drive extends Automation {
 
 	public boolean Start()
 	{
+		drivetrain.setClassicDrive(true);
 //		DriveEncoders.Get().Reset();
 		if (!constantSpeed)
 		{
@@ -54,6 +55,7 @@ public class Drive extends Automation {
 		}
 		else
 		{
+			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
 			drivetrain.SetOpenLoopOutput(Axis.FORWARD, MathUtils.Sign(distance) * maxSpeed);
 //			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
 //			drivetrain.SetVelocitySetpoint(Axis.FORWARD, MathUtils.Sign(distance) * maxSpeed);
@@ -66,26 +68,28 @@ public class Drive extends Automation {
 
 	public boolean Run()
 	{
-		if (!constantSpeed)
-			drivetrain.setClassicDrive(true);
-		else
+		drivetrain.setClassicDrive(true);
+		if (constantSpeed)
 			drivetrain.SetOpenLoopOutput(Axis.FORWARD, MathUtils.Sign(distance) * maxSpeed);
 
 		double robotLocation = DriveEncoders.Get().GetRobotDist();
 		double setpoint = drivetrain.GetPositionSetpoint(Axis.FORWARD);
 		
-		double distanceLeft = Math.abs(setpoint - robotLocation);
+		double distanceLeft = setpoint - robotLocation;
+		if (distance < 0)
+			distanceLeft = -distanceLeft; // Going backwards
 		
 		System.out.println("robot distance: " + robotLocation);
 		System.out.println("setpoint: " + drivetrain.GetPositionSetpoint(Axis.FORWARD));
 		System.out.println("distance left: " + distanceLeft);
 		System.out.println("ControlMode: " + drivetrain.GetControlMode(Axis.FORWARD));
+		
 		return distanceLeft < errorThreshold;
 		
 //		if (distance > 0)
-//			return DriveEncoders.Get().GetRobotDist() > drivetrain.GetPositionSetpoint(DrivetrainData.FORWARD);
+//			return DriveEncoders.Get().GetRobotDist() > drivetrain.GetPositionSetpoint(Axis.FORWARD);
 //		else
-//			return DriveEncoders.Get().GetRobotDist() < drivetrain.GetPositionSetpoint(DrivetrainData.FORWARD);
+//			return DriveEncoders.Get().GetRobotDist() < drivetrain.GetPositionSetpoint(Axis.FORWARD);
 	}
 
 	public boolean Abort()

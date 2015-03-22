@@ -142,7 +142,6 @@ private boolean constRadius;
 		{
 			double strafe = driverStick.getAxis(Joystick.AxisType.kX);
 			
-		//	AsyncPrinter.error("STRAFE IS RUNNING");
 			drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, DrivetrainData.ControlMode.OPEN_LOOP);
 			drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, (float)strafe);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.STRAFE, (float)strafe);

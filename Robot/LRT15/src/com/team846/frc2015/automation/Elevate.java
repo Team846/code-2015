@@ -29,7 +29,12 @@ public class Elevate extends Automation {
 			AsyncPrinter.warn("Invalid tote level, defaulting to 1");
 			setpoint = ElevatorSetpoint.TOTE_1;
 		}
-				
+	}
+	
+	public Elevate(ElevatorSetpoint setpoint)
+	{
+		elData = ElevatorData.get();
+		this.setpoint = setpoint;
 	}
 
 	@Override
