@@ -33,13 +33,11 @@ public class Sweep extends Automation {
 
 	@Override
 	protected boolean Start() {
-		AsyncPrinter.error("start sweepig");
 		return true;
 	}
 
 	@Override
 	protected boolean Abort() {
-		AsyncPrinter.error("abort sweepig");
 		armData.setDesiredPosition(ArmPosition.STOWED);
 		rollersData.setRunning(false);
 		return true;
@@ -47,7 +45,6 @@ public class Sweep extends Automation {
 
 	@Override
 	protected boolean Run() {
-		AsyncPrinter.error("sweepig");
 		armData.setDesiredPosition(ArmPosition.EXTEND);
 		rollersData.setRunning(true);
 		rollersData.setSpeed(1.0);

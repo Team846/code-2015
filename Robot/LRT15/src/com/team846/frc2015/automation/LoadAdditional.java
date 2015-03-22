@@ -2,8 +2,10 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.automation.events.JoystickReleasedEvent;
 import com.team846.frc2015.componentData.CarriageHooksData;
+import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
+import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
@@ -14,6 +16,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 
 	private final CarriageHooksData hooksData;
 	private final ElevatorData elevatorData;
+	private final CollectorArmData armData;
 	private int toteAnalogValue = 0;
 	private int startPosition = 0;
 	private int hookDisengageDrop = 0;
@@ -23,6 +26,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto );
 		hooksData = CarriageHooksData.get();
 		elevatorData = ElevatorData.get();
+		armData = CollectorArmData.get();
 		ConfigRuntime.Register(this);
 	}
 	
@@ -69,12 +73,14 @@ public class LoadAdditional extends LoadItem implements Configurable {
 			if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop)
 			{
 				hooksData.setBackHooksDesiredState(HookState.UP);
-				hooksData.setFrontHooksDesiredState(HookState.UP);
+				hooksData.setFrontHooksDesiredState(HookState.UP);;
+				armData.setDesiredPosition(ArmPosition.STOWED);
 			}
 			else
 			{
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);;
+				armData.setDesiredPosition(ArmPosition.EXTEND);
 			}
 		}
 		return ret;
