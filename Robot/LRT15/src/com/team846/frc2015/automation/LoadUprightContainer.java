@@ -18,7 +18,7 @@ public class LoadUprightContainer extends LoadItem implements Configurable {
 	
 	public LoadUprightContainer(boolean auto) {
 		super("LoadUprightContainer", ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER,
-				ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_UPRIGHT_CONTAINER,auto );
+				ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_UPRIGHT_CONTAINER, 0, auto);
 
 		hooksData = CarriageHooksData.get();
 		armData = CollectorArmData.get();
