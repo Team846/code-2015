@@ -26,7 +26,7 @@ public abstract class ComponentData
 		data.add(new CarriageHooksData());
 		data.add(new CollectorRollersData());
 		data.add(new CollectorArmData());
-
+		data.add(new ContainerArmData());
 	}
 
 	static ComponentData GetComponentData(String name)

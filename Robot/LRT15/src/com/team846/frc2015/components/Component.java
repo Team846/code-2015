@@ -48,6 +48,7 @@ public abstract class Component
 		component_list.add(new CarriageExtender());
 		component_list.add(new CarriageHooks());
 		component_list.add(new Elevator());
+		component_list.add(new ContainerArm());
 	}
 	
 

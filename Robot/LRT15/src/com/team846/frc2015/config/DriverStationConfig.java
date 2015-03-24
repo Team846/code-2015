@@ -54,6 +54,9 @@ public class DriverStationConfig {
 
 		public static final int SPIN_ROLLERS = 15;
 		public static final int REVERSE_ROLLERS = 16;
+		
+		public static final int LEFT_CONTAINER_ARM = 12;
+		public static final int RIGHT_CONTAINER_ARM = 11;
 
 		
 		// Dashboard Mode

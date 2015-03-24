@@ -17,6 +17,7 @@ import com.team846.frc2015.automation.inputProcessors.CarriageExtenderInputs;
 import com.team846.frc2015.automation.inputProcessors.CarriageHooksInputs;
 import com.team846.frc2015.automation.inputProcessors.CollectorArmInputs;
 import com.team846.frc2015.automation.inputProcessors.CollectorRollersInputs;
+import com.team846.frc2015.automation.inputProcessors.ContainerArmInputs;
 import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs;
 import com.team846.frc2015.automation.inputProcessors.ElevatorInputs;
 import com.team846.frc2015.automation.inputProcessors.InputProcessor;
@@ -101,17 +102,19 @@ public class Brain
 		Parallel driveAndLoad = new Parallel("DriveAndLoad");
 		Sequential loadAndElevate = new Sequential("LoadAndElevate");
 		loadAndElevate.AddAutomation(new LoadTote(true));
-		loadAndElevate.AddAutomation(new Drive(-12, 0.5, 3));
+		loadAndElevate.AddAutomation(new Drive(-6, 0.5, 3));
 		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
 //		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
+		auton_fake_three.AddAutomation(new Turn(0));
 		
 		Parallel driveAndSweep = new Parallel("DriveAndSweep", true);
 		Sequential sweepDrive = new Sequential("SweepDrive");
+		sweepDrive.AddAutomation(new Drive(6, 0.3, 3, true));
 		sweepDrive.AddAutomation(new Drive(24, 0.5, 3, true));
-		sweepDrive.AddAutomation(new Drive(90, 0.2, 3, true));
+		sweepDrive.AddAutomation(new Drive(72, 0.2, 3, true));
 		driveAndSweep.AddAutomation(sweepDrive);
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
@@ -119,23 +122,26 @@ public class Brain
 		auton_fake_three.AddAutomation(new Turn(0));
 
 		Parallel driveAndDrop = new Parallel("DriveAndDrop");
-		driveAndDrop.AddAutomation(new Drive(156, 0.5, 6, true));
+		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		loadAndElevate = new Sequential("LoadAndElevate");
 		loadAndElevate.AddAutomation(new LoadAdditional(true));
-		loadAndElevate.AddAutomation(new Drive(-12, 0.5, 3));
+		loadAndElevate.AddAutomation(new Drive(-6, 0.5, 3));
 		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
 		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
+		auton_fake_three.AddAutomation(new Turn(0));
+		
 		driveAndSweep = new Parallel("DriveAndSweep", true);
 		sweepDrive = new Sequential("SweepDrive");
+		sweepDrive.AddAutomation(new Drive(6, 0.3, 3, true));
 		sweepDrive.AddAutomation(new Drive(24, 0.5, 3, true));
-		sweepDrive.AddAutomation(new Drive(90, 0.2, 3, true));
+		sweepDrive.AddAutomation(new Drive(72, 0.2, 3, true));
 		driveAndSweep.AddAutomation(sweepDrive);
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
@@ -143,7 +149,7 @@ public class Brain
 		auton_fake_three.AddAutomation(new Turn(0));
 		
 		driveAndDrop = new Parallel("DriveAndDrop");
-		driveAndDrop.AddAutomation(new Drive(156, 0.5, 6, true));
+		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
@@ -153,7 +159,7 @@ public class Brain
 		driveAndLoad.AddAutomation(load);
 		auton_fake_three.AddAutomation(driveAndLoad);
 		
-		auton_fake_three.AddAutomation(new Strafe(1.0, 1.0));
+		auton_fake_three.AddAutomation(new Strafe(1.5, 1.0));
 		auton_fake_three.AddAutomation(new ResetDrivetrainSetpoints());
 		
 		Parallel dropAndDrive = new Parallel("DropAndDrive", true);
@@ -339,6 +345,7 @@ public class Brain
 		inputs.add(new ElevatorInputs());
 		inputs.add(new CarriageExtenderInputs());
 		inputs.add(new CarriageHooksInputs());
+		inputs.add(new ContainerArmInputs());
 	}
 
 	public void Update()
