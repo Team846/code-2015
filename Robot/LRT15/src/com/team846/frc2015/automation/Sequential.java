@@ -37,22 +37,18 @@ public class Sequential extends Automation {
 
 	protected boolean Start()
 	{
-		AsyncPrinter.info("SRINSTART");
 		if (routines.isEmpty())
 			return false;
-		AsyncPrinter.info("SRINSTARTING");
 		while (!queued.isEmpty())
 			queued.remove();
 		for (Automation auto : routines)
 			queued.add(auto);
 		started = false;
-		AsyncPrinter.info("SRINSTARTED");
 		return true;
 	}
 
 	protected boolean Run()
 	{
-		//AsyncPrinter.info("SRINQUEE");
 		if (!started && ContinueNextStep())
 		{
 			AsyncPrinter.info(queued.peek().GetName());

@@ -149,7 +149,7 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setSetpoint(grab);
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.1);
+				rollersData.setSpeed(0.5);
 				armData.setDesiredPosition(ArmPosition.STOWED);
 				//AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
 				if (elevatorData.isAtSetpoint(grab))

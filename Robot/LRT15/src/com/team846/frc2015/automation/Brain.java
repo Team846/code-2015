@@ -59,7 +59,6 @@ public class Brain
 		createInputProcessors();
 
 		// All automation routines		
-		//NOT BEING USED
 		Automation auton = new Autonomous();
 	
 		Automation load_tote = new LoadTote();
@@ -71,14 +70,8 @@ public class Brain
 		
 		Automation releaseStack = new ReleaseStack();
 		
-		//rip scripted autonomous
 		Sequential auton_fake = new Sequential("drive");
 		auton_fake.AddAutomation(new Turn(180, 0.5, 3));
-		
-		//EMERGENCY UNCOMMENT
-//		Automation auton_fake = new TimeDrive(2.5,0.5);
-		
-		//Automation auton_fake = new Turn(90, 0.5, 3);
 		
 //		Sequential auton_fake_yellowYOLO = new Sequential("yellowTote");
 //		auton_fake_yellowYOLO.AddAutomation(new Turn(0));
@@ -93,7 +86,6 @@ public class Brain
 //		dropAndPop.AddAutomation(new ReleaseStack());
 //		dropAndPop.AddAutomation(new Drive(-120, 0.5, 3));
 //		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
-		
 
 		
 		Sequential auton_fake_three = new Sequential("ThreeTote");
@@ -108,7 +100,7 @@ public class Brain
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
-		auton_fake_three.AddAutomation(new Turn(0));
+		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
 		
 		Parallel driveAndSweep = new Parallel("DriveAndSweep", true);
 		Sequential sweepDrive = new Sequential("SweepDrive");
@@ -119,12 +111,14 @@ public class Brain
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
 
-		auton_fake_three.AddAutomation(new Turn(0));
+		auton_fake_three.AddAutomation(new Turn(20, 1.0, 3));
 
 		Parallel driveAndDrop = new Parallel("DriveAndDrop");
 		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
+		
+		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		loadAndElevate = new Sequential("LoadAndElevate");
@@ -135,7 +129,7 @@ public class Brain
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
-		auton_fake_three.AddAutomation(new Turn(0));
+		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
 		
 		driveAndSweep = new Parallel("DriveAndSweep", true);
 		sweepDrive = new Sequential("SweepDrive");
@@ -146,12 +140,14 @@ public class Brain
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
 
-		auton_fake_three.AddAutomation(new Turn(0));
+		auton_fake_three.AddAutomation(new Turn(20, 1.0, 3));
 		
 		driveAndDrop = new Parallel("DriveAndDrop");
 		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
+		
+		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		Automation load = new LoadAdditional(true);
@@ -166,7 +162,6 @@ public class Brain
 		dropAndDrive.AddAutomation(new ReleaseStack());
 		dropAndDrive.AddAutomation(new Drive(-120, 0.5, 3));
 		auton_fake_three.AddAutomation(dropAndDrive);
-		
 		
 		
 		
@@ -192,8 +187,6 @@ public class Brain
 		Event driver_stick_pressed = new JoystickPressedEvent(driverStick);
 		Event operator_stick_pressed = new JoystickPressedEvent(operatorStick);
 		Event disabled_timeout = new DelayedEvent(new GameModeChangeEvent(GameState.DISABLED), 100);
-		
-		Event driverAbort = new JoystickPressedEvent(driverStick, 8);
 		
 		Event driverSweep = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIVER_SWEEP_LEFT);
 		
@@ -225,24 +218,20 @@ public class Brain
 		Event release_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		
-		//SHOULD BE ENABLED LATER
-//		// Map events to routines
+		// Map events to routines
 //		to_auto.AddStartListener(auton);
 //		driver_stick_moved.AddAbortListener(auton);
 //		operator_stick_moved.AddAbortListener(auton);
 //		driver_stick_pressed.AddAbortListener(auton);
 //		operator_stick_pressed.AddAbortListener(auton);
-//		driverAbort.AddAbortListener(auton);
-////		disabled_timeout.AddAbortListener(auton);
+//		disabled_timeout.AddAbortListener(auton);
 		
 		// Map events to routines
-		//SCRIPTING IS A LIE
 		to_auto.AddStartListener(auton_fake_three);
 		driver_stick_moved.AddAbortListener(auton_fake_three);
 		operator_stick_moved.AddAbortListener(auton_fake_three);
 		driver_stick_pressed.AddAbortListener(auton_fake_three);
 		operator_stick_pressed.AddAbortListener(auton_fake_three);
-		driverAbort.AddAbortListener(auton_fake_three);
 //		disabled_timeout.AddAbortListener(auton_fake_three);
 		
 		release_stack_start.AddStartListener(releaseStack);

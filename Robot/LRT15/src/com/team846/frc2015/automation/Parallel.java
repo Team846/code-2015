@@ -108,7 +108,6 @@ public class Parallel extends Automation {
 			{
 				iter.remove();
 				//iter.previous();
-				//.previous();
 			}
 		}
 		return success;
