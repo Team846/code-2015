@@ -14,7 +14,9 @@ public class CollectorRollersData extends ComponentData
 		INTAKE,
 		REVERSE,
 		SWEEP_LEFT,
-		SWEEP_RIGHT
+		SWEEP_RIGHT,
+		LEFT_REVERSE,
+		RIGHT_REVERSE
 	}
 	
 	public static CollectorRollersData get()

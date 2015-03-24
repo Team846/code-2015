@@ -55,6 +55,16 @@ public class CollectorRollers extends Component
 				left_speed = rollersData.getSpeed();
 				right_speed = -rollersData.getSpeed();
 			}
+			else if (rollersData.getDirection() == Direction.LEFT_REVERSE)
+			{
+				left_speed = -rollersData.getSpeed();
+				right_speed = 0;
+			}
+			else if (rollersData.getDirection() == Direction.RIGHT_REVERSE)
+			{
+				left_speed = 0;
+				right_speed = -rollersData.getSpeed();
+			}
 		}
 		else
 		{
