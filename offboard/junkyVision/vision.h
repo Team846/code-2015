@@ -10,7 +10,8 @@
 
 #include "opencv2/opencv.hpp"
 #include <vector>
-#include "config.h"
+
+#include "globals.h"
 
 using namespace cv;
 
