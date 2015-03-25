@@ -68,17 +68,16 @@ public class ReleaseStack extends Automation implements Configurable {
 			
 			extenderData.setControlMode(CarriageExtenderData.CarriageControlMode.POSITION);
 			extenderData.setPositionSetpoint(0.0);
-			
-			if (Aborting())
+		}
+		if (Aborting())
+		{
+			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+			elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
+			if (elevatorData.isAtSetpoint(ElevatorSetpoint.HOME_TOTE))
 			{
-				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-				elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				if (elevatorData.isAtSetpoint(ElevatorSetpoint.HOME_TOTE))
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
@@ -86,7 +85,7 @@ public class ReleaseStack extends Automation implements Configurable {
 
 	@Override
 	public void Configure() {
-		dropHeight = GetConfig("dropHeight", 20); //TODO:Change default once pot comes in
+		dropHeight = GetConfig("dropHeight", 400);
 	}
 
 }
