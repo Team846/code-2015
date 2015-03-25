@@ -133,7 +133,7 @@ public abstract class LoadItem extends Automation{
 						if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
 								|| (auto && sensor.getAverageValue() > analogThreshold))
 						{
-							rollersData.setSpeed(0.1);
+							rollersData.setSpeed(1.0);
 							hasItem = true;
 							state = State.GRAB;
 						}
@@ -149,7 +149,7 @@ public abstract class LoadItem extends Automation{
 				elevatorData.setSetpoint(grab);
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.5);
+				rollersData.setSpeed(1.0);
 				armData.setDesiredPosition(ArmPosition.STOWED);
 				//AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
 				if (elevatorData.isAtSetpoint(grab))
