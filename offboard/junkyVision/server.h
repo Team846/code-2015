@@ -16,6 +16,8 @@ namespace Server
 {
 
 void updateThrottle(double newThrottle);
+void updateForward(double newForward);
+
 std::string createResponse();
 void start();
 

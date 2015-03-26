@@ -12,6 +12,9 @@ namespace Server
 std::mutex throttleMutex;
 double throttle = 0.0f;
 
+std::mutex forwardMutex;
+double forward = 0.0f;
+
 void updateThrottle(double newThrottle)
 {
 	throttleMutex.lock();
@@ -19,13 +22,24 @@ void updateThrottle(double newThrottle)
 	throttleMutex.unlock();
 }
 
+void updateForward(double newForward)
+{
+	forwardMutex.lock();
+	forward = newForward;
+	forwardMutex.unlock();
+}
+
 std::string createResponse()
 {
 	std::string response;
 
 	throttleMutex.lock();
-	response = std::to_string(throttle);
+	forwardMutex.lock();
+
+	response = std::to_string(throttle) + " " + std::to_string(forward);
+
 	throttleMutex.unlock();
+	forwardMutex.unlock();
 
 	return response;
 }

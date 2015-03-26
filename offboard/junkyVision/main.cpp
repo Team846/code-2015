@@ -36,8 +36,11 @@ int main() {
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, resizeHeight);
 	capture >> image;
 
-	PID pid(0.5, 0, 0, 0, 0, 0, 0);
-	pid.SetSetpoint(((double) image.cols) / 2.0f);
+	PID strafePid(0.5, 0, 0, 0, 0, 0, 0);
+	strafePid.SetSetpoint(((double) image.cols) / 2.0f);
+
+	PID forwardPid(0.5, 0, 0, 0, 0, 0, 0);
+	forwardPid.SetSetpoint(((double) image.rows));
 
 	if (!capture.isOpened()) {
 		std::cout << "Did not connect to camera.";
@@ -56,11 +59,15 @@ int main() {
 				}
 
 				//TODO: Implement proper PID
-				pid.SetInput(Vision::getInput());
-				double newThrottle = -1 * (pid.Update(loopDelta)); // positive value: turn right
+				strafePid.SetInput(Vision::getStrafePV());
+				double newThrottle = -1 * (strafePid.Update(loopDelta)); // positive value: turn right
 				newThrottle = normalize(newThrottle);
-
 				Server::updateThrottle(newThrottle);
+
+				forwardPid.SetInput(Vision::getForwardPV());
+				forwardPid.Update(loopDelta); // positive value: turn right
+				double newForwardSpeed = normalize(forwardPid.Update(loopDelta));
+				Server::updateForward(newForwardSpeed);
 			}
 		}
 

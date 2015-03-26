@@ -20,8 +20,9 @@ namespace Vision {
 void initUI();
 void displayMat(Mat matToDisplay, std::string windowName);
 void detectAndDisplay(Mat image);
-void iterateAndDrawContours(std::vector<std::vector<Point> > contours, Mat target);
-int getInput();
+void iterateAndDrawContours(std::vector<std::vector<Point> > contours, Mat target, Scalar color);
+int getStrafePV();
+int getForwardPV();
 
 }
 

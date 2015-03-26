@@ -6,6 +6,8 @@
  */
 #include "vision.h"
 
+int movementPV = 0; // calculated input for closeness of box
+
 int smallestBoxArea = 10000000; // arbitrary large number
 int smallestBoxPV = 0; // calculated input for smallest box
 
@@ -37,9 +39,10 @@ void detectAndDisplay(Mat image)
 
 	Mat maskGrey;
 	Mat maskYellow;
-	inRange(imageHSV, Scalar(hLow, sLow, vLow), Scalar(hHigh, sHigh, vHigh),
+	inRange(imageHSV, Scalar(greyHlow, greySlow, greyVlow), Scalar(greyHhigh, greyShigh, greyVhigh),
 			maskGrey);
-	inRange(imageHSV, Scalar(95, 0, 170), Scalar(99, 255, 255), maskYellow);
+	inRange(imageHSV, Scalar(yellowHlow, yellowSlow, yellowVlow), Scalar(yellowHhigh, yellowShigh, yellowVhigh),
+			maskYellow);
 
 	dilate(maskGrey, maskGrey, getStructuringElement(MORPH_RECT, Size(5, 5)));
 	erode(maskGrey, maskGrey, getStructuringElement(MORPH_RECT, Size(3, 3)));
@@ -69,8 +72,8 @@ void detectAndDisplay(Mat image)
 	findContours(imageCopyYellow, contoursYellow, hierarchy, RETR_LIST,
 			CHAIN_APPROX_SIMPLE);
 
-	iterateAndDrawContours(contoursGrey, imageCopy);
-	iterateAndDrawContours(contoursYellow, imageCopy);
+	iterateAndDrawContours(contoursGrey, imageCopy, Scalar(255,255,255));
+	iterateAndDrawContours(contoursYellow, imageCopy, Scalar(30, 100, 150));
 	smallestBoxArea = 10000000; // arbitrary large number
 
 	if (!runHeadless)
@@ -82,7 +85,7 @@ void detectAndDisplay(Mat image)
 
 }
 
-void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target)
+void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target, Scalar color)
 {
 	vector<vector<Point> >::iterator contour;
 
@@ -106,19 +109,25 @@ void iterateAndDrawContours(std::vector<vector<Point> > contours, Mat target)
 				&& maxAspectRatio > aspectRatio)
 		{
 
-			rectangle(target, bound.tl(), bound.br(), Scalar(255, 255, 255));
+			rectangle(target, bound.tl(), bound.br(), color);
 
 			if (bound.area() < smallestBoxArea)
 			{
 				smallestBoxPV = (double) bound.x + ((double) bound.width / 2);
 				smallestBoxArea = bound.area();
+
+				movementPV = (double) bound.y;
 			}
 		}
 	}
 }
 
-int getInput() {
+int getStrafePV() {
 	return smallestBoxPV;
+}
+
+int getForwardPV() {
+	return movementPV;
 }
 
 }

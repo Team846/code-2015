@@ -14,14 +14,21 @@ extern bool runHeadless;
 extern int loopHz;
 extern int loopDelta;
 
-extern int hLow;
-extern int sLow;
-extern int vLow;
+extern int greyHlow;
+extern int greySlow;
+extern int greyVlow;
 
+extern int greyHhigh;
+extern int greyShigh;
+extern int greyVhigh;
 
-extern int hHigh;
-extern int sHigh;
-extern int vHigh;
+extern int yellowHlow;
+extern int yellowSlow;
+extern int yellowVlow;
+
+extern int yellowHhigh;
+extern int yellowShigh;
+extern int yellowVhigh;
 
 extern int cameraIndex;
 extern int resizeWidth;

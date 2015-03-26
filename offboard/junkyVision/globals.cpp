@@ -16,14 +16,23 @@ bool runHeadless = false;
 int loopHz = 25;
 int loopDelta = 1000 / loopHz;
 
-//ColorThresholds
-int hLow = 31;
-int sLow = 52;
-int vLow = 56;
+//GreyToteThreshold
+int greyHlow = 31;
+int greySlow = 52;
+int greyVlow = 56;
 
-int hHigh = 150;
-int sHigh = 251;
-int vHigh = 246;
+int greyHhigh = 150;
+int greyShigh = 251;
+int greyVhigh = 246;
+
+//YellowToteThreshold
+int yellowHlow = 95;
+int yellowSlow = 0;
+int yellowVlow = 170;
+
+int yellowHhigh = 99;
+int yellowShigh = 255;
+int yellowVhigh = 255;
 
 //Image
 int cameraIndex = 2;
@@ -47,14 +56,23 @@ void initializeConfiguration() {
 	loopHz = pt.get<int>("General.loopHz");
 	loopDelta = 1000 / loopHz;
 
-	// ColorThresholds
-	hLow = pt.get<int>("ColorThresholds.hLow");
-	sLow = pt.get<int>("ColorThresholds.sLow");
-	vLow = pt.get<int>("ColorThresholds.vLow");
+	// GreyToteThreshold
+	greyHlow = pt.get<int>("GreyToteThreshold.hLow");
+	greySlow = pt.get<int>("GreyToteThreshold.sLow");
+	greyVlow = pt.get<int>("GreyToteThreshold.vLow");
 
-	hHigh = pt.get<int>("ColorThresholds.hHigh");
-	sHigh = pt.get<int>("ColorThresholds.sHigh");
-	vHigh = pt.get<int>("ColorThresholds.vHigh");
+	greyHhigh = pt.get<int>("GreyToteThreshold.hHigh");
+	greyShigh = pt.get<int>("GreyToteThreshold.sHigh");
+	greyVhigh = pt.get<int>("GreyToteThreshold.vHigh");
+
+	// YellowToteThreshold
+	yellowHlow = pt.get<int>("YellowToteThreshold.hLow");
+	yellowSlow = pt.get<int>("YellowToteThreshold.sLow");
+	yellowVlow = pt.get<int>("YellowToteThreshold.vLow");
+
+	yellowHhigh = pt.get<int>("YellowToteThreshold.hHigh");
+	yellowShigh = pt.get<int>("YellowToteThreshold.sHigh");
+	yellowVhigh = pt.get<int>("YellowToteThreshold.vHigh");
 
 	// Image
 	cameraIndex = pt.get<int>("Image.cameraIndex");
