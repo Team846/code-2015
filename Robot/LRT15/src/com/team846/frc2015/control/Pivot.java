@@ -17,29 +17,11 @@ public class Pivot
         return new Pair<Double, Double>(W, strafe);
     }
 	
-	public void update(double angularChange)
-	{
-		double W = angularVelocity(angularChange);
-		double strafe = strafeVelocity(W);
-	}
-
-	private double findRadii(Pair<Double, Double> pnt)
-	{
-		double mag = 0;
-		mag = Math.sqrt(Math.pow(pnt.getFirst(), 2) + Math.pow(pnt.getSecond(), 2));
-		return mag;
-	}
-	
 	private double angularVelocity(double angleChange){
-		double w = 0;
-		w = angleChange/0.02;
-		
-		return w;
+		return angleChange/0.02;
 	}
 	
 	private double strafeVelocity(double W){
-		double Vt = W * R;
-		
-		return Vt;
+		return W * R;
 	}
 }
