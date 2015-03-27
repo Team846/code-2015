@@ -119,7 +119,7 @@ public class Brain
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
-		auton_fake_three.AddAutomation(new Turn(-40, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-30, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		loadAndElevate = new Sequential("LoadAndElevate");
@@ -148,7 +148,7 @@ public class Brain
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
-		auton_fake_three.AddAutomation(new Turn(-40, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-30, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		Automation load = new LoadAdditional(true);
