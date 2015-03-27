@@ -6,7 +6,6 @@ public class TestRoutine extends Automation {
 
 	@Override
 	public void AllocateResources() {
-		// TODO Auto-generated method stub
 
 	}
 

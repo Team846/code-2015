@@ -39,13 +39,11 @@ public class CarriageClamp extends Component {
 
 	@Override
 	protected void OnEnabled() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void OnDisabled() {
-		// TODO Auto-generated method stub
 		
 	}
 	

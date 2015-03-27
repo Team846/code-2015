@@ -170,15 +170,6 @@ public class Elevator extends Component implements Configurable {
 	@Override
 	protected void OnDisabled() {
 	}
-	
-	//TODO: put into math util
-	private static double Rescale(double d, double min0, double max0, double min1, double max1)
-	{
-		if (max0 == min0)
-			return min1;
-		d = MathUtils.clamp(d, min0, max0);
-		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
-	}
 
 	@Override
 	public void Configure() {

@@ -72,7 +72,7 @@ public class CarriageExtender extends Component implements Configurable
 		}
 		else if(extenderData.getControlMode() == CarriageControlMode.POSITION)
 		{
-			int desiredPos = (int) Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+			int desiredPos = (int) MathUtils.Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
 			DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
 			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : ( desiredPos - position ) / maxRange ;
 			carriageMotor.set(MathUtils.clamp(error*positionGain, -extenderData.getMaxSpeed(), extenderData.getMaxSpeed()));
@@ -80,7 +80,7 @@ public class CarriageExtender extends Component implements Configurable
 		else
 			carriageMotor.set(extenderData.getSpeed()); //open loop velocity
 		
-		extenderData.setCurrentPosition((int)Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
+		extenderData.setCurrentPosition((int)MathUtils.Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
 		
 	}
 
@@ -131,13 +131,5 @@ public class CarriageExtender extends Component implements Configurable
 		
 		maxRange = extendSetpoint - retractSetpoint;
 		
-	}
-	//TODO: put into math util
-	private static double Rescale(double d, double min0, double max0, double min1, double max1)
-	{
-		if (max0 == min0)
-			return min1;
-		d = MathUtils.clamp(d, min0, max0);
-		return (d - min0) * (max1 - min1) / (max0 - min0) + min1;
 	}
 }
