@@ -49,7 +49,7 @@ public class ExtendCarriage extends Automation implements Configurable{
 
 	@Override
 	public void Configure() {
-		errorThreshold = GetConfig("ErrorThreshold", 0.5);
+		errorThreshold = GetConfig("ErrorThreshold", 0.05);
 	}
 
 }
