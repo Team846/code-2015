@@ -30,14 +30,10 @@ public class UdpFetcher {
 			try {
 				clientSocket = new DatagramSocket();
 				IpAddress = InetAddress.getByName(targetHost);
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SocketException e) {
-				// TODO Auto-generated catch block
+			} catch (UnknownHostException | SocketException e) {
 				e.printStackTrace();
 			}
-			
+
 			IpPort = port;
 			sendPacket = new DatagramPacket(sendData, sendData.length,
 					IpAddress, port);
@@ -55,11 +51,7 @@ public class UdpFetcher {
 				    responseAvailiability.release();
 				    
 				    Thread.sleep(loopDelta);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+				} catch (IOException | InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
@@ -87,7 +79,6 @@ public class UdpFetcher {
 		try {
 			return instance.getResponse();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "";
 		}
