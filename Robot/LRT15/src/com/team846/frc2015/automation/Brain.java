@@ -95,64 +95,64 @@ public class Brain
 		Parallel driveAndLoad = new Parallel("DriveAndLoad");
 		Sequential loadAndElevate = new Sequential("LoadAndElevate");
 		loadAndElevate.AddAutomation(new LoadTote(true));
-		loadAndElevate.AddAutomation(new Drive(-6, 0.5, 3));
+		loadAndElevate.AddAutomation(new Drive(-6, 0.8, 3));
 		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
 //		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
-		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-30, 1.0, 3));
 		
 		Parallel driveAndSweep = new Parallel("DriveAndSweep", true);
 		Sequential sweepDrive = new Sequential("SweepDrive");
-		sweepDrive.AddAutomation(new Drive(6, 0.3, 3, true));
+		sweepDrive.AddAutomation(new Drive(6, 0.8, 3, true));
 		sweepDrive.AddAutomation(new Drive(24, 0.5, 3, true));
-		sweepDrive.AddAutomation(new Drive(72, 0.2, 3, true));
+		sweepDrive.AddAutomation(new Drive(72, 0.5, 3, true));
 		driveAndSweep.AddAutomation(sweepDrive);
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
 
-		auton_fake_three.AddAutomation(new Turn(20, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(70, 1.0, 3));
 
 		Parallel driveAndDrop = new Parallel("DriveAndDrop");
-		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
+		driveAndDrop.AddAutomation(new Drive(132, 0.8, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
-		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-40, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		loadAndElevate = new Sequential("LoadAndElevate");
 		loadAndElevate.AddAutomation(new LoadAdditional(true));
-		loadAndElevate.AddAutomation(new Drive(-6, 0.5, 3));
+		loadAndElevate.AddAutomation(new Drive(-6, 0.8, 3));
 		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
-		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+		driveAndLoad.AddAutomation(new Drive(36, 0.8, 3));
 		driveAndLoad.AddAutomation(loadAndElevate);
 		auton_fake_three.AddAutomation(driveAndLoad);
 
-		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-30, 1.0, 3));
 		
 		driveAndSweep = new Parallel("DriveAndSweep", true);
 		sweepDrive = new Sequential("SweepDrive");
-		sweepDrive.AddAutomation(new Drive(6, 0.3, 3, true));
+		sweepDrive.AddAutomation(new Drive(6, 0.8, 3, true));
 		sweepDrive.AddAutomation(new Drive(24, 0.5, 3, true));
-		sweepDrive.AddAutomation(new Drive(72, 0.2, 3, true));
+		sweepDrive.AddAutomation(new Drive(72, 0.5, 3, true));
 		driveAndSweep.AddAutomation(sweepDrive);
 		driveAndSweep.AddAutomation(new Sweep(Sweep.Direction.LEFT));
 		auton_fake_three.AddAutomation(driveAndSweep);
 
-		auton_fake_three.AddAutomation(new Turn(20, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(70, 1.0, 3));
 		
 		driveAndDrop = new Parallel("DriveAndDrop");
-		driveAndDrop.AddAutomation(new Drive(168, 0.5, 6, true));
+		driveAndDrop.AddAutomation(new Drive(132, 0.8, 6, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 		
-		auton_fake_three.AddAutomation(new Turn(-10, 1.0, 3));
+		auton_fake_three.AddAutomation(new Turn(-40, 1.0, 3));
 		
 		driveAndLoad = new Parallel("DriveAndLoad");
 		Automation load = new LoadAdditional(true);
-		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+		driveAndLoad.AddAutomation(new Drive(60, 0.8, 3));
 		driveAndLoad.AddAutomation(load);
 		auton_fake_three.AddAutomation(driveAndLoad);
 		
@@ -161,7 +161,7 @@ public class Brain
 		
 		Parallel dropAndDrive = new Parallel("DropAndDrive", true);
 		dropAndDrive.AddAutomation(new ReleaseStack());
-		dropAndDrive.AddAutomation(new Drive(-120, 0.5, 3));
+		dropAndDrive.AddAutomation(new Drive(-120, 0.8, 3));
 		auton_fake_three.AddAutomation(dropAndDrive);
 		
 		
@@ -262,11 +262,17 @@ public class Brain
 		human_load_abort.AddAbortListener(load_continuous);
 		human_load_start.AddAbortListener(load_continuous);
 		
-		load_additional_abort.AddAbortListener(load_tote);
-		load_additional_abort.AddAbortListener(load_sideways_container);
-		load_additional_abort.AddAbortListener(load_upright_container);
-		load_additional_abort.AddAbortListener(load_stack);
-		load_additional_abort.AddAbortListener(load_continuous);
+		load_additional_start.AddAbortListener(load_tote);
+		load_additional_start.AddAbortListener(load_sideways_container);
+		load_additional_start.AddAbortListener(load_upright_container);
+		load_additional_start.AddAbortListener(load_stack);
+		load_additional_start.AddAbortListener(load_continuous);
+		
+		human_load_start.AddAbortListener(load_tote);
+		human_load_start.AddAbortListener(load_sideways_container);
+		human_load_start.AddAbortListener(load_upright_container);
+		human_load_start.AddAbortListener(load_stack);
+		human_load_start.AddAbortListener(load_additional);
 		
 		release_stack_start.AddAbortListener(load_tote);
 		release_stack_start.AddAbortListener(load_sideways_container);

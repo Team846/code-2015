@@ -113,8 +113,8 @@ public class ConfigRuntime
 		{
 			AsyncPrinter.info("Change detected, reloading config");
 			config.reload();
-			//ConfigureAll();
-			Load();
+			ConfigureAll();
+			//Load();
 			lastReadTimestamp = currentFileTimestamp;
 		}
 		

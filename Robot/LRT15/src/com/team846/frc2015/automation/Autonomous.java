@@ -290,6 +290,7 @@ public class Autonomous extends Sequential
 				AddAutomation(new Parallel("routineParallel", parallelRoutines));
 			}
 		}
+		in.close();
 	}
 
 	private File FindRoutine(int routineNumber)// throws FileNotFoundException
