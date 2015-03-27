@@ -2,25 +2,19 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
+import com.team846.frc2015.config.Configurable;
 
-public class ExtendCarriage extends Automation {
-	
+public class ExtendCarriage extends Automation implements Configurable{
 	private final double carriagePosition;//[0,1]
-	private final double errorThreshold;
+	private double errorThreshold;
 	
 	private final CarriageExtenderData extenderData;
-
-	public ExtendCarriage(double position ) //position control
-	{
-		this(position, 0.05);
-	}
 	
-	private ExtendCarriage(double position, double errorThreshold)
+	public ExtendCarriage(double position)
 	{
 		super("Extend Carriage");
 		carriagePosition = position;	
 		extenderData = CarriageExtenderData.get();
-		this.errorThreshold = errorThreshold; //TODO: make configurable
 	}
 	
 	public ExtendCarriage()
@@ -51,6 +45,11 @@ public class ExtendCarriage extends Automation {
 		extenderData.setPositionSetpoint(carriagePosition);
 		double error = Math.abs(carriagePosition - extenderData.getCurrentPosition());
 		return Math.abs(error) < errorThreshold;
+	}
+
+	@Override
+	public void Configure() {
+		errorThreshold = GetConfig("ErrorThreshold", 0.5);
 	}
 
 }
