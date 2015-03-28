@@ -193,17 +193,17 @@ public class Autonomous extends Sequential
                                 break;
                         }
                         break;
-                    case "strafe":
-                        switch (argsSplit.length) {
-                            case 1:
-                                parallelRoutines.add(new Strafe(Double.parseDouble(argsSplit[0])));
-                                break;
-                            case 2:
-                                parallelRoutines.add(new Strafe(Double.parseDouble(argsSplit[0]),
-                                        Double.parseDouble(argsSplit[1])));
-                                break;
-                        }
-                        break;
+//                    case "strafe":
+//                        switch (argsSplit.length) {
+//                            case 1:
+//                                parallelRoutines.add(new Strafe(Double.parseDouble(argsSplit[0])));
+//                                break;
+//                            case 2:
+//                                parallelRoutines.add(new Strafe(Double.parseDouble(argsSplit[0]),
+//                                        Double.parseDouble(argsSplit[1])));
+//                                break;
+//                        }
+//                        break;
                     case "load+elevate":
                         switch (argsSplit.length) {
                             case 1:
