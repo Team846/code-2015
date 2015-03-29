@@ -92,15 +92,7 @@ public class Brain
 		Sequential auton_fake_three = new Sequential("ThreeTote");
 		auton_fake_three.AddAutomation(new Turn(0));
 
-		Parallel driveAndLoad = new Parallel("DriveAndLoad");
-		Sequential loadAndElevate = new Sequential("LoadAndElevate");
-		loadAndElevate.AddAutomation(new LoadTote(true));
-//		loadAndElevate.AddAutomation(new Drive(-36, 0.8, 3));
-//		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
-//		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
-		driveAndLoad.AddAutomation(loadAndElevate);
-		auton_fake_three.AddAutomation(driveAndLoad);
-
+		auton_fake_three.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.HOME_TOTE));
 		auton_fake_three.AddAutomation(new Turn(30, 0.8, 3));
 		auton_fake_three.AddAutomation(new Strafe(96, 0.8, 3));
 
@@ -109,13 +101,9 @@ public class Brain
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 
-		driveAndLoad = new Parallel("DriveAndLoad");
-		loadAndElevate = new Sequential("LoadAndElevate");
-		loadAndElevate.AddAutomation(new LoadAdditional(true));
-//		loadAndElevate.AddAutomation(new Drive(-36, 0.8, 3));
-//		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
+		Parallel driveAndLoad = new Parallel("DriveAndLoad");
 		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
-		driveAndLoad.AddAutomation(loadAndElevate);
+		driveAndLoad.AddAutomation(new LoadAdditional(true));
 		auton_fake_three.AddAutomation(driveAndLoad);
 		
 		auton_fake_three.AddAutomation(new Strafe(96, 0.8, 3));
@@ -126,13 +114,17 @@ public class Brain
 		auton_fake_three.AddAutomation(driveAndDrop);
 
 		driveAndLoad = new Parallel("DriveAndLoad");
-		loadAndElevate = new Sequential("LoadAndElevate");
-		loadAndElevate.AddAutomation(new LoadAdditional(true));
-//		loadAndElevate.AddAutomation(new Drive(-36, 0.8, 3));
-//		loadAndElevate.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.TOTE_3));
 		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
-		driveAndLoad.AddAutomation(loadAndElevate);
+		driveAndLoad.AddAutomation(new LoadAdditional(true));
 		auton_fake_three.AddAutomation(driveAndLoad);
+		
+		auton_fake_three.AddAutomation(new Turn(-30, 0.8, 3));
+		auton_fake_three.AddAutomation(new Strafe(120, 1.0, 3));
+		
+		Parallel dropAndDrive = new Parallel("DropAndDrive", true);
+		dropAndDrive.AddAutomation(new ReleaseStack());
+		dropAndDrive.AddAutomation(new Drive(-120, 0.8, 3));
+		auton_fake_three.AddAutomation(dropAndDrive);
 		
 //		Parallel driveAndLoad = new Parallel("DriveAndLoad");
 //		Sequential loadAndElevate = new Sequential("LoadAndElevate");
