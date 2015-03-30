@@ -156,12 +156,16 @@ public class Elevator extends Component implements Configurable {
 		}
 		motorA.set(value);
 		motorB.set(value);
+		motorA.enableBrakeMode(false);
+		motorB.enableBrakeMode(false);
 	}
 	
 	@Override
 	protected void UpdateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
+		motorA.enableBrakeMode(false);
+		motorB.enableBrakeMode(false);
 		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 

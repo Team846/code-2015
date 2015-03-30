@@ -213,10 +213,10 @@ public class Drivetrain extends Component implements Configurable {
 		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(leftBackOutput);
 		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(rightBackOutput);
 
-		frontLeft.enableBrakeMode(true);
-		backLeft.enableBrakeMode(true);
-		frontRight.enableBrakeMode(true);
-		backRight.enableBrakeMode(true);
+		frontLeft.enableBrakeMode(false);
+		backLeft.enableBrakeMode(false);
+		frontRight.enableBrakeMode(false);
+		backRight.enableBrakeMode(false);
 	}
 
 	public void UpdateDisabled()
