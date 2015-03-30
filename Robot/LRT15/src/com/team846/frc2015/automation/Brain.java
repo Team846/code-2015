@@ -98,13 +98,15 @@ public class Brain
 		auton_fake_three.AddAutomation(new Strafe(108, 0.8, 6));
 		auton_fake_three.AddAutomation(new Turn(21, 0.8, 3));
 
+		auton_fake_three.AddAutomation(new Drive(0));
+		
 		Parallel driveAndDrop = new Parallel("DriveAndDrop");
 		driveAndDrop.AddAutomation(new Drive(180, 0.5, 12, true));
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 
 		Parallel driveAndLoad = new Parallel("DriveAndLoad");
-		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+		driveAndLoad.AddAutomation(new Drive(72, 0.5, 3));
 		driveAndLoad.AddAutomation(new LoadAdditional(true));
 		auton_fake_three.AddAutomation(driveAndLoad);
 		
