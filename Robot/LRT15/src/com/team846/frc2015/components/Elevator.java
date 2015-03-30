@@ -66,6 +66,9 @@ public class Elevator extends Component implements Configurable {
 		elevatorSetpoints = new int[ElevatorData.ElevatorSetpoint.values().length];
 		Arrays.fill(elevatorSetpoints, 0);
 		
+		motorA.setVoltageRampRate(100.0);
+		motorB.setVoltageRampRate(100.0);
+		
 		ConfigRuntime.Register(this);
 	}
 

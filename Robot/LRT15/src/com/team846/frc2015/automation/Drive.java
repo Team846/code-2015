@@ -94,7 +94,6 @@ public class Drive extends Automation {
 
 	public boolean Abort()
 	{
-		drivetrain.setClassicDrive(false);
 		if (constantSpeed)
 		{
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.POSITION_CONTROL);
