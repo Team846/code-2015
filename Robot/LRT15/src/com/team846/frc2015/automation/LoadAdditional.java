@@ -6,6 +6,8 @@ import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
+import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
@@ -20,19 +22,26 @@ public class LoadAdditional extends LoadItem implements Configurable {
 	private int toteAnalogValue = 0;
 	private int startPosition = 0;
 	private int hookDisengageDrop = 0;
+	private boolean skipPickup = false;
 
-	public LoadAdditional(boolean auto)
+	public LoadAdditional(boolean auto, boolean skipPickup)
 	{
 		super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto );
 		hooksData = CarriageHooksData.get();
 		elevatorData = ElevatorData.get();
 		armData = CollectorArmData.get();
+		this.skipPickup = skipPickup;
 		ConfigRuntime.Register(this);
+	}
+
+	public LoadAdditional(boolean auto)
+	{
+		this(auto, false);
 	}
 	
 	public LoadAdditional()
 	{
-		this(false);
+		this(false, false);
 	}
 
 	@Override
@@ -70,6 +79,13 @@ public class LoadAdditional extends LoadItem implements Configurable {
 		}
 		if (state == State.GRAB)
 		{
+			if (skipPickup)
+			{
+				elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+				elevatorData.setDesiredSpeed(0.0);
+				armData.setDesiredPosition(ArmPosition.EXTEND);
+				return false;
+			}
 			if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop)
 			{
 				hooksData.setBackHooksDesiredState(HookState.UP);
@@ -79,7 +95,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 			else
 			{
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);;
+				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				armData.setDesiredPosition(ArmPosition.EXTEND);
 			}
 		}
