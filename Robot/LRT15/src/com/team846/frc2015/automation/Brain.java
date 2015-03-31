@@ -119,27 +119,29 @@ public class Brain
 		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
 		auton_fake_three.AddAutomation(driveAndDrop);
 
-
-//		driveAndLoad = new Parallel("DriveAndLoad", true);
-//		Sequential driveAndStrafe = new Sequential("DriveAndStrafe");
-//		driveAndStrafe.AddAutomation(new Drive(72, 0.5, 3));
-//		driveAndStrafe.AddAutomation(new Turn(-30, 1.0, 3));
-//		driveAndStrafe.AddAutomation(new Strafe(120, 1.0, 6));
-//		driveAndLoad.AddAutomation(driveAndStrafe);
-//		driveAndLoad.AddAutomation(new LoadAdditional(true));
-//		auton_fake_three.AddAutomation(driveAndLoad);
 		driveAndLoad = new Parallel("DriveAndLoad");
 		driveAndLoad.AddAutomation(new Drive(72, 0.5, 3));
-		driveAndLoad.AddAutomation(new LoadAdditional(true));
+		driveAndLoad.AddAutomation(new LoadAdditional(true, true));
 		auton_fake_three.AddAutomation(driveAndLoad);
 
-		auton_fake_three.AddAutomation(new Turn(-30, 1.0, 3));
-		auton_fake_three.AddAutomation(new Strafe(120, 1.0, 6));
+		Parallel moveAndHold = new Parallel("MoveAndHold", true);
+		Sequential driveAndStrafe = new Sequential("DriveAndStrafe");
+		driveAndStrafe.AddAutomation(new Turn(-30, 1.0, 3));
+		driveAndStrafe.AddAutomation(new Strafe(120, 1.0, 6));
+//		driveAndStrafe.AddAutomation(new Turn(-120, 1.0, 6));
+//		driveAndStrafe.AddAutomation(new Drive(180, 1.0, 6, true));
+		moveAndHold.AddAutomation(driveAndStrafe);
+		moveAndHold.AddAutomation(new MoveCollectorArm());
+		auton_fake_three.AddAutomation(moveAndHold);
 		auton_fake_three.AddAutomation(new ResetDrivetrainSetpoints());
 		
 		Parallel dropAndDrive = new Parallel("DropAndDrive", true);
+		Sequential driveAndBack = new Sequential("DriveAndBack");
+		driveAndBack.AddAutomation(new Drive(120, 1.0, 6));
+		driveAndBack.AddAutomation(new Drive(-120, 1.0, 3));
 		dropAndDrive.AddAutomation(new ReleaseStack());
 		dropAndDrive.AddAutomation(new Drive(-120, 0.8, 3));
+//		dropAndDrive.AddAutomation(driveAndBack);
 		auton_fake_three.AddAutomation(dropAndDrive);
 		
 //		auton_fake_three.AddAutomation(new Turn(70, 0.8, 3));

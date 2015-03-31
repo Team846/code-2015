@@ -81,10 +81,8 @@ public class LoadAdditional extends LoadItem implements Configurable {
 		{
 			if (skipPickup)
 			{
-				elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-				elevatorData.setDesiredSpeed(0.0);
 				armData.setDesiredPosition(ArmPosition.EXTEND);
-				return false;
+				return true;
 			}
 			if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop)
 			{
