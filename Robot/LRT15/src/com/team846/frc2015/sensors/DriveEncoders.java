@@ -119,6 +119,13 @@ public class DriveEncoders implements Configurable
 		return GetTurnTicks() / TICKS_PER_FULL_TURN;
 	}
 	
+	public int GetStrafeTicks()
+	{
+		int rightDifference = encoders[Side.RIGHT_BACK.ordinal()].get() - encoders[Side.RIGHT_FRONT.ordinal()].get();
+		int leftDifference = encoders[Side.LEFT_FRONT.ordinal()].get() - encoders[Side.LEFT_BACK.ordinal()].get();
+		return (rightDifference + leftDifference) / 2;
+	}
+	
 	public void Reset()
 	{
 		for(LRTCANEncoder enc : encoders)

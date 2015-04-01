@@ -14,6 +14,8 @@ public class Strafe extends Automation {
 	private final Timer timer;
 	private int ticks;
 	private double errorThreshold;
+	private int startTicks;
+	DriveEncoders encoders;
 	
 //	public Strafe(double time) //seconds
 //	{
@@ -28,6 +30,7 @@ public class Strafe extends Automation {
 		this.ticks = ticks;
 		this.errorThreshold = errorThreshold;
 		drivetrain = DrivetrainData.get();
+		encoders = DriveEncoders.Get();
 	}
 	
 //	public Strafe(double time, double maxSpeed)
@@ -52,6 +55,7 @@ public class Strafe extends Automation {
 		drivetrain.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.POSITION_CONTROL);
 		drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, ticks);
 		drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
+		startTicks = encoders.GetStrafeTicks();
 		return true;
 	}
 
@@ -66,6 +70,7 @@ public class Strafe extends Automation {
 	protected boolean Run() {
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed * Math.signum(ticks));
+//		return Math.abs(startTicks - encoders.GetStrafeTicks()) < errorThreshold;
 		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
 	}
 
