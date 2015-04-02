@@ -88,6 +88,55 @@ public class Brain
 //		dropAndPop.AddAutomation(new Drive(-120, 0.5, 3));
 //		auton_fake_yellowYOLO.AddAutomation(dropAndPop);
 
+//		Sequential auton_fake_three = new Sequential("ThreeTote");
+//		auton_fake_three.AddAutomation(new ResetDrivetrainSetpoints());
+//		auton_fake_three.AddAutomation(new Turn(0));
+//		auton_fake_three.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.HOME_TOTE));
+//		
+//		auton_fake_three.AddAutomation(new Strafe(84, 0.8, 6));
+//		
+//		Parallel driveAndDrop = new Parallel("DriveAndDrop");
+//		driveAndDrop.AddAutomation(new Drive(120, 0.8, 12));
+//		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
+//		auton_fake_three.AddAutomation(driveAndDrop);
+//		
+//		auton_fake_three.AddAutomation(new Strafe(-84, 0.8, 6));
+//		
+//		Parallel driveAndLoad = new Parallel("DriveAndLoad");
+//		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+//		driveAndLoad.AddAutomation(new LoadAdditional(true));
+//		auton_fake_three.AddAutomation(driveAndLoad);
+//		
+//		auton_fake_three.AddAutomation(new Strafe(84, 0.8, 6));
+//		
+//		driveAndDrop = new Parallel("DriveAndDrop");
+//		driveAndDrop.AddAutomation(new Drive(180, 0.8, 12));
+//		driveAndDrop.AddAutomation(new Elevate(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL));
+//		auton_fake_three.AddAutomation(driveAndDrop);
+//
+//		auton_fake_three.AddAutomation(new Strafe(-84, 0.8, 6));
+//		
+//		Parallel driveAndLoad = new Parallel("DriveAndLoad");
+//		driveAndLoad.AddAutomation(new Drive(60, 0.5, 3));
+//		driveAndLoad.AddAutomation(new LoadAdditional(true, true));
+//		auton_fake_three.AddAutomation(driveAndLoad);
+//
+//		Parallel moveAndHold = new Parallel("MoveAndHold", true);
+//		Sequential driveAndStrafe = new Sequential("DriveAndStrafe");
+//		driveAndStrafe.AddAutomation(new Turn(-90, 1.0, 6));
+//		driveAndStrafe.AddAutomation(new Drive(180, 1.0, 6, true));
+//		moveAndHold.AddAutomation(driveAndStrafe);
+//		moveAndHold.AddAutomation(new MoveCollectorArm());
+//		auton_fake_three.AddAutomation(moveAndHold);
+//		
+//		Parallel dropAndDrive = new Parallel("DropAndDrive", true);
+//		Sequential driveAndBack = new Sequential("DriveAndBack");
+//		driveAndBack.AddAutomation(new Drive(120, 1.0, 6));
+//		driveAndBack.AddAutomation(new Drive(-120, 1.0, 3));
+//		dropAndDrive.AddAutomation(new ReleaseStack(true));
+//		dropAndDrive.AddAutomation(driveAndBack);
+//		auton_fake_three.AddAutomation(dropAndDrive);
+		
 		
 		Sequential auton_fake_three = new Sequential("ThreeTote");
 		auton_fake_three.AddAutomation(new ResetDrivetrainSetpoints());

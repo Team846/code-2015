@@ -88,6 +88,7 @@ public class ReleaseStack extends Automation implements Configurable {
 			
 			if (spit)
 			{
+				collectorArmData.setDesiredPosition(ArmPosition.EXTEND);
 				collectorRollersData.setDirection(Direction.REVERSE);
 				collectorRollersData.setRunning(true);
 				collectorRollersData.setSpeed(1.0);
@@ -99,6 +100,7 @@ public class ReleaseStack extends Automation implements Configurable {
 			elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
 			hooksData.setBackHooksDesiredState(HookState.DOWN);
 			hooksData.setFrontHooksDesiredState(HookState.DOWN);
+			collectorArmData.setDesiredPosition(ArmPosition.STOWED);
 			if (elevatorData.isAtSetpoint(ElevatorSetpoint.HOME_TOTE))
 			{
 				return true;
