@@ -62,7 +62,7 @@ public class Drivetrain extends Component implements Configurable {
 		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
-		driveEncoders = new DriveEncoders(backLeft, backRight, backLeft, backRight);
+		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -134,8 +134,9 @@ public class Drivetrain extends Component implements Configurable {
 		
 //		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
 		
-		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
-		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+//		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
+//		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
+//		AsyncPrinter.println("Encoder Vel: " + driveEncoders.GetNormalizedSpeed(DriveEncoders.Side.RIGHT_BACK));
 		
 //		System.out.println("Turn input: " + drivetrainData.GetPositionSetpoint(Axis.TURN));
 //		System.out.println("Turn vel: " + drivetrainData.GetOpenLoopOutput(Axis.TURN));
@@ -158,7 +159,6 @@ public class Drivetrain extends Component implements Configurable {
 			double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD); 
 			double turnOutput =  drivetrainData.GetOpenLoopOutput(Axis.TURN); 
 			double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE); 
-			AsyncPrinter.warn("strafe out: " + strafeOutput);
 			
 			double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
 			double rightFrontRawOutput = fwdOutput - turnOutput - strafeOutput;
@@ -271,10 +271,15 @@ public class Drivetrain extends Component implements Configurable {
 	
 	private double ComputeMecanumOutput(DriveEncoders.Side wheel, double desiredOutput)
 	{
-		return desiredOutput;
-//		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(desiredOutput);
-//		mecanumDrivePIDs[wheel.ordinal()].SetInput(driveEncoders.GetNormalizedSpeed(wheel));
-//		return mecanumDrivePIDs[wheel.ordinal()].Update(1/RobotConfig.LOOP_RATE);		
+//		return desiredOutput;
+		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(desiredOutput);
+		mecanumDrivePIDs[wheel.ordinal()].SetInput(driveEncoders.GetNormalizedSpeed(wheel));
+		double out = mecanumDrivePIDs[wheel.ordinal()].Update(1.0/RobotConfig.LOOP_RATE);
+//		AsyncPrinter.println("mec error: " + mecanumDrivePIDs[wheel.ordinal()].GetError());
+//		AsyncPrinter.println("mec input: " + mecanumDrivePIDs[wheel.ordinal()].GetInput());
+//		AsyncPrinter.println("mec setpoint: " + mecanumDrivePIDs[wheel.ordinal()].GetSetpoint());
+//		AsyncPrinter.println("mec output: " + out);
+		return out;		
 	}
 
 //	void ConfigureForwardCurrentLimit()

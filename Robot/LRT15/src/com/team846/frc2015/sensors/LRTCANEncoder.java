@@ -73,13 +73,16 @@ public class LRTCANEncoder
 	 */
 	public double getRate() 
 	{
-		double encVel = attachedEncoder.getEncVelocity();
-		if( Math.abs(encVel) < minRate || encVel == prevRate)
-		{
-			prevRate = encVel;
-			return 0.0;
-		}
-		prevRate = encVel;
+		double encVel = attachedEncoder.getSpeed();
+		
+//		double encVel = attachedEncoder.getEncVelocity();
+		
+//		if( Math.abs(encVel) < minRate || encVel == prevRate) //if exactly the same
+//		{
+//			prevRate = encVel;
+//			return 0.0;
+//		}
+//		prevRate = encVel;
 		
 		if(reverse)
 			encVel = -encVel;

@@ -45,6 +45,10 @@ public class Elevator extends Component implements Configurable {
 	
 	private final Timer stallTimer = new Timer();
 	private int stallPosition = 0;
+	
+	private int error = 0;
+	
+	private int atPositionCounter = 0;
 
 	public Elevator() {
 		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
@@ -66,8 +70,8 @@ public class Elevator extends Component implements Configurable {
 		elevatorSetpoints = new int[ElevatorData.ElevatorSetpoint.values().length];
 		Arrays.fill(elevatorSetpoints, 0);
 		
-		motorA.setVoltageRampRate(100.0);
-		motorB.setVoltageRampRate(100.0);
+//		motorA.setVoltageRampRate(100.0);
+//		motorB.setVoltageRampRate(100.0);
 		
 		ConfigRuntime.Register(this);
 	}
@@ -80,7 +84,7 @@ public class Elevator extends Component implements Configurable {
 		elevatorData.setCurrentPosition(currentPosition);
 		
 		DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
-		AsyncPrinter.println("Position: " + currentPosition);
+//		AsyncPrinter.println("Position: " + currentPosition);
 		
 		if(elevatorData.getControlMode() == ElevatorControlMode.VELOCITY)
 		{
@@ -108,15 +112,28 @@ public class Elevator extends Component implements Configurable {
 				return;
 			}
 			int posErr = desiredPos - currentPosition;
+			error = posErr;
 			
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
+
+			if (speed != 0.0)
+				AsyncPrinter.println("Elevator error: " + error + " threshold: " + errorThreshold);
+			
 			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
-				elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+			{
+				atPositionCounter--;
+				if (atPositionCounter < 0)
+					elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+				else
+					elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+			}
 			else
+			{
+				atPositionCounter = 4;
 				elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+			}
 			sendOutput(speed);
 		}
-	
 	}
 
 	private void sendOutput(double value)

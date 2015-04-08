@@ -204,7 +204,7 @@ public abstract class LoadItem extends Automation{
 				break;
 			}
 		}
-		System.out.println(state);
+//		System.out.println(state);
 		return false;
 	}
 	

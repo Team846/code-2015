@@ -17,6 +17,7 @@ public class ContainerArmInputs extends InputProcessor {
 	{
 		armData = ContainerArmData.get();
 		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		//RegisterResource(ControlResource.CONTAINER_GRABBER);
 	}
 	
 	@Override
