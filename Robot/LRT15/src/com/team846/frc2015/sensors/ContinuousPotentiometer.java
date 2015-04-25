@@ -15,8 +15,8 @@ public class ContinuousPotentiometer implements Configurable
 	
 	public ContinuousPotentiometer(int portA, int portB)
 	{
-		channelA = SensorFactory.GetAnalogInput(portA);
-		channelB = SensorFactory.GetAnalogInput(portB);
+		channelA = SensorFactory.getAnalogInput(portA);
+		channelB = SensorFactory.getAnalogInput(portB);
 	}
 	
 	

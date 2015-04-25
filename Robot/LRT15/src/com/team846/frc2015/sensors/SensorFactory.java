@@ -16,13 +16,13 @@ public class SensorFactory {
 	
 	private static SensorFactory instance = null;
 	
-	static public void Initialize()
+	static public void initialize()
 	{
 		if(instance == null)
 			instance = new SensorFactory();
 	}
 	
-	static public SensorFactory Instance()
+	static public SensorFactory instance()
 	{
 		if(instance == null)
 			instance = new SensorFactory();
@@ -30,7 +30,7 @@ public class SensorFactory {
 		return instance;
 	}
 	
-	static public AnalogInput GetAnalogInput(int port)
+	static public AnalogInput getAnalogInput(int port)
 	{
 		if(!analog.containsKey(port))
 		{
@@ -41,7 +41,7 @@ public class SensorFactory {
 		return analog.get(port);
 	}
 	
-	static public DigitalInput GetDigitalInput(int port)
+	static public DigitalInput getDigitalInput(int port)
 	{
 		if (!digital.containsKey(port))
 		{
@@ -51,7 +51,7 @@ public class SensorFactory {
 		return digital.get(port);
 	}
 
-	static public Counter GetCounter(int port)
+	static public Counter getCounter(int port)
 	{
 		if (!counters.containsKey(port))
 		{
@@ -61,7 +61,7 @@ public class SensorFactory {
 		return counters.get(port);
 	} 
 
-	static public LRTEncoder GetLRTEncoder(String name, int portA, int portB)
+	static public LRTEncoder getLRTEncoder(String name, int portA, int portB)
 	{
 		Pair<Integer, Integer> mapEntry = new Pair<Integer, Integer>(portA, portB);
 		if (!encoders.containsKey(mapEntry))
@@ -72,7 +72,7 @@ public class SensorFactory {
 		return encoders.get(mapEntry);
 	}
 
-	static public GearTooth GetGearTooth(int port)
+	static public GearTooth getGearTooth(int port)
 	{
 		if (!counters.containsKey(port))
 		{

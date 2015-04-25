@@ -58,9 +58,12 @@ public class ConfigPortMappings
 			return;
 		}
 				
-		try {
+		try 
+		{
 			config.load(configFile);
-		} catch (ConfigurationException e) {
+		}
+		catch (ConfigurationException e)
+		{
 			e.printStackTrace();
 		}
 	}

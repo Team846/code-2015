@@ -24,7 +24,7 @@ public class LoadSidewaysContainer extends LoadItem implements Configurable {
 	protected boolean Abort() {
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent
 				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetButton() == DriverStationConfig.JoystickButtons.LOAD_SIDEWAYS_CONTAINER
-				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick()))
+				&& ((JoystickReleasedEvent)(GetAbortEvent())).GetJoystick() == LRTDriverStation.instance().getOperatorStick()))
 			return false;
 		else
 			return super.Abort();

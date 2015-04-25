@@ -63,7 +63,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 	{
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.LOAD_ADDITIONAL
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick())
+				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
 			return false;
 		else
 			return super.Abort();

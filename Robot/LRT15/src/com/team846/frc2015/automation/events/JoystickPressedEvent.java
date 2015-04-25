@@ -30,15 +30,15 @@ public class JoystickPressedEvent extends Event {
 	public boolean CheckCondition() {
 		if (m_button == 0)	
         {	
-                for (int i = 1; i <= m_joystick.GetNumButtons(); i++)	
+                for (int i = 1; i <= m_joystick.getNumButtons(); i++)	
                 {	
-                        if (m_joystick.IsButtonDown(i))	
+                        if (m_joystick.isButtonDown(i))	
                         {	
                                 return true;	
                         }	
                 }	
         }	
-        else if (m_joystick.IsButtonDown(m_button))	
+        else if (m_joystick.isButtonDown(m_button))	
         {	
                 return true;	
         }	

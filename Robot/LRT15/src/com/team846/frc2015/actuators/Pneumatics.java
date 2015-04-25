@@ -12,19 +12,20 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SolenoidBase;
 
 public class Pneumatics extends Actuator implements Configurable{
+	
 	private String configSection;
 
 	private int pulseLength;
 
 	private static final Compressor compressor = new Compressor(1);
-	private static final ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
+	private static ArrayList<Pneumatics> pneumatic_list = new ArrayList<Pneumatics>();
 
 	private final SolenoidBase solenoid;
 	private int counter;
 	private final boolean pulsed;
-	private State state;
+	private PneumaticState state;
 	
-	public enum State
+	public enum PneumaticState
 	{
 		OFF,
 		FORWARD,
@@ -38,7 +39,7 @@ public class Pneumatics extends Actuator implements Configurable{
 		solenoid = new DoubleSolenoid(forward, reverse);
 		counter = 0;
 		pulsed = true;
-		state = State.OFF;
+		state = PneumaticState.OFF;
 		
 		pneumatic_list.add(this);
 		ConfigRuntime.Register(this);
@@ -51,7 +52,7 @@ public class Pneumatics extends Actuator implements Configurable{
 		solenoid = new DoubleSolenoid(module, forward, reverse);
 		counter = 0;
 		pulsed = true;
-		state = State.OFF;
+		state = PneumaticState.OFF;
 
 		pneumatic_list.add(this);
 		ConfigRuntime.Register(this);
@@ -65,7 +66,7 @@ public class Pneumatics extends Actuator implements Configurable{
 		solenoid = new Solenoid(forward);
 		counter = 0;
 		pulsed = false;
-		state = State.OFF;
+		state = PneumaticState.OFF;
 
 		pneumatic_list.add(this);
 		ConfigRuntime.Register(this);
@@ -79,30 +80,29 @@ public class Pneumatics extends Actuator implements Configurable{
 		solenoid = new Solenoid(pcmModule, forward);
 		counter = 0;
 		pulsed = false;
-		state = State.OFF;
+		state = PneumaticState.OFF;
 
 		pneumatic_list.add(this);
 		ConfigRuntime.Register(this);
 
 	}
 
-	public void Output()
+	public void output()
 	{
-		//System.out.println("Bruh");
 		if (pulsed && (solenoid instanceof DoubleSolenoid))
 		{
 			if (counter > 0)
 			{
 				counter--;
-				if (state == State.FORWARD)
+				if (state == PneumaticState.FORWARD)
 				{
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kForward);
 				}
-				else if (state == State.REVERSE)
+				else if (state == PneumaticState.REVERSE)
 				{
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kReverse);
 				}
-				else if (state == State.OFF)
+				else if (state == PneumaticState.OFF)
 				{
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kOff);
 				}
@@ -115,21 +115,21 @@ public class Pneumatics extends Actuator implements Configurable{
 		}
 		else
 		{
-			if (state == State.FORWARD)
+			if (state == PneumaticState.FORWARD)
 			{
 				if (solenoid instanceof Solenoid)
 					((Solenoid)solenoid).set(true);
 				else if (solenoid instanceof DoubleSolenoid)
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kForward);
 			}
-			else if (state == State.OFF)
+			else if (state == PneumaticState.OFF)
 			{
 				if (solenoid instanceof Solenoid)
 					((Solenoid)solenoid).set(false);
 				else if (solenoid instanceof DoubleSolenoid)
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kOff);
 			}
-			else if (state == State.REVERSE)
+			else if (state == PneumaticState.REVERSE)
 			{
 				if (solenoid instanceof DoubleSolenoid)
 					((DoubleSolenoid)solenoid).set(DoubleSolenoid.Value.kReverse);
@@ -137,18 +137,18 @@ public class Pneumatics extends Actuator implements Configurable{
 		}
 	}
 
-	public static void CreateCompressor()
+	public static void createCompressor()
 	{
 		compressor.start();
 	}
 
-	public static void DestroyCompressor()
+	public static void destroyCompressor()
 	{
 		compressor.stop();
 		compressor.free();
 	}
 
-	public static void SetCompressor(boolean on)
+	public static void setCompressor(boolean on)
 	{
 		if (on)
 		{
@@ -160,14 +160,14 @@ public class Pneumatics extends Actuator implements Configurable{
 		}
 	}
 
-	void Set(State on, boolean force)
+	void set(PneumaticState on, boolean force)
 	{
 		if (on != state || force)
 		{
 			state = on;
-			if (solenoid instanceof Solenoid && state == State.REVERSE)
+			if (solenoid instanceof Solenoid && state == PneumaticState.REVERSE)
 			{
-				state = State.OFF;
+				state = PneumaticState.OFF;
 			}
 			if (pulsed)
 			{
@@ -176,34 +176,34 @@ public class Pneumatics extends Actuator implements Configurable{
 		}
 	}
 	
-	public void set(State on)
+	public void set(PneumaticState on)
 	{
-		Set(on, false);
+		set(on, false);
 	}
 
-	public State Get()
+	public PneumaticState get()
 	{
 		return state;
 	}
 
-	public State GetHardwareValue()
+	public PneumaticState getHardwareValue()
 	{
-		State current = State.OFF;
+		PneumaticState current = PneumaticState.OFF;
 		if (solenoid instanceof DoubleSolenoid)
 		{
 			if (((DoubleSolenoid)solenoid).get() == DoubleSolenoid.Value.kForward)
-				current = State.FORWARD;
+				current = PneumaticState.FORWARD;
 			else if (((DoubleSolenoid)solenoid).get() == DoubleSolenoid.Value.kReverse)
-				current = State.REVERSE;
+				current = PneumaticState.REVERSE;
 			else
-				current = State.OFF;
+				current = PneumaticState.OFF;
 		}
 		else if (solenoid instanceof Solenoid)
 		{
 			if (((Solenoid)solenoid).get())
-				current = State.FORWARD;
+				current = PneumaticState.FORWARD;
 			else
-				current = State.OFF;
+				current = PneumaticState.OFF;
 		}
 		return current;
 	}
@@ -212,6 +212,4 @@ public class Pneumatics extends Actuator implements Configurable{
 	{
 		pulseLength = GetConfig("pulseLength", 6);
 	}
-
-
 }

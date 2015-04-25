@@ -62,9 +62,9 @@ public abstract class LoadItem extends Automation{
 		hooksData = CarriageHooksData.get();
 		armData = CollectorArmData.get();
 		rollersData = CollectorRollersData.get();
-		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		driverStick = LRTDriverStation.instance().getDriverStick();
 		
-		sensor = SensorFactory.GetAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
+		sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
 		collect = collectSetpoint;
 		grab = grabSetpoint;
 		home = homeSetpoint;
@@ -122,7 +122,7 @@ public abstract class LoadItem extends Automation{
 					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
 					elevatorData.setDesiredSpeed(0.0);
 					
-					if ((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
+					if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
 					{
 						armData.setDesiredPosition(ArmPosition.EXTEND);
 						rollersData.setRunning(true);
@@ -130,7 +130,7 @@ public abstract class LoadItem extends Automation{
 						rollersData.setSpeed(1.0);
 						
 						System.out.println(sensor.getAverageValue());
-						if((driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
+						if((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
 								|| (auto && sensor.getAverageValue() > analogThreshold))
 						{
 							rollersData.setSpeed(1.0);

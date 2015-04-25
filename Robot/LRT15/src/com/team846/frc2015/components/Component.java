@@ -34,11 +34,23 @@ public abstract class Component
 	 */
     Component(String name, int driverStationDigitalIn)
 	{
-		this.name = name;
+    	if(name == null)
+    	{
+    		String simpleClassName = this.getClass().getName();
+    		this.name = simpleClassName.substring(simpleClassName.lastIndexOf('.')+1);
+    	}
+    	else
+    		this.name = name;
+    	
 		digitalIn = driverStationDigitalIn;
 		lastEnabled = false;
 		AsyncPrinter.info("Created component: " + name);
 	}
+    
+    Component(int driverStationDigitalIn)
+    {
+    	this(null,driverStationDigitalIn);
+    }
 	
 	public static void CreateComponents()
 	{

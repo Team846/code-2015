@@ -18,7 +18,7 @@ public class ElevatorInputs extends InputProcessor {
 	public ElevatorInputs()
 	{
 		elevatorData = ElevatorData.get();
-		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		operatorStick = LRTDriverStation.instance().getOperatorStick();
 		
 		RegisterResource(ControlResource.ELEVATOR);
 	}
@@ -28,33 +28,33 @@ public class ElevatorInputs extends InputProcessor {
 //		elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 //		elevatorData.setSetpoint(ElevatorSetpoint.HOME_TOTE);
 		
-		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATOR_OVERRIDE))
+		if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATOR_OVERRIDE))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
 			double speed = -operatorStick.getAxis(AxisType.kY);
 			elevatorData.setDesiredSpeed(speed);
 		}
-		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_ONE))
+		if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_ONE))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(ElevatorSetpoint.TOTE_1);
 		}
-		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_TWO))
+		else if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_TWO))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(ElevatorSetpoint.TOTE_2);
 		}
-		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_THREE))
+		else if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_THREE))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(ElevatorSetpoint.TOTE_3);
 		}
-		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_FOUR))
+		else if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_FOUR))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(ElevatorSetpoint.TOTE_4);
 		}
-		else if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_STEP))
+		else if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_STEP))
 		{
 			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 			elevatorData.setSetpoint(ElevatorSetpoint.STEP);

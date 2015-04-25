@@ -1,8 +1,8 @@
 
 package com.team846.frc2015.config;
 
-public interface Configurable {
-	
+public interface Configurable
+{
 	public void Configure();
 	
 	public default int GetConfig(String key, int defaultValue)

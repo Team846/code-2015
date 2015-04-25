@@ -19,7 +19,7 @@ public class ContinuousLoad extends LoadAdditional {
 	public ContinuousLoad()
 	{
 		super();
-		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		operatorStick = LRTDriverStation.instance().getOperatorStick();
 	}
 	
 	protected boolean Start()
@@ -33,7 +33,7 @@ public class ContinuousLoad extends LoadAdditional {
 	{
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick())
+				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
 			return false;
 		else
 			return super.Abort();
@@ -43,7 +43,7 @@ public class ContinuousLoad extends LoadAdditional {
 	public boolean Run()
 	{
 		boolean ret = super.Run();
-		if (operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
+		if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
 			last = true;
 		if (state == State.HOME && !last)
 		{

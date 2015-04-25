@@ -51,14 +51,14 @@ public class Elevator extends Component implements Configurable {
 	private int atPositionCounter = 0;
 
 	public Elevator() {
-		super("Elevator", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		motorA = new CANTalon(
 				ConfigPortMappings.Instance().get("CAN/ELEVATOR_MOTOR_A"));
 		motorB = new CANTalon(
 				ConfigPortMappings.Instance().get("CAN/ELEVATOR_MOTOR_B"));
 		
-		elevatorPot = SensorFactory.GetAnalogInput(
+		elevatorPot = SensorFactory.getAnalogInput(
 				ConfigPortMappings.Instance().get("Analog/ELEVATOR_POT"));
 		
 		elevatorData = ElevatorData.get();

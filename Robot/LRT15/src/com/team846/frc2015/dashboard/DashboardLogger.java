@@ -48,10 +48,10 @@ public class DashboardLogger
 	
 	// Use on prod
 	private boolean buttonsPressed() {
-		LRTJoystick driverWheel = LRTDriverStation.Instance().GetDriverWheel();
+		LRTJoystick driverWheel = LRTDriverStation.instance().getDriverWheel();
 		
-		return driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
-				driverWheel.IsButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
+		return driverWheel.isButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+				driverWheel.isButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
 	}
 
 	@SuppressWarnings("rawtypes")

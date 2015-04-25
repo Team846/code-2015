@@ -11,13 +11,13 @@ public class LRTDriverStation {
 	private final LRTJoystick operator_stick;
 	private final LRTJoystick driver_wheel;
 
-	public static void Initialize()
+	public static void initialize()
 	{
 		if (instance == null)
 			instance = new LRTDriverStation();
 	}
 
-	public static LRTDriverStation Instance()
+	public static LRTDriverStation instance()
 	{
 		if (instance == null)
 			instance = new LRTDriverStation();
@@ -46,28 +46,28 @@ public class LRTDriverStation {
 	}
 
 
-	public static void Update()
+	public static void update()
 	{
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{
-			Instance().driver_stick.Update();
-			Instance().operator_stick.Update();
-			Instance().driver_wheel.Update();
+			instance().driver_stick.update();
+			instance().operator_stick.update();
+			instance().driver_wheel.update();
 		}
 	}
 
-	public LRTJoystick GetOperatorStick()
+	public LRTJoystick getOperatorStick()
 	{
 		return operator_stick;
 	}
 
-	public LRTJoystick GetDriverStick()
+	public LRTJoystick getDriverStick()
 	{
 		return driver_stick;
 	}
 	
 
-	public LRTJoystick GetDriverWheel()
+	public LRTJoystick getDriverWheel()
 	{
 		return driver_wheel;
 	}

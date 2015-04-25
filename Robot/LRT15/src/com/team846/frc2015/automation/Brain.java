@@ -54,8 +54,8 @@ public class Brain
 	
 	private Brain()
 	{	
-		LRTJoystick operatorStick = LRTDriverStation.Instance().GetOperatorStick();
-		LRTJoystick driverStick = LRTDriverStation.Instance().GetDriverStick();
+		LRTJoystick operatorStick = LRTDriverStation.instance().getOperatorStick();
+		LRTJoystick driverStick = LRTDriverStation.instance().getDriverStick();
 		
 		createInputProcessors();
 

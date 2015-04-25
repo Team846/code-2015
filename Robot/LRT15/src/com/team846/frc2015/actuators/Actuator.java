@@ -13,18 +13,18 @@ public abstract class Actuator
 		actuator_list.add(this);
 	}
 	
-	String GetName()
+	String getName()
 	{
 		return name;
 	}
 	
-	protected abstract void Output();
+	protected abstract void output();
 	
-	public static void OutputAll()
+	public static void outputAll()
 	{
 		for ( Actuator a : Actuator.actuator_list)
 		{ 
-			a.Output();
+			a.output();
 		}
 	}
 }

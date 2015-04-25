@@ -46,8 +46,8 @@ private boolean constRadius;
 		STRAFE
 	}
 	public DrivetrainInputs(Axis axis) {
-		 driverStick = LRTDriverStation.Instance().GetDriverStick();
-		 driverWheel = LRTDriverStation.Instance().GetDriverWheel();
+		 driverStick = LRTDriverStation.instance().getDriverStick();
+		 driverWheel = LRTDriverStation.instance().getDriverWheel();
 		 
 		 drivetrainData = DrivetrainData.get();
 		 this.axis = axis;
@@ -64,7 +64,7 @@ private boolean constRadius;
 	{
 		double forward = -driverStick.getAxis(Joystick.AxisType.kY);
 	
-		int signForward = MathUtils.Sign(forward);
+		int signForward = MathUtils.sign(forward);
 		//System.out.println("fwd: " + forward);
 		if (Math.abs(forward) < deadband)
 			forward = 0.0;

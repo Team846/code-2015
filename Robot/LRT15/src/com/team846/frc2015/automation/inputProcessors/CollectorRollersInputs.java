@@ -16,8 +16,8 @@ public class CollectorRollersInputs extends InputProcessor
 	
 	public CollectorRollersInputs()
 	{
-		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
-		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		operatorStick = LRTDriverStation.instance().getOperatorStick();
+		driverStick = LRTDriverStation.instance().getDriverStick();
 		collectorRollers = CollectorRollersData.get();
 		RegisterResource(ControlResource.COLLECTOR_ROLLERS);
 	}
@@ -25,25 +25,25 @@ public class CollectorRollersInputs extends InputProcessor
 	@Override
 	public void Update() {
 		
-		if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
+		if(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.REVERSE_ROLLERS))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.REVERSE);
 			collectorRollers.setSpeed(1.0);
 		}
-		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.SPIN_ROLLERS))
+		else if(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.SPIN_ROLLERS))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.INTAKE);
 			collectorRollers.setSpeed(1.0);
 		}
-		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP_LEFT))
+		else if(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP_LEFT))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.LEFT_REVERSE);
 			collectorRollers.setSpeed(1.0);
 		}
-		else if(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP_RIGHT))
+		else if(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.DRIVER_SWEEP_RIGHT))
 		{
 			collectorRollers.setRunning(true);
 			collectorRollers.setDirection(Direction.RIGHT_REVERSE);

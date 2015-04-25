@@ -22,7 +22,7 @@ public abstract class LRTSpeedController extends Actuator
 		timeoutSeconds = 0;
 	}
 	
-	public void Output()
+	public void output()
 	{
 		if (encoder != null)
 		{
@@ -50,7 +50,7 @@ public abstract class LRTSpeedController extends Actuator
 	
 	void SafetyCallback()
 	{
-		System.out.println("[ERROR] Safety failed in LRTSpeedController: " + GetName());
+		System.out.println("[ERROR] Safety failed in LRTSpeedController: " + getName());
 		SetDutyCycle(0.0);
 	}
 	

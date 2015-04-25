@@ -3,7 +3,8 @@ package com.team846.frc2015.config;
 /*!
  * Constants used for Joystick Mappings and Driverstation virtual values
  */
-public class DriverStationConfig {
+public class DriverStationConfig
+{
 	
 	public class JoystickConfig
 	{

@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 public class CarriageExtender extends Component implements Configurable
 {
 	private final CANTalon carriageMotor;
-	
 	private final AnalogInput carriagePot;
 	
 	private int retractSetpoint;
@@ -28,7 +27,6 @@ public class CarriageExtender extends Component implements Configurable
 	private int extendSoftLimit;
 	
 	private double maxRange;
-	
 	private double maxSpeed;
 	
 	private double positionGain;
@@ -38,13 +36,12 @@ public class CarriageExtender extends Component implements Configurable
 
 	public CarriageExtender()
 	{
-		super("CarriageExtender", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
-		carriagePot = SensorFactory.GetAnalogInput(
+		carriagePot = SensorFactory.getAnalogInput(
 				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
 		
 		carriageMotor = new CANTalon(ConfigPortMappings.Instance().get("CAN/CARRIAGE_MOTOR"));
-		//carriageMotor.setStatusFrameRateMs(StatusFrameRate.AnalogTempVbat, 20);
 		
 		maxRange = positionGain = errorThreshold = retractSetpoint = extendSetpoint = retractSoftLimit = extendSoftLimit =  0;
 		
@@ -56,7 +53,6 @@ public class CarriageExtender extends Component implements Configurable
 	@Override
 	protected void UpdateEnabled() 
 	{
-		//AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 		int position = carriagePot.getAverageValue();
 		
 		
@@ -124,11 +120,9 @@ public class CarriageExtender extends Component implements Configurable
 		extendSoftLimit = GetConfig("extendSoftLimit", 1000);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);
-		
 		positionGain = GetConfig("positionGain", 1.0);
 		
 		maxSpeed = GetConfig("maxSpeed",0.8);
-		
 		maxRange = extendSetpoint - retractSetpoint;
 		
 	}

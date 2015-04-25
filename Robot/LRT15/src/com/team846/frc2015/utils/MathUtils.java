@@ -8,7 +8,7 @@ public class MathUtils
 	    else return val;
 	}
 
-	public static <T extends Number> int Sign(T number) {
+	public static <T extends Number> int sign(T number) {
 		if(number.doubleValue() > 0)
 			return 1;
 		else if(number.doubleValue() < 0)
@@ -17,6 +17,7 @@ public class MathUtils
 		return 0;
 	}
 	
+	//TODO: fix to work with arbitrary number types
 	public static double Rescale(double d, double min0, double max0, double min1, double max1)
 	{
 		if (max0 == min0)

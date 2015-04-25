@@ -11,7 +11,7 @@ public class AsyncPrinter
 	private static final Queue<String> toLog = new ConcurrentLinkedQueue<String>();
 	private final Thread periodicLogger;
 	
-	public static void Initialize()
+	public static void initialize()
 	{
 		if (instance == null)
 			instance = new AsyncPrinter();

@@ -22,15 +22,15 @@ public class JoystickReleasedEvent extends Event {
 	public boolean CheckCondition() {
 	if (m_button == 0)
         {	
-            for (int i = 1; i <= joystick.GetNumButtons(); i++)	
+            for (int i = 1; i <= joystick.getNumButtons(); i++)	
             {	
-                if (!joystick.IsButtonDown(i))	
+                if (!joystick.isButtonDown(i))	
                 {	
                         return true;	
                 }	
             }	
         }	
-        else if (!joystick.IsButtonDown(m_button))	
+        else if (!joystick.isButtonDown(m_button))	
         {	
                 return true;	
         }	

@@ -16,14 +16,14 @@ public class ContainerArmInputs extends InputProcessor {
 	public ContainerArmInputs()
 	{
 		armData = ContainerArmData.get();
-		driverStick = LRTDriverStation.Instance().GetDriverStick();
+		driverStick = LRTDriverStation.instance().getDriverStick();
 		//RegisterResource(ControlResource.CONTAINER_GRABBER);
 	}
 	
 	@Override
 	public void Update() {
-		armData.SetLeftDeployed(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.LEFT_CONTAINER_ARM));
-		armData.SetRightDeployed(driverStick.IsButtonDown(DriverStationConfig.JoystickButtons.RIGHT_CONTAINER_ARM));
+		armData.SetLeftDeployed(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.LEFT_CONTAINER_ARM));
+		armData.SetRightDeployed(driverStick.isButtonDown(DriverStationConfig.JoystickButtons.RIGHT_CONTAINER_ARM));
 	}
 
 }

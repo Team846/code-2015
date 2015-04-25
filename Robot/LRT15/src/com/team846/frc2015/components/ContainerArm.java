@@ -1,7 +1,7 @@
 package com.team846.frc2015.components;
 
 import com.team846.frc2015.actuators.Pneumatics;
-import com.team846.frc2015.actuators.Pneumatics.State;
+import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.ContainerArmData;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.DriverStationConfig;
@@ -14,7 +14,7 @@ public class ContainerArm extends Component{
 	private final ContainerArmData armData;
 	
 	public ContainerArm() {
-		super("ContainerArm", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		armData = ContainerArmData.get();
 		
@@ -27,15 +27,15 @@ public class ContainerArm extends Component{
 	@Override
 	protected void UpdateEnabled() 
 	{
-		leftArm.set(armData.GetLeftDeployed() ? Pneumatics.State.FORWARD : Pneumatics.State.OFF);
-		rightArm.set(armData.GetRightDeployed() ? Pneumatics.State.FORWARD : Pneumatics.State.OFF);
+		leftArm.set(armData.GetLeftDeployed() ? Pneumatics.PneumaticState.FORWARD : Pneumatics.PneumaticState.OFF);
+		rightArm.set(armData.GetRightDeployed() ? Pneumatics.PneumaticState.FORWARD : Pneumatics.PneumaticState.OFF);
 	}
 
 	@Override
 	protected void UpdateDisabled() 
 	{
-		leftArm.set(State.OFF);
-		rightArm.set(State.OFF);
+		leftArm.set(PneumaticState.OFF);
+		rightArm.set(PneumaticState.OFF);
 	}
 
 	@Override

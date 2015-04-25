@@ -6,13 +6,16 @@ public class PID {
 	private double integral_gain;
 	private double derivative_gain;
 	private double feedforward_gain;
+	
 	private double integral_decay;
 	private double input;
 	private double output;
 	private double setpoint;
+	
 	private double error;
 	private double prev_error;
 	private double acc_error;
+	
 	private boolean is_feed_forward;
 	private boolean enabled;
 	
@@ -22,7 +25,7 @@ public class PID {
 	PID(double p_gain, double i_gain, double d_gain, double ff_gain,
 			double i_decay, boolean feedforward, double filterFreq)
 	{
-		SetParameters(p_gain, i_gain, d_gain, ff_gain, i_decay, feedforward, filterFreq);
+		setParameters(p_gain, i_gain, d_gain, ff_gain, i_decay, feedforward, filterFreq);
 		runningSum = new RunningSum(IIR_DECAY(filterFreq));
 		IIREnabled = false;
 	}
@@ -30,7 +33,7 @@ public class PID {
 	public PID() 
 	{
 		runningSum = new RunningSum(IIR_DECAY(7.0));
-		SetParameters(0, 0, 0,0,0,false,0);
+		setParameters(0, 0, 0,0,0,false,0);
 		IIREnabled = false;
 	}
 	
@@ -39,10 +42,10 @@ public class PID {
 		return 2 * Math.PI * freq / 50;
 	}
 
-	public void SetParameters(double p_gain, double i_gain, double d_gain,
+	public void setParameters(double p_gain, double i_gain, double d_gain,
 			double ff_gain, double i_decay, boolean feedforward, double filterFreq)
 	{
-		Reset();
+		reset();
 		proportional_gain = p_gain;
 		integral_gain = i_gain;
 		derivative_gain = d_gain;
@@ -50,22 +53,17 @@ public class PID {
 		integral_decay = i_decay != 1.0 ? i_decay : 0.9999999999999;
 		is_feed_forward = feedforward;
 		runningSum.setDecayConstant(IIR_DECAY(filterFreq));
-		EnablePID();
+		enablePID();
 	}
 
-	public double Update(double dt)
+	public double update(double dt)
 	{
 		error = setpoint - input;
-		//	AsyncPrinter::Printf("Error: %.02f\r\n", error);
 
 		if (IIREnabled)
-		{
 			error = runningSum.UpdateSum(error);
-		}
 		else
-		{
 			runningSum.Clear();
-		}
 
 		// calculate discrete derivative
 		double delta = (error - prev_error) / dt;
@@ -99,67 +97,67 @@ public class PID {
 		return output;
 	}
 
-	public void SetSetpoint(double setpoint)
+	public void setSetpoint(double setpoint)
 	{
 		this.setpoint = setpoint;
 	}
 
-	public void SetInput(double input)
+	public void setInput(double input)
 	{
 		this.input = input;
 	}
 
-	public double GetProportionalGain()
+	public double getProportionalGain()
 	{
 		return proportional_gain;
 	}
 
-	public double GetIntegralGain()
+	public double getIntegralGain()
 	{
 		return integral_gain;
 	}
 
-	public double GetDerivativeGain()
+	public double getDerivativeGain()
 	{
 		return derivative_gain;
 	}
 
-	public double GetFeedForwardGain()
+	public double getFeedForwardGain()
 	{
 		return feedforward_gain;
 	}
 
-	public double GetIntegralDecay()
+	public double getIntegralDecay()
 	{
 		return integral_decay;
 	}
 
-	public double GetInput()
+	public double getInput()
 	{
 		return input;
 	}
 
-	public double GetSetpoint()
+	public double getSetpoint()
 	{
 		return setpoint;
 	}
 
-	public double GetError()
+	public double getError()
 	{
 		return error;
 	}
 
-	public double GetAccumulatedError()
+	public double getAccumulatedError()
 	{
 		return acc_error;
 	}
 
-	public double GetPreviousError()
+	public double getPreviousError()
 	{
 		return prev_error;
 	}
 
-	public double GetOutput()
+	public double getOutput()
 	{
 		if (enabled)
 			return output;
@@ -167,17 +165,17 @@ public class PID {
 			return setpoint;
 	}
 
-	public void DisablePID()
+	public void disablePID()
 	{
 		enabled = false;
 	}
 
-	void EnablePID()
+	void enablePID()
 	{
 		enabled = true;
 	}
 
-	void Reset()
+	void reset()
 	{
 		acc_error = 0.0;
 		error = 0.0;
@@ -187,14 +185,14 @@ public class PID {
 		setpoint = 0.0;
 	}
 
-	public void SetIIREnabled(boolean enabled)
+	public void setIIREnabled(boolean enabled)
 	{
 		IIREnabled = enabled;
 		if (!enabled)
 			runningSum.Clear();
 	}
 
-	public void SetIIRDecay(double decay)
+	public void setIIRDecay(double decay)
 	{
 		runningSum.setDecayConstant(decay);
 	}

@@ -1,7 +1,7 @@
 package com.team846.frc2015.components;
 
 import com.team846.frc2015.actuators.Pneumatics;
-import com.team846.frc2015.actuators.Pneumatics.State;
+import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.ClampData;
 import com.team846.frc2015.componentData.ClampData.ClampState;
 import com.team846.frc2015.config.ConfigPortMappings;
@@ -12,8 +12,9 @@ public class CarriageClamp extends Component {
 	private final Pneumatics clamp;
 	private final ClampData clampData;
 
-	public CarriageClamp() {
-		super("CarriageClamp", DriverStationConfig.DigitalIns.NO_DS_DI);
+	public CarriageClamp()
+	{
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		clampData = ClampData.get();
 		clamp = new Pneumatics(ConfigPortMappings.Instance().get("Pneumatics/CARRIAGE_CLAMP"),
 				"CarriageClamp");
@@ -22,31 +23,20 @@ public class CarriageClamp extends Component {
 	@Override
 	protected void UpdateEnabled() {
 		if(clampData.getDesiredState() == ClampState.UP)
-			clamp.set(State.FORWARD);
+			clamp.set(PneumaticState.FORWARD);
 		else
-			clamp.set(State.OFF);
-		
+			clamp.set(PneumaticState.OFF);
 		clampData.setCurrentState(clampData.getDesiredState());
-
-		
 	}
 
 	@Override
 	protected void UpdateDisabled() {
-		clamp.set(State.OFF);
-		
-	}
+		clamp.set(PneumaticState.OFF);
+		}
 
 	@Override
-	protected void OnEnabled() {
-		
-	}
+	protected void OnEnabled() {}
 
 	@Override
-	protected void OnDisabled() {
-		
-	}
-	
-	
-
+	protected void OnDisabled() {}
 }

@@ -1,7 +1,7 @@
 package com.team846.frc2015.components;
 
 import com.team846.frc2015.actuators.Pneumatics;
-import com.team846.frc2015.actuators.Pneumatics.State;
+import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
 import com.team846.frc2015.config.ConfigPortMappings;
@@ -16,7 +16,7 @@ public class CarriageHooks extends Component{
 	
 	public CarriageHooks() 
 	{
-		super("CarriageHooks", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 frontHooks = new Pneumatics(
 				ConfigPortMappings.Instance().get("Pneumatics/FORWARD_HOOKS"), "ForwardHooks");
@@ -28,40 +28,29 @@ public class CarriageHooks extends Component{
 
 	@Override
 	protected void UpdateEnabled() {
-		State backState;
-		State frontState;
-		
-		if (hooksData.getFrontHooksDesiredState() == HookState.DOWN)
-			frontState = State.OFF;
-		else
-			frontState = State.FORWARD;
-		
-		
-		if (hooksData.getBackHooksDesiredState() == HookState.DOWN)
-			backState = State.OFF;
-		else
-			backState = State.FORWARD;
+		PneumaticState backState;
+		PneumaticState frontState;
+				
+		frontState = hooksData.getFrontHooksDesiredState() == HookState.DOWN ? PneumaticState.OFF : PneumaticState.FORWARD;
+		backState = hooksData.getBackHooksDesiredState() == HookState.DOWN ? PneumaticState.OFF : PneumaticState.FORWARD;
 		
 		frontHooks.set(frontState);
 		backHooks.set(backState);
 		
-		hooksData.setFrontHooksCurrentState(frontState == State.OFF ? HookState.DOWN : HookState.UP);
-		hooksData.setBackHooksCurrentState(backState == State.OFF ? HookState.DOWN : HookState.UP);
+		hooksData.setFrontHooksCurrentState(frontState == PneumaticState.OFF ? HookState.DOWN : HookState.UP);
+		hooksData.setBackHooksCurrentState(backState == PneumaticState.OFF ? HookState.DOWN : HookState.UP);
 	}
 
 	@Override
-	protected void UpdateDisabled() {
-		frontHooks.set(State.OFF);
-		backHooks.set(State.OFF);
+	protected void UpdateDisabled()
+	{
+		frontHooks.set(PneumaticState.OFF);
+		backHooks.set(PneumaticState.OFF);
 	}
 
 	@Override
-	protected void OnEnabled() {
-		
-	}
+	protected void OnEnabled() {}
 
 	@Override
-	protected void OnDisabled() {
-		
-	}
+	protected void OnDisabled() {}
 }

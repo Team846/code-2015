@@ -44,7 +44,7 @@ public class Drivetrain extends Component implements Configurable {
 	
 	public Drivetrain() 
 	{	
-		super("Drivetrain", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 	
 		PIDs = new PID[2][4];
 		
@@ -86,34 +86,34 @@ public class Drivetrain extends Component implements Configurable {
 		switch (drivetrainData.GetControlMode(axis))
 		{
 		case POSITION_CONTROL:
-			PIDs[POSITION][axis.ordinal()].SetInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : driveEncoders.GetTurnAngle());
-			PIDs[POSITION][axis.ordinal()].SetSetpoint(positionSetpoint);
-			velocitySetpoint += PIDs[POSITION][axis.ordinal()].Update(1.0 / RobotConfig.LOOP_RATE);
+			PIDs[POSITION][axis.ordinal()].setInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : driveEncoders.GetTurnAngle());
+			PIDs[POSITION][axis.ordinal()].setSetpoint(positionSetpoint);
+			velocitySetpoint += PIDs[POSITION][axis.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
 			if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
-				velocitySetpoint = MathUtils.Sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
+				velocitySetpoint = MathUtils.sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
 			AsyncPrinter.warn("RAW PID OUTPUT: " + velocitySetpoint);
 			rawOutput = velocitySetpoint;
 			
 			break;
 		case VELOCITY_CONTROL:
 			if (Math.abs(velocitySetpoint) < 2.0E-2)
-				PIDs[VELOCITY][axis.ordinal()].SetIIREnabled(true);
+				PIDs[VELOCITY][axis.ordinal()].setIIREnabled(true);
 			else
-				PIDs[VELOCITY][axis.ordinal()].SetIIREnabled(false);
+				PIDs[VELOCITY][axis.ordinal()].setIIREnabled(false);
 
 			if (axis == Axis.FORWARD)
-				PIDs[VELOCITY][axis.ordinal()].SetInput(
+				PIDs[VELOCITY][axis.ordinal()].setInput(
 						driveEncoders.GetNormalizedForwardSpeed());
 			else if (axis == Axis.TURN)
-				PIDs[VELOCITY][axis.ordinal()].SetInput(
+				PIDs[VELOCITY][axis.ordinal()].setInput(
 						driveEncoders.GetNormalizedTurningSpeed());
 			else
-				PIDs[VELOCITY][axis.ordinal()].SetInput(
+				PIDs[VELOCITY][axis.ordinal()].setInput(
 						driveEncoders.GetNormalizedStrafingSpeed());
 
-			PIDs[VELOCITY][axis.ordinal()].SetSetpoint(velocitySetpoint);
+			PIDs[VELOCITY][axis.ordinal()].setSetpoint(velocitySetpoint);
 
-			rawOutput = PIDs[VELOCITY][axis.ordinal()].Update(1.0 / RobotConfig.LOOP_RATE);
+			rawOutput = PIDs[VELOCITY][axis.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
 			break;
 		case OPEN_LOOP:
 			break;
@@ -266,15 +266,15 @@ public class Drivetrain extends Component implements Configurable {
 		double i = GetConfig(pidName + "_I", 0.0);
 		double d = GetConfig(pidName + "_D", 0.0);
 
-		pid.SetParameters(p, i, d, 1.0, 0.87, feedForward,0.0);
+		pid.setParameters(p, i, d, 1.0, 0.87, feedForward,0.0);
 	}
 	
 	private double ComputeMecanumOutput(DriveEncoders.Side wheel, double desiredOutput)
 	{
 //		return desiredOutput;
-		mecanumDrivePIDs[wheel.ordinal()].SetSetpoint(desiredOutput);
-		mecanumDrivePIDs[wheel.ordinal()].SetInput(driveEncoders.GetNormalizedSpeed(wheel));
-		double out = mecanumDrivePIDs[wheel.ordinal()].Update(1.0/RobotConfig.LOOP_RATE);
+		mecanumDrivePIDs[wheel.ordinal()].setSetpoint(desiredOutput);
+		mecanumDrivePIDs[wheel.ordinal()].setInput(driveEncoders.GetNormalizedSpeed(wheel));
+		double out = mecanumDrivePIDs[wheel.ordinal()].update(1.0/RobotConfig.LOOP_RATE);
 //		AsyncPrinter.println("mec error: " + mecanumDrivePIDs[wheel.ordinal()].GetError());
 //		AsyncPrinter.println("mec input: " + mecanumDrivePIDs[wheel.ordinal()].GetInput());
 //		AsyncPrinter.println("mec setpoint: " + mecanumDrivePIDs[wheel.ordinal()].GetSetpoint());

@@ -1,7 +1,7 @@
 package com.team846.frc2015.components;
 
 import com.team846.frc2015.actuators.Pneumatics;
-import com.team846.frc2015.actuators.Pneumatics.State;
+import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.config.ConfigPortMappings;
@@ -19,7 +19,7 @@ public class CollectorArms extends Component
 	
 	public CollectorArms()
 	{
-		super("CollectorArms", DriverStationConfig.DigitalIns.NO_DS_DI);
+		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 arms = new Pneumatics(
 				 ConfigPortMappings.Instance().get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");
@@ -38,15 +38,15 @@ public class CollectorArms extends Component
 	@Override
 	protected void UpdateEnabled() 
 	{
-		State state;
+		PneumaticState state;
 		
 		if(armData.getDesiredCollectorPosition() == ArmPosition.EXTEND)
-			state = State.FORWARD;
+			state = PneumaticState.FORWARD;
 		else
-			state = State.OFF;
+			state = PneumaticState.OFF;
 		
 		arms.set(state);
-		armData.setCurrentCollectorPosition(state == State.FORWARD ? ArmPosition.EXTEND : ArmPosition.STOWED);
+		armData.setCurrentCollectorPosition(state == PneumaticState.FORWARD ? ArmPosition.EXTEND : ArmPosition.STOWED);
 		
 //		if(leftReed.get() || rightReed.get())
 //			armData.setCurrentCollectorPosition( ArmPosition.EXTEND);
@@ -59,7 +59,7 @@ public class CollectorArms extends Component
 
 	@Override
 	protected void UpdateDisabled() {
-		arms.set(State.OFF);
+		arms.set(PneumaticState.OFF);
 		
 		//AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
 

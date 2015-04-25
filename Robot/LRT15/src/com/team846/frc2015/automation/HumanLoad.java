@@ -31,7 +31,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();
 		armData = CollectorArmData.get();
-		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		operatorStick = LRTDriverStation.instance().getOperatorStick();
 		ConfigRuntime.Register(this);
 	}
 	
@@ -46,7 +46,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 	{
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.Instance().GetOperatorStick())
+				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
 			return false;
 		else
 			return super.Abort();
@@ -65,9 +65,9 @@ public class HumanLoad extends LoadTote implements Configurable{
 				elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_PREPARE);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				if (operatorStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_START))
+				if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_START))
 					humanLoadState = HumanLoadState.GRAB;
-				if (operatorStick.IsButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
+				if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
 					humanLoadState = HumanLoadState.FINISHED;
 				break;
 			case GRAB:

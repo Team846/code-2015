@@ -16,13 +16,13 @@ public class CarriageHooksInputs extends InputProcessor{
 	public CarriageHooksInputs() {
 
 		hooksData = CarriageHooksData.get();
-		operatorStick = LRTDriverStation.Instance().GetOperatorStick();
+		operatorStick = LRTDriverStation.instance().getOperatorStick();
 		RegisterResource(ControlResource.CARRIAGE_HOOKS);
 	}
 
 	@Override
 	public void Update() {
-		if(operatorStick.IsButtonDown(DriverStationConfig.JoystickButtons.HOOKS_OVERRIDE))
+		if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HOOKS_OVERRIDE))
 		{
 			hooksData.setFrontHooksDesiredState(HookState.UP);
 			hooksData.setBackHooksDesiredState(HookState.UP);

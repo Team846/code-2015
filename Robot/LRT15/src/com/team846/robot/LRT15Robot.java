@@ -12,7 +12,6 @@ import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.AsyncPrinter;
-//import dashboard.DashboardLogger;
 
 
 public class LRT15Robot extends LRTRobotBase
@@ -21,13 +20,13 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void RobotInit() 
 	{
-		AsyncPrinter.Initialize();
+		AsyncPrinter.initialize();
 		AsyncPrinter.info("Initialized Asynchronous Logging...");
 		
 		RobotState.Initialize();
 		AsyncPrinter.info("Initialized RobotState...");
 
-		LRTDriverStation.Initialize();
+		LRTDriverStation.initialize();
 		AsyncPrinter.info("Initialized DriverStation Manager...");
 		
 		ConfigPortMappings.Instance().Load();
@@ -45,10 +44,10 @@ public class LRT15Robot extends LRTRobotBase
 		Brain.Initialize();
 		AsyncPrinter.info("Initialized Brain...");
 
-		SensorFactory.Initialize();
+		SensorFactory.initialize();
 		AsyncPrinter.info("Initialized Sensor Factory...");
 		
-		Pneumatics.CreateCompressor();
+		Pneumatics.createCompressor();
 		AsyncPrinter.info("Creating Compressor...");
 		
 		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
@@ -62,13 +61,13 @@ public class LRT15Robot extends LRTRobotBase
 		}
 		robotStateCounter++;
 
-		LRTDriverStation.Update();
+		LRTDriverStation.update();
 		
 		Brain.Instance().Update();
 
 		Component.UpdateAll();
 
-		Actuator.OutputAll();
+		Actuator.outputAll();
 
 		if(RobotState.Instance().GameMode() == GameState.DISABLED)
 			ConfigRuntime.Instance().CheckForFileUpdates();
