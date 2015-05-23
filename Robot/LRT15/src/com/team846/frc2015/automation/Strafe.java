@@ -16,6 +16,7 @@ public class Strafe extends Automation {
 	private double errorThreshold;
 	private int startTicks;
 	DriveEncoders encoders;
+	private float startAngle;
 	
 //	public Strafe(double time) //seconds
 //	{
