@@ -42,7 +42,6 @@ public class DriveEncoders implements Configurable
 //		encoders[Side.LEFT_BACK.ordinal()].getTalon().reverseSensor(true);// = new LRTCANEncoder(backLeft);
 //		encoders[Side.LEFT_FRONT.ordinal()].getTalon().reverseSensor(true);// = new LRTCANEncoder(backLeft);
 
-		
 		if (instance == null)
 			instance = this;
 		ConfigRuntime.Register(this);

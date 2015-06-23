@@ -8,7 +8,7 @@ import com.team846.robot.RobotState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
 
-class LRTGyro extends SensorFactory
+public class LRTGyro extends SensorFactory
 {
 	SPI gyro;
 	byte[] inputFromSlave = new byte[7];
@@ -33,6 +33,8 @@ class LRTGyro extends SensorFactory
 	float driftX = 0;
 	float driftY = 0;
 	float driftZ = 0;
+	
+	private static LRTGyro instance = null;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -68,7 +70,17 @@ class LRTGyro extends SensorFactory
         byte[] in = new byte[2];//in is not defined
         gyro.transaction(out, in, 2);
         System.out.println(Integer.toBinaryString(in[0]));
+
+		if (instance == null)
+			instance = this;
     }
+
+	public static LRTGyro Get()
+	{
+		if (instance == null)
+			instance = new LRTGyro();
+		return instance;
+	}
 
     public void update()
     {

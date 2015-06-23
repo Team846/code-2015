@@ -1,6 +1,7 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.DrivetrainData;
+import com.team846.frc2015.sensors.LRTGyro;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.AsyncPrinter;
@@ -17,6 +18,7 @@ public class Strafe extends Automation {
 	private int startTicks;
 	DriveEncoders encoders;
 	private float startAngle;
+	LRTGyro gyro;
 	
 //	public Strafe(double time) //seconds
 //	{
@@ -32,6 +34,7 @@ public class Strafe extends Automation {
 		this.errorThreshold = errorThreshold;
 		drivetrain = DrivetrainData.get();
 		encoders = DriveEncoders.Get();
+		gyro = LRTGyro.Get();
 	}
 	
 //	public Strafe(double time, double maxSpeed)
@@ -57,6 +60,7 @@ public class Strafe extends Automation {
 		drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, ticks);
 		drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
 		startTicks = encoders.GetStrafeTicks();
+		startAngle = gyro.getY();
 		return true;
 	}
 
@@ -71,6 +75,7 @@ public class Strafe extends Automation {
 	protected boolean Run() {
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed * Math.signum(ticks));
+		drivetrain.SetOpenLoopOutput(Axis.TURN, (startAngle - gyro.getY()) * 0.1);
 //		return Math.abs(startTicks - encoders.GetStrafeTicks()) < errorThreshold;
 		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
 	}

@@ -221,7 +221,14 @@ public class Brain
 		containerGrab.AddAutomation(pauseDrive);
 		containerGrab.AddAutomation(new ContainerGrab());
 		
-		
+		Sequential auton_strafe_test = new Sequential("StrafeTest");
+		auton_strafe_test.AddAutomation(new Strafe(48, 0.5, 6));
+		auton_strafe_test.AddAutomation(new Pause(1.0));
+		auton_strafe_test.AddAutomation(new Strafe(-48, 0.5, 6));
+		auton_strafe_test.AddAutomation(new Pause(1.0));
+		auton_strafe_test.AddAutomation(new Strafe(48, 0.5, 6));
+		auton_strafe_test.AddAutomation(new Pause(1.0));
+		auton_strafe_test.AddAutomation(new Strafe(-48, 0.5, 6));
 		
 //		Sequential auton_fake_three = new Sequential("ThreeTote");
 //		auton_fake_three.AddAutomation(new ResetDrivetrainSetpoints());
@@ -435,11 +442,11 @@ public class Brain
 //		disabled_timeout.AddAbortListener(auton);
 		
 		// Map events to routines
-//		to_auto.AddStartListener(containerGrab);
-		driver_stick_moved.AddAbortListener(containerGrab);
-		operator_stick_moved.AddAbortListener(containerGrab);
-		driver_stick_pressed.AddAbortListener(containerGrab);
-		operator_stick_pressed.AddAbortListener(containerGrab);
+		to_auto.AddStartListener(auton_strafe_test);
+		driver_stick_moved.AddAbortListener(auton_strafe_test);
+		operator_stick_moved.AddAbortListener(auton_strafe_test);
+		driver_stick_pressed.AddAbortListener(auton_strafe_test);
+		operator_stick_pressed.AddAbortListener(auton_strafe_test);
 //		disabled_timeout.AddAbortListener(auton_fake_three);
 		
 		release_stack_start.AddStartListener(releaseStack);
