@@ -19,7 +19,8 @@ public class Strafe extends Automation {
 	DriveEncoders encoders;
 	private float startAngle;
 	LRTGyro gyro;
-	
+
+	// TODO: implement remaining constructors
 //	public Strafe(double time) //seconds
 //	{
 //		this(time, 1.0);

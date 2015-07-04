@@ -117,7 +117,7 @@ public class Elevator extends Component implements Configurable {
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
 
 			if (speed != 0.0)
-				AsyncPrinter.println("Elevator error: " + error + " threshold: " + errorThreshold);
+//				AsyncPrinter.println("Elevator error: " + error + " threshold: " + errorThreshold);
 			
 			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 			{
@@ -183,7 +183,7 @@ public class Elevator extends Component implements Configurable {
 		motorB.set(0.0);
 		motorA.enableBrakeMode(false);
 		motorB.enableBrakeMode(false);
-		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
+//		AsyncPrinter.println("Elevator Position: " + elevatorPot.getAverageValue());
 	}
 
 	@Override

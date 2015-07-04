@@ -434,19 +434,19 @@ public class Brain
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 		
 		// Map events to routines
-//		to_auto.AddStartListener(auton);
-//		driver_stick_moved.AddAbortListener(auton);
-//		operator_stick_moved.AddAbortListener(auton);
-//		driver_stick_pressed.AddAbortListener(auton);
-//		operator_stick_pressed.AddAbortListener(auton);
-//		disabled_timeout.AddAbortListener(auton);
+		to_auto.AddStartListener(auton);
+		driver_stick_moved.AddAbortListener(auton);
+		operator_stick_moved.AddAbortListener(auton);
+		driver_stick_pressed.AddAbortListener(auton);
+		operator_stick_pressed.AddAbortListener(auton);
+		disabled_timeout.AddAbortListener(auton);
 		
 		// Map events to routines
-		to_auto.AddStartListener(auton_strafe_test);
-		driver_stick_moved.AddAbortListener(auton_strafe_test);
-		operator_stick_moved.AddAbortListener(auton_strafe_test);
-		driver_stick_pressed.AddAbortListener(auton_strafe_test);
-		operator_stick_pressed.AddAbortListener(auton_strafe_test);
+//		to_auto.AddStartListener(auton_strafe_test);
+//		driver_stick_moved.AddAbortListener(auton_strafe_test);
+//		operator_stick_moved.AddAbortListener(auton_strafe_test);
+//		driver_stick_pressed.AddAbortListener(auton_strafe_test);
+//		operator_stick_pressed.AddAbortListener(auton_strafe_test);
 //		disabled_timeout.AddAbortListener(auton_fake_three);
 		
 		release_stack_start.AddStartListener(releaseStack);
