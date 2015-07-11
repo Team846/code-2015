@@ -115,9 +115,6 @@ public class Elevator extends Component implements Configurable {
 			error = posErr;
 			
 			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
-
-			if (speed != 0.0)
-//				AsyncPrinter.println("Elevator error: " + error + " threshold: " + errorThreshold);
 			
 			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
 			{
