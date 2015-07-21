@@ -59,7 +59,7 @@ public abstract class LRTSpeedController extends Actuator
 	public abstract double GetHardwareValue();
 	protected abstract void Update();
 	public abstract void ConfigNeutralMode(LRTSpeedController.NeutralMode mode);
-	double CurrentLimit(double dutyCycle, float speed, float forwardLimit, float reverseLimit)
+	double CurrentLimit(double dutyCycle, double speed, double forwardLimit, double reverseLimit)
 	{
 		if (speed < 0)
 		{

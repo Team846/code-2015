@@ -2,16 +2,22 @@ package com.team846.frc2015.actuators;
 
 import java.util.ArrayList;
 
+import com.team846.frc2015.config.ConfigRuntime;
+import com.team846.frc2015.config.Configurable;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Talon;
 
-public class LRTTalon extends LRTSpeedController {
+public class LRTTalon extends LRTSpeedController implements Configurable {
 	
 	private static final ArrayList<LRTTalon> talon_list = new ArrayList<LRTTalon>();
 	
 	private double pwm;
 	private final DigitalOutput brake_jumper;
 	private LRTSpeedController.NeutralMode neutral;
+	
+	private double forwardLimit;
+	private double reverseLimit;
 	
 	private final Talon talon;
 
@@ -27,11 +33,20 @@ public class LRTTalon extends LRTSpeedController {
 		talon_list.add(this);
 		
 		System.out.println("Constructed LRTTalon" + name+" on channel " + channel);
+		
+		ConfigRuntime.Register(this);
+	}
+	
+	@Override
+	public void Configure() {
+		forwardLimit = GetConfig("forwardLimit", 0.3);
+		reverseLimit = GetConfig("reverseLimit", -0.3);
 	}
 
-	public void SetDutyCycle(double speed)
+	public void SetDutyCycle(double newDutyCycle)
 	{
-		pwm = speed;
+		double currentSpeed = talon.getSpeed();
+		pwm = CurrentLimit(newDutyCycle, currentSpeed, forwardLimit, reverseLimit);
 	}
 
 	public double GetDutyCycle()
@@ -44,7 +59,7 @@ public class LRTTalon extends LRTSpeedController {
 		return talon.get();
 	}
 
-	public void Set( float speed)
+	public void Set( float speed )
 	{
 		System.out.println("[WARNING] Calling Set() in LRTTalon: "+ getName() +" use SetDutyCycle() instead");
 		SetDutyCycle(speed);
