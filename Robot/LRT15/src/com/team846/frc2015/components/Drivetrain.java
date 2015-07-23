@@ -44,8 +44,6 @@ public class Drivetrain extends Component implements Configurable {
 	
 	public Drivetrain() 
 	{	
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
-	
 		PIDs = new PID[2][4];
 		
 		for(PID[] row : PIDs)

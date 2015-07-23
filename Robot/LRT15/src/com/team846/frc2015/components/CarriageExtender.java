@@ -36,7 +36,6 @@ public class CarriageExtender extends Component implements Configurable
 
 	public CarriageExtender()
 	{
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		carriagePot = SensorFactory.getAnalogInput(
 				ConfigPortMappings.Instance().get("Analog/CARRIAGE_POT"));
@@ -68,7 +67,7 @@ public class CarriageExtender extends Component implements Configurable
 		}
 		else if(extenderData.getControlMode() == CarriageControlMode.POSITION)
 		{
-			int desiredPos = (int) MathUtils.Rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+			int desiredPos = (int) MathUtils.rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
 			DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
 			double error = Math.abs(desiredPos - position) <  errorThreshold ? 0.0 : ( desiredPos - position ) / maxRange ;
 			carriageMotor.set(MathUtils.clamp(error*positionGain, -extenderData.getMaxSpeed(), extenderData.getMaxSpeed()));
@@ -76,7 +75,7 @@ public class CarriageExtender extends Component implements Configurable
 		else
 			carriageMotor.set(extenderData.getSpeed()); //open loop velocity
 		
-		extenderData.setCurrentPosition((int)MathUtils.Rescale(position, retractSetpoint, extendSetpoint, 0, 1));
+		extenderData.setCurrentPosition((int)MathUtils.rescale(position, retractSetpoint, extendSetpoint, 0, 1));
 		
 	}
 

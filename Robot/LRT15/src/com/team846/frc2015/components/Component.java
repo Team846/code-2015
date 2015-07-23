@@ -12,7 +12,6 @@ public abstract class Component
 	
 	private static final ArrayList<Component> component_list = new ArrayList<Component>();
 	private final String name;
-	private final int digitalIn;
 	private boolean lastEnabled;
 	
 	abstract protected void UpdateEnabled();
@@ -32,9 +31,9 @@ public abstract class Component
 	 * @param name name of the component
 	 * @param driverStationDigitalIn driverstation in
 	 */
-    Component(String name, int driverStationDigitalIn)
+    Component(String name)
 	{
-    	if(name == null)
+    	if(name == null) //grab name via reflection
     	{
     		String simpleClassName = this.getClass().getName();
     		this.name = simpleClassName.substring(simpleClassName.lastIndexOf('.')+1);
@@ -42,14 +41,13 @@ public abstract class Component
     	else
     		this.name = name;
     	
-		digitalIn = driverStationDigitalIn;
 		lastEnabled = false;
 		AsyncPrinter.info("Created component: " + name);
 	}
     
-    Component(int driverStationDigitalIn)
+    Component()
     {
-    	this(null,driverStationDigitalIn);
+    	this(null);
     }
 	
 	public static void CreateComponents()
@@ -76,20 +74,10 @@ public abstract class Component
 	{
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{
-			if (digitalIn == DriverStationConfig.DigitalIns.NO_DS_DI )
-			{
-				if (!lastEnabled)
-					OnEnabled();
-				UpdateEnabled();
-				lastEnabled = true;
-			}
-			else
-			{
-				if (lastEnabled)
-					OnDisabled();
-				UpdateDisabled();
-				lastEnabled = false;
-			}
+			if (!lastEnabled)
+				OnEnabled();
+			UpdateEnabled();
+			lastEnabled = true;
 		}
 		else
 		{
@@ -100,14 +88,8 @@ public abstract class Component
 		}
 	}
 
-	public String GetName()
+	public String getName()
 	{
 		return name;
 	}
-
-	public int GetDigitalIn()
-	{
-		return digitalIn;
-	}
-
 }

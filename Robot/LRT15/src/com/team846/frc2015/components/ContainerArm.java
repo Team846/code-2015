@@ -14,7 +14,6 @@ public class ContainerArm extends Component{
 	private final ContainerArmData armData;
 	
 	public ContainerArm() {
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		armData = ContainerArmData.get();
 		

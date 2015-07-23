@@ -69,19 +69,6 @@ public class DriverStationConfig
 		public static final int DRIVER_SWEEP_LEFT = 3;
 		public static final int DRIVER_SWEEP_RIGHT = 4;
 	}
-	
-	public class DigitalIns
-	{
-		public static final int NO_DS_DI = -1;
-		public static final int DRIVETRAIN = 1;
-		public static final int COLLECTOR_ROLLERS = 2;
-		public static final int COLLECTOR_ARM = 3;
-		public static final int ELEVATOR = 4;
-		public static final int CARRIAGE_HOOKS = 5;
-		public static final int CARRIAGE_EXTENDER = 6;
-		public static final int NETWORK = 7;
-		public static final int COMPRESSOR = 8;
-	}
 
 	private class AnalogIns
 	{

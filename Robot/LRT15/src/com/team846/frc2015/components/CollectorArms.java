@@ -19,7 +19,6 @@ public class CollectorArms extends Component
 	
 	public CollectorArms()
 	{
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 arms = new Pneumatics(
 				 ConfigPortMappings.Instance().get("Pneumatics/COLLECTOR_ARMS"), "CollectorArms");

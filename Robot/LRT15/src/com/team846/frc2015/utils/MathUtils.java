@@ -18,7 +18,7 @@ public class MathUtils
 	}
 	
 	//TODO: fix to work with arbitrary number types
-	public static double Rescale(double d, double min0, double max0, double min1, double max1)
+	public static double rescale(double d, double min0, double max0, double min1, double max1)
 	{
 		if (max0 == min0)
 			return min1;

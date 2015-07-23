@@ -16,7 +16,6 @@ public class CarriageHooks extends Component{
 	
 	public CarriageHooks() 
 	{
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		
 		 frontHooks = new Pneumatics(
 				ConfigPortMappings.Instance().get("Pneumatics/FORWARD_HOOKS"), "ForwardHooks");

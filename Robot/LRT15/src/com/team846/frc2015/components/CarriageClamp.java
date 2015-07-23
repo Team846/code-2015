@@ -14,7 +14,6 @@ public class CarriageClamp extends Component {
 
 	public CarriageClamp()
 	{
-		super(DriverStationConfig.DigitalIns.NO_DS_DI);
 		clampData = ClampData.get();
 		clamp = new Pneumatics(ConfigPortMappings.Instance().get("Pneumatics/CARRIAGE_CLAMP"),
 				"CarriageClamp");
