@@ -20,7 +20,6 @@ public class MoveCollectorArm extends Automation {
 
 	public MoveCollectorArm()
 	{
-		super("Move");
 		armData = CollectorArmData.get();
 	}
 

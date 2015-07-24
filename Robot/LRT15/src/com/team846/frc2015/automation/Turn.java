@@ -16,8 +16,6 @@ public class Turn extends Automation {
 
 	public Turn(double angle, double maxSpeed, double errorThreshold)
 	{
-		super("Turn");
-		AsyncPrinter.println("srinturn");
 		this.angle = angle;
 		this.maxSpeed = maxSpeed;
 		this.errorThreshold = errorThreshold;

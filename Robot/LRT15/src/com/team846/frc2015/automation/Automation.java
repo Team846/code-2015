@@ -44,6 +44,7 @@ public abstract class Automation {
 			if(!routineOptions.contains(option))
 				routineOptions.add(option);
 		}
+		
 		if(name == null)
 		{
 			this.name = this.getClass().getName();

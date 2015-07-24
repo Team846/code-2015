@@ -11,7 +11,6 @@ public class Elevate extends Automation {
 	private final ElevatorData elData;
 	private final ElevatorSetpoint setpoint;
 	public Elevate(int toteLevel) {
-		super("Elevate");
 		elData = ElevatorData.get();
 		
 		if(toteLevel == 1)

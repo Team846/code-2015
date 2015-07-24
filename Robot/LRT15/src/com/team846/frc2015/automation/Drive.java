@@ -32,7 +32,6 @@ public class Drive extends Automation {
 	
 	public Drive(double distance, double maxSpeed, double errThreshold, boolean continuous)
 	{
-		super("Drive");
 		this.distance = distance;
 		this.maxSpeed = maxSpeed;
 		this.errorThreshold = errThreshold;

@@ -12,7 +12,6 @@ public class ResetDrivetrainSetpoints extends Automation {
 	
 	public ResetDrivetrainSetpoints()
 	{
-		super("ResetDrivetrainSetpoints");
 		drivetrain = DrivetrainData.get();
 	}
 

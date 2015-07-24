@@ -26,7 +26,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	private boolean spit;
 
 	public ReleaseStack(boolean spit) {
-		super("ReleaseStack", RoutineOption.REQUIRES_ABORT_CYCLES);
+		super(RoutineOption.REQUIRES_ABORT_CYCLES);
 		
 		elevatorData = ElevatorData.get();
 		hooksData = CarriageHooksData.get();

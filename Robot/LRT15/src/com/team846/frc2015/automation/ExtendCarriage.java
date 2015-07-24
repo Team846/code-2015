@@ -12,7 +12,6 @@ public class ExtendCarriage extends Automation implements Configurable{
 	
 	public ExtendCarriage(double position)
 	{
-		super("Extend Carriage");
 		carriagePosition = position;	
 		extenderData = CarriageExtenderData.get();
 	}

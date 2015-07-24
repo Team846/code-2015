@@ -19,7 +19,6 @@ public class Sweep extends Automation {
 
 	public Sweep(Direction dir)
 	{
-		super("Sweep");
 		direction = dir;
 		armData = CollectorArmData.get();
 		rollersData = CollectorRollersData.get();

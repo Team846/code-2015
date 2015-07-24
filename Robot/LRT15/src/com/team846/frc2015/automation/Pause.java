@@ -12,7 +12,6 @@ public class Pause extends Automation {
 	
 	public Pause(double time)
 	{
-		super("Pause");
 		this.time = time;
 		timingCycles = false;
 	}
