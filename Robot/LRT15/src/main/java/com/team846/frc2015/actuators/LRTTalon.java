@@ -18,6 +18,8 @@ public class LRTTalon extends LRTSpeedController implements Configurable {
 	
 	private double forwardLimit;
 	private double reverseLimit;
+
+	private double speedThreshold;
 	
 	private final Talon talon;
 
@@ -41,12 +43,20 @@ public class LRTTalon extends LRTSpeedController implements Configurable {
 	public void Configure() {
 		forwardLimit = GetConfig("forwardLimit", 0.3);
 		reverseLimit = GetConfig("reverseLimit", -0.3);
+
+		speedThreshold = GetConfig("reverseLimit", 0.05);
 	}
 
 	public void SetDutyCycle(double newDutyCycle)
 	{
 		double currentSpeed = talon.getSpeed();
-		pwm = CurrentLimit(newDutyCycle, currentSpeed, forwardLimit, reverseLimit);
+
+		if (-speedThreshold < currentSpeed && speedThreshold > currentSpeed) {
+			// don't do current limiting if Talon reports speed within threshold
+			pwm = newDutyCycle;
+		} else {
+			pwm = CurrentLimit(newDutyCycle, currentSpeed, forwardLimit, reverseLimit);
+		}
 	}
 
 	public double GetDutyCycle()
