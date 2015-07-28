@@ -14,8 +14,8 @@ public class Robot extends IterativeRobot {
      
     private final byte L3GD20_REGISTER_OUT_X_L = 0x28;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;//TODO put in binary and check correctness //correct
-    private final byte L3GD20_REGISTER_CTRL_REG5 = 0x22;
-    private final byte L3GD20_REGISTER_WHO_AM_I = 0x0F;//TODO put in binary and check correctness //correct
+    private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
+    //private final byte L3GD20_REGISTER_WHO_AM_I = 0x0F;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_FIFO_CTRL = (byte) 0x2E;//
  
     private final int BYPASSMODE = 0;
@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
     boolean justDisabled = true;
     long disabledCount = 0;
  
-    long updateCount=0;
+    long tickNum = 0;
      
     double driftX = 0;
     double driftY = 0;
@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
         {
         	out[0] = (byte) (L3GD20_REGISTER_CTRL_REG5);
         	out[1] = (byte) 0b01000000;
-        	gyro.transaction(out, in, 2);
+        	gyro.transaction(out, in, 2);//enable FIFO
         	
         	out[0] = (byte) (L3GD20_REGISTER_FIFO_CTRL);
         	out[1] = (byte) (0b01000000);//byte that sets to stream mode
@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
     public double calibrateGyro()                   //called after updateGyro()
     {
     	driftY = 0;
-        if(updateCount == 1)//if gyro has only been checked one time
+        if(tickNum == 1)//if gyro has only been checked one time
         {
             Arrays.fill(yCalibValues, yCalibValues[0]);//avoids driftY from being filled with random values
         } 
@@ -143,15 +143,15 @@ public class Robot extends IterativeRobot {
          
         return false;
     }
-    public short average(short[] yFIFOValues2)
+    short average(short[] yFIFOValues2)
     {
-        short average = 0;
+        short sum = 0;
  
         for(int i = 0; i<32; i++)
         {
-            average += yFIFOValues[i] / 32;
+            sum += yFIFOValues[i];
         }
-        return average;
+        return (short) (sum/32);
     }
     public void updateGyro(boolean calibrate, int streamOrBypass)
     {
@@ -168,13 +168,15 @@ public class Robot extends IterativeRobot {
             	if(isFIFOFull() == true)
             	{
             		int FIFOCount = 0;
-            		while(!isFIFOEmpty())//works until FIFO is empty
+            		
+            		for(int i =0; i<32; i++)//FIFO queue is 32 bit
             		{
             			//byte out = new byte[7];//maybe this should be commented, and outputToSlave should be made 7 bytes
             			Arrays.fill(outputToSlave, (byte)0x00);//change 0x00 to 0b00000000  //so that gyro doesn't receive random, compiler inserted stuff
             			//out[0] = (byte) (L3GD20_REGISTER_OUT_X_L | (byte)0x80 | (byte)0x40);
-     
-            			outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_FIFO_CTRL, (byte)0x80, (byte)0x40);//do not change (?) 
+            			//System.out.println("FIFO count is " + FIFOCount);
+            			
+            			outputToSlave[0] = setByte(outputToSlave[0], L3GD20_REGISTER_OUT_X_L, (byte)0x80, (byte)0x40);//do not change (?) 
             			
             			gyro.transaction(outputToSlave, inputFromSlave, 7);
                 
@@ -185,28 +187,30 @@ public class Robot extends IterativeRobot {
             			//y = byteToAngVel(inputFromSlave[3], inputFromSlave[4]);//two bytes are used to store one datapoint
             			//y = 
                     ////sumX += x * factor / 50 - driftX;
-            			if(calibrate == false)//is not currently callibrating
-            			{
-            				yFIFOValues[(int) updateCount] = (short) (y - driftY);
+              			if(calibrate == false)//is not currently callibrating
+              			{
+            				yFIFOValues[(int) FIFOCount] = (short) (y - driftY);
             				////sumY += y - driftY;
             			}
             			else //is currently calibrating
             			{
-            				yFIFOValues[(int)updateCount] = y; 
+            				yFIFOValues[(int)FIFOCount] = y; 
                         //sumY += y;
             			}
  
-                    updateCount++;
+                    FIFOCount++;
+                    
             		}
             		y = average(yFIFOValues);
                 //sumY = 
             		if(calibrate == true)
             		{
  
-            			yCalibValues[(int)updateCount%100] = y;
+            			yCalibValues[(int)tickNum%100] = y;
             		}
             	}
-            	updateCount++;
+            	
+            	tickNum++;
             	break;
             case BYPASSMODE:
             	//byte[] out = new byte[2];
@@ -236,31 +240,31 @@ public class Robot extends IterativeRobot {
             	////sumX += x * factor / 50 - driftX;
             	if(calibrate == false)//if not currently callibrating
             	{
-            		//yFIFOValues[updateCount] = y * factor/50 - driftY;
+            		//yFIFOValues[tickNum] = y * factor/50 - driftY;
             		////sumY += y * factor/50 - driftY;
             		//sumY += y - driftY;
             		
             	}
 		        else //if currently callibrating
 		        {
-		            //yFIFOValues[updateCount] = y * factor/50; 
+		            //yFIFOValues[tickNum] = y * factor/50; 
 		            ////sumY += y * factor/50;
 		            //sumY += y;
-		            yCalibValues[(int)updateCount%100] = y;
+		            yCalibValues[(int)tickNum%100] = y;
 		        }
-		        updateCount++;
+		        tickNum++;
 		        break;
         }
         ////sumZ += z * factor / 50 - driftZ;
     }
     @Override
     public void robotInit() {
-        setupGyro(STREAMMODE);
+        setupGyro(BYPASSMODE);
     }   
      
     @Override
     public void disabledPeriodic() {
-        updateCount = 0;
+        tickNum = 0;
         if(justDisabled)
         {
             ////sumY = 0; think about this
@@ -273,6 +277,7 @@ public class Robot extends IterativeRobot {
  
            driftY = calibrateGyro(); 
         }
+        System.out.println("Tick num: " + tickNum);
         System.out.print("Y is ");
         System.out.println(y);
         System.out.print("DriftY is : ");
@@ -294,6 +299,8 @@ public class Robot extends IterativeRobot {
         updateGyro(DONT_CALIBRATE, BYPASSMODE);
  
         justDisabled = true;
+        System.out.println("Tick num: " + tickNum);
+        System.out.print("Y is ");
         System.out.print("Y is : ");
         System.out.println(y - driftY);
         System.out.print("DriftY is : ");
