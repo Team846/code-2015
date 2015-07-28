@@ -11,6 +11,8 @@ public class Robot extends IterativeRobot {
     SPI gyro;
     byte[] inputFromSlave = new byte[7];
     byte[] outputToSlave = new byte[7];
+    
+    final double conversionFactor = 0.00875F;
      
     private final byte L3GD20_REGISTER_OUT_X_L = 0x28;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;//TODO put in binary and check correctness //correct
@@ -30,10 +32,10 @@ public class Robot extends IterativeRobot {
     public static final boolean DONT_CALIBRATE = false;
  
     short y = 0;
-    float yVel = 0;
+    double yVel = 0;
  
-    short yFIFOValues[] = new short[32];//gyro queue only stores 32 values
-    short yCalibValues[] = new short[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
+    double yFIFOValues[] = new double[32];//gyro queue only stores 32 values
+    double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
      
     boolean justDisabled = true;
     long disabledCount = 0;
@@ -91,8 +93,8 @@ public class Robot extends IterativeRobot {
     }
     public short byteToAngVel(byte gyroData1, byte gyroData2)
     {
-        final float conversionFactor = (short) 0.00875F;
-        return (short)((gyroData1 & 0xFF | gyroData2<<8));// * conversionFactor / 50);//converts bytes given by gyro to meaningful data
+        final float conversionFactor = 0.00875F;
+        return (short)((gyroData1 & 0xFF | gyroData2<<8));// * conversionFactor / 50); //converts bytes given by gyro to meaningful data
     }
     public double calibrateGyro()                   //called after updateGyro()
     {
@@ -143,7 +145,7 @@ public class Robot extends IterativeRobot {
          
         return false;
     }
-    short average(short[] yFIFOValues2)
+    double average(double[] yFIFOValues2)
     {
         short sum = 0;
  
@@ -151,7 +153,7 @@ public class Robot extends IterativeRobot {
         {
             sum += yFIFOValues[i];
         }
-        return (short) (sum/32);
+        return sum/32;
     }
     public void updateGyro(boolean calibrate, int streamOrBypass)
     {
@@ -182,31 +184,31 @@ public class Robot extends IterativeRobot {
                 
                      
             			//x = (short)((inputFromSlave[1] & 0xFF )| (inputFromSlave[2] << 8));//axis disabled
-            			y = (short)((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8));
+            			yVel = ((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) * conversionFactor;
             			//z = (short)((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8));//axis disabled
             			//y = byteToAngVel(inputFromSlave[3], inputFromSlave[4]);//two bytes are used to store one datapoint
             			//y = 
                     ////sumX += x * factor / 50 - driftX;
               			if(calibrate == false)//is not currently callibrating
               			{
-            				yFIFOValues[(int) FIFOCount] = (short) (y - driftY);
+            				yFIFOValues[(int) FIFOCount] = y - driftY;
             				////sumY += y - driftY;
             			}
             			else //is currently calibrating
             			{
-            				yFIFOValues[(int)FIFOCount] = y; 
+            				yFIFOValues[(int)FIFOCount] = yVel; 
                         //sumY += y;
             			}
  
                     FIFOCount++;
                     
             		}
-            		y = average(yFIFOValues);
+            		yVel = average(yFIFOValues);
                 //sumY = 
             		if(calibrate == true)
             		{
  
-            			yCalibValues[(int)tickNum%100] = y;
+            			yCalibValues[(int)tickNum%100] = yVel;
             		}
             	}
             	
@@ -233,7 +235,7 @@ public class Robot extends IterativeRobot {
             	gyro.transaction(outputToSlave, inputFromSlave, 7);
             	// final float factor = 0.00875F;
             	//x = (short)((inputFromSlave[1] & 0xFF )| (inputFromSlave[2] << 8));//axis disabled
-            	y = (short)((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8));  //this has been handled in byteToAnglVel()
+            	yVel = (short)((inputFromSlave[3] & 0xFF) | (inputFromSlave[4] << 8)) *  conversionFactor;  //this has been handled in byteToAnglVel()
             	//z = (short)((inputFromSlave[5] & 0xFF) | (inputFromSlave[6] << 8));//axis disabled
             	//y = byteToAngVel(inputFromSlave[3], inputFromSlave[4]);//two bytes are used to store one datapoint
      
