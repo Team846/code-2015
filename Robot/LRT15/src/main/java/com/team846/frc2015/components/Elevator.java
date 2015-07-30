@@ -49,6 +49,10 @@ public class Elevator extends Component implements Configurable {
 	private int error = 0;
 	
 	private int atPositionCounter = 0;
+	
+	private ElevatorData.ElevatorControlMode lastMode;
+	private ElevatorData.ElevatorSetpoint lastSetpoint;
+	private boolean direction; // up true, down false
 
 	public Elevator() {
 		
@@ -103,6 +107,10 @@ public class Elevator extends Component implements Configurable {
 //				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
 				desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
 //				AsyncPrinter.println("Setpoint: " + desiredPos);
+				if (elevatorData.getFast() && (lastMode != ElevatorControlMode.SETPOINT || lastSetpoint != elevatorData.getDesiredSetpoint()))
+				{
+					direction = (desiredPos - currentPosition > 0) ? false : true;
+				}
 			}
 			if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit)
 			{
@@ -113,23 +121,49 @@ public class Elevator extends Component implements Configurable {
 			int posErr = desiredPos - currentPosition;
 			error = posErr;
 			
-			double speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
+			double speed;
+			if (elevatorData.getFast())
+				speed = posErr > 0 ? 1.0 : -1.0;
+			else
+				speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
 			
-			if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
+			if (!elevatorData.getFast())
 			{
-				atPositionCounter--;
-				if (atPositionCounter < 0)
-					elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+				if(speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT)
+				{
+					atPositionCounter--;
+					if (atPositionCounter < 0)
+						elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+					else
+						elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+				}
 				else
+				{
+					atPositionCounter = 4;
 					elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+				}
 			}
 			else
 			{
-				atPositionCounter = 4;
-				elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+				if (direction) // up
+				{
+					if (currentPosition < desiredPos)
+						elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+					else
+						elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+				}
+				else // down
+				{
+					if (currentPosition > desiredPos)
+						elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
+					else
+						elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
+				}
 			}
 			sendOutput(speed);
+			lastSetpoint = elevatorData.getDesiredSetpoint();
 		}
+		lastMode = elevatorData.getControlMode();
 	}
 
 	private void sendOutput(double value)

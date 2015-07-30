@@ -12,6 +12,7 @@ public class ElevatorData extends ComponentData{
 	
 	private final double errorThreshold  = 10;
 	private int currentPosition = 0;
+	private boolean bangbang = false;
 	
 	public enum ElevatorControlMode
 	{
@@ -126,12 +127,23 @@ public class ElevatorData extends ComponentData{
 	public void setDesiredPosition(int d) {
 		this.position = d;
 	}
+	
+	public void setFast(boolean fast)
+	{
+		bangbang = fast;
+	}
+	
+	public boolean getFast()
+	{
+		return bangbang;
+	}
 
 	@Override
 	protected void ResetCommands() {
 		controlMode = ElevatorControlMode.VELOCITY;
 		speed = 0.0f;
 		setpoint = ElevatorSetpoint.NONE;
+		bangbang = false;
 	}
 
 }
