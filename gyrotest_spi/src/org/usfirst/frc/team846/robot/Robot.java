@@ -12,16 +12,21 @@ public class Robot extends IterativeRobot {
     byte[] inputFromSlave = new byte[7];
     byte[] outputToSlave = new byte[7];
     
-    final double conversionFactor = 0.00875F;
+    final double conversionFactor = 0.070F;
      
     private final byte L3GD20_REGISTER_OUT_X_L = 0x28;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_CTRL_REG1 = 0x20;//TODO put in binary and check correctness //correct
+    private final byte L3GD20_REGISTER_CTRL_REG4 = 0x23;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_CTRL_REG5 = 0x24;
     //private final byte L3GD20_REGISTER_WHO_AM_I = 0x0F;//TODO put in binary and check correctness //correct
     private final byte L3GD20_REGISTER_FIFO_CTRL = (byte) 0x2E;//
  
     private final int BYPASSMODE = 0;
     private final int STREAMMODE = 1;
+    
+    long currentTime  = System.currentTimeMillis();
+    long previousTime = currentTime;
+
  
     int c = 0;
    // float //sumX = 0;
@@ -33,11 +38,14 @@ public class Robot extends IterativeRobot {
  
     short y = 0;
     double yVel = 0;
+    
+    double angle = 0;
  
     double yFIFOValues[] = new double[32];//gyro queue only stores 32 values
     double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
      
     boolean justDisabled = true;
+    boolean justEnabled  = true;
     long disabledCount = 0;
  
     long tickNum = 0;
@@ -63,6 +71,12 @@ public class Robot extends IterativeRobot {
         out[0] = (byte) (L3GD20_REGISTER_CTRL_REG1);
         out[1] = (byte) (0b11001010);//WRONG should be 0b11001010 //here, only y axis is enabled
         byte[] in = new byte[2];
+        gyro.transaction(out, in, 2);
+ 
+        out = new byte[2];
+        out[0] = (byte) (L3GD20_REGISTER_CTRL_REG4);
+        out[1] = (byte) (0b00110000);
+        in = new byte[2];
         gyro.transaction(out, in, 2);
         
         if(mode==STREAMMODE)
@@ -99,6 +113,7 @@ public class Robot extends IterativeRobot {
     public double calibrateGyro()                   //called after updateGyro()
     {
     	driftY = 0;
+    	
         if(tickNum == 1)//if gyro has only been checked one time
         {
             Arrays.fill(yCalibValues, yCalibValues[0]);//avoids driftY from being filled with random values
@@ -147,7 +162,7 @@ public class Robot extends IterativeRobot {
     }
     double average(double[] yFIFOValues2)
     {
-        short sum = 0;
+        double sum = 0;
  
         for(int i = 0; i<32; i++)
         {
@@ -164,6 +179,7 @@ public class Robot extends IterativeRobot {
         setByte(out[0], L3GD20_REGISTER_WHO_AM_I, (byte)0x80);
 //        System.out.println(Byte.toString(out[0]) + " " + Integer.toBinaryString(Byte.toUnsignedInt(out[0])));
         gyro.transaction(out, in, 2);This is just who am I stuff*/
+    
         switch(streamOrBypass)
         {
             case STREAMMODE:
@@ -191,7 +207,7 @@ public class Robot extends IterativeRobot {
                     ////sumX += x * factor / 50 - driftX;
               			if(calibrate == false)//is not currently callibrating
               			{
-            				yFIFOValues[(int) FIFOCount] = y - driftY;
+            				yFIFOValues[(int) FIFOCount] = yVel - driftY;
             				////sumY += y - driftY;
             			}
             			else //is currently calibrating
@@ -203,6 +219,7 @@ public class Robot extends IterativeRobot {
                     FIFOCount++;
                     
             		}
+            		
             		yVel = average(yFIFOValues);
                 //sumY = 
             		if(calibrate == true)
@@ -243,8 +260,7 @@ public class Robot extends IterativeRobot {
             	if(calibrate == false)//if not currently callibrating
             	{
             		//yFIFOValues[tickNum] = y * factor/50 - driftY;
-            		////sumY += y * factor/50 - driftY;
-            		//sumY += y - driftY;
+            		yVel = yVel - driftY;
             		
             	}
 		        else //if currently callibrating
@@ -252,21 +268,28 @@ public class Robot extends IterativeRobot {
 		            //yFIFOValues[tickNum] = y * factor/50; 
 		            ////sumY += y * factor/50;
 		            //sumY += y;
-		            yCalibValues[(int)tickNum%100] = y;
+		            yCalibValues[(int)tickNum%100] = yVel;
 		        }
 		        tickNum++;
 		        break;
         }
         ////sumZ += z * factor / 50 - driftZ;
     }
+    double riemannSum(double previousAngle, double yVel)
+    {
+    	int timePassed = 20;//(int) (System.currentTimeMillis() - previousTime);
+    	previousTime = System.currentTimeMillis();
+    	
+    	return (previousAngle + timePassed * yVel/1000);
+    }
     @Override
     public void robotInit() {
-        setupGyro(BYPASSMODE);
+        setupGyro(STREAMMODE);
     }   
      
     @Override
     public void disabledPeriodic() {
-        tickNum = 0;
+       // tickNum = 0;
         if(justDisabled)
         {
             ////sumY = 0; think about this
@@ -275,18 +298,24 @@ public class Robot extends IterativeRobot {
         }
         if(disabledCount>=50)//if robot loses connection on the field, it won't start calibrating
         {
-           updateGyro(CALIBRATE, BYPASSMODE);//do calibrate
- 
+        	angle = 0;
+           updateGyro(CALIBRATE, STREAMMODE);//do calibrate
+          // angle = trapaziodIntegral(angle, yVel);
+           
            driftY = calibrateGyro(); 
+           
         }
-        System.out.println("Tick num: " + tickNum);
-        System.out.print("Y is ");
-        System.out.println(y);
+        //System.out.println("disabled");
+        /*System.out.println("Tick num: " + tickNum);
+        System.out.print("Y is :");
+        System.out.println(yVel);
         System.out.print("DriftY is : ");
-        System.out.println(driftY);
+        System.out.println(driftY);*/
+        
+        System.out.println("Angle is : " + angle);
+        
         disabledCount++;
     }
- 
     @Override
     public void teleopPeriodic(){
 //        if (!justDisabled && disabledCount > 50)
@@ -298,15 +327,18 @@ public class Robot extends IterativeRobot {
 //          //sumY = 0;
 //          //sumZ = 0;
 //      }
-        updateGyro(DONT_CALIBRATE, BYPASSMODE);
+        updateGyro(DONT_CALIBRATE, STREAMMODE);
+        angle = riemannSum(angle, yVel);
  
+        System.out.println("Angle is :" + angle);
+        
         justDisabled = true;
-        System.out.println("Tick num: " + tickNum);
+        /*System.out.println("Tick num: " + tickNum);
         System.out.print("Y is ");
         System.out.print("Y is : ");
-        System.out.println(y - driftY);
+        System.out.println(yVel);
         System.out.print("DriftY is : ");
-        System.out.println(driftY);
+        System.out.println(driftY);*/
     }   
  
 }
