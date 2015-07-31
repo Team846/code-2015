@@ -34,7 +34,10 @@ public class ContinuousLoad extends LoadAdditional {
 		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
 				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
+		{
+			last = true;
 			return false;
+		}
 		else
 			return super.Abort();
 	}
