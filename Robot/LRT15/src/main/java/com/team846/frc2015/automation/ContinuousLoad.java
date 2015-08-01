@@ -18,7 +18,7 @@ public class ContinuousLoad extends LoadAdditional {
 	
 	public ContinuousLoad()
 	{
-		super();
+		super(true);
 		operatorStick = LRTDriverStation.instance().getOperatorStick();
 	}
 	
@@ -50,7 +50,13 @@ public class ContinuousLoad extends LoadAdditional {
 			last = true;
 		if (state == State.HOME && !last)
 		{
-			state = State.COLLECT;
+			hooksData.setBackHooksDesiredState(HookState.DOWN);
+			hooksData.setFrontHooksDesiredState(HookState.DOWN);
+			
+			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+			elevatorData.setSetpoint(ElevatorSetpoint.COLLECT_ADDITIONAL);
+			if (elevatorData.isAtSetpoint(ElevatorSetpoint.COLLECT_ADDITIONAL))
+				state = State.COLLECT;
 		}
 		return ret;
 	}

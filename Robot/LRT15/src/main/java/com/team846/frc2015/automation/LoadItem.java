@@ -111,6 +111,7 @@ public abstract class LoadItem extends Automation{
 		{
 			case COLLECT:
 			{
+				hasItem = false;
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
 				
@@ -147,6 +148,7 @@ public abstract class LoadItem extends Automation{
 				hooksData.setFrontHooksDesiredState(HookState.UP);
 				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
 				elevatorData.setSetpoint(grab);
+				elevatorData.setFast(true);
 				rollersData.setRunning(true);
 				rollersData.setDirection(Direction.INTAKE);
 				rollersData.setSpeed(1.0);
@@ -168,6 +170,7 @@ public abstract class LoadItem extends Automation{
 				armData.setDesiredPosition(ArmPosition.STOWED);
 				hooksData.setBackHooksDesiredState(HookState.DOWN);
 				hooksData.setFrontHooksDesiredState(HookState.DOWN);
+				elevatorData.setFast(false);
 				if (waitTicks++ > requiredWaitCycles)
 				{
 					state = State.HOME;
