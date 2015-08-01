@@ -2,7 +2,7 @@ enablePlugins(FRCPlugin)
 
 organization := "com.team846"
 
-name := "test-sbt-frc"
+name := "junky-monkey"
 
 version := "0.1-SNAPSHOT"
 
