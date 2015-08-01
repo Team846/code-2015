@@ -29,7 +29,6 @@ public abstract class Component
 	 * NOTE: As of 2015, digitalIns are not supported
 	 * All components must be e
 	 * @param name name of the component
-	 * @param driverStationDigitalIn driverstation in
 	 */
     Component(String name)
 	{
