@@ -5,6 +5,8 @@ import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
+import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
@@ -12,7 +14,10 @@ import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class ContinuousLoad extends LoadAdditional {
-	
+
+	private final CarriageHooksData hooksData;
+	private final ElevatorData elevatorData;
+	private final CollectorArmData armData;
 	private final LRTJoystick operatorStick;
 	private boolean last = false;
 	
@@ -20,6 +25,9 @@ public class ContinuousLoad extends LoadAdditional {
 	{
 		super(true);
 		operatorStick = LRTDriverStation.instance().getOperatorStick();
+		hooksData = CarriageHooksData.get();
+		elevatorData = ElevatorData.get();
+		armData = CollectorArmData.get();
 	}
 	
 	protected boolean Start()
