@@ -159,7 +159,7 @@ public class DriveESC
 		return command.dutyCycle;
 	}
 
-	double CurrentLimit(double dutyCycle, double speed)
+	public double CurrentLimit(double dutyCycle, double speed)
 	{
 		if (speed < 0)
 		{

@@ -16,8 +16,8 @@ import com.team846.frc2015.driverstation.LRTDriverStation;
 
 public class LoadAdditional extends LoadItem implements Configurable {
 
-	private final CarriageHooksData hooksData;
-	private final ElevatorData elevatorData;
+	final CarriageHooksData hooksData;
+	final ElevatorData elevatorData;
 	private final CollectorArmData armData;
 	private int toteAnalogValue = 0;
 	private int startPosition = 0;

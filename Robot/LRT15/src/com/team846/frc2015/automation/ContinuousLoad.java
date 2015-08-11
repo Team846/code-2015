@@ -61,9 +61,9 @@ public class ContinuousLoad extends LoadAdditional {
 			hooksData.setBackHooksDesiredState(HookState.DOWN);
 			hooksData.setFrontHooksDesiredState(HookState.DOWN);
 			
-			elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(ElevatorSetpoint.COLLECT_ADDITIONAL);
-			if (elevatorData.isAtSetpoint(ElevatorSetpoint.COLLECT_ADDITIONAL))
+			elevatorData.setControlMode(ElevatorData.ElevatorControlMode.SETPOINT);
+			elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL);
+			if (elevatorData.isAtSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL))
 				state = State.COLLECT;
 		}
 		return ret;

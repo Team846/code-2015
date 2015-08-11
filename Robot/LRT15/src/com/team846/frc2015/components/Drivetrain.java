@@ -41,6 +41,8 @@ public class Drivetrain extends Component implements Configurable {
 	private final CANTalon backLeft;
 	private final CANTalon frontRight;
 	private final CANTalon backRight;
+
+
 	
 	public Drivetrain() 
 	{	
@@ -70,6 +72,12 @@ public class Drivetrain extends Component implements Configurable {
 		drivetrainData = DrivetrainData.get();
 		
 		ConfigRuntime.Register(this);
+
+		for (DriveESC esc: escs) {
+			float current_limit = 0.75f;
+			esc.SetForwardCurrentLimit(current_limit);
+			esc.SetReverseCurrentLimit(current_limit);
+		}
 	}
 
 	private double ComputeOutput(DrivetrainData.Axis axis)
@@ -204,12 +212,28 @@ public class Drivetrain extends Component implements Configurable {
 //			ConfigureReverseCurrentLimit();
 		
 //		}
-		
-		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(leftFrontOutput);
-		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(rightFrontOutput);
-		
-		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(leftBackOutput);
-		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(rightBackOutput);
+
+
+		double rightFrontRate = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate();
+		double frontLeftSpeed = rightFrontRate/DriveEncoders.GetMaxEncoderRate();
+		double frontRightSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate()/DriveEncoders.GetMaxEncoderRate();
+		double backLeftSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate()/DriveEncoders.GetMaxEncoderRate();
+		double backRightSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate()/DriveEncoders.GetMaxEncoderRate();
+
+		double currentLimitedFrontLeft = escs[Side.FRONT_LEFT.ordinal()].CurrentLimit(leftFrontOutput, frontLeftSpeed);
+		double currentLimitedFrontRight = escs[Side.FRONT_RIGHT.ordinal()].CurrentLimit(rightFrontOutput, frontRightSpeed);
+		double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].CurrentLimit(leftBackOutput, backLeftSpeed);
+		double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].CurrentLimit(rightBackOutput, backRightSpeed);
+
+		System.out.println(leftFrontOutput);
+		System.out.println(currentLimitedFrontLeft);
+		System.out.println();
+
+		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(currentLimitedFrontLeft);
+		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(currentLimitedFrontRight);
+
+		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(currentLimitedBackLeft);
+		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(currentLimitedBackRight);
 
 		frontLeft.enableBrakeMode(false);
 		backLeft.enableBrakeMode(false);
