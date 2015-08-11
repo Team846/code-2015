@@ -1,7 +1,11 @@
+package com.team846.frc2015.sensors;
+
 import com.team846.frc2015.driverstation.GameState;
 
 import java.lang.System;
 import java.util.Arrays;
+
+import com.team846.robot.RobotState;
 
 public class LRTGyro extends SensorFactory
 {
@@ -24,7 +28,7 @@ public class LRTGyro extends SensorFactory
 	double yCalibValues[] = new double[100];//calib only uses last 100 values to make sure that it doesn't use values when robot is moving
 
 	long previousTime = System.currentTimeMillis();
-	int timePassed = previousTime;
+	long timePassed = previousTime;
 
 	long disabledCount = 0;
 	long calibCount = 0;
@@ -54,7 +58,7 @@ public class LRTGyro extends SensorFactory
 	public void update()
 	{
 
-		if(Robot.state.Instance().GameMode == GameState.DISABLED) //TODO: include && Math.abs(encoderVelocity) == 0
+		if(RobotState.Instance().GameMode() == GameState.DISABLED) //TODO: include && Math.abs(encoderVelocity) == 0
 		{
 
 			if(!calibrated)
@@ -63,7 +67,7 @@ public class LRTGyro extends SensorFactory
 				calibCount++;
 				yVel = gyroCom.getYVel();
 
-				yCalibValues[(int)(calibCount % yCalibValues.getLength)] = yVel;
+				yCalibValues[(int)(calibCount % yCalibValues.length)] = yVel;
 
 				driftY = calibrateGyro(yCalibValues);
 			}
@@ -85,7 +89,7 @@ public class LRTGyro extends SensorFactory
 			disabledCount++;
 		}
 
-		if(Robot.state.Instance().GameMode == GameState.ENABBLED || Robot.state.Instance().GameMode == GameState.AUTONOMOUS)
+		if(RobotState.Instance().GameMode() == GameState.TELEOPERATED || RobotState.Instance().GameMode() == GameState.AUTONOMOUS)
 		{
 			if(justEnabled)
 			{
@@ -114,7 +118,7 @@ public class LRTGyro extends SensorFactory
 	{
 		double sumY = 0;
 
-		if (calibCount < yCalibValues.getLength)//if calibraating for less than 2 seconds
+		if (calibCount < yCalibValues.length)//if calibraating for less than 2 seconds
 		{
 			for (int i = 0; i < calibCount; i++)
 			{
@@ -124,12 +128,12 @@ public class LRTGyro extends SensorFactory
 			return sumY / calibCount;
 		}
 
-		for (int i = 0; i < yCalibValues.getLength; i++)//100 calib values
+		for (int i = 0; i < yCalibValues.length; i++)//100 calib values
 		{
 			sumY += yCalibValues[i];
 		}
 
-		return sumY / yCalibValues.getLength;
+		return sumY / yCalibValues.length;
 	}
 
 	public double getAngle()
@@ -154,15 +158,15 @@ public class LRTGyro extends SensorFactory
 		return yVel;
 	}
 
-	private double average(double[] yFIFOValues2)
+	private double average(double[] yFIFOValues)
 	{
 		double sum = 0;
 
-		for(int i = 0; i<yFIFOValues.getLength; i++)
+		for(int i = 0; i<yFIFOValues.length; i++)
 		{
 			sum += yFIFOValues[i];
 		}
-		return sum / yFIFOValues.getLength;
+		return sum / yFIFOValues.length;
 	}
 
 	private void resetTimer()
@@ -185,7 +189,7 @@ public class LRTGyro extends SensorFactory
 		disabledCount = 0;
 	}
 
-	private int getTimePassed()
+	private long getTimePassed()
 	{
 		return (System.currentTimeMillis() - previousTime);//gets time in between gyro readings
 	}

@@ -1,3 +1,5 @@
+package com.team846.frc2015.sensors;
+
 /* DO NOT DELETE THIS COMMENT.
 this is the gyro communications class for the gyro L3GD20H by adafruit. Datasheet  http://www.adafruit.com/datasheets/L3GD20H.pdf
 This is a digital gyro.
@@ -195,11 +197,11 @@ public class LRTGyroCommunication extends SensorFactory
     {
         double sum = 0;
 
-        for(int i = 0; i<yFIFOValues.getLength; i++)
+        for(int i = 0; i<yFIFOValues.length; i++)
         {
             sum += yFIFOValues[i];
         }
-        return sum / yFIFOValues.getLength;
+        return sum / yFIFOValues.length;
     }
 
 }

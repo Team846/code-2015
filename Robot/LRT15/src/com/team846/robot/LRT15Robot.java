@@ -12,13 +12,14 @@ import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.sensors.LRTGyro;
 
 
 public class LRT15Robot extends LRTRobotBase
 {
 	private int robotStateCounter = 1;
 
-	public static gyro;
+	public static LRTGyro gyro;
 
 	public void RobotInit()
 	{
