@@ -18,14 +18,13 @@ public class Strafe extends Automation {
 	private int startTicks;
 	DriveEncoders encoders;
 	private float startAngle;
-	LRTGyro gyro;
 
 	// TODO: implement remaining constructors
 //	public Strafe(double time) //seconds
 //	{
 //		this(time, 1.0);
 //	}
-	
+
 	public Strafe(int ticks, double maxSpeed, double errorThreshold)
 	{
 		timer = new Timer();
@@ -35,10 +34,10 @@ public class Strafe extends Automation {
 		this.errorThreshold = errorThreshold;
 		drivetrain = DrivetrainData.get();
 		encoders = DriveEncoders.Get();
-		gyro = LRTGyro.Get();
+		//gyro = LRTGyro.Get();//what?
 	}
-	
-//	public Strafe(double time, double maxSpeed)
+
+	//	public Strafe(double time, double maxSpeed)
 //	{
 //		super("Strafe");
 //		this.time = time;
@@ -61,7 +60,7 @@ public class Strafe extends Automation {
 		drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, ticks);
 		drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
 		startTicks = encoders.GetStrafeTicks();
-		startAngle = gyro.getY();
+		startAngle = gyro.getAngle();
 		return true;
 	}
 
@@ -76,7 +75,7 @@ public class Strafe extends Automation {
 	protected boolean Run() {
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed * Math.signum(ticks));
-		drivetrain.SetOpenLoopOutput(Axis.TURN, (startAngle - gyro.getY()) * 0.1);
+		drivetrain.SetOpenLoopOutput(Axis.TURN, (startAngle - gyro.getAngle()) * 0.1);
 //		return Math.abs(startTicks - encoders.GetStrafeTicks()) < errorThreshold;
 		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
 	}
