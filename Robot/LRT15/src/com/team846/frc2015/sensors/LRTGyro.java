@@ -17,7 +17,7 @@ public class LRTGyro extends SensorFactory
 	public static final boolean CALIBRATE = true; //Make sure that this is the same as in gyroCommunications class
 	public static final boolean DONT_CALIBRATE = false; //Make sure that this is the same as in gyroCommunications class
 
-	boolean calibrated = false;
+	private boolean calibrated = false;
 
 	double yVel = 0;
 	double previousYVel = 0;
@@ -70,10 +70,12 @@ public class LRTGyro extends SensorFactory
 				yCalibValues[(int)(calibCount % yCalibValues.length)] = yVel;
 
 				driftY = calibrateGyro(yCalibValues);
+
+				System.out.println("Calibrating. drift: " + driftY);
 			}
 			else//if already calibrated
 			{
-				gyroCom.updateGyro(CALIBRATE, mode, driftY);
+				gyroCom.updateGyro(DONT_CALIBRATE, mode, driftY);
 				previousYVel = yVel;
 				yVel = gyroCom.getYVel();
 
@@ -81,8 +83,9 @@ public class LRTGyro extends SensorFactory
 
 				angle = trapaziodalIntegration(angle, yVel, previousYVel);
 
+				System.out.println("Enabled");
 				System.out.print("Tick: " + tickNum);
-				System.out.println("Angle is :" + this.getAngle());
+				System.out.println("Angle is :" + getAngle());
 			}
 
 			tickNum++;
@@ -106,8 +109,9 @@ public class LRTGyro extends SensorFactory
 
 			angle = trapaziodalIntegration(angle, yVel, previousYVel);
 
+			System.out.println("Enabled");
 			System.out.print("Tick: " + tickNum);
-			System.out.println("Angle is :" + this.getAngle());
+			System.out.println("Angle is :" + getAngle());
 
 		}
 
@@ -130,7 +134,7 @@ public class LRTGyro extends SensorFactory
 
 		for (int i = 0; i < yCalibValues.length; i++)//100 calib values
 		{
-			sumY += yCalibValues[i];
+			sumY += yCalibValues[i]; asdfd
 		}
 
 		return sumY / yCalibValues.length;
@@ -138,18 +142,7 @@ public class LRTGyro extends SensorFactory
 
 	public double getAngle()
 	{
-		if(angle < -180)
-		{
-			return (angle + 360);
-		}
-		else if(angle > 180)
-		{
-			return (angle - 360);
-		}
-		else  //above 2 statements ensure that |angle returned| <= 180 degrees
-		{
-			return angle;
-		}
+		return (angle - (double)( Math.round(angle / 360) ) * 360 );
 	}
 
 	//All below are abstraction methods
