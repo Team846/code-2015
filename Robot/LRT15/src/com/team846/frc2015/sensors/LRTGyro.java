@@ -134,7 +134,7 @@ public class LRTGyro extends SensorFactory
 
 		for (int i = 0; i < yCalibValues.length; i++)//100 calib values
 		{
-			sumY += yCalibValues[i]; asdfd
+			sumY += yCalibValues[i];
 		}
 
 		return sumY / yCalibValues.length;
@@ -142,7 +142,7 @@ public class LRTGyro extends SensorFactory
 
 	public double getAngle()
 	{
-		double angleToReturn = angle - (double)( Math.round(angle / 360) ) * 360 );
+		double angleToReturn = angle - (double)(Math.round(angle / 360) * 360 );
 
 		if(angle<-180)
 		{
