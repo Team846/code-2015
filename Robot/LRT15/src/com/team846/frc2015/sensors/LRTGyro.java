@@ -142,7 +142,16 @@ public class LRTGyro extends SensorFactory
 
 	public double getAngle()
 	{
-		return (angle - (double)( Math.round(angle / 180) ) * 180 );
+		double angleToReturn = angle - (double)( Math.round(angle / 360) ) * 360 );
+
+		if(angle<-180)
+		{
+			return angleToReturn + 360;
+		}
+		if(angle>180)
+		{
+			return angleToReturn - 360;
+		}
 	}
 
 	//All below are abstraction methods
