@@ -12,6 +12,7 @@ import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.LRTGyro;
 
 
@@ -52,6 +53,9 @@ public class LRT15Robot extends LRTRobotBase
 
 		Pneumatics.createCompressor();
 		AsyncPrinter.info("Creating Compressor...");
+
+		DashboardLogger.Initialize();
+		AsyncPrinter.info("Creating Funky Dashboard...");
 
 		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 

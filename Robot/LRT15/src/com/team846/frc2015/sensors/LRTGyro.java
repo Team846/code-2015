@@ -83,7 +83,7 @@ public class LRTGyro extends SensorFactory
 
 				angle = this.trapaziodalIntegration(angle, yVel, previousYVel);
 
-				System.out.println("Enabled");
+				System.out.println("Disabled");
 				System.out.print("Tick: " + tickNum);
 				System.out.println("Angle is :" + this.getAngle());
 			}
@@ -99,6 +99,7 @@ public class LRTGyro extends SensorFactory
 				resetTimer();//ensures that timePassed is accurate
 				justEnabled = false;
 				justDisabled = true;
+				calibrated = true;
 			}
 
 			gyroCom.updateGyro(DONT_CALIBRATE, mode, driftY);//all returned values are calibrated
@@ -111,7 +112,7 @@ public class LRTGyro extends SensorFactory
 
 			System.out.println("Enabled");
 			System.out.print("Tick: " + tickNum);
-			System.out.println("Angle is :" + this.getAngle());
+			System.out.println("Angle is :" + this.getAngle() + " with applied drift correction " + driftY);
 
 		}
 
@@ -142,16 +143,18 @@ public class LRTGyro extends SensorFactory
 
 	public double getAngle()
 	{
-		double angleToReturn = angle - (double)(Math.round(angle / 360) * 360 );
+		// double angleToReturn = angle - (double)(Math.floor(angle / 360) * 360 );
 
-		if(angle<-180)
-		{
-			return angleToReturn + 360;
-		}
-		if(angle>180)
-		{
-			return angleToReturn - 360;
-		}
+		// if(angle<-180)
+		// {
+		// 	return angleToReturn + 360;
+		// }
+		// if(angle>180)
+		// {
+		// 	return angleToReturn - 360;
+		// }
+
+		return angle;
 	}
 
 	//All below are abstraction methods
@@ -203,6 +206,6 @@ public class LRTGyro extends SensorFactory
 
 	private double trapaziodalIntegration(double previousAngle, double yVel, double previousYVel)
 	{
-		return (  previousAngle + timePassed * ( (yVel + previousYVel)/2 )/1000  );
+		return (  previousAngle + /*timePassed*/ 20 * ( (yVel + previousYVel)/2 )/1000  );
 	}
 }

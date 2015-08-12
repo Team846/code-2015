@@ -10,11 +10,10 @@ import edu.wpi.first.wpilibj.CANTalon.StatusFrameRate;
 public class LRTCANEncoder
 {
 	private CANTalon attachedEncoder = null;
-	private int zeroCount; //talon doesnt have zero method, have to keep track when reset
 	private final double minRate = 10; // units/period of time
 	private double prevRate = 0;
 	private boolean reverse;
-	
+
 	/** Returns a state indicating whether the CANEncoder
 	 * is reversing encoder output
 	 * @return is reversing sensor output
@@ -34,12 +33,12 @@ public class LRTCANEncoder
 	{
 		this(talon, 20, false);
 	}
-	
+
 	public LRTCANEncoder(CANTalon talon, boolean reverse)
 	{
 		this(talon, 20, reverse);
 	}
-	
+
 	private LRTCANEncoder(CANTalon talon, int updatePeriod, boolean reverse) //ms
 	{
 		if(talon == null)
@@ -48,9 +47,8 @@ public class LRTCANEncoder
 		attachedEncoder = talon;
 		attachedEncoder.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		attachedEncoder.setStatusFrameRateMs(StatusFrameRate.QuadEncoder, updatePeriod);
-		reset();
 	}
-	
+
 	/**  Returns a reference to a Talon SRX
 	 * @return reference to attached Talon SRX
 	 */
@@ -58,32 +56,24 @@ public class LRTCANEncoder
 	{
 		return attachedEncoder;
 	}
-	
-	/**
-	 * Resets the current encoder tick count to zero
-	 */
-	public void reset() 
-	{
-		zeroCount = attachedEncoder.getEncPosition();
-	}
-	
+
 	/** Returns rate from attached encoder. If it is less than the minRate, returns 0.0
-	 * 
+	 *
 	 * @return Current velocity of encoder
 	 */
-	public double getRate() 
+	public double getRate()
 	{
 		double encVel = attachedEncoder.getSpeed();
-		
+
 //		double encVel = attachedEncoder.getEncVelocity();
-		
+
 //		if( Math.abs(encVel) < minRate || encVel == prevRate) //if exactly the same
 //		{
 //			prevRate = encVel;
 //			return 0.0;
 //		}
 //		prevRate = encVel;
-		
+
 		if(reverse)
 			encVel = -encVel;
 		return encVel;
@@ -93,11 +83,9 @@ public class LRTCANEncoder
 	 * Gets the current encoder ticks from the attached encoder
 	 * @return current encoder ticks
 	 */
-	public int get() 
+	public int get()
 	{
-		int count = attachedEncoder.getEncPosition() - zeroCount;
-		if(reverse)
-			count = -count;
-		return count;
+		int count = attachedEncoder.getEncPosition();
+		return reverse ? -count: count;
 	}
 }
