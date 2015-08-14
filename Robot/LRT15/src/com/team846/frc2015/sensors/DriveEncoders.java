@@ -125,14 +125,6 @@ public class DriveEncoders implements Configurable
 		return (leftDiag - rightDiag) / 2;
 	}
 
-	public void Reset()
-	{
-		for(LRTCANEncoder enc : encoders)
-		{
-			enc.reset();
-		}
-	}
-
 	public double GetTurnAngle()
 	{
 		return GetTurnRevolutions() * 360.0;

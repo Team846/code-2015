@@ -6,6 +6,8 @@ name := "junky-monkey"
 
 version := "0.1-SNAPSHOT"
 
+javaSource in Compile := baseDirectory.value / "src"
+
 teamNumber := 846
 
 robotClass := "com.team846.robot.LRT15Robot"
