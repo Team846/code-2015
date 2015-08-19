@@ -42,6 +42,7 @@ $.ajax("datasets.json").done(function(datasetArray) {
   display("all");
 
   socket.on('data-update', function(msg) {
+    console.log(msg);
     if (running) {
       msg = JSON.parse(msg);
       var dataset = datasets[msg.type];

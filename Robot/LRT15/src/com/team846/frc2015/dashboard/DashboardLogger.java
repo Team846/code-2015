@@ -66,7 +66,7 @@ public class DashboardLogger
 	public void logInt(String id, Integer data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
 	

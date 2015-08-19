@@ -1,12 +1,22 @@
 [
   {
-    "id": "robot-on",
-    "name": "Robot On",
-    "type": "boolean"
+    "id": "drivetrain-leftFront",
+    "name": "Drivetrain LeftFront",
+    "type": "graph"
   },
   {
-    "id": "elevator-pot",
-    "name": "Elevator Potentiometer Value",
+    "id": "drivetrain-rightFront",
+    "name": "Drivetrain RightFront",
+    "type": "graph"
+  },
+  {
+    "id": "drivetrain-leftBack",
+    "name": "Drivetrain LeftBack",
+    "type": "graph"
+  },
+  {
+    "id": "drivetrain-rightBack",
+    "name": "Drivetrain RightBack",
     "type": "graph"
   }
 ]

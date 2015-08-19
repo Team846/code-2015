@@ -11,6 +11,7 @@ import com.team846.frc2015.config.Configurable;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.control.PID;
+import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.frc2015.utils.MathUtils;
@@ -62,7 +63,7 @@ public class Drivetrain extends Component implements Configurable {
 		frontRight = new CANTalon(portMapping.get("CAN/DRIVE_FRONT_RIGHT"));
 		backRight = new CANTalon(portMapping.get("CAN/DRIVE_BACK_RIGHT"));
 		
-		driveEncoders = new DriveEncoders(backLeft, backRight, backLeft, backRight);
+		driveEncoders = new DriveEncoders(frontLeft, frontRight, backLeft, backRight);
 		
 		escs[Side.FRONT_LEFT.ordinal()] = new DriveESC(frontLeft);
 		escs[Side.FRONT_RIGHT.ordinal()] = new DriveESC(frontRight);
@@ -241,6 +242,8 @@ public class Drivetrain extends Component implements Configurable {
 		backRight.enableBrakeMode(false);
 	}
 
+	int tick = 0;
+
 	public void UpdateDisabled()
 	{
 		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
@@ -253,6 +256,29 @@ public class Drivetrain extends Component implements Configurable {
 		backLeft.enableBrakeMode(false);
 		frontRight.enableBrakeMode(false);
 		backRight.enableBrakeMode(false);
+
+		tick++;
+		if (tick % 20 == 0) {
+			DashboardLogger.getInstance().logInt(
+					"drivetrain-leftFront",
+					driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).get()
+			);
+
+			DashboardLogger.getInstance().logInt(
+					"drivetrain-leftBack",
+					driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).get()
+			);
+
+			DashboardLogger.getInstance().logInt(
+					"drivetrain-rightFront",
+					driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).get()
+			);
+
+			DashboardLogger.getInstance().logInt(
+					"drivetrain-rightBack",
+					driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).get()
+			);
+		}
 	}
 
 	public void OnEnabled()
