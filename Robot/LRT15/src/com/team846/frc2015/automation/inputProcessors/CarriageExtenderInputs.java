@@ -12,7 +12,7 @@ import com.team846.frc2015.utils.MathUtils;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 public class CarriageExtenderInputs extends InputProcessor {
-	
+
 	private final CarriageExtenderData extenderData;
 	private final LRTJoystick operatorStick;
 
@@ -27,7 +27,7 @@ public class CarriageExtenderInputs extends InputProcessor {
 
 		extenderData.setControlMode(CarriageControlMode.POSITION);
 		extenderData.setPositionSetpoint(0.0);
-		
+
 		if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE))
 		{
 			extenderData.setControlMode(CarriageControlMode.POSITION);
@@ -39,9 +39,8 @@ public class CarriageExtenderInputs extends InputProcessor {
 			extenderData.setControlMode(CarriageControlMode.VELOCITY);
 			double speed = MathUtils.clamp(-operatorStick.getAxis(AxisType.kY),-1.0,1.0);
 			extenderData.setSpeed(speed);
-			AsyncPrinter.println("value: " + speed);
+			AsyncPrinter.debug("value: " + speed);
 		}
 	}
 
 }
-

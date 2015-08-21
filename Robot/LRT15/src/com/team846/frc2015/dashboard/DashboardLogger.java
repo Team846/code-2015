@@ -17,7 +17,7 @@ public class DashboardLogger
 
 	private Configuration config;
 	private SocketIOServer server;
-	
+
 	public static void Initialize()
 	{
 		if (instance == null)
@@ -30,7 +30,7 @@ public class DashboardLogger
 			instance = new DashboardLogger();
 		return instance;
 	}
-	
+
 	private DashboardLogger()
 	{
 		if (true)
@@ -45,12 +45,12 @@ public class DashboardLogger
 			server.start();
 		}
 	}
-	
+
 	// Use on prod
 	private boolean buttonsPressed() {
 		LRTJoystick driverWheel = LRTDriverStation.instance().getDriverWheel();
-		
-		return driverWheel.isButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) && 
+
+		return driverWheel.isButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE1) &&
 				driverWheel.isButtonDown(DriverStationConfig.JoystickButtons.DASHBOARD_ENABLE2);
 	}
 
@@ -58,10 +58,10 @@ public class DashboardLogger
 	public void logString(String id, String data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void logInt(String id, Integer data)
 	{
@@ -69,31 +69,31 @@ public class DashboardLogger
 			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void logDouble(String id, Double data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void logFloat(String id, Float data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void logBoolean(String id, Boolean data)
 	{
 		if (server != null) {
-			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": '" + data + "' }");
+			server.getBroadcastOperations().sendEvent("data-update", "{ \"type\": \"" + id + "\", \"value\": \"" + data + "\" }");
 		}
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public void log(String id, String data)
 	{
