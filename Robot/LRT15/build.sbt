@@ -11,3 +11,5 @@ javaSource in Compile := baseDirectory.value / "src"
 teamNumber := 846
 
 robotClass := "com.team846.robot.LRT15Robot"
+
+autoScalaLibrary := false
