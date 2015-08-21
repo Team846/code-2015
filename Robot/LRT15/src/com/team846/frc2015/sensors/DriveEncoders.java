@@ -32,10 +32,10 @@ public class DriveEncoders implements Configurable
 	{
 		encoders = new LRTCANEncoder[4];
 
-		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft, false);
-		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight, true);
-		encoders[Side.LEFT_BACK.ordinal()] = new LRTCANEncoder(backLeft, false);
-		encoders[Side.RIGHT_BACK.ordinal()] = new LRTCANEncoder(backRight, true);
+		encoders[Side.LEFT_FRONT.ordinal()] = new LRTCANEncoder(frontLeft, true);
+		encoders[Side.RIGHT_FRONT.ordinal()] = new LRTCANEncoder(frontRight, false);
+		encoders[Side.LEFT_BACK.ordinal()] = new LRTCANEncoder(backLeft, true);
+		encoders[Side.RIGHT_BACK.ordinal()] = new LRTCANEncoder(backRight, false);
 
 		//TODO: reverse not working, check later
 //		//NOTE: Reverse left encoders
