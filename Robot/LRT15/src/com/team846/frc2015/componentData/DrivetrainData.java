@@ -3,7 +3,7 @@ package com.team846.frc2015.componentData;
 import java.util.Arrays;
 
 import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.frc2015.utils.MathUtils;
 
 public class DrivetrainData extends ComponentData
@@ -88,7 +88,7 @@ public class DrivetrainData extends ComponentData
 			else if(axis == Axis.TURN)
 				positionSetpoints[axis.ordinal()] = DriveEncoders.Get().GetTurnAngle();
 			else
-				AsyncPrinter.warn("Position setpoint for strafing not supported");
+				AsyncLogger.warn("Position setpoint for strafing not supported");
 		}
 		if (controlModes[axis.ordinal()] == ControlMode.POSITION_CONTROL && mode != ControlMode.POSITION_CONTROL)
 			resetPositionSetpoint[axis.ordinal()] = true;

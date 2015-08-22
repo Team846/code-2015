@@ -1,10 +1,8 @@
 package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.DrivetrainData;
-import com.team846.frc2015.sensors.LRTGyro;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.utils.AsyncPrinter;
 import com.team846.robot.LRT15Robot;
 
 import edu.wpi.first.wpilibj.Timer;

@@ -1,5 +1,7 @@
 package com.team846.frc2015.utils;
 
+import com.team846.frc2015.logging.AsyncLogger;
+
 import java.util.Map.Entry;
 import java.util.HashMap;
 
@@ -12,7 +14,7 @@ class Profiler
 
 	private static void log(String msg)
 	{
-		AsyncPrinter.info(msg);
+		AsyncLogger.info(msg);
 	}
 	
 	public static void start(String methodName)

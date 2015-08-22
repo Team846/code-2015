@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 
 public abstract class ComponentData 
@@ -15,7 +15,7 @@ public abstract class ComponentData
 	ComponentData(String name)
 	{
 		componentData_map.put(name, this);
-		AsyncPrinter.info("Created componentData: " + name);
+		AsyncLogger.info("Created componentData: " + name);
 	}
 
 	public static void createComponentDatas()
@@ -35,7 +35,7 @@ public abstract class ComponentData
 			return componentData_map.get(name);
 		else
 		{
-			AsyncPrinter.warn(name + " not found in map! Returning null");
+			AsyncLogger.warn(name + " not found in map! Returning null");
 			return null;
 		}
 	}

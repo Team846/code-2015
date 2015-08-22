@@ -1,6 +1,6 @@
 package com.team846.frc2015.driverstation;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -34,7 +34,7 @@ public class LRTJoystick extends Joystick {
 	{
 		if(button < 1 || button > num_buttons)
 		{
-			AsyncPrinter.warn("DebouncedJoystick: Button " + button + " out of bounds!");
+			AsyncLogger.warn("DebouncedJoystick: Button " + button + " out of bounds!");
 			return false;
 		}
 		return true;
@@ -44,7 +44,7 @@ public class LRTJoystick extends Joystick {
 	{
 		if (axis < 0 || axis > num_axes - 1)
 		{
-			AsyncPrinter.warn("DebouncedJoystick: Axis "+ axis +" out of bounds!\n");
+			AsyncLogger.warn("DebouncedJoystick: Axis " + axis + " out of bounds!\n");
 			return false;
 		}
 		return true;

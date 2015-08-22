@@ -4,7 +4,7 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 public class Elevate extends Automation {
 
@@ -25,7 +25,7 @@ public class Elevate extends Automation {
 			setpoint = ElevatorSetpoint.SWEEP_CONTAINER;
 		else
 		{
-			AsyncPrinter.warn("Invalid tote level, defaulting to 1");
+			AsyncLogger.warn("Invalid tote level, defaulting to 1");
 			setpoint = ElevatorSetpoint.TOTE_1;
 		}
 	}

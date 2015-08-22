@@ -9,12 +9,10 @@ import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
-import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.SensorFactory;
-import com.team846.frc2015.utils.AsyncPrinter;
-import com.team846.frc2015.utils.MathUtils;
+import com.team846.frc2015.logging.AsyncLogger;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -114,7 +112,7 @@ public class Elevator extends Component implements Configurable {
 			}
 			if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit)
 			{
-				AsyncPrinter.error("Setpoint out of bounds");
+				AsyncLogger.error("Setpoint out of bounds");
 				sendOutput(0.0);
 				return;
 			}
@@ -192,7 +190,7 @@ public class Elevator extends Component implements Configurable {
 			if (stallTimer.get() > 3.0 && Math.abs(currentPosition - stallPosition) < 100)
 			{
 				value = 0;
-				AsyncPrinter.error("Elevator stalling (timer: " + stallTimer.get() + ", output: " + value);
+				AsyncLogger.error("Elevator stalling (timer: " + stallTimer.get() + ", output: " + value);
 			}
 		}
 		else

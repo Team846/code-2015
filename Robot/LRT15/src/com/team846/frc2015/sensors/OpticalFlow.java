@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 class OpticalFlow {
 
@@ -14,7 +14,7 @@ class OpticalFlow {
 	private static final String mousePathPrefix = "/dev/input/mouse";
 	
 	private static void log(Object msg) {
-		AsyncPrinter.info(msg.toString());
+		AsyncLogger.info(msg.toString());
 	}
 
 	private static class MouseInterruptThread implements Runnable {

@@ -1,6 +1,6 @@
 package com.team846.frc2015.actuators;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 import edu.wpi.first.wpilibj.Servo;
 
@@ -34,7 +34,7 @@ public class LRTServo extends Actuator
 		enabled = false;
 		previous_value = 999.0;
 			
-	    AsyncPrinter.info("Created LRTServo " + name + " on channel " + channel);
+	    AsyncLogger.info("Created LRTServo " + name + " on channel " + channel);
 	}
 
 

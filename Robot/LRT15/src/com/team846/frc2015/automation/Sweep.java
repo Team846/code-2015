@@ -3,7 +3,6 @@ package com.team846.frc2015.automation;
 import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.CollectorArmData.ArmPosition;
 import com.team846.frc2015.componentData.CollectorRollersData;
-import com.team846.frc2015.utils.AsyncPrinter;
 
 public class Sweep extends Automation {
 

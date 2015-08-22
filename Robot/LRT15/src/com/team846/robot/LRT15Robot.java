@@ -11,7 +11,7 @@ import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.SensorFactory;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.LRTGyro;
 
@@ -24,40 +24,40 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void RobotInit()
 	{
-		AsyncPrinter.initialize();
-		AsyncPrinter.info("Initialized Asynchronous Logging...");
+//		AsyncLogger.initialize();
+		AsyncLogger.info("Initialized Asynchronous Logging...");
 
 		RobotState.Initialize();
-		AsyncPrinter.info("Initialized RobotState...");
+		AsyncLogger.info("Initialized RobotState...");
 
 		LRTDriverStation.initialize();
-		AsyncPrinter.info("Initialized DriverStation Manager...");
+		AsyncLogger.info("Initialized DriverStation Manager...");
 
 		ConfigPortMappings.Instance().Load();
-		AsyncPrinter.info("Loaded Port Mappings...");
+		AsyncLogger.info("Loaded Port Mappings...");
 
 		ConfigRuntime.Initialize();
-		AsyncPrinter.info("Loaded Config Runtime...");
+		AsyncLogger.info("Loaded Config Runtime...");
 
 		ComponentData.createComponentDatas();
-		AsyncPrinter.info("Created ComponentDatas...");
+		AsyncLogger.info("Created ComponentDatas...");
 
 		Component.CreateComponents();
-		AsyncPrinter.info("Created Components...");
+		AsyncLogger.info("Created Components...");
 
 		Brain.Initialize();
-		AsyncPrinter.info("Initialized Brain...");
+		AsyncLogger.info("Initialized Brain...");
 
 		SensorFactory.initialize();
-		AsyncPrinter.info("Initialized Sensor Factory...");
+		AsyncLogger.info("Initialized Sensor Factory...");
 
 		Pneumatics.createCompressor();
-		AsyncPrinter.info("Creating Compressor...");
+		AsyncLogger.info("Creating Compressor...");
 
 		DashboardLogger.Initialize();
-		AsyncPrinter.info("Creating Funky Dashboard...");
+		AsyncLogger.info("Creating Funky Dashboard...");
 
-		AsyncPrinter.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
+		AsyncLogger.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 
 		gyro = LRTGyro.getInstance();
 	}

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 public class ConfigRuntime
 {
@@ -42,7 +42,7 @@ public class ConfigRuntime
 	void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
-		AsyncPrinter.info("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
+		AsyncLogger.info("ConfigRuntime: Done loading " + CONFIG_FILE_PATH);
 		//Save();
 		ConfigureAll();
 	}
@@ -60,7 +60,7 @@ public class ConfigRuntime
 		}
 		else
 		{
-			AsyncPrinter.warn("Cannnot find " + key  + " in " + section+ ", setting default value in file");
+			AsyncLogger.warn("Cannnot find " + key + " in " + section + ", setting default value in file");
 			Set(section, key, defaultValue);
 			return defaultValue;
 		}
@@ -75,7 +75,7 @@ public class ConfigRuntime
 		}
 		else
 		{
-			AsyncPrinter.warn("Cannnot find " + key  + " in " + section+ ", setting default value in file");
+			AsyncLogger.warn("Cannnot find " + key + " in " + section + ", setting default value in file");
 			Set(section, key, defaultValue);
 			return defaultValue;
 		}
@@ -111,7 +111,7 @@ public class ConfigRuntime
 		long currentFileTimestamp = config.getFile().lastModified();
 		if(lastReadTimestamp != currentFileTimestamp)
 		{
-			AsyncPrinter.info("Change detected, reloading config");
+			AsyncLogger.info("Change detected, reloading config");
 			config.reload();
 			ConfigureAll();
 			//Load();
@@ -125,7 +125,7 @@ public class ConfigRuntime
 		File configFileHandle  = new File(path);
 		if(!configFileHandle.exists())
 		{
-			AsyncPrinter.error("Invalid Path for Config File at " + path);
+			AsyncLogger.error("Invalid Path for Config File at " + path);
 			return;
 		}
 		try 
@@ -146,7 +146,7 @@ public class ConfigRuntime
 			
 			e.printStackTrace();
 		}	
-		AsyncPrinter.info("Done saving " + path);
+		AsyncLogger.info("Done saving " + path);
 	}
 
 }

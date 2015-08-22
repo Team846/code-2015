@@ -3,7 +3,7 @@ package com.team846.frc2015.sensors;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.frc2015.utils.Pair;
 
 import edu.wpi.first.wpilibj.*;
@@ -34,7 +34,7 @@ public class SensorFactory {
 	{
 		if(!analog.containsKey(port))
 		{
-			AsyncPrinter.warn("[SENSORFACTORY] No analog port at port " + port + ", creating new port");
+			AsyncLogger.warn("[SENSORFACTORY] No analog port at port " + port + ", creating new port");
 			analog.put(port, new AnalogInput(port));
 		}
 		
@@ -45,7 +45,7 @@ public class SensorFactory {
 	{
 		if (!digital.containsKey(port))
 		{
-			AsyncPrinter.warn("[SENSORFACTORY] No gear tooth at port " + port + ", creating new port");
+			AsyncLogger.warn("[SENSORFACTORY] No gear tooth at port " + port + ", creating new port");
 			digital.put(port, new DigitalInput(port));
 		}
 		return digital.get(port);
@@ -55,7 +55,7 @@ public class SensorFactory {
 	{
 		if (!counters.containsKey(port))
 		{
-			AsyncPrinter.warn("[SENSORFACTORY] No counter at port " + port + ", creating new port");
+			AsyncLogger.warn("[SENSORFACTORY] No counter at port " + port + ", creating new port");
 			counters.put(port, new Counter(port));
 		}
 		return counters.get(port);
@@ -66,7 +66,7 @@ public class SensorFactory {
 		Pair<Integer, Integer> mapEntry = new Pair<Integer, Integer>(portA, portB);
 		if (!encoders.containsKey(mapEntry))
 		{
-			AsyncPrinter.warn("[SENSORFACTORY] No encoder at ports " + portA +" " + portB + ", creating new port");
+			AsyncLogger.warn("[SENSORFACTORY] No encoder at ports " + portA + " " + portB + ", creating new port");
 			encoders.put( mapEntry, new LRTEncoder( portA, portB));
 		}
 		return encoders.get(mapEntry);
@@ -76,7 +76,7 @@ public class SensorFactory {
 	{
 		if (!counters.containsKey(port))
 		{
-			AsyncPrinter.warn("[SENSORFACTORY] No gear tooth at port " + port + ", creating new port");
+			AsyncLogger.warn("[SENSORFACTORY] No gear tooth at port " + port + ", creating new port");
 			counters.put(port, new GearTooth(port));
 		}
 		return (GearTooth)counters.get(port);

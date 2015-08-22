@@ -1,16 +1,12 @@
 package com.team846.frc2015.automation;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.RobotConfig;
-import com.team846.frc2015.utils.AsyncPrinter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import javax.script.ScriptEngine;

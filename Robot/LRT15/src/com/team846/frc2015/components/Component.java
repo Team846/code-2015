@@ -2,9 +2,8 @@ package com.team846.frc2015.components;
 
 import java.util.ArrayList;
 
-import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.GameState;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.robot.RobotState;
 
 public abstract class Component 
@@ -41,7 +40,7 @@ public abstract class Component
     		this.name = name;
     	
 		lastEnabled = false;
-		AsyncPrinter.info("Created component: " + name);
+		AsyncLogger.info("Created component: " + name);
 	}
     
     Component()

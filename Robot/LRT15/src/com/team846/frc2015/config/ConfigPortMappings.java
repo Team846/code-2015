@@ -6,7 +6,7 @@ import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
 
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 public class ConfigPortMappings 
 {
@@ -32,7 +32,7 @@ public class ConfigPortMappings
 	public void Load()
 	{
 		LoadConfig(CONFIG_FILE_PATH);
-		AsyncPrinter.info("ConfigPortMappings: Done loading " +  CONFIG_FILE_PATH);
+		AsyncLogger.info("ConfigPortMappings: Done loading " + CONFIG_FILE_PATH);
 	}
 	
 	public int get(String name)
@@ -41,7 +41,7 @@ public class ConfigPortMappings
 		key = name.replace('/', '.');
 		if (config.getInt(key, -1) == -1)
 		{
-			AsyncPrinter.error("Port mapping not found for " + name);
+			AsyncLogger.error("Port mapping not found for " + name);
 			return -1;
 		}
 
@@ -54,7 +54,7 @@ public class ConfigPortMappings
 		File configFile = new File(path);
 		if(!configFile.exists())
 		{
-			AsyncPrinter.error("Could not find config file at " + path);
+			AsyncLogger.error("Could not find config file at " + path);
 			return;
 		}
 				

@@ -8,12 +8,11 @@ import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.config.ConfigPortMappings;
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
-import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.config.RobotConfig;
 import com.team846.frc2015.control.PID;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.DriveEncoders;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -98,7 +97,7 @@ public class Drivetrain extends Component implements Configurable {
 			velocitySetpoint += PIDs[POSITION][axis.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
 			if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
 				velocitySetpoint = MathUtils.sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
-			AsyncPrinter.warn("RAW PID OUTPUT: " + velocitySetpoint);
+			AsyncLogger.warn("RAW PID OUTPUT: " + velocitySetpoint);
 			rawOutput = velocitySetpoint;
 
 			break;
@@ -125,7 +124,7 @@ public class Drivetrain extends Component implements Configurable {
 		case OPEN_LOOP:
 			break;
 		default:
-			AsyncPrinter.warn("Invalid control mode for axis: "+ axis);
+			AsyncLogger.warn("Invalid control mode for axis: " + axis);
 			break;
 		}
 		return rawOutput;

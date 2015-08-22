@@ -7,6 +7,7 @@ name := "junky-monkey"
 version := "0.1-SNAPSHOT"
 
 javaSource in Compile := baseDirectory.value / "src"
+javaSource in Test := baseDirectory.value / "test"
 
 teamNumber := 846
 

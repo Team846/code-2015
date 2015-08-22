@@ -9,7 +9,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.team846.frc2015.config.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 public class DashboardLogger
 {
@@ -35,7 +35,7 @@ public class DashboardLogger
 	{
 		if (true)
 		{
-			AsyncPrinter.info("Starting funkyDashboard...");
+			AsyncLogger.info("Starting funkyDashboard...");
 			config = new Configuration();
 			config.setPort(8080);
 			config.getSocketConfig().setReuseAddress(true);

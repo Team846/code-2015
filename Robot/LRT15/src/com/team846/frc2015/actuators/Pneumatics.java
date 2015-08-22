@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.team846.frc2015.config.ConfigRuntime;
 import com.team846.frc2015.config.Configurable;
-import com.team846.frc2015.utils.AsyncPrinter;
+import com.team846.frc2015.logging.AsyncLogger;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -35,7 +35,7 @@ public class Pneumatics extends Actuator implements Configurable{
 	public Pneumatics(int forward, int reverse, String name) 
 	{
 		super(name);
-		AsyncPrinter.info("[Pneumatics] Created DoubleSolenoid " + name);
+		AsyncLogger.info("[Pneumatics] Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -48,7 +48,7 @@ public class Pneumatics extends Actuator implements Configurable{
 	public Pneumatics(int forward, int reverse, int module, String name) 
 	{
 		super(name);
-		AsyncPrinter.info("[Pneumatics] Created DoubleSolenoid " + name);
+		AsyncLogger.info("[Pneumatics] Created DoubleSolenoid " + name);
 		solenoid = new DoubleSolenoid(module, forward, reverse);
 		counter = 0;
 		pulsed = true;
@@ -62,7 +62,7 @@ public class Pneumatics extends Actuator implements Configurable{
 	public Pneumatics(int forward, String name) 
 	{
 		super(name);
-		AsyncPrinter.info("[Pneumatics] Created Solenoid " + name);
+		AsyncLogger.info("[Pneumatics] Created Solenoid " + name);
 		solenoid = new Solenoid(forward);
 		counter = 0;
 		pulsed = false;
@@ -76,7 +76,7 @@ public class Pneumatics extends Actuator implements Configurable{
 	public Pneumatics(int forward, short pcmModule, String name) 
 	{
 		super(name);
-		AsyncPrinter.info("[Pneumatics] Created Solenoid " +  name);
+		AsyncLogger.info("[Pneumatics] Created Solenoid " + name);
 		solenoid = new Solenoid(pcmModule, forward);
 		counter = 0;
 		pulsed = false;
