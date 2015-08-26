@@ -113,7 +113,7 @@ public class DriveEncoders implements Configurable
 		return rightTicks - leftTicks;
 	}
 
-	double GetTurnRevolutions()
+	public double GetTurnRevolutions()
 	{
 		return GetTurnTicks() / TICKS_PER_FULL_TURN;
 	}
@@ -205,6 +205,6 @@ public class DriveEncoders implements Configurable
 		MAX_STRAFING_SPEED = GetConfig("max_strafing_speed", 29); //TODO: MUST TEST
 		WHEEL_DIAMETER = GetConfig("wheel_diameter", 6.0); // Inches
 		GEAR_RATIO = GetConfig("gear_ratio", 4.0);
-		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", 2.0 * 26.574 * Math.PI / (GEAR_RATIO * WHEEL_DIAMETER * Math.PI) * PULSES_PER_REVOLUTION);
+		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", /* figure out what the formula is */ 2.0 * 26.574 * Math.PI / (GEAR_RATIO * WHEEL_DIAMETER * Math.PI) * PULSES_PER_REVOLUTION);
 	}
 }

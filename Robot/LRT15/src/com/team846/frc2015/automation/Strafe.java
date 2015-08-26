@@ -74,8 +74,13 @@ public class Strafe extends Automation {
 		drivetrain.setClassicDrive(false);
 		drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed * Math.signum(ticks));
 		drivetrain.SetOpenLoopOutput(Axis.TURN, (startAngle - LRT15Robot.gyro.getAngle()) * 0.1);
-//		return Math.abs(startTicks - encoders.GetStrafeTicks()) < errorThreshold;
-		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
+		if (ticks < 0) {
+			// going left
+			return (startTicks + ticks) > encoders.GetStrafeTicks();
+		} else {
+			// going right
+			return (startTicks + ticks) < encoders.GetStrafeTicks();
+		}
 	}
 
 }

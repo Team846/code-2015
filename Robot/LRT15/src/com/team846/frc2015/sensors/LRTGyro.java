@@ -71,7 +71,7 @@ public class LRTGyro extends SensorFactory
 
 				driftY = this.calibrateGyro(yCalibValues);
 
-				System.out.println("Calibrating. drift: " + driftY);
+//				System.out.println("Calibrating. drift: " + driftY);
 			}
 			else//if already calibrated
 			{
@@ -83,9 +83,9 @@ public class LRTGyro extends SensorFactory
 
 				angle = this.trapaziodalIntegration(angle, yVel, previousYVel);
 
-				System.out.println("Disabled");
-				System.out.print("Tick: " + tickNum);
-				System.out.println("Angle is :" + this.getAngle());
+//				System.out.println("Disabled");
+//				System.out.print("Tick: " + tickNum);
+//				System.out.println("Angle is :" + this.getAngle());
 			}
 
 			tickNum++;
@@ -110,9 +110,9 @@ public class LRTGyro extends SensorFactory
 
 			angle = this.trapaziodalIntegration(angle, yVel, previousYVel);
 
-			System.out.println("Enabled");
-			System.out.print("Tick: " + tickNum);
-			System.out.println("Angle is :" + this.getAngle() + " with applied drift correction " + driftY);
+//			System.out.println("Enabled");
+//			System.out.print("Tick: " + tickNum);
+//			System.out.println("Angle is :" + this.getAngle() + " with applied drift correction " + driftY);
 
 		}
 
