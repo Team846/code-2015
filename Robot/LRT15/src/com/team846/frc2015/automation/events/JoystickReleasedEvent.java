@@ -19,7 +19,7 @@ public class JoystickReleasedEvent extends Event {
 		this(joystick, 0);
 	}
 	
-	public boolean CheckCondition() {
+	public boolean checkCondition() {
 	if (m_button == 0)
         {	
             for (int i = 1; i <= joystick.getNumButtons(); i++)	

@@ -119,115 +119,115 @@ public class Brain
 		Event release_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.DEPLOY_STACK);
 
 		// Map events to routines
-		to_auto.AddStartListener(auton);
-		driver_stick_moved.AddAbortListener(auton);
-		operator_stick_moved.AddAbortListener(auton);
-		driver_stick_pressed.AddAbortListener(auton);
-		operator_stick_pressed.AddAbortListener(auton);
-		disabled_timeout.AddAbortListener(auton);
+		to_auto.addStartListener(auton);
+		driver_stick_moved.addAbortListener(auton);
+		operator_stick_moved.addAbortListener(auton);
+		driver_stick_pressed.addAbortListener(auton);
+		operator_stick_pressed.addAbortListener(auton);
+		disabled_timeout.addAbortListener(auton);
 		
-		release_stack_start.AddStartListener(releaseStack);
-		release_stack_abort.AddAbortListener(releaseStack);
+		release_stack_start.addStartListener(releaseStack);
+		release_stack_abort.addAbortListener(releaseStack);
 		
-		load_tote_start.AddStartListener(load_tote);
-		load_tote_abort.AddAbortListener(load_tote);
-		load_tote_start.AddAbortListener(load_tote);
+		load_tote_start.addStartListener(load_tote);
+		load_tote_abort.addAbortListener(load_tote);
+		load_tote_start.addAbortListener(load_tote);
 		
-		load_sideways_container_start.AddStartListener(load_sideways_container);
-		load_sideways_container_abort.AddAbortListener(load_sideways_container);
-		load_sideways_container_start.AddAbortListener(load_sideways_container);
+		load_sideways_container_start.addStartListener(load_sideways_container);
+		load_sideways_container_abort.addAbortListener(load_sideways_container);
+		load_sideways_container_start.addAbortListener(load_sideways_container);
 		
-		load_upright_container_start.AddStartListener(load_upright_container);
-		load_upright_container_abort.AddAbortListener(load_upright_container);
-		load_upright_container_start.AddAbortListener(load_upright_container);
+		load_upright_container_start.addStartListener(load_upright_container);
+		load_upright_container_abort.addAbortListener(load_upright_container);
+		load_upright_container_start.addAbortListener(load_upright_container);
 		
-		load_additional_start.AddStartListener(load_additional);
-		load_additional_start.AddAbortListener(load_additional);
-		load_additional_abort.AddAbortListener(load_additional);
+		load_additional_start.addStartListener(load_additional);
+		load_additional_start.addAbortListener(load_additional);
+		load_additional_abort.addAbortListener(load_additional);
 
-		load_stack_start.AddStartListener(load_stack);
-		load_stack_start.AddAbortListener(load_stack);
-		load_stack_abort.AddAbortListener(load_stack);
+		load_stack_start.addStartListener(load_stack);
+		load_stack_start.addAbortListener(load_stack);
+		load_stack_abort.addAbortListener(load_stack);
 
-		human_load_start.AddStartListener(load_continuous);
-		human_load_abort.AddAbortListener(load_continuous);
-		human_load_start.AddAbortListener(load_continuous);
+		human_load_start.addStartListener(load_continuous);
+		human_load_abort.addAbortListener(load_continuous);
+		human_load_start.addAbortListener(load_continuous);
 		
-		load_additional_start.AddAbortListener(load_tote);
-		load_additional_start.AddAbortListener(load_sideways_container);
-		load_additional_start.AddAbortListener(load_upright_container);
-		load_additional_start.AddAbortListener(load_stack);
-		load_additional_start.AddAbortListener(load_continuous);
+		load_additional_start.addAbortListener(load_tote);
+		load_additional_start.addAbortListener(load_sideways_container);
+		load_additional_start.addAbortListener(load_upright_container);
+		load_additional_start.addAbortListener(load_stack);
+		load_additional_start.addAbortListener(load_continuous);
 		
-		human_load_start.AddAbortListener(load_tote);
-		human_load_start.AddAbortListener(load_sideways_container);
-		human_load_start.AddAbortListener(load_upright_container);
-		human_load_start.AddAbortListener(load_stack);
-		human_load_start.AddAbortListener(load_additional);
+		human_load_start.addAbortListener(load_tote);
+		human_load_start.addAbortListener(load_sideways_container);
+		human_load_start.addAbortListener(load_upright_container);
+		human_load_start.addAbortListener(load_stack);
+		human_load_start.addAbortListener(load_additional);
 		
-		release_stack_start.AddAbortListener(load_tote);
-		release_stack_start.AddAbortListener(load_sideways_container);
-		release_stack_start.AddAbortListener(load_upright_container);
-		release_stack_start.AddAbortListener(human_load);
-		release_stack_start.AddAbortListener(load_additional);
-		release_stack_start.AddAbortListener(load_stack);
-		release_stack_start.AddAbortListener(load_continuous);
+		release_stack_start.addAbortListener(load_tote);
+		release_stack_start.addAbortListener(load_sideways_container);
+		release_stack_start.addAbortListener(load_upright_container);
+		release_stack_start.addAbortListener(human_load);
+		release_stack_start.addAbortListener(load_additional);
+		release_stack_start.addAbortListener(load_stack);
+		release_stack_start.addAbortListener(load_continuous);
 		
-		load_abort_deploy.AddAbortListener(load_tote);
-		load_abort_deploy.AddAbortListener(load_sideways_container);
-		load_abort_deploy.AddAbortListener(load_upright_container);
-		load_abort_deploy.AddAbortListener(human_load);
-		load_abort_deploy.AddAbortListener(load_additional);
-		load_abort_deploy.AddAbortListener(load_stack);
-		load_abort_deploy.AddAbortListener(load_continuous);
+		load_abort_deploy.addAbortListener(load_tote);
+		load_abort_deploy.addAbortListener(load_sideways_container);
+		load_abort_deploy.addAbortListener(load_upright_container);
+		load_abort_deploy.addAbortListener(human_load);
+		load_abort_deploy.addAbortListener(load_additional);
+		load_abort_deploy.addAbortListener(load_stack);
+		load_abort_deploy.addAbortListener(load_continuous);
 		
-		load_abort_1.AddAbortListener(load_tote);
-		load_abort_1.AddAbortListener(load_sideways_container);
-		load_abort_1.AddAbortListener(load_upright_container);
-		load_abort_1.AddAbortListener(human_load);
-		load_abort_1.AddAbortListener(load_additional);
-		load_abort_1.AddAbortListener(load_stack);
-		load_abort_1.AddAbortListener(load_continuous);
+		load_abort_1.addAbortListener(load_tote);
+		load_abort_1.addAbortListener(load_sideways_container);
+		load_abort_1.addAbortListener(load_upright_container);
+		load_abort_1.addAbortListener(human_load);
+		load_abort_1.addAbortListener(load_additional);
+		load_abort_1.addAbortListener(load_stack);
+		load_abort_1.addAbortListener(load_continuous);
 		
-		load_abort_2.AddAbortListener(load_tote);
-		load_abort_2.AddAbortListener(load_sideways_container);
-		load_abort_2.AddAbortListener(load_upright_container);
-		load_abort_2.AddAbortListener(human_load);
-		load_abort_2.AddAbortListener(load_additional);
-		load_abort_2.AddAbortListener(load_stack);
-		load_abort_2.AddAbortListener(load_continuous);
+		load_abort_2.addAbortListener(load_tote);
+		load_abort_2.addAbortListener(load_sideways_container);
+		load_abort_2.addAbortListener(load_upright_container);
+		load_abort_2.addAbortListener(human_load);
+		load_abort_2.addAbortListener(load_additional);
+		load_abort_2.addAbortListener(load_stack);
+		load_abort_2.addAbortListener(load_continuous);
 		
-		load_abort_3.AddAbortListener(load_tote);
-		load_abort_3.AddAbortListener(load_sideways_container);
-		load_abort_3.AddAbortListener(load_upright_container);
-		load_abort_3.AddAbortListener(human_load);
-		load_abort_3.AddAbortListener(load_additional);
-		load_abort_3.AddAbortListener(load_stack);
-		load_abort_3.AddAbortListener(load_continuous);
+		load_abort_3.addAbortListener(load_tote);
+		load_abort_3.addAbortListener(load_sideways_container);
+		load_abort_3.addAbortListener(load_upright_container);
+		load_abort_3.addAbortListener(human_load);
+		load_abort_3.addAbortListener(load_additional);
+		load_abort_3.addAbortListener(load_stack);
+		load_abort_3.addAbortListener(load_continuous);
 
-		load_abort_4.AddAbortListener(load_tote);
-		load_abort_4.AddAbortListener(load_sideways_container);
-		load_abort_4.AddAbortListener(load_upright_container);
-		load_abort_4.AddAbortListener(human_load);
-		load_abort_4.AddAbortListener(load_additional);
-		load_abort_4.AddAbortListener(load_stack);
-		load_abort_4.AddAbortListener(load_continuous);
+		load_abort_4.addAbortListener(load_tote);
+		load_abort_4.addAbortListener(load_sideways_container);
+		load_abort_4.addAbortListener(load_upright_container);
+		load_abort_4.addAbortListener(human_load);
+		load_abort_4.addAbortListener(load_additional);
+		load_abort_4.addAbortListener(load_stack);
+		load_abort_4.addAbortListener(load_continuous);
 		
-		load_abort_step.AddAbortListener(load_tote);
-		load_abort_step.AddAbortListener(load_sideways_container);
-		load_abort_step.AddAbortListener(load_upright_container);
-		load_abort_step.AddAbortListener(human_load);
-		load_abort_step.AddAbortListener(load_additional);
-		load_abort_step.AddAbortListener(load_stack);
-		load_abort_step.AddAbortListener(load_continuous);
+		load_abort_step.addAbortListener(load_tote);
+		load_abort_step.addAbortListener(load_sideways_container);
+		load_abort_step.addAbortListener(load_upright_container);
+		load_abort_step.addAbortListener(human_load);
+		load_abort_step.addAbortListener(load_additional);
+		load_abort_step.addAbortListener(load_stack);
+		load_abort_step.addAbortListener(load_continuous);
 		
-		driverSweep.AddAbortListener(load_tote);
-		driverSweep.AddAbortListener(load_additional);
-		driverSweep.AddAbortListener(load_sideways_container);
-		driverSweep.AddAbortListener(human_load);
-		driverSweep.AddAbortListener(load_upright_container);
-		driverSweep.AddAbortListener(load_stack);
-		driverSweep.AddAbortListener(load_continuous);
+		driverSweep.addAbortListener(load_tote);
+		driverSweep.addAbortListener(load_additional);
+		driverSweep.addAbortListener(load_sideways_container);
+		driverSweep.addAbortListener(human_load);
+		driverSweep.addAbortListener(load_upright_container);
+		driverSweep.addAbortListener(load_stack);
+		driverSweep.addAbortListener(load_continuous);
 	}
 	
 	private void createInputProcessors() {
@@ -250,7 +250,7 @@ public class Brain
 		
 		for ( Event e : Event.event_vector)
 		{
-			e.Update();
+			e.update();
 		}
 	}
 
@@ -282,10 +282,10 @@ public class Brain
 		for ( int i = 0; i< Event.event_vector.size();i++)
 		{
 			Event event = Event.event_vector.get(i);
-			if (event.Fired())
+			if (event.fired())
 			{
 	        	// Tasks aborted by this event
-	        	for (Automation a : event.GetAbortListeners())
+	        	for (Automation a : event.getAbortListeners())
 	        	{
 	        	    if (runningTasks.contains(a)) // If task is running
 	        	    {
@@ -299,7 +299,7 @@ public class Brain
 	        	}
 	        	
 			    // Tasks started by this event
-	        	for ( Automation auto : event.GetStartListeners())
+	        	for ( Automation auto : event.getStartListeners())
 	        	{
 	        		if (!runningTasks.contains(auto) || auto.IsRestartable()) // If task isn't running or is restartable
 	        		{
@@ -319,7 +319,7 @@ public class Brain
 	        	}
 
 	        	// Tasks continued by this event
-	        	for (Automation a : event.GetContinueListeners())
+	        	for (Automation a : event.getContinueListeners())
 	        	{
 	        	    if (runningTasks.contains(a))//!= runningTasks.end()) // If task is running
 	        	    {
@@ -329,7 +329,7 @@ public class Brain
 			}
 		}
 		
-		// Update running tasks
+		// update running tasks
 		ListIterator<Automation> runningTaskIterator = runningTasks.listIterator();
 		while(runningTaskIterator.hasNext())
 		{

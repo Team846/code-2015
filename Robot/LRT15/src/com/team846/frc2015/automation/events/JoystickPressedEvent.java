@@ -27,7 +27,7 @@ public class JoystickPressedEvent extends Event {
 		return m_joystick;
 	}
 
-	public boolean CheckCondition() {
+	public boolean checkCondition() {
 		if (m_button == 0)	
         {	
                 for (int i = 1; i <= m_joystick.getNumButtons(); i++)	

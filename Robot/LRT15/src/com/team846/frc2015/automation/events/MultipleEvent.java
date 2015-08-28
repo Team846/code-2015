@@ -21,11 +21,11 @@ public class MultipleEvent extends Event {
 	}
 
 	@Override
-	public boolean CheckCondition() {
+	public boolean checkCondition() {
 		boolean condition = true;
 		for(Event e : eventList)
 		{
-			if(!e.CheckCondition())
+			if(!e.checkCondition())
 			{
 				condition = false;
 				break;

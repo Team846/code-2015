@@ -21,7 +21,7 @@ public class JoystickMovedEvent extends Event {
 		this(joy, 0,0.1f);
 	}
 	
-	public boolean CheckCondition() {
+	public boolean checkCondition() {
         if (m_axis == 0)	
         {	
                 for (int i = 0; i < m_joystick.getNumAxes(); i++)
