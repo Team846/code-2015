@@ -71,7 +71,7 @@ public class LRTTalon extends LRTSpeedController implements Configurable {
 
 	public void Set( float speed )
 	{
-		System.out.println("[WARNING] Calling Set() in LRTTalon: "+ getName() +" use SetDutyCycle() instead");
+		System.out.println("[WARNING] Calling Set() in LRTTalon: "+ getName() +" use setDutyCycle() instead");
 		SetDutyCycle(speed);
 	}
 

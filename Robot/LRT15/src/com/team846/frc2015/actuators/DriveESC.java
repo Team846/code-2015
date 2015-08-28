@@ -4,15 +4,13 @@ import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class DriveESC
-{
-	private class BrakeAndDutyCycle
-	{
+public class DriveESC {
+	//TODO: Timothy: fix this later man
+	private class BrakeAndDutyCycle {
 		public double dutyCycle;
 		public double braking;
 
-		public BrakeAndDutyCycle()
-		{
+		public BrakeAndDutyCycle() {
 			dutyCycle = 0;
 			braking = 0;
 		}
@@ -43,8 +41,7 @@ public class DriveESC
 //		reverseCurrentLimit = 50.0 / 100.0;
 //	}
 	
-	public DriveESC(CANTalon esc1) 
-	{
+	public DriveESC(CANTalon esc1) {
 		controller1 = esc1;
 		
 		controller1.enableBrakeMode(false);
@@ -57,40 +54,35 @@ public class DriveESC
 		reverseCurrentLimit = 50.0 / 100.0;
 	}
 	
-	BrakeAndDutyCycle CalculateBrakeAndDutyCycle(double dutyCycle, double speed)
-	{
+	BrakeAndDutyCycle calculateBrakeAndDutyCycle(double dutyCycle, double speed) {
 		BrakeAndDutyCycle command = new BrakeAndDutyCycle();
 
 		command.dutyCycle = 0.0;
 
-		if (speed < 0)
-		{
-			command = CalculateBrakeAndDutyCycle(-dutyCycle, -speed);
+		if (speed < 0) {
+			command = calculateBrakeAndDutyCycle(-dutyCycle, -speed);
 			command.dutyCycle = -command.dutyCycle;
 			return command;
 		}
 
 		// Speed >= 0 at this point
-		if (dutyCycle >= speed) // Going faster
-		{
+		if (dutyCycle >= speed){ // Going faster
 			command.dutyCycle = dutyCycle;
 			command.braking = 0.0;
 		}
-		else // Slowing down
-		{
+		else {// Slowing down
 			double error = dutyCycle - speed; // error always <= 0
 
-			if (dutyCycle >= 0) // Braking is based on speed alone; reverse power unnecessary
-			{
+			if (dutyCycle >= 0) { // Braking is based on speed alone; reverse power unnecessary
 				command.dutyCycle = 0.0; // Must set 0 to brake
 
-				if (speed > -error + 0.05)
+				if (speed > -error + 0.05) {
 					command.braking = -error / speed; // Speed always > 0
-				else
+				} else {
 					command.braking = 1.0;
+				}
 			}
-			else // Input < 0, braking with reverse power
-			{
+			else { // Input < 0, braking with reverse power
 				command.braking = 0.0; // not braking
 				command.dutyCycle = error / (1.0 + speed); // DutyCycle <= 0 because error <= 0
 			}
@@ -98,9 +90,7 @@ public class DriveESC
 
 		return command;
 	}
-
-	public void SetDutyCycle(double dutyCycle)
-	{
+	public void setDutyCycle(double dutyCycle) {
 		//TODO: evaluate need for dithered braking/current limiting w/ mecanum
 //		double speed = encoder.GetRate()
 //					/ DriveEncoders.GetMaxEncoderRate();
@@ -108,28 +98,27 @@ public class DriveESC
 //		speed = MathUtils.clamp(speed, -1.0, 1.0);
 //		
 //		dutyCycle = DitheredBraking(dutyCycle, speed);
-//		dutyCycle = CurrentLimit(dutyCycle, speed);
+//		dutyCycle = currentLimit(dutyCycle, speed);
 //		this.dutyCycle = dutyCycle;
 		
 		controller1.set(dutyCycle);
 	}
 
-	double DitheredBraking(double dutyCycle, double speed)
-	{
+	double ditheredBraking(double dutyCycle, double speed) { //TODO: Evaluate if needed
 		dutyCycle = MathUtils.clamp(dutyCycle, -1.0, 1.0);
-		BrakeAndDutyCycle command = CalculateBrakeAndDutyCycle(dutyCycle, speed);
+		BrakeAndDutyCycle command = calculateBrakeAndDutyCycle(dutyCycle, speed);
 		command.dutyCycle = MathUtils.clamp(command.dutyCycle, -1.0, 1.0);
 
 		// Default to coast
 		controller1.enableBrakeMode(false);
 		
-		if (Math.abs(command.dutyCycle) < 1E-4) //brake only when duty cycle = 0
-		{
+		if (Math.abs(command.dutyCycle) < 1E-4) { //brake only when duty cycle = 0
 			dutyCycle = 0.0;
 
 			// cycle count ranges from 0 to 8
-			if (++cycle_count >= 8)
+			if (++cycle_count >= 8) {
 				cycle_count = 0;
+			}
 
 			/*
 			 * Each integer, corresponding to value, is a bitfield of 8 cycles
@@ -145,33 +134,27 @@ public class DriveESC
 			 * 8: 1111 1111 = 0xFF
 			 */
 			int ditherPattern[] =
-			{ 0x00, 0x01, 0x11, 0x25, 0x55, 0xD5, 0xEE, 0xFE, 0xFF };
+				{ 0x00, 0x01, 0x11, 0x25, 0x55, 0xD5, 0xEE, 0xFE, 0xFF };
 
 			int brake_level = (int) (Math.abs(command.braking) * 8);
 			shouldBrakeThisCycle = ditherPattern[brake_level] & (1 << cycle_count);
 
-			if (shouldBrakeThisCycle == 1)
-			{
+			if (shouldBrakeThisCycle == 1) {
 				controller1.enableBrakeMode(false);
 			}
 		}
 
 		return command.dutyCycle;
 	}
-
-	public double CurrentLimit(double dutyCycle, double speed)
-	{
-		if (speed < 0)
-		{
-			return -CurrentLimit(-dutyCycle, -speed);
+	public double currentLimit(double dutyCycle, double speed) {
+		if (speed < 0) {
+			return -currentLimit(-dutyCycle, -speed);
 		}
 		// At this point speed >= 0
-		if (dutyCycle > speed) // Current limit accelerating
-		{
+		if (dutyCycle > speed) { // Current limit accelerating
 			dutyCycle = Math.min(dutyCycle, speed + forwardCurrentLimit);
 		}
-		else if (dutyCycle < 0) // Current limit reversing direction
-		{
+		else if (dutyCycle < 0) { // Current limit reversing direction
 			double limitedDutyCycle = -reverseCurrentLimit / (1.0 + speed); // speed >= 0 so dutyCycle < -currentLimit
 			dutyCycle = Math.max(dutyCycle, limitedDutyCycle); // Both are negative
 		}
@@ -179,23 +162,23 @@ public class DriveESC
 		return dutyCycle;
 	}
 
-	public void SetForwardCurrentLimit(float limit)
-	{
+	public void setForwardCurrentLimit(float limit) {
+
 		forwardCurrentLimit = limit;
 	}
 
-	public void SetReverseCurrentLimit(float limit)
-	{
+	public void setReverseCurrentLimit(float limit) {
+
 		reverseCurrentLimit = limit;
 	}
 
-	public void Disable()
-	{
+	public void disable() { //TODO: Evaluate if needed
+
 		controller1.set(0.0);
 	}
 
-	void ResetCache()
-	{
+	void resetCache() { //TODO: Evaluate if needed
+
 //		if(dynamic_cast<AsyncCANJaguar*>(controller1) )
 //			dynamic_cast<AsyncCANJaguar*>(controller1).ResetCache();
 //		if(dynamic_cast<AsyncCANJaguar*>(controller2))

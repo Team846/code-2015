@@ -75,8 +75,8 @@ public class Drivetrain extends Component implements Configurable {
 
 		for (DriveESC esc: escs) {
 			float current_limit = 0.75f;
-			esc.SetForwardCurrentLimit(current_limit);
-			esc.SetReverseCurrentLimit(current_limit);
+			esc.setForwardCurrentLimit(current_limit);
+			esc.setReverseCurrentLimit(current_limit);
 		}
 	}
 
@@ -195,8 +195,8 @@ public class Drivetrain extends Component implements Configurable {
 
 //		if (drivetrainData.ShouldOverrideForwardCurrentLimit())
 //		{
-//			escs[LEFT].SetForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
-//			escs[RIGHT].SetForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
+//			escs[LEFT].setForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
+//			escs[RIGHT].setForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
 //		}
 //		else
 //		{
@@ -204,8 +204,8 @@ public class Drivetrain extends Component implements Configurable {
 //		}
 //		if (drivetrainData.ShouldOverrideReverseCurrentLimit())
 //		{
-//			escs[LEFT].SetReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
-//			escs[RIGHT].SetReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
+//			escs[LEFT].setReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
+//			escs[RIGHT].setReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
 //		}
 //		else
 //		{
@@ -220,20 +220,20 @@ public class Drivetrain extends Component implements Configurable {
 		double backLeftSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate()/DriveEncoders.GetMaxEncoderRate();
 		double backRightSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate()/DriveEncoders.GetMaxEncoderRate();
 
-		double currentLimitedFrontLeft = escs[Side.FRONT_LEFT.ordinal()].CurrentLimit(leftFrontOutput, frontLeftSpeed);
-		double currentLimitedFrontRight = escs[Side.FRONT_RIGHT.ordinal()].CurrentLimit(rightFrontOutput, frontRightSpeed);
-		double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].CurrentLimit(leftBackOutput, backLeftSpeed);
-		double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].CurrentLimit(rightBackOutput, backRightSpeed);
+		double currentLimitedFrontLeft = escs[Side.FRONT_LEFT.ordinal()].currentLimit(leftFrontOutput, frontLeftSpeed);
+		double currentLimitedFrontRight = escs[Side.FRONT_RIGHT.ordinal()].currentLimit(rightFrontOutput, frontRightSpeed);
+		double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].currentLimit(leftBackOutput, backLeftSpeed);
+		double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].currentLimit(rightBackOutput, backRightSpeed);
 
 		System.out.println(leftFrontOutput);
 		System.out.println(currentLimitedFrontLeft);
 		System.out.println();
 
-		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(currentLimitedFrontLeft);
-		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(currentLimitedFrontRight);
+		escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(currentLimitedFrontLeft);
+		escs[Side.FRONT_RIGHT.ordinal()].setDutyCycle(currentLimitedFrontRight);
 
-		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(currentLimitedBackLeft);
-		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(currentLimitedBackRight);
+		escs[Side.BACK_LEFT.ordinal()].setDutyCycle(currentLimitedBackLeft);
+		escs[Side.BACK_RIGHT.ordinal()].setDutyCycle(currentLimitedBackRight);
 
 		frontLeft.enableBrakeMode(false);
 		backLeft.enableBrakeMode(false);
@@ -265,11 +265,11 @@ public class Drivetrain extends Component implements Configurable {
 
 	public void UpdateDisabled()
 	{
-		escs[Side.FRONT_LEFT.ordinal()].SetDutyCycle(0.0);
-		escs[Side.BACK_LEFT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(0.0);
+		escs[Side.BACK_LEFT.ordinal()].setDutyCycle(0.0);
 
-		escs[Side.FRONT_RIGHT.ordinal()].SetDutyCycle(0.0);
-		escs[Side.BACK_RIGHT.ordinal()].SetDutyCycle(0.0);
+		escs[Side.FRONT_RIGHT.ordinal()].setDutyCycle(0.0);
+		escs[Side.BACK_RIGHT.ordinal()].setDutyCycle(0.0);
 
 		frontLeft.enableBrakeMode(false);
 		backLeft.enableBrakeMode(false);
@@ -351,13 +351,13 @@ public class Drivetrain extends Component implements Configurable {
 
 //	void ConfigureForwardCurrentLimit()
 //	{
-//		escs[LEFT].SetForwardCurrentLimit(GetConfig("forwardCurrentLimit", 50.0 / 100.0));
-//		escs[RIGHT].SetForwardCurrentLimit(GetConfig("forwardCurrentLimit", 50.0 / 100.0));
+//		escs[LEFT].setForwardCurrentLimit(GetConfig("forwardCurrentLimit", 50.0 / 100.0));
+//		escs[RIGHT].setForwardCurrentLimit(GetConfig("forwardCurrentLimit", 50.0 / 100.0));
 //	}
 //
 //	void ConfigureReverseCurrentLimit()
 //	{
-//		escs[LEFT].SetReverseCurrentLimit(GetConfig("reverseCurrentLimit", 50.0 / 100.0));
-//		escs[RIGHT].SetReverseCurrentLimit(GetConfig("reverseCurrentLimit", 50.0 / 100.0));
+//		escs[LEFT].setReverseCurrentLimit(GetConfig("reverseCurrentLimit", 50.0 / 100.0));
+//		escs[RIGHT].setReverseCurrentLimit(GetConfig("reverseCurrentLimit", 50.0 / 100.0));
 //	}
 }
