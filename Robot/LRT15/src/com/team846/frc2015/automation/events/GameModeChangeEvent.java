@@ -3,28 +3,24 @@ package com.team846.frc2015.automation.events;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.robot.RobotState;
 
-public class GameModeChangeEvent extends Event
-{
+public class GameModeChangeEvent extends Event {
 	private GameState fromMode = null;
 	private GameState toMode = null;
-	private final boolean from;
+	private final boolean FROM;
 	
-	public GameModeChangeEvent(GameState toMode)
-	{
+	public GameModeChangeEvent(GameState toMode) {
 		this.toMode  = toMode;
-		from = false;
+		FROM = false;
 	}
 	
-	public GameModeChangeEvent(GameState toMode, GameState fromMode)
-	{
+	public GameModeChangeEvent(GameState toMode, GameState fromMode) {
 		this.toMode = toMode;
 		this.fromMode = fromMode;
-		from = false;
+		FROM = false;
 	}
 	
 	@Override
-	public boolean CheckCondition()
-	{
+	public boolean checkCondition() {
 		if (fromMode != null) {
 			return RobotState.Instance().LastGameMode() == fromMode && RobotState.Instance().GameMode() == toMode;
 		} else {
