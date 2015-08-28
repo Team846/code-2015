@@ -138,7 +138,7 @@ public class Drivetrain extends Component implements Configurable {
 		double leftBackOutput;
 		double rightBackOutput;
 
-//		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.Get().GetTurnAngle() );
+//		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.get().GetTurnAngle() );
 
 //		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
 //		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());

@@ -47,7 +47,7 @@ public class Drive extends Automation {
 	public boolean Start()
 	{
 		drivetrain.setClassicDrive(true);
-//		DriveEncoders.Get().Reset();
+//		DriveEncoders.get().Reset();
 		if (!constantSpeed)
 		{
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.POSITION_CONTROL);
@@ -56,7 +56,7 @@ public class Drive extends Automation {
 		{
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
 			drivetrain.SetOpenLoopOutput(Axis.FORWARD, MathUtils.sign(distance) * maxSpeed);
-//			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
+//			drivetrain.setControlMode(Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
 //			drivetrain.SetVelocitySetpoint(Axis.FORWARD, MathUtils.Sign(distance) * maxSpeed);
 		}
 		drivetrain.SetRelativePositionSetpoint(Axis.FORWARD, distance);
@@ -86,9 +86,9 @@ public class Drive extends Automation {
 		return distanceLeft < errorThreshold;
 		
 //		if (distance > 0)
-//			return DriveEncoders.Get().GetRobotDist() > drivetrain.GetPositionSetpoint(Axis.FORWARD);
+//			return DriveEncoders.get().GetRobotDist() > drivetrain.GetPositionSetpoint(Axis.FORWARD);
 //		else
-//			return DriveEncoders.Get().GetRobotDist() < drivetrain.GetPositionSetpoint(Axis.FORWARD);
+//			return DriveEncoders.get().GetRobotDist() < drivetrain.GetPositionSetpoint(Axis.FORWARD);
 	}
 
 	public boolean Abort()

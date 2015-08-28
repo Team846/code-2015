@@ -4,10 +4,9 @@ import com.team846.frc2015.logging.AsyncLogger;
 
 import edu.wpi.first.wpilibj.Servo;
 
-public class LRTServo extends Actuator
-{
-	public enum ControlMode
-	{
+//TODO: evaluate if needed
+public class LRTServo extends Actuator {
+	public enum ControlMode {
 		kValue, kMicroseconds, kAngle
 	}
 	
@@ -20,13 +19,12 @@ public class LRTServo extends Actuator
 	private static final int MIN_VAL = 727;
 	private static final int MAX_VAL = 2252;
 
-	public LRTServo(String name)
-	{
+	public LRTServo(String name) {
+
 		super(name);
 	}
 	
-	public LRTServo(int channel, String name)
-	{
+	public LRTServo(int channel, String name) {
 		super(name);
 		servo = new Servo(channel);
 		controlMode = ControlMode.kValue;
@@ -38,34 +36,35 @@ public class LRTServo extends Actuator
 	}
 
 
-	public void output()
-	{
-		if (enabled)
-		{
-			switch(controlMode)
-			{
-			case kValue:
-		        servo.set(value);
-				break;
-			case kMicroseconds:
-		    	float val = (float)(value - MIN_VAL) / (MAX_VAL - MIN_VAL);
-		        servo.set(val);
-				break;
-			case kAngle:
-		        servo.setAngle(value);
-				break;
+	public void output() {
+		if (enabled) {
+			switch(controlMode) {
+				case kValue:
+		        	servo.set(value);
+					break;
+				case kMicroseconds:
+		    		float val = (float)(value - MIN_VAL) / (MAX_VAL - MIN_VAL);
+		        	servo.set(val);
+					break;
+				case kAngle:
+					servo.setAngle(value);
+					break;
+				default:
+					//Default Case
+					break;
 			}
 		}
-		else
-	       ;// servo.SetOffline(); TODO:Find Safety
+		else {
+			// servo.SetOffline(); TODO:Find Safety
+		}
 	}
 
-	public void SetEnabled(boolean enabled)
+	public void setEnabled(boolean enabled)
 	{
 	    this.enabled = enabled;
 	}
 	
-	boolean IsEnabled()
+	boolean isEnabled()
 	{
 	    return enabled;
 	}
@@ -76,34 +75,34 @@ public class LRTServo extends Actuator
 		this.value = value;
 	}
 	
-	public void SetMicroseconds(int ms) 
+	public void setMicroseconds(int ms)
 	{
 		controlMode = ControlMode.kMicroseconds;
 		value = Math.max(MIN_VAL, Math.min(MAX_VAL,ms));
 	}
 	
-	public void SetAngle(float angle)
+	public void setAngle(float angle)
 	{
 		controlMode = ControlMode.kAngle;
 		value = angle;
 	}
 	
-	public void SetControlMode(ControlMode mode)
+	public void setControlMode(ControlMode mode)
 	{
 		controlMode = mode;
 	}
 	
-	public double Get()
+	public double get()
 	{
 		return value;
 	}
 	
-	public double GetHardwareValue()
+	public double getHardwareValue()
 	{
 		return servo.get();
 	}
 	
-	public ControlMode GetControlMode()
+	public ControlMode getControlMode()
 	{
 		return controlMode;
 	}

@@ -83,7 +83,7 @@ private boolean constRadius;
 		}
 		else if (axis == Axis.TURN)
 		{
-			//drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
+			//drivetrain.setControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
 			double turn = 0.0;
 			turn = driverWheel.getAxis(AxisType.kX);
 			drivetrainData.SetOpenLoopOutput(DrivetrainData.Axis.TURN, (float)turn);
