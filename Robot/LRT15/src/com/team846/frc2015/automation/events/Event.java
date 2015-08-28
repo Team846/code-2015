@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import com.team846.frc2015.automation.Automation;
 
 
-public abstract class Event 
-{
+public abstract class Event {
 	private final ArrayList<Automation> start_listeners = new ArrayList<>();
 	private final ArrayList<Automation> abort_listeners = new ArrayList<>();
 	private final ArrayList<Automation> continue_listeners = new ArrayList<>();
@@ -14,51 +13,43 @@ public abstract class Event
 	
 	public static final ArrayList<Event> event_vector = new ArrayList<Event>();
 	
-	Event()
-	{
+	Event() {
 		event_vector.add(this);
 		lastFired = false;
 	}
 	
-	protected abstract boolean CheckCondition();
+	protected abstract boolean checkCondition();
 	
-	public boolean Fired()
-	{
-		return CheckCondition() && !lastFired;
+	public boolean fired() {
+		return checkCondition() && !lastFired;
 	}
 	
-	public void Update()
-	{
-		lastFired = CheckCondition();
+	public void update() {
+		lastFired = checkCondition();
 	}
 	
-	public void AddStartListener(Automation routine)
-	{
+	public void addStartListener(Automation routine) {
 		start_listeners.add(routine);
 	}
 	
-	public void AddAbortListener(Automation routine)
-	{
+	public void addAbortListener(Automation routine) {
 		abort_listeners.add(routine);
 	}
-	
-	public void AddContinueListener(Automation routine)
-	{
+
+	//TODO: evaluate if needed
+	public void addContinueListener(Automation routine) {
 		continue_listeners.add(routine);
 	}
 	
-	public ArrayList<Automation> GetStartListeners()
-	{
+	public ArrayList<Automation> getStartListeners() {
 		return start_listeners;
 	}
 	
-	public ArrayList<Automation> GetAbortListeners()
-	{
+	public ArrayList<Automation> getAbortListeners() {
 		return abort_listeners;
 	}
 	
-	public ArrayList<Automation> GetContinueListeners()
-	{
+	public ArrayList<Automation> getContinueListeners() {
 		return continue_listeners;
 	}
 }
