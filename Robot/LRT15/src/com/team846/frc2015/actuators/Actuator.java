@@ -2,28 +2,24 @@ package com.team846.frc2015.actuators;
 
 import java.util.ArrayList;
 
-public abstract class Actuator 
-{
-	private final String name;
-	private static final ArrayList<Actuator> actuator_list = new ArrayList<Actuator>();
+public abstract class Actuator {
 
-	Actuator(String name)
-	{
+	private final String name;
+	private static final ArrayList<Actuator> ACTUATOR_LIST = new ArrayList<Actuator>();
+
+	Actuator(String name) {
 		this.name = name;
-		actuator_list.add(this);
+		ACTUATOR_LIST.add(this);
 	}
 	
-	String getName()
-	{
+	String getName() {
 		return name;
 	}
 	
 	protected abstract void output();
 	
-	public static void outputAll()
-	{
-		for ( Actuator a : Actuator.actuator_list)
-		{ 
+	public static void outputAll() {
+		for ( Actuator a : Actuator.ACTUATOR_LIST){
 			a.output();
 		}
 	}
