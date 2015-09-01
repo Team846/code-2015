@@ -31,7 +31,7 @@ public class LRTGyroCommunication extends SensorFactory
     private final int STREAMMODE = 1;
     private final int mode = STREAMMODE;
 
-    final double conversionFactor = 0.070F;
+    final double conversionFactor = 0.00875F;
 
     public static final boolean CALIBRATE = true;
     public static final boolean DONT_CALIBRATE = false;
