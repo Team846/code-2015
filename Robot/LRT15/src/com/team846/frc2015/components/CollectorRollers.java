@@ -3,8 +3,7 @@ package com.team846.frc2015.components;
 
 import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.CollectorRollersData.*;
-import com.team846.frc2015.config.ConfigPortMappings;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.ConfigPortMappings;
 
 import edu.wpi.first.wpilibj.CANTalon;
 

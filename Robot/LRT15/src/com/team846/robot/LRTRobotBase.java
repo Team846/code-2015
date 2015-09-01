@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import com.team846.frc2015.config.RobotConfig;
+import com.team846.frc2015.oldconfig.RobotConfig;
 
 import edu.wpi.first.wpilibj.RobotBase;
 

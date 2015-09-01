@@ -2,9 +2,9 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.automation.events.JoystickReleasedEvent;
 import com.team846.frc2015.componentData.ElevatorData;
-import com.team846.frc2015.config.ConfigRuntime;
-import com.team846.frc2015.config.Configurable;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.ConfigRuntime;
+import com.team846.frc2015.oldconfig.Configurable;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 
 

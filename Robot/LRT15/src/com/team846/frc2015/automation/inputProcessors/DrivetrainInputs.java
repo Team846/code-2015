@@ -3,7 +3,7 @@ package com.team846.frc2015.automation.inputProcessors;
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
-import com.team846.frc2015.config.Configurable;
+import com.team846.frc2015.oldconfig.Configurable;
 import com.team846.frc2015.control.Pivot;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;

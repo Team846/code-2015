@@ -3,8 +3,7 @@ package com.team846.frc2015.components;
 import com.team846.frc2015.actuators.Pneumatics;
 import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.ContainerArmData;
-import com.team846.frc2015.config.ConfigPortMappings;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.ConfigPortMappings;
 
 public class ContainerArm extends Component{
 	

@@ -1,6 +1,6 @@
 package com.team846.frc2015.driverstation;
 
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.robot.RobotState;
 
 public class LRTDriverStation {

@@ -4,8 +4,7 @@ import com.team846.frc2015.actuators.Pneumatics;
 import com.team846.frc2015.actuators.Pneumatics.PneumaticState;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
-import com.team846.frc2015.config.ConfigPortMappings;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.ConfigPortMappings;
 
 public class CarriageHooks extends Component{
 	

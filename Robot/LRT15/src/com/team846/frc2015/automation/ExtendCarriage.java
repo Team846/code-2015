@@ -2,7 +2,7 @@ package com.team846.frc2015.automation;
 
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
-import com.team846.frc2015.config.Configurable;
+import com.team846.frc2015.oldconfig.Configurable;
 
 public class ExtendCarriage extends Automation implements Configurable{
 	private final double carriagePosition;//[0,1]

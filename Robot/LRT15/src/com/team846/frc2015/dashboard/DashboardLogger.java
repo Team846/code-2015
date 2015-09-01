@@ -6,7 +6,7 @@ import io.netty.channel.ChannelPipeline;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOChannelInitializer;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.logging.AsyncLogger;

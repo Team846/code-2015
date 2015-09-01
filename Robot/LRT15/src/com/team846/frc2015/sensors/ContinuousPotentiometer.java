@@ -1,6 +1,6 @@
 package com.team846.frc2015.sensors;
 
-import com.team846.frc2015.config.Configurable;
+import com.team846.frc2015.oldconfig.Configurable;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 

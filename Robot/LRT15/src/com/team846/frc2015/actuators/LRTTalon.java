@@ -2,8 +2,8 @@ package com.team846.frc2015.actuators;
 
 import java.util.ArrayList;
 
-import com.team846.frc2015.config.ConfigRuntime;
-import com.team846.frc2015.config.Configurable;
+import com.team846.frc2015.oldconfig.ConfigRuntime;
+import com.team846.frc2015.oldconfig.Configurable;
 
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Talon;

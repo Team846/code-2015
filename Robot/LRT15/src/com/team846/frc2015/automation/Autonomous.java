@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import com.team846.frc2015.config.ConfigRuntime;
-import com.team846.frc2015.config.RobotConfig;
+import com.team846.frc2015.oldconfig.ConfigRuntime;
+import com.team846.frc2015.oldconfig.RobotConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

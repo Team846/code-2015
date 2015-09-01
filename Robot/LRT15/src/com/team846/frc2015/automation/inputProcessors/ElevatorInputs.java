@@ -4,7 +4,7 @@ import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 

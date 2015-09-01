@@ -3,7 +3,7 @@ package com.team846.frc2015.automation.inputProcessors;
 import com.team846.frc2015.automation.ControlResource;
 import com.team846.frc2015.componentData.CarriageHooksData;
 import com.team846.frc2015.componentData.CarriageHooksData.HookState;
-import com.team846.frc2015.config.DriverStationConfig;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
