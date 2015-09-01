@@ -59,17 +59,19 @@ public class Brain
 
 		// Main Automation Routine
 		Sequential auton = new Sequential("auto");
-		auton.AddAutomation(new Drive(6000.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Pause(1.0)); // seconds
-		auton.AddAutomation(new Turn(180.0, 0.25)); // degrees
-		auton.AddAutomation(new Pause(1.0)); // seconds
-		auton.AddAutomation(new Drive(6000.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Pause(1.0)); // seconds
-		auton.AddAutomation(new Drive(6000.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Pause(1.0)); // seconds
-		auton.AddAutomation(new Strafe(100000, 0.25, 5.0)); // encoder ticks
-		auton.AddAutomation(new Pause(1.0)); // seconds
-		auton.AddAutomation(new Strafe(-100000, 0.25, 5.0)); // encoder ticks
+		auton.AddAutomation(new Turn(-30.0, 0.25)); // degrees
+		auton.AddAutomation(new Drive(9500.0, 0.25)); // encoder ticks
+		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
+		auton.AddAutomation(new Drive(8500.0, 0.25)); // encoder ticks
+		auton.AddAutomation(new Turn(-60.0, 0.25)); // degrees
+		auton.AddAutomation(new Drive(6500.0, 0.25)); // encoder ticks
+		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
+		auton.AddAutomation(new Drive(9500.0, 0.25)); // encoder ticks
+		auton.AddAutomation(new Strafe(120000, 0.25, 5.0)); // degrees
+
+//		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
+//		auton.AddAutomation(new Drive(2000.0, 0.25)); // encoder ticks
+//		auton.AddAutomation(new Pause(1.0)); // seconds
 
 		Automation load_tote = new LoadTote();
 		Automation load_sideways_container = new LoadSidewaysContainer();
