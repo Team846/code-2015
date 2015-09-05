@@ -57,21 +57,34 @@ public class Brain
 		
 		createInputProcessors();
 
+		double delay = 1.0;
+		double driveSpeed = 0.25;
+		double turnSpeed = 0.15;
+
+		double[] turnAngles = { -40.0, 70.0, -60.0, 60.0, -30.0 };
+		double[] driveTicks = { 9000.0, 8500.0, 9500.0, 9500.0 };
+
 		// Main Automation Routine
 		Sequential auton = new Sequential("auto");
-		auton.AddAutomation(new Turn(-30.0, 0.25)); // degrees
-		auton.AddAutomation(new Drive(9500.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
-		auton.AddAutomation(new Drive(8500.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Turn(-60.0, 0.25)); // degrees
-		auton.AddAutomation(new Drive(6500.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
-		auton.AddAutomation(new Drive(9500.0, 0.25)); // encoder ticks
-		auton.AddAutomation(new Strafe(120000, 0.25, 5.0)); // degrees
-
-//		auton.AddAutomation(new Turn(60.0, 0.25)); // degrees
-//		auton.AddAutomation(new Drive(2000.0, 0.25)); // encoder ticks
-//		auton.AddAutomation(new Pause(1.0)); // seconds
+		auton.AddAutomation(new Turn(turnAngles[0], turnSpeed)); // degrees
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Drive(driveTicks[0], driveSpeed)); // encoder ticks
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Turn(turnAngles[1], turnSpeed)); // degrees
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Drive(driveTicks[1], driveSpeed)); // encoder ticks
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Turn(turnAngles[2], turnSpeed)); // degrees
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Drive(driveTicks[2], driveSpeed)); // encoder ticks
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Turn(turnAngles[3], turnSpeed)); // degrees
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Drive(driveTicks[3], driveSpeed)); // encoder ticks
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Turn(turnAngles[4], turnSpeed)); // degrees
+		auton.AddAutomation(new Pause(delay));
+		auton.AddAutomation(new Strafe(120000, driveSpeed, 5.0)); // degrees
 
 		Automation load_tote = new LoadTote();
 		Automation load_sideways_container = new LoadSidewaysContainer();

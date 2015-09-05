@@ -74,7 +74,7 @@ public class Drivetrain extends Component implements Configurable {
 		ConfigRuntime.Register(this);
 
 		for (DriveESC esc: escs) {
-			float current_limit = 0.75f;
+			float current_limit = 0.50f;
 			esc.setForwardCurrentLimit(current_limit);
 			esc.setReverseCurrentLimit(current_limit);
 		}
