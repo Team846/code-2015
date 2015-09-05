@@ -5,6 +5,8 @@ import java.util.Arrays;
 import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
+import com.team846.frc2015.driverstation.LRTDriverStation;
+import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
@@ -13,9 +15,11 @@ import com.team846.frc2015.control.PID;
 import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.logging.AsyncLogger;
+import com.team846.frc2015.sensors.LRTGyro;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class Drivetrain extends Component implements Configurable {
 
@@ -29,6 +33,10 @@ public class Drivetrain extends Component implements Configurable {
     private final static int POSITION = 0;
     private final static int VELOCITY = 1;
 
+    private final double SMALL_DRIVER_WHEEL_TURN = .01;//TODO: find max value that steering wheel returns when not moving and insert here
+
+    private final double angleCorrectionGain = .1;
+
     private final PID[][] PIDs;
 
     private final PID[] mecanumDrivePIDs;
@@ -41,6 +49,14 @@ public class Drivetrain extends Component implements Configurable {
     private final CANTalon frontRight;
     private final CANTalon backRight;
 
+    LRTGyro gyro = LRTGyro.getInstance();
+
+    LRTDriverStation driverStation = LRTDriverStation.instance();
+    LRTJoystick driverWheel = driverStation.getDriverWheel();
+
+    double desiredAngle;
+    double angleRobot = 0;
+    double desiredAngleRobot = 0;
 
     public Drivetrain() {
         PIDs = new PID[2][4];
@@ -132,6 +148,8 @@ public class Drivetrain extends Component implements Configurable {
         double leftBackOutput;
         double rightBackOutput;
 
+        angleRobot = GetAngleRobot();
+
 //		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.get().GetTurnAngle() );
 
 //		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
@@ -144,7 +162,8 @@ public class Drivetrain extends Component implements Configurable {
         if (drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
         {
             double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
-            double turnOutput = ComputeOutput(Axis.TURN); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+            double turnOutput = ComputeOutput(Axis.TURN) + AngleCorrection(); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+
             System.out.println("fwd: " + fwdOutput);
             System.out.println("turn: " + turnOutput);
 
@@ -155,7 +174,7 @@ public class Drivetrain extends Component implements Configurable {
             rightBackOutput = rightFrontOutput;
         } else {
             double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD);
-            double turnOutput = drivetrainData.GetOpenLoopOutput(Axis.TURN);
+            double turnOutput = drivetrainData.GetOpenLoopOutput(Axis.TURN) + AngleCorrection();
             double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE);
 
             double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
@@ -335,6 +354,25 @@ public class Drivetrain extends Component implements Configurable {
         return out;
     }
 
+    private double AngleCorrection()
+    {
+
+        if(driverWheel.getAxis(Joystick.AxisType.kX) < SMALL_DRIVER_WHEEL_TURN)//if the driver is not turning
+        {
+             return (angleCorrectionGain * (desiredAngleRobot - angleRobot)); //then apply closed loop control on angle of robot
+        }
+        else
+        {
+            desiredAngleRobot = angleRobot;
+
+            return 0;
+        }
+    }
+
+    private double GetAngleRobot()//uses complimentary filter of encoders and gyro data
+    {
+        return (.6 * gyro.getAngle() + .4 * driveEncoders.GetTurnAngle());//TODO: Tune filtering constants used here
+    }
 //	void ConfigureForwardCurrentLimit()
 //	{
 //		escs[LEFT].setForwardCurrentLimit(GetConfig("forwardCurrentLimit", 50.0 / 100.0));
