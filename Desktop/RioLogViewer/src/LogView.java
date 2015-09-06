@@ -29,12 +29,12 @@ public class LogView {
 
 		cmdMode = args.length > 0 && args[0].equals("-cmd");
 
-		System.out.println(cmdMode);
+		// System.out.println(cmdMode);
 
 		if (!cmdMode) {
 			UiInit();
 		}
-		
+
 		networkLoop();
 	}
 
@@ -134,10 +134,10 @@ public class LogView {
 		buttons.add(clear);
 
 		mainUiFrame.add(buttons, BorderLayout.SOUTH);
-		mainUiFrame.setMinimumSize(new Dimension(800, 400));
+		// mainUiFrame.setMinimumSize(new Dimension(800, 400));
 
 		mainUiFrame.pack();
-		mainUiFrame.setSize(new Dimension(900, 900));
+		mainUiFrame.setSize(new Dimension(360, 360));
 	}
 
 	private static void printCmd(Entry msg) {
