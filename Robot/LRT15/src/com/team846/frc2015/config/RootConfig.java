@@ -1,6 +1,6 @@
 package com.team846.frc2015.config;
 
-import static com.team846.frc2015.logging.AsyncLogger.*;
+import static com.team846.frc2015.logging.Logger.*;
 import com.team846.util.monads.CachedMonad;
 import com.team846.util.monads.MutableCachedMonadSource;
 import com.typesafe.config.Config;
@@ -18,6 +18,8 @@ public class RootConfig {
     public RootConfig(File configFile) {
         mutableRoot.set(ConfigFactory.parseFile(configFile));
 
+        info("[RootConfig] Successfully parsed configuration file");
+
         try {
             WatchKey key = configFile.toPath().register(FileSystems.getDefault().newWatchService(), StandardWatchEventKinds.ENTRY_MODIFY);
             Thread watcher = new Thread() {
@@ -29,8 +31,10 @@ public class RootConfig {
             };
 
             watcher.start();
+
+            info("[RootConfig] Configuration file watcher successfully started");
         } catch (IOException e) {
-            error("[RootConfig] Unable to register watcher on config file");
+            error("[RootConfig] Unable to register watcher on configuration file");
         }
     }
 
