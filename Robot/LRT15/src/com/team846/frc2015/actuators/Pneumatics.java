@@ -208,7 +208,7 @@ public class Pneumatics extends Actuator implements Configurable{
 		return current;
 	}
 
-	public void Configure()
+	public void configure()
 	{
 		pulseLength = GetConfig("pulseLength", 6);
 	}

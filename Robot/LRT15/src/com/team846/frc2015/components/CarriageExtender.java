@@ -48,7 +48,7 @@ public class CarriageExtender extends Component implements Configurable
 	}
 
 	@Override
-	protected void UpdateEnabled() 
+	protected void updateEnabled()
 	{
 		int position = carriagePot.getAverageValue();
 		
@@ -78,17 +78,17 @@ public class CarriageExtender extends Component implements Configurable
 	}
 
 	@Override
-	protected void UpdateDisabled() {
+	protected void updateDisabled() {
 		carriageMotor.set(0.0);
 //		AsyncPrinter.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 	}
 
 	@Override
-	protected void OnEnabled() {
+	protected void onEnabled() {
 	}
 
 	@Override
-	protected void OnDisabled() {
+	protected void onDisabled() {
 	}
 	
 	private void sendOutput(double value)
@@ -108,7 +108,7 @@ public class CarriageExtender extends Component implements Configurable
 	}
 
 	@Override
-	public void Configure()
+	public void configure()
 	{
 		retractSetpoint = GetConfig("retractSetpoint", 10);
 		extendSetpoint = GetConfig("extendSetpoint", 200);

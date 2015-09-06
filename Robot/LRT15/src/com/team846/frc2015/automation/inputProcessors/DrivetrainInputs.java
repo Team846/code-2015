@@ -169,7 +169,7 @@ private boolean constRadius;
 		}
 	}
 	
-	public void Configure()
+	public void configure()
 	{
 		blendExponent = GetConfig("blend_exponent", 1);
 		turnExponent = GetConfig("turn_exponent", 2);

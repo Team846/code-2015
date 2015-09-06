@@ -110,7 +110,7 @@ public class ReleaseStack extends Automation implements Configurable {
 	}
 
 	@Override
-	public void Configure() {
+	public void configure() {
 		dropHeight = GetConfig("dropHeight", 400);
 	}
 

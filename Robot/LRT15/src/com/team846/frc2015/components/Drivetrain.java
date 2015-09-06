@@ -5,8 +5,6 @@ import java.util.Arrays;
 import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
-import com.team846.frc2015.driverstation.LRTDriverStation;
-import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
@@ -22,7 +20,6 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Drivetrain extends Component implements Configurable {
-
     public enum Side {
         FRONT_LEFT,
         FRONT_RIGHT,
@@ -33,9 +30,7 @@ public class Drivetrain extends Component implements Configurable {
     private final static int POSITION = 0;
     private final static int VELOCITY = 1;
 
-    private final double SMALL_DRIVER_WHEEL_TURN = .01;//TODO: find max value that steering wheel returns when not moving and insert here
-
-    private final double angleCorrectionGain = .1;
+    private final static double ANGLE_CORRECTION_GAIN = .1;
 
     private final PID[][] PIDs;
 
@@ -50,13 +45,6 @@ public class Drivetrain extends Component implements Configurable {
     private final CANTalon backRight;
 
     LRTGyro gyro = LRTGyro.getInstance();
-
-    LRTDriverStation driverStation = LRTDriverStation.instance();
-    LRTJoystick driverWheel = driverStation.getDriverWheel();
-
-    double desiredAngle;
-    double angleRobot = 0;
-    double desiredAngleRobot = 0;
 
     public Drivetrain() {
         PIDs = new PID[2][4];
@@ -93,7 +81,7 @@ public class Drivetrain extends Component implements Configurable {
         }
     }
 
-    private double ComputeOutput(DrivetrainData.Axis axis) {
+    private double computeOutput(DrivetrainData.Axis axis) {
         double positionSetpoint = drivetrainData.GetPositionSetpoint(axis);
         System.out.println("position drivetrain setpoint:" + positionSetpoint);
         double velocitySetpoint = drivetrainData.GetVelocitySetpoint(axis);
@@ -141,28 +129,17 @@ public class Drivetrain extends Component implements Configurable {
         return rawOutput;
     }
 
-    public void UpdateEnabled() {
+    public void updateEnabled() {
         double leftFrontOutput;
         double rightFrontOutput;
 
         double leftBackOutput;
         double rightBackOutput;
 
-        angleRobot = GetAngleRobot();
-
-//		AsyncPrinter.println("CURRENT TURN ANGLE: " +DriveEncoders.get().GetTurnAngle() );
-
-//		AsyncPrinter.println("Encoder Turn: " + driveEncoders.GetTurnTicks() + " " + driveEncoders.GetTurnAngle());
-//		AsyncPrinter.println("Encoder Dist: " + driveEncoders.GetRobotDist());
-//		AsyncPrinter.println("Encoder Vel: " + driveEncoders.GetNormalizedSpeed(DriveEncoders.Side.RIGHT_BACK));
-
-//		System.out.println("Turn input: " + drivetrainData.GetPositionSetpoint(Axis.TURN));
-//		System.out.println("Turn vel: " + drivetrainData.GetOpenLoopOutput(Axis.TURN));
-//
         if (drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
         {
-            double fwdOutput = ComputeOutput(Axis.FORWARD); //positive means forward
-            double turnOutput = ComputeOutput(Axis.TURN) + AngleCorrection(); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+            double fwdOutput = computeOutput(Axis.FORWARD); //positive means forward
+            double turnOutput = correctedAngle(computeOutput(Axis.TURN)); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 
             System.out.println("fwd: " + fwdOutput);
             System.out.println("turn: " + turnOutput);
@@ -174,7 +151,7 @@ public class Drivetrain extends Component implements Configurable {
             rightBackOutput = rightFrontOutput;
         } else {
             double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD);
-            double turnOutput = drivetrainData.GetOpenLoopOutput(Axis.TURN) + AngleCorrection();
+            double turnOutput = correctedAngle(drivetrainData.GetOpenLoopOutput(Axis.TURN));
             double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE);
 
             double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
@@ -182,10 +159,10 @@ public class Drivetrain extends Component implements Configurable {
             double leftBackRawOutput = fwdOutput + turnOutput - strafeOutput;
             double rightBackRawOutput = fwdOutput - turnOutput + strafeOutput;
 
-            leftFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_FRONT, leftFrontRawOutput);
-            rightFrontOutput = ComputeMecanumOutput(DriveEncoders.Side.RIGHT_FRONT, rightFrontRawOutput);
-            leftBackOutput = ComputeMecanumOutput(DriveEncoders.Side.LEFT_BACK, leftBackRawOutput);
-            rightBackOutput = ComputeMecanumOutput(DriveEncoders.Side.RIGHT_BACK, rightBackRawOutput);
+            leftFrontOutput = computeMecanumOutput(DriveEncoders.Side.LEFT_FRONT, leftFrontRawOutput);
+            rightFrontOutput = computeMecanumOutput(DriveEncoders.Side.RIGHT_FRONT, rightFrontRawOutput);
+            leftBackOutput = computeMecanumOutput(DriveEncoders.Side.LEFT_BACK, leftBackRawOutput);
+            rightBackOutput = computeMecanumOutput(DriveEncoders.Side.RIGHT_BACK, rightBackRawOutput);
         }
 
         leftFrontOutput = MathUtils.clamp(leftFrontOutput, -1.0, 1.0);
@@ -193,40 +170,7 @@ public class Drivetrain extends Component implements Configurable {
         leftBackOutput = MathUtils.clamp(leftBackOutput, -1.0, 1.0);
         rightBackOutput = MathUtils.clamp(rightBackOutput, -1.0, 1.0);
 
-//		DashboardLogger.getInstance().logDouble("drivetrain-leftFront", leftFrontOutput);
-//		DashboardLogger.getInstance().logDouble("drivetrain-rightFront", rightFrontOutput);
-//		DashboardLogger.getInstance().logDouble("drivetrain-leftBack", leftBackOutput);
-//		DashboardLogger.getInstance().logDouble("drivetrain-rightBack", rightBackOutput);
-
-//		 frontLeft.set(leftFrontOutput);
-//		 frontRight.set(rightFrontOutput);
-//
-//		 backLeft.set(leftBackOutput);
-//		 backRight.set(rightBackOutput);
-
-//		if (drivetrainData.ShouldOverrideForwardCurrentLimit())
-//		{
-//			escs[LEFT].setForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
-//			escs[RIGHT].setForwardCurrentLimit(drivetrainData.GetForwardCurrentLimit());
-//		}
-//		else
-//		{
-//			ConfigureForwardCurrentLimit();
-//		}
-//		if (drivetrainData.ShouldOverrideReverseCurrentLimit())
-//		{
-//			escs[LEFT].setReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
-//			escs[RIGHT].setReverseCurrentLimit(drivetrainData.GetReverseCurrentLimit());
-//		}
-//		else
-//		{
-//			ConfigureReverseCurrentLimit();
-
-//		}
-
-
-        double rightFrontRate = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate();
-        double frontLeftSpeed = rightFrontRate / DriveEncoders.GetMaxEncoderRate();
+        double frontLeftSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate() / DriveEncoders.GetMaxEncoderRate();
         double frontRightSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate() / DriveEncoders.GetMaxEncoderRate();
         double backLeftSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate() / DriveEncoders.GetMaxEncoderRate();
         double backRightSpeed = driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate() / DriveEncoders.GetMaxEncoderRate();
@@ -235,10 +179,6 @@ public class Drivetrain extends Component implements Configurable {
         double currentLimitedFrontRight = escs[Side.FRONT_RIGHT.ordinal()].currentLimit(rightFrontOutput, frontRightSpeed);
         double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].currentLimit(leftBackOutput, backLeftSpeed);
         double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].currentLimit(rightBackOutput, backRightSpeed);
-
-        System.out.println(leftFrontOutput);
-        System.out.println(currentLimitedFrontLeft);
-        System.out.println();
 
         escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(currentLimitedFrontLeft);
         escs[Side.FRONT_RIGHT.ordinal()].setDutyCycle(currentLimitedFrontRight);
@@ -274,7 +214,7 @@ public class Drivetrain extends Component implements Configurable {
 
     int tick = 0;
 
-    public void UpdateDisabled() {
+    public void updateDisabled() {
         escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(0.0);
         escs[Side.BACK_LEFT.ordinal()].setDutyCycle(0.0);
 
@@ -310,31 +250,31 @@ public class Drivetrain extends Component implements Configurable {
         }
     }
 
-    public void OnEnabled() {
+    public void onEnabled() {
     }
 
-    public void OnDisabled() {
+    public void onDisabled() {
     }
 
-    public void Configure() {
+    public void configure() {
 //		Kv = GetConfig("Kv", 1.0);
 
-        ConfigurePIDObject(PIDs[VELOCITY][Axis.TURN.ordinal()], "velocity_turn", true);
-        ConfigurePIDObject(PIDs[VELOCITY][Axis.FORWARD.ordinal()], "velocity_fwd", true);
+        configurePIDObject(PIDs[VELOCITY][Axis.TURN.ordinal()], "velocity_turn", true);
+        configurePIDObject(PIDs[VELOCITY][Axis.FORWARD.ordinal()], "velocity_fwd", true);
 
-        ConfigurePIDObject(PIDs[POSITION][Axis.TURN.ordinal()], "position_turn", false);
-        ConfigurePIDObject(PIDs[POSITION][Axis.FORWARD.ordinal()], "position_fwd", false);
+        configurePIDObject(PIDs[POSITION][Axis.TURN.ordinal()], "position_turn", false);
+        configurePIDObject(PIDs[POSITION][Axis.FORWARD.ordinal()], "position_fwd", false);
 
-        ConfigurePIDObject(mecanumDrivePIDs[Side.BACK_LEFT.ordinal()], "mecanum", true);
-        ConfigurePIDObject(mecanumDrivePIDs[Side.BACK_RIGHT.ordinal()], "mecanum", true);
-        ConfigurePIDObject(mecanumDrivePIDs[Side.FRONT_LEFT.ordinal()], "mecanum", true);
-        ConfigurePIDObject(mecanumDrivePIDs[Side.FRONT_RIGHT.ordinal()], "mecanum", true);
+        configurePIDObject(mecanumDrivePIDs[Side.BACK_LEFT.ordinal()], "mecanum", true);
+        configurePIDObject(mecanumDrivePIDs[Side.BACK_RIGHT.ordinal()], "mecanum", true);
+        configurePIDObject(mecanumDrivePIDs[Side.FRONT_LEFT.ordinal()], "mecanum", true);
+        configurePIDObject(mecanumDrivePIDs[Side.FRONT_RIGHT.ordinal()], "mecanum", true);
 
 //		ConfigureForwardCurrentLimit();
 //		ConfigureReverseCurrentLimit();
     }
 
-    private void ConfigurePIDObject(PID pid, String pidName, boolean feedForward) {
+    private void configurePIDObject(PID pid, String pidName, boolean feedForward) {
         double p = GetConfig(pidName + "_P", 1.0);
         double i = GetConfig(pidName + "_I", 0.0);
         double d = GetConfig(pidName + "_D", 0.0);
@@ -342,36 +282,32 @@ public class Drivetrain extends Component implements Configurable {
         pid.setParameters(p, i, d, 1.0, 0.87, feedForward, 0.0);
     }
 
-    private double ComputeMecanumOutput(DriveEncoders.Side wheel, double desiredOutput) {
-//		return desiredOutput;
+    private double computeMecanumOutput(DriveEncoders.Side wheel, double desiredOutput) {
         mecanumDrivePIDs[wheel.ordinal()].setSetpoint(desiredOutput);
         mecanumDrivePIDs[wheel.ordinal()].setInput(driveEncoders.GetNormalizedSpeed(wheel));
-        double out = mecanumDrivePIDs[wheel.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
-//		AsyncPrinter.println("mec error: " + mecanumDrivePIDs[wheel.ordinal()].GetError());
-//		AsyncPrinter.println("mec input: " + mecanumDrivePIDs[wheel.ordinal()].GetInput());
-//		AsyncPrinter.println("mec setpoint: " + mecanumDrivePIDs[wheel.ordinal()].GetSetpoint());
-//		AsyncPrinter.println("mec output: " + out);
-        return out;
+        return mecanumDrivePIDs[wheel.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
     }
 
-    private double AngleCorrection()
-    {
 
-        if(driverWheel.getAxis(Joystick.AxisType.kX) < SMALL_DRIVER_WHEEL_TURN)//if the driver is not turning
-        {
-             return (angleCorrectionGain * (desiredAngleRobot - angleRobot)); //then apply closed loop control on angle of robot
-        }
-        else
-        {
-            desiredAngleRobot = angleRobot;
 
-            return 0;
-        }
+    private double correctedAngle(double targetAngularVelocity) {
+        double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
+        return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
     }
 
-    private double GetAngleRobot()//uses complimentary filter of encoders and gyro data
-    {
-        return (.6 * gyro.getAngle() + .4 * driveEncoders.GetTurnAngle());//TODO: Tune filtering constants used here
+    //uses complimentary filter of encoders and gyro data
+    private double getRobotAngle() {
+        return (.6 * gyro.getAngle() + .4 * driveEncoders.GetTurnAngle());//TODO: Tune filtering constants used here (use config)
+    }
+
+    private double getRobotAngularVelocity() {
+        if (true) {
+            throw new RuntimeException("not tested -- rotate robot in disabled and compare encoder and gyro speeds");
+        }
+
+        double normalizedGyroVelocity = gyro.getVel() / driveEncoders.GetMaxTurnRate();
+
+        return (.6 * normalizedGyroVelocity + .4 * driveEncoders.GetNormalizedTurningSpeed());
     }
 //	void ConfigureForwardCurrentLimit()
 //	{

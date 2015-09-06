@@ -47,7 +47,7 @@ public class ExtendCarriage extends Automation implements Configurable{
 	}
 
 	@Override
-	public void Configure() {
+	public void configure() {
 		errorThreshold = GetConfig("ErrorThreshold", 0.05);
 	}
 

@@ -158,6 +158,9 @@ public class DriveEncoders implements Configurable
 		return MAX_ENCODER_RATE / PULSES_PER_REVOLUTION * GEAR_RATIO * WHEEL_DIAMETER * Math.PI;
 	}
 
+	/**
+	 * @return the maximum angular velocity in degrees TODO: what denominator in units?
+	 */
 	public double GetMaxTurnRate()
 	{
 		return MAX_TURNING_RATE / TICKS_PER_FULL_TURN * 360.0;
@@ -197,14 +200,16 @@ public class DriveEncoders implements Configurable
 
 		Shadaj Laddad August 10th 2015
 	*/
-	public void Configure()
+	public void configure()
 	{
 		PULSES_PER_REVOLUTION = GetConfig("pulses_per_revolution", 50.0);
 		MAX_ENCODER_RATE = GetConfig("max_encoder_rate", 2214.762);
-		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782);
+		MAX_TURNING_RATE = GetConfig("max_turning_rate", 3782); // ticks per turn at full speed
 		MAX_STRAFING_SPEED = GetConfig("max_strafing_speed", 29); //TODO: MUST TEST
 		WHEEL_DIAMETER = GetConfig("wheel_diameter", 6.0); // Inches
 		GEAR_RATIO = GetConfig("gear_ratio", 4.0);
+
+		// ticks per 360 degrees
 		TICKS_PER_FULL_TURN = GetConfig("ticks_per_full_turn", /* figure out what the formula is */ 2.0 * 26.574 * Math.PI / (GEAR_RATIO * WHEEL_DIAMETER * Math.PI) * PULSES_PER_REVOLUTION);
 	}
 }

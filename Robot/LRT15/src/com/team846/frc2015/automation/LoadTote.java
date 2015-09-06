@@ -23,7 +23,7 @@ public class LoadTote extends LoadItem implements Configurable {
 	}
 
 	@Override
-	public void Configure()
+	public void configure()
 	{
 		toteAnalogValue = GetConfig("analog_tote_value", 1600);
 		super.setAnalogThreshold(toteAnalogValue);

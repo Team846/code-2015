@@ -78,7 +78,7 @@ public class Elevator extends Component implements Configurable {
 	}
 
 	@Override
-	protected void UpdateEnabled() {
+	protected void updateEnabled() {
 
 		int currentPosition = elevatorPot.getAverageValue();
 		//AsyncPrinter.warn("Current Pos: " + currentPosition);
@@ -206,7 +206,7 @@ public class Elevator extends Component implements Configurable {
 	}
 	
 	@Override
-	protected void UpdateDisabled() {
+	protected void updateDisabled() {
 		motorA.set(0.0);
 		motorB.set(0.0);
 		motorA.enableBrakeMode(false);
@@ -215,16 +215,16 @@ public class Elevator extends Component implements Configurable {
 	}
 
 	@Override
-	protected void OnEnabled() {
+	protected void onEnabled() {
 
 	}
 
 	@Override
-	protected void OnDisabled() {
+	protected void onDisabled() {
 	}
 
 	@Override
-	public void Configure() {
+	public void configure() {
 		positionGain = GetConfig("positionGain", 0.01);
 		
 		errorThreshold = GetConfig("errorThreshold", 15);

@@ -43,7 +43,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
 	}
 
 	@Override
-	public void Configure()
+	public void configure()
 	{
 		toteAnalogValue = GetConfig("analog_tote_value", 1600);
 		hookDisengageDrop = GetConfig("hook_disengage_drop", 500);

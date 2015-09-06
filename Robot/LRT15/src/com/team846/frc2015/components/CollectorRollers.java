@@ -26,7 +26,7 @@ public class CollectorRollers extends Component
 	}
 
 	@Override
-	protected void UpdateEnabled()
+	protected void updateEnabled()
 	{
 		double left_speed = 0.0;
 		double right_speed = 0.0;
@@ -75,19 +75,19 @@ public class CollectorRollers extends Component
 	}
 
 	@Override
-	protected void UpdateDisabled()
+	protected void updateDisabled()
 	{
 		leftMotor.set(0.0);
 		rightMotor.set(0.0);
 	}
 
 	@Override
-	protected void OnEnabled()
+	protected void onEnabled()
 	{
 	}
 
 	@Override
-	protected void OnDisabled()
+	protected void onDisabled()
 	{
 	}
 

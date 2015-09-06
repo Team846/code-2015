@@ -40,7 +40,7 @@ public class LRTTalon extends LRTSpeedController implements Configurable {
 	}
 	
 	@Override
-	public void Configure() {
+	public void configure() {
 		forwardLimit = GetConfig("forwardLimit", 0.3);
 		reverseLimit = GetConfig("reverseLimit", -0.3);
 

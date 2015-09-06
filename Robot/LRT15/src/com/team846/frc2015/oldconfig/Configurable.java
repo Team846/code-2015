@@ -3,7 +3,7 @@ package com.team846.frc2015.oldconfig;
 
 public interface Configurable
 {
-	public void Configure();
+	public void configure();
 	
 	public default int GetConfig(String key, int defaultValue)
 	{

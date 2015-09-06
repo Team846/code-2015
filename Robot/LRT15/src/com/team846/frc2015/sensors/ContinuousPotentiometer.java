@@ -56,7 +56,7 @@ public class ContinuousPotentiometer implements Configurable
 			return (float) (((voltage_a + voltage_b + range / 2) / 2 - minVoltage) / range * 360);
 	}
 	
-	public void Configure()
+	public void configure()
 	{
 		
 	}

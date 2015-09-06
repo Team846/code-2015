@@ -102,7 +102,7 @@ public class ConfigRuntime
 	{
 		for(Configurable c: configurables)
 		{
-			c.Configure();
+			c.configure();
 		}
 	}
 	

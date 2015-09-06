@@ -25,7 +25,7 @@ public class CarriageHooks extends Component{
 	}
 
 	@Override
-	protected void UpdateEnabled() {
+	protected void updateEnabled() {
 		PneumaticState backState;
 		PneumaticState frontState;
 				
@@ -40,15 +40,15 @@ public class CarriageHooks extends Component{
 	}
 
 	@Override
-	protected void UpdateDisabled()
+	protected void updateDisabled()
 	{
 		frontHooks.set(PneumaticState.OFF);
 		backHooks.set(PneumaticState.OFF);
 	}
 
 	@Override
-	protected void OnEnabled() {}
+	protected void onEnabled() {}
 
 	@Override
-	protected void OnDisabled() {}
+	protected void onDisabled() {}
 }

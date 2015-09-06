@@ -13,16 +13,16 @@ public abstract class Component
 	private final String name;
 	private boolean lastEnabled;
 	
-	abstract protected void UpdateEnabled();
+	abstract protected void updateEnabled();
 	
 	
-	abstract protected void UpdateDisabled();
+	abstract protected void updateDisabled();
 	
 	
-	abstract protected void OnEnabled();
+	abstract protected void onEnabled();
 	
 	
-	abstract protected void OnDisabled();
+	abstract protected void onDisabled();
 	
 	/**Constructs base component with associated 
 	 * NOTE: As of 2015, digitalIns are not supported
@@ -73,15 +73,15 @@ public abstract class Component
 		if (RobotState.Instance().GameMode() != GameState.DISABLED)
 		{
 			if (!lastEnabled)
-				OnEnabled();
-			UpdateEnabled();
+				onEnabled();
+			updateEnabled();
 			lastEnabled = true;
 		}
 		else
 		{
 			if (lastEnabled)
-				OnDisabled();
-			UpdateDisabled();
+				onDisabled();
+			updateDisabled();
 			lastEnabled = false;
 		}
 	}

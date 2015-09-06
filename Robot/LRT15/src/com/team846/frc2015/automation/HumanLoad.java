@@ -84,7 +84,7 @@ public class HumanLoad extends LoadTote implements Configurable{
 		return ret;
 	}
 	
-	public void Configure()
+	public void configure()
 	{
 		
 	}

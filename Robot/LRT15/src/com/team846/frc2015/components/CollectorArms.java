@@ -34,7 +34,7 @@ public class CollectorArms extends Component
 	}
 
 	@Override
-	protected void UpdateEnabled() 
+	protected void updateEnabled()
 	{
 		PneumaticState state;
 		
@@ -56,7 +56,7 @@ public class CollectorArms extends Component
 	}
 
 	@Override
-	protected void UpdateDisabled() {
+	protected void updateDisabled() {
 		arms.set(PneumaticState.OFF);
 		
 		//AsyncPrinter.println("Prox value: " + sensor.getAverageValue() );
@@ -64,12 +64,12 @@ public class CollectorArms extends Component
 	}
 
 	@Override
-	protected void OnEnabled() {
+	protected void onEnabled() {
 		
 	}
 
 	@Override
-	protected void OnDisabled() {
+	protected void onDisabled() {
 		
 	}
 

@@ -33,7 +33,7 @@ public class LoadSidewaysContainer extends LoadItem implements Configurable {
 	
 
 	@Override
-	public void Configure() {
+	public void configure() {
 		int toteAnalogValue = GetConfig("analog_container_value", 600);
 		super.setAnalogThreshold(toteAnalogValue);
 		

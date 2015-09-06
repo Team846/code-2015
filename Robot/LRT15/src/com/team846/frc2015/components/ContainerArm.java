@@ -23,26 +23,26 @@ public class ContainerArm extends Component{
 	}
 
 	@Override
-	protected void UpdateEnabled() 
+	protected void updateEnabled()
 	{
 		leftArm.set(armData.GetLeftDeployed() ? Pneumatics.PneumaticState.FORWARD : Pneumatics.PneumaticState.OFF);
 		rightArm.set(armData.GetRightDeployed() ? Pneumatics.PneumaticState.FORWARD : Pneumatics.PneumaticState.OFF);
 	}
 
 	@Override
-	protected void UpdateDisabled() 
+	protected void updateDisabled()
 	{
 		leftArm.set(PneumaticState.OFF);
 		rightArm.set(PneumaticState.OFF);
 	}
 
 	@Override
-	protected void OnEnabled() {
+	protected void onEnabled() {
 		
 	}
 
 	@Override
-	protected void OnDisabled() {
+	protected void onDisabled() {
 		
 	}
 

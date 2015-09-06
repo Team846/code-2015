@@ -19,7 +19,7 @@ public class CarriageClamp extends Component {
 	}
 
 	@Override
-	protected void UpdateEnabled() {
+	protected void updateEnabled() {
 		if(clampData.getDesiredState() == ClampState.UP)
 			clamp.set(PneumaticState.FORWARD);
 		else
@@ -28,13 +28,13 @@ public class CarriageClamp extends Component {
 	}
 
 	@Override
-	protected void UpdateDisabled() {
+	protected void updateDisabled() {
 		clamp.set(PneumaticState.OFF);
 		}
 
 	@Override
-	protected void OnEnabled() {}
+	protected void onEnabled() {}
 
 	@Override
-	protected void OnDisabled() {}
+	protected void onDisabled() {}
 }
