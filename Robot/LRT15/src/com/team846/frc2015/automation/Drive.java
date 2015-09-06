@@ -79,10 +79,15 @@ public class Drive extends Automation {
 			distanceLeft = -distanceLeft; // Going backwards
 		
 		System.out.println("robot distance: " + robotLocation);
-		System.out.println("setpoint: " + drivetrain.GetPositionSetpoint(Axis.FORWARD));
+		System.out.println("fqpoint: " + drivetrain.GetPositionSetpoint(Axis.FORWARD));
 		System.out.println("distance left: " + distanceLeft);
 		System.out.println("ControlMode: " + drivetrain.GetControlMode(Axis.FORWARD));
-		
+
+		if (distanceLeft < errorThreshold) {
+			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
+			drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0.0);
+		}
+
 		return distanceLeft < errorThreshold;
 		
 //		if (distance > 0)
@@ -97,6 +102,7 @@ public class Drive extends Automation {
 		{
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.POSITION_CONTROL);
 		}
+
 		return true;
 	}
 

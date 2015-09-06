@@ -5,6 +5,7 @@ import com.team846.frc2015.actuators.Pneumatics;
 import com.team846.frc2015.automation.Brain;
 import com.team846.frc2015.componentData.ComponentData;
 import com.team846.frc2015.components.Component;
+import com.team846.frc2015.logging.Logger;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.RobotConfig;
@@ -24,6 +25,7 @@ public class LRT15Robot extends LRTRobotBase
 
 	public void RobotInit()
 	{
+		Logger.initialize();
 //		AsyncLogger.initialize();
 		AsyncLogger.info("Initialized Asynchronous Logging...");
 

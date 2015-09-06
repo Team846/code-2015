@@ -17,7 +17,6 @@ import com.team846.frc2015.sensors.LRTGyro;
 import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Joystick;
 
 public class Drivetrain extends Component implements Configurable {
     public enum Side {
@@ -30,7 +29,7 @@ public class Drivetrain extends Component implements Configurable {
     private final static int POSITION = 0;
     private final static int VELOCITY = 1;
 
-    private final static double ANGLE_CORRECTION_GAIN = .1;
+    private final static double ANGLE_CORRECTION_GAIN = 0.25;
 
     private final PID[][] PIDs;
 
@@ -83,7 +82,7 @@ public class Drivetrain extends Component implements Configurable {
 
     private double computeOutput(DrivetrainData.Axis axis) {
         double positionSetpoint = drivetrainData.GetPositionSetpoint(axis);
-        System.out.println("position drivetrain setpoint:" + positionSetpoint);
+        System.out.println("position drivetrain setpoint for" + axis + " = " + positionSetpoint);
         double velocitySetpoint = drivetrainData.GetVelocitySetpoint(axis);
 
         double rawOutput = drivetrainData.GetOpenLoopOutput(axis);
@@ -126,6 +125,9 @@ public class Drivetrain extends Component implements Configurable {
                 AsyncLogger.warn("Invalid control mode for axis: " + axis);
                 break;
         }
+
+        System.out.println("raw output for" + axis + " = " + rawOutput);
+
         return rawOutput;
     }
 
@@ -138,11 +140,12 @@ public class Drivetrain extends Component implements Configurable {
 
         if (drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
         {
+            System.out.println(driveEncoders.GetTurnAngle());
             double fwdOutput = computeOutput(Axis.FORWARD); //positive means forward
-            double turnOutput = correctedAngle(computeOutput(Axis.TURN)); //positive means turning counter-clockwise. Matches the way driveEncoders work.
+            double turnOutput = correctedAngularVelocity(computeOutput(Axis.TURN)); //positive means turning counter-clockwise. Matches the way driveEncoders work.
 
-            System.out.println("fwd: " + fwdOutput);
-            System.out.println("turn: " + turnOutput);
+//            System.out.println("fwd: " + fwdOutput);
+//            System.out.println("turn: " + turnOutput);
 
             leftFrontOutput = fwdOutput - turnOutput;
             rightFrontOutput = fwdOutput + turnOutput;
@@ -151,7 +154,7 @@ public class Drivetrain extends Component implements Configurable {
             rightBackOutput = rightFrontOutput;
         } else {
             double fwdOutput = drivetrainData.GetOpenLoopOutput(Axis.FORWARD);
-            double turnOutput = correctedAngle(drivetrainData.GetOpenLoopOutput(Axis.TURN));
+            double turnOutput = correctedAngularVelocity(drivetrainData.GetOpenLoopOutput(Axis.TURN));
             double strafeOutput = drivetrainData.GetOpenLoopOutput(Axis.STRAFE);
 
             double leftFrontRawOutput = fwdOutput + turnOutput + strafeOutput;
@@ -193,22 +196,7 @@ public class Drivetrain extends Component implements Configurable {
 
         DashboardLogger.getInstance().logDouble(
                 "drivetrain-leftFront",
-                driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate()
-        );
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-leftBack",
-                driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate()
-        );
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-rightFront",
-                driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate()
-        );
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-rightBack",
-                driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate()
+                getRobotAngularVelocity()
         );
     }
 
@@ -227,27 +215,6 @@ public class Drivetrain extends Component implements Configurable {
         backRight.enableBrakeMode(false);
 
         tick++;
-        if (tick % 20 == 0) {
-            DashboardLogger.getInstance().logDouble(
-                    "drivetrain-leftFront",
-                    driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate()
-            );
-
-            DashboardLogger.getInstance().logDouble(
-                    "drivetrain-leftBack",
-                    driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate()
-            );
-
-            DashboardLogger.getInstance().logDouble(
-                    "drivetrain-rightFront",
-                    driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate()
-            );
-
-            DashboardLogger.getInstance().logDouble(
-                    "drivetrain-rightBack",
-                    driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate()
-            );
-        }
     }
 
     public void onEnabled() {
@@ -290,8 +257,21 @@ public class Drivetrain extends Component implements Configurable {
 
 
 
-    private double correctedAngle(double targetAngularVelocity) {
+    private double correctedAngularVelocity(double targetAngularVelocity) {
+//        return targetAngularVelocity;
         double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
+        System.out.println("DIFFERENCE: " + differenceFromTarget);
+
+        DashboardLogger.getInstance().logDouble(
+                "drivetrain-rightFront",
+                targetAngularVelocity
+        );
+
+        DashboardLogger.getInstance().logDouble(
+                "drivetrain-rightBack",
+                getRobotAngularVelocity()
+        );
+
         return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
     }
 
@@ -301,13 +281,13 @@ public class Drivetrain extends Component implements Configurable {
     }
 
     private double getRobotAngularVelocity() {
-        if (true) {
-            throw new RuntimeException("not tested -- rotate robot in disabled and compare encoder and gyro speeds");
-        }
+//        if (true) {
+//            throw new RuntimeException("not tested -- rotate robot in disabled and compare encoder and gyro speeds");
+//        }
 
-        double normalizedGyroVelocity = gyro.getVel() / driveEncoders.GetMaxTurnRate();
+        double normalizedGyroVelocity = -gyro.getVel() / driveEncoders.GetMaxTurnRate();
 
-        return (.6 * normalizedGyroVelocity + .4 * driveEncoders.GetNormalizedTurningSpeed());
+        return -(.6 * normalizedGyroVelocity + .4 * driveEncoders.GetNormalizedTurningSpeed());
     }
 //	void ConfigureForwardCurrentLimit()
 //	{

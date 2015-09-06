@@ -74,7 +74,7 @@ public class DriveEncoders implements Configurable
 		return GetRawForwardSpeed() / PULSES_PER_REVOLUTION * GEAR_RATIO * WHEEL_DIAMETER * Math.PI;
 	}
 
-	double GetRawTurningSpeed()
+	public double GetRawTurningSpeed()
 	{
 		double rightVel = (encoders[Side.RIGHT_FRONT.ordinal()].getRate() + encoders[Side.RIGHT_BACK.ordinal()].getRate()) /2;
 		double leftVel =  (encoders[Side.LEFT_FRONT.ordinal()].getRate() + encoders[Side.LEFT_BACK.ordinal()].getRate()) /2;
