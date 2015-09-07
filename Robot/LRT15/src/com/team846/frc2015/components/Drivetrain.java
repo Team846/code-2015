@@ -82,7 +82,6 @@ public class Drivetrain extends Component implements Configurable {
 
     private double computeOutput(DrivetrainData.Axis axis) {
         double positionSetpoint = drivetrainData.GetPositionSetpoint(axis);
-        System.out.println("position drivetrain setpoint for" + axis + " = " + positionSetpoint);
         double velocitySetpoint = drivetrainData.GetVelocitySetpoint(axis);
 
         double rawOutput = drivetrainData.GetOpenLoopOutput(axis);
@@ -140,12 +139,8 @@ public class Drivetrain extends Component implements Configurable {
 
         if (drivetrainData.getClassicDrive()) //hack to keep nice closed loop position/velocity on drive/turn axes, should fix later
         {
-            System.out.println(driveEncoders.GetTurnAngle());
             double fwdOutput = computeOutput(Axis.FORWARD); //positive means forward
             double turnOutput = correctedAngularVelocity(computeOutput(Axis.TURN)); //positive means turning counter-clockwise. Matches the way driveEncoders work.
-
-//            System.out.println("fwd: " + fwdOutput);
-//            System.out.println("turn: " + turnOutput);
 
             leftFrontOutput = fwdOutput - turnOutput;
             rightFrontOutput = fwdOutput + turnOutput;
@@ -258,33 +253,12 @@ public class Drivetrain extends Component implements Configurable {
 
 
     private double correctedAngularVelocity(double targetAngularVelocity) {
-//        return targetAngularVelocity;
         double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
-        System.out.println("DIFFERENCE: " + differenceFromTarget);
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-rightFront",
-                targetAngularVelocity
-        );
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-rightBack",
-                getRobotAngularVelocity()
-        );
 
         return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
     }
 
-    //uses complimentary filter of encoders and gyro data
-    private double getRobotAngle() {
-        return (.6 * gyro.getAngle() + .4 * driveEncoders.GetTurnAngle());//TODO: Tune filtering constants used here (use config)
-    }
-
     private double getRobotAngularVelocity() {
-//        if (true) {
-//            throw new RuntimeException("not tested -- rotate robot in disabled and compare encoder and gyro speeds");
-//        }
-
         double normalizedGyroVelocity = -gyro.getVel() / driveEncoders.GetMaxTurnRate();
 
         return -(.6 * normalizedGyroVelocity + .4 * driveEncoders.GetNormalizedTurningSpeed());

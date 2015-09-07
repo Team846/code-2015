@@ -83,6 +83,7 @@ public class Drive extends Automation {
 		System.out.println("distance left: " + distanceLeft);
 		System.out.println("ControlMode: " + drivetrain.GetControlMode(Axis.FORWARD));
 
+		// TODO: hacky fix to not move forward during turn... don't do this
 		if (distanceLeft < errorThreshold) {
 			drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
 			drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0.0);
