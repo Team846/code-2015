@@ -27,27 +27,16 @@ public abstract class Component {
      * Constructs base component with associated
      * NOTE: As of 2015, digitalIns are not supported
      * All components must be e
-     *
-     * @param name name of the component
      */
-    Component(String name) {
-        if (name == null) //grab name via reflection
-        {
-            String simpleClassName = this.getClass().getName();
-            this.name = simpleClassName.substring(simpleClassName.lastIndexOf('.') + 1);
-        } else
-            this.name = name;
+    public Component() {
+        this.name = this.getClass().getSimpleName();
 
         lastEnabled = false;
         AsyncLogger.info("Created component: " + name);
     }
 
-    Component() {
-        this(null);
-    }
-
     public static void CreateComponents() {
-        component_list.add(new Drivetrain());
+        component_list.add(new OldDrivetrain());
         component_list.add(new CollectorRollers());
         component_list.add(new CollectorArms());
         component_list.add(new CarriageExtender());

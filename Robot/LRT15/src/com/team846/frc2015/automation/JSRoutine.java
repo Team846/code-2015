@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-public class Autonomous extends Sequential {
+public class JSRoutine extends Sequential {
 
-    public Autonomous() {
+    public JSRoutine() {
         super("Autonomous");
     }
 
@@ -37,7 +37,7 @@ public class Autonomous extends Sequential {
     }
 
     public static void main(String[] args) {
-        Autonomous self = new Autonomous();
+        JSRoutine self = new JSRoutine();
         System.out.println(self.loadRoutine("clubs/frc/foo"));
     }
 

@@ -1,7 +1,10 @@
 package com.team846.util.monads;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class CachedMonad<T> extends Monad<T> {
     class TransformerAndCached<R> {
@@ -19,11 +22,19 @@ public class CachedMonad<T> extends Monad<T> {
     }
 
     private T value;
-    private LinkedList<TransformerAndCached> dependents = new LinkedList<>();
+    private LinkedList<TransformerAndCached<?>> dependents = new LinkedList<>();
+    private LinkedList<Runnable> callbacks = new LinkedList<>();
 
     protected void update(T newValue) {
-        value = newValue;
-        dependents.forEach((dependent) -> dependent.update(get()));
+        if (value == null || !value.equals(newValue)) {
+            value = newValue;
+            dependents.forEach((dependent) -> dependent.update(get()));
+            callbacks.forEach(Runnable::run);
+        }
+    }
+
+    protected void onUpdate(Runnable callback) {
+        callbacks.add(callback);
     }
 
     @Override
@@ -59,5 +70,22 @@ public class CachedMonad<T> extends Monad<T> {
                 return CachedMonad.this.get();
             }
         };
+    }
+
+    public static <O> CachedMonad<List<O>> sequence(List<CachedMonad<O>> monads) {
+        CachedMonad<List<O>> ret = new CachedMonad<>();
+        Runnable onChildrenChange = () -> {
+            List<O> newValue = monads.stream().map(CachedMonad::get).collect(Collectors.toList());
+            ret.update(newValue);
+        };
+
+        monads.forEach(monad -> monad.onUpdate(onChildrenChange));
+        onChildrenChange.run();
+
+        return ret;
+    }
+
+    public static <T> CachedMonad<List<T>> sequence(CachedMonad<T>... monads) {
+        return sequence(Arrays.asList(monads));
     }
 }

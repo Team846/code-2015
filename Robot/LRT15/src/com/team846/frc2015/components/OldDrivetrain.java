@@ -10,7 +10,6 @@ import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
 import com.team846.frc2015.oldconfig.RobotConfig;
 import com.team846.frc2015.control.PID;
-import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.frc2015.sensors.LRTGyro;
@@ -18,7 +17,7 @@ import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class Drivetrain extends Component implements Configurable {
+public class OldDrivetrain extends Component implements Configurable {
     public enum Side {
         FRONT_LEFT,
         FRONT_RIGHT,
@@ -45,7 +44,7 @@ public class Drivetrain extends Component implements Configurable {
 
     LRTGyro gyro = LRTGyro.getInstance();
 
-    public Drivetrain() {
+    public OldDrivetrain() {
         PIDs = new PID[2][4];
 
         for (PID[] row : PIDs)
@@ -188,11 +187,6 @@ public class Drivetrain extends Component implements Configurable {
         backLeft.enableBrakeMode(false);
         frontRight.enableBrakeMode(false);
         backRight.enableBrakeMode(false);
-
-        DashboardLogger.getInstance().logDouble(
-                "drivetrain-leftFront",
-                getRobotAngularVelocity()
-        );
     }
 
     int tick = 0;
