@@ -251,7 +251,6 @@ public class Drivetrain extends Component implements Configurable {
     }
 
 
-
     private double correctedAngularVelocity(double targetAngularVelocity) {
         double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
 

@@ -7,27 +7,26 @@ import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
-public class CarriageHooksInputs extends InputProcessor{
-	
-	
-	private final CarriageHooksData hooksData;
-	private final LRTJoystick operatorStick;
+public class CarriageHooksInputs extends InputProcessor {
 
-	public CarriageHooksInputs() {
 
-		hooksData = CarriageHooksData.get();
-		operatorStick = LRTDriverStation.instance().getOperatorStick();
-		RegisterResource(ControlResource.CARRIAGE_HOOKS);
-	}
+    private final CarriageHooksData hooksData;
+    private final LRTJoystick operatorStick;
 
-	@Override
-	public void Update() {
-		if(operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HOOKS_OVERRIDE))
-		{
-			hooksData.setFrontHooksDesiredState(HookState.UP);
-			hooksData.setBackHooksDesiredState(HookState.UP);
-		}
-		
-	}
+    public CarriageHooksInputs() {
+
+        hooksData = CarriageHooksData.get();
+        operatorStick = LRTDriverStation.instance().getOperatorStick();
+        RegisterResource(ControlResource.CARRIAGE_HOOKS);
+    }
+
+    @Override
+    public void Update() {
+        if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HOOKS_OVERRIDE)) {
+            hooksData.setFrontHooksDesiredState(HookState.UP);
+            hooksData.setBackHooksDesiredState(HookState.UP);
+        }
+
+    }
 
 }

@@ -10,77 +10,77 @@ import java.util.concurrent.Semaphore;
 
 public class UdpFetcher {
 
-	class NetworkFetcher extends Thread {
+    class NetworkFetcher extends Thread {
 
-		DatagramSocket clientSocket;
-		InetAddress IpAddress;
-		
-		final long loopDelta = 1000 / 15;
-		final int IpPort;
-		
-		final byte[] sendData = new byte[1];
-		final byte[] receiveData = new byte[128];
-		
-		final DatagramPacket sendPacket;
-		
-		final Semaphore responseAvailiability = new Semaphore(1);
-		String response = "";
+        DatagramSocket clientSocket;
+        InetAddress IpAddress;
 
-		NetworkFetcher(String targetHost, int port)  {
-			try {
-				clientSocket = new DatagramSocket();
-				IpAddress = InetAddress.getByName(targetHost);
-			} catch (UnknownHostException | SocketException e) {
-				e.printStackTrace();
-			}
+        final long loopDelta = 1000 / 15;
+        final int IpPort;
 
-			IpPort = port;
-			sendPacket = new DatagramPacket(sendData, sendData.length,
-					IpAddress, port);
-		}
+        final byte[] sendData = new byte[1];
+        final byte[] receiveData = new byte[128];
 
-		public void run() {
-			while (true) {
-				try {
-					clientSocket.send(sendPacket);
-					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-				    clientSocket.receive(receivePacket);
-				    
-				    responseAvailiability.acquire();
-				    response = new String(receivePacket.getData());
-				    responseAvailiability.release();
-				    
-				    Thread.sleep(loopDelta);
-				} catch (IOException | InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		public String getResponse() throws InterruptedException {
-			String newResponse;
-			
-			responseAvailiability.acquire();
-			newResponse = response;
-			responseAvailiability.release();
-			
-			return newResponse;
-		}
-	}
+        final DatagramPacket sendPacket;
 
-	private final NetworkFetcher instance;
+        final Semaphore responseAvailiability = new Semaphore(1);
+        String response = "";
 
-	public UdpFetcher(String targetHost, int port) {
-		instance = new NetworkFetcher(targetHost, port);
-		instance.start();
-	}
-	
-	public String getLastResponse() {
-		try {
-			return instance.getResponse();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
+        NetworkFetcher(String targetHost, int port) {
+            try {
+                clientSocket = new DatagramSocket();
+                IpAddress = InetAddress.getByName(targetHost);
+            } catch (UnknownHostException | SocketException e) {
+                e.printStackTrace();
+            }
+
+            IpPort = port;
+            sendPacket = new DatagramPacket(sendData, sendData.length,
+                    IpAddress, port);
+        }
+
+        public void run() {
+            while (true) {
+                try {
+                    clientSocket.send(sendPacket);
+                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                    clientSocket.receive(receivePacket);
+
+                    responseAvailiability.acquire();
+                    response = new String(receivePacket.getData());
+                    responseAvailiability.release();
+
+                    Thread.sleep(loopDelta);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public String getResponse() throws InterruptedException {
+            String newResponse;
+
+            responseAvailiability.acquire();
+            newResponse = response;
+            responseAvailiability.release();
+
+            return newResponse;
+        }
+    }
+
+    private final NetworkFetcher instance;
+
+    public UdpFetcher(String targetHost, int port) {
+        instance = new NetworkFetcher(targetHost, port);
+        instance.start();
+    }
+
+    public String getLastResponse() {
+        try {
+            return instance.getResponse();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 }

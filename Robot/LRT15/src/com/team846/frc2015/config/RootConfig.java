@@ -1,6 +1,7 @@
 package com.team846.frc2015.config;
 
 import static com.team846.frc2015.logging.Logger.*;
+
 import com.team846.util.monads.CachedMonad;
 import com.team846.util.monads.MutableCachedMonadSource;
 import com.typesafe.config.Config;
@@ -25,7 +26,7 @@ public class RootConfig {
             Thread watcher = new Thread() {
                 public void run() {
                     key.pollEvents().stream().filter(event -> event.kind() != StandardWatchEventKinds.OVERFLOW).forEach(event ->
-                        mutableRoot.set(ConfigFactory.parseFile(configFile))
+                                    mutableRoot.set(ConfigFactory.parseFile(configFile))
                     );
                 }
             };

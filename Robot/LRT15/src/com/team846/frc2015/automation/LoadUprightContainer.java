@@ -12,59 +12,55 @@ import com.team846.frc2015.driverstation.LRTDriverStation;
 
 public class LoadUprightContainer extends LoadItem implements Configurable {
 
-	private final CarriageHooksData hooksData;
-	private int toteAnalogValue = 0 ;
-	private final CollectorArmData armData;
-	
-	public LoadUprightContainer(boolean auto) {
-		super("LoadUprightContainer", ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER,
-				ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_UPRIGHT_CONTAINER, 0, auto);
+    private final CarriageHooksData hooksData;
+    private int toteAnalogValue = 0;
+    private final CollectorArmData armData;
 
-		hooksData = CarriageHooksData.get();
-		armData = CollectorArmData.get();
-		ConfigRuntime.Register(this);
-	}
-	
-	public LoadUprightContainer() {
-		this(false);
-	}
+    public LoadUprightContainer(boolean auto) {
+        super("LoadUprightContainer", ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER,
+                ElevatorData.ElevatorSetpoint.COLLECT_UPRIGHT_CONTAINER, ElevatorData.ElevatorSetpoint.HOME_UPRIGHT_CONTAINER, 0, auto);
 
-	@Override
-	protected boolean Run()
-	{
-		boolean ret = super.Run();
+        hooksData = CarriageHooksData.get();
+        armData = CollectorArmData.get();
+        ConfigRuntime.Register(this);
+    }
 
-		// Override hook states
-		if (state == State.COLLECT)
-		{
-			//armData.setDesiredPosition(ArmPosition.STOWED); //TODO: temp until fixed
-			hooksData.setFrontHooksDesiredState(HookState.UP);
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-		}
-		else if (state == State.GRAB)
-		{
-			hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-		}
-		
-		return ret;
-	}
-	
-	@Override
-		protected boolean Abort() {
-			if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent
-					&& ((JoystickReleasedEvent)(GetAbortEvent())).GetButton() == DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER
-					&& ((JoystickReleasedEvent)(GetAbortEvent())).GetJoystick() == LRTDriverStation.instance().getOperatorStick()))
-				return false;
-			else
-				return super.Abort();
-	}
-	
-	@Override
-	public void configure() {
-		toteAnalogValue  = GetConfig("analog_container_value", 600);
-		super.setAnalogThreshold(toteAnalogValue);
-		
-	}
+    public LoadUprightContainer() {
+        this(false);
+    }
+
+    @Override
+    protected boolean Run() {
+        boolean ret = super.Run();
+
+        // Override hook states
+        if (state == State.COLLECT) {
+            //armData.setDesiredPosition(ArmPosition.STOWED); //TODO: temp until fixed
+            hooksData.setFrontHooksDesiredState(HookState.UP);
+            hooksData.setBackHooksDesiredState(HookState.DOWN);
+        } else if (state == State.GRAB) {
+            hooksData.setFrontHooksDesiredState(HookState.DOWN);
+            hooksData.setBackHooksDesiredState(HookState.DOWN);
+        }
+
+        return ret;
+    }
+
+    @Override
+    protected boolean Abort() {
+        if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent
+                && ((JoystickReleasedEvent) (GetAbortEvent())).GetButton() == DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER
+                && ((JoystickReleasedEvent) (GetAbortEvent())).GetJoystick() == LRTDriverStation.instance().getOperatorStick()))
+            return false;
+        else
+            return super.Abort();
+    }
+
+    @Override
+    public void configure() {
+        toteAnalogValue = GetConfig("analog_container_value", 600);
+        super.setAnalogThreshold(toteAnalogValue);
+
+    }
 }
 

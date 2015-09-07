@@ -17,73 +17,71 @@ import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.LRTGyro;
 
 
-public class LRT15Robot extends LRTRobotBase
-{
-	private int robotStateCounter = 1;
+public class LRT15Robot extends LRTRobotBase {
+    private int robotStateCounter = 1;
 
-	public static LRTGyro gyro;
+    public static LRTGyro gyro;
 
-	public void RobotInit()
-	{
-		Logger.initialize();
+    public void RobotInit() {
+        Logger.initialize();
 //		AsyncLogger.initialize();
-		AsyncLogger.info("Initialized Asynchronous Logging...");
+        AsyncLogger.info("Initialized Asynchronous Logging...");
 
-		RobotState.Initialize();
-		AsyncLogger.info("Initialized RobotState...");
+        RobotState.Initialize();
+        AsyncLogger.info("Initialized RobotState...");
 
-		LRTDriverStation.initialize();
-		AsyncLogger.info("Initialized DriverStation Manager...");
+        LRTDriverStation.initialize();
+        AsyncLogger.info("Initialized DriverStation Manager...");
 
-		ConfigPortMappings.Instance().Load();
-		AsyncLogger.info("Loaded Port Mappings...");
+        ConfigPortMappings.Instance().Load();
+        AsyncLogger.info("Loaded Port Mappings...");
 
-		ConfigRuntime.Initialize();
-		AsyncLogger.info("Loaded Config Runtime...");
+        ConfigRuntime.Initialize();
+        AsyncLogger.info("Loaded Config Runtime...");
 
-		ComponentData.createComponentDatas();
-		AsyncLogger.info("Created ComponentDatas...");
+        ComponentData.createComponentDatas();
+        AsyncLogger.info("Created ComponentDatas...");
 
-		Component.CreateComponents();
-		AsyncLogger.info("Created Components...");
+        Component.CreateComponents();
+        AsyncLogger.info("Created Components...");
 
-		Brain.Initialize();
-		AsyncLogger.info("Initialized Brain...");
+        Brain.Initialize();
+        AsyncLogger.info("Initialized Brain...");
 
-		SensorFactory.initialize();
-		AsyncLogger.info("Initialized Sensor Factory...");
+        SensorFactory.initialize();
+        AsyncLogger.info("Initialized Sensor Factory...");
 
-		Pneumatics.createCompressor();
-		AsyncLogger.info("Creating Compressor...");
+        Pneumatics.createCompressor();
+        AsyncLogger.info("Creating Compressor...");
 
-		DashboardLogger.Initialize();
-		AsyncLogger.info("Creating Funky Dashboard...");
+        DashboardLogger.Initialize();
+        AsyncLogger.info("Creating Funky Dashboard...");
 
-		AsyncLogger.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
+        AsyncLogger.info("Executing main loop at " + RobotConfig.LOOP_RATE + " hz");
 
-		gyro = LRTGyro.getInstance();
-	}
+        gyro = LRTGyro.getInstance();
+    }
 
-	public void Tick() {
+    public void Tick() {
 
-		if (robotStateCounter % 2 == 0) {
-			RobotState.Instance().Update();
-		}
-		robotStateCounter++;
+        if (robotStateCounter % 2 == 0) {
+            RobotState.Instance().Update();
+        }
+        robotStateCounter++;
 
-		LRTDriverStation.update();
+        LRTDriverStation.update();
 
-		Brain.Instance().Update();
+        Brain.Instance().Update();
 
-		Component.UpdateAll();
+        Component.UpdateAll();
 
-		Actuator.outputAll();
+        Actuator.outputAll();
 
-		gyro.update();
+        gyro.update();
 
-		if(RobotState.Instance().GameMode() == GameState.DISABLED)
-			ConfigRuntime.Instance().CheckForFileUpdates();
+        if (RobotState.Instance().GameMode() == GameState.DISABLED)
+            ConfigRuntime.Instance().CheckForFileUpdates();
 
-		ComponentData.ResetAllCommands();
-	}
+        ComponentData.ResetAllCommands();
+    }
 }

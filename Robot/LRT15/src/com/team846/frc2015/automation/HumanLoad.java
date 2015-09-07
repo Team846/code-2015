@@ -11,82 +11,74 @@ import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 
-public class HumanLoad extends LoadTote implements Configurable{
-	
-	private final ElevatorData elevatorData;
-	private final CarriageHooksData hooksData;
-	private final CollectorArmData armData;
-	private HumanLoadState humanLoadState;
-	private final LRTJoystick operatorStick;
-	
-	enum HumanLoadState
-	{
-		PREPARE,
-		GRAB,
-		FINISHED,
-	}
+public class HumanLoad extends LoadTote implements Configurable {
 
-	public HumanLoad()
-	{
-		elevatorData = ElevatorData.get();
-		hooksData = CarriageHooksData.get();
-		armData = CollectorArmData.get();
-		operatorStick = LRTDriverStation.instance().getOperatorStick();
-		ConfigRuntime.Register(this);
-	}
-	
-	protected boolean Start()
-	{
-		humanLoadState = HumanLoadState.PREPARE;
-		return super.Start();
-	}
+    private final ElevatorData elevatorData;
+    private final CarriageHooksData hooksData;
+    private final CollectorArmData armData;
+    private HumanLoadState humanLoadState;
+    private final LRTJoystick operatorStick;
 
-	@Override
-	protected boolean Abort()
-	{
-		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
-			return false;
-		else
-			return super.Abort();
-	}
-	
-	@Override
-	protected boolean Run()
-	{
-		boolean ret = super.Run();
-		if (state == State.GRAB)
-		{
-			armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
-			switch (humanLoadState)
-			{
-			case PREPARE:
-				elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_PREPARE);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_START))
-					humanLoadState = HumanLoadState.GRAB;
-				if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
-					humanLoadState = HumanLoadState.FINISHED;
-				break;
-			case GRAB:
-				elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_GRAB);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				if (elevatorData.isAtSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_GRAB))
-					humanLoadState = HumanLoadState.PREPARE;
-				break;
-			case FINISHED:
-				break;
-			}
-		}
-		return ret;
-	}
-	
-	public void configure()
-	{
-		
-	}
-	
+    enum HumanLoadState {
+        PREPARE,
+        GRAB,
+        FINISHED,
+    }
+
+    public HumanLoad() {
+        elevatorData = ElevatorData.get();
+        hooksData = CarriageHooksData.get();
+        armData = CollectorArmData.get();
+        operatorStick = LRTDriverStation.instance().getOperatorStick();
+        ConfigRuntime.Register(this);
+    }
+
+    protected boolean Start() {
+        humanLoadState = HumanLoadState.PREPARE;
+        return super.Start();
+    }
+
+    @Override
+    protected boolean Abort() {
+        if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
+                && ((JoystickReleasedEvent) GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
+                && ((JoystickReleasedEvent) GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
+            return false;
+        else
+            return super.Abort();
+    }
+
+    @Override
+    protected boolean Run() {
+        boolean ret = super.Run();
+        if (state == State.GRAB) {
+            armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+            switch (humanLoadState) {
+                case PREPARE:
+                    elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_PREPARE);
+                    hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                    hooksData.setBackHooksDesiredState(HookState.DOWN);
+                    if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_START))
+                        humanLoadState = HumanLoadState.GRAB;
+                    if (operatorStick.isButtonJustPressed(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
+                        humanLoadState = HumanLoadState.FINISHED;
+                    break;
+                case GRAB:
+                    elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_GRAB);
+                    hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                    hooksData.setBackHooksDesiredState(HookState.DOWN);
+                    if (elevatorData.isAtSetpoint(ElevatorData.ElevatorSetpoint.HUMAN_LOAD_GRAB))
+                        humanLoadState = HumanLoadState.PREPARE;
+                    break;
+                case FINISHED:
+                    break;
+            }
+        }
+        return ret;
+    }
+
+    public void configure() {
+
+    }
+
 }

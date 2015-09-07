@@ -14,16 +14,15 @@ import javax.script.ScriptEngineManager;
 
 public class Autonomous extends Sequential {
 
-	public Autonomous()
-	{
-		super("Autonomous");
-	}
+    public Autonomous() {
+        super("Autonomous");
+    }
 
     public ArrayList<Automation> loadRoutine(String fileName) {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("nashorn");
         try {
-        	System.out.println("haiFOO");
+            System.out.println("haiFOO");
             AutonomousFunctions jsShim = new AutonomousFunctions();
             engine.put("auto", jsShim);
 
@@ -42,34 +41,33 @@ public class Autonomous extends Sequential {
         System.out.println(self.loadRoutine("clubs/frc/foo"));
     }
 
-	public boolean Start() {
-		ClearSequence();
+    public boolean Start() {
+        ClearSequence();
 
         int routineNumber = (int) Math.round(SmartDashboard.getNumber("DB/Slider 0"));
         AddAutomation(loadRoutine("auto/" + routineNumber + ".routine.js"));
-		ConfigRuntime.ConfigureAll();
+        ConfigRuntime.ConfigureAll();
 
-		return super.Start();
-	}
+        return super.Start();
+    }
 
-	public void AllocateResources()
-	{
-		AllocateResource(ControlResource.DRIVE);
-		AllocateResource(ControlResource.TURN);
-		AllocateResource(ControlResource.STRAFE);
-		AllocateResource(ControlResource.ELEVATOR);
-		AllocateResource(ControlResource.COLLECTOR_ARMS);
-		AllocateResource(ControlResource.COLLECTOR_ROLLERS);
-		AllocateResource(ControlResource.CARRIAGE_EXTENDER);
-		AllocateResource(ControlResource.CARRIAGE_HOOKS);
-	}
+    public void AllocateResources() {
+        AllocateResource(ControlResource.DRIVE);
+        AllocateResource(ControlResource.TURN);
+        AllocateResource(ControlResource.STRAFE);
+        AllocateResource(ControlResource.ELEVATOR);
+        AllocateResource(ControlResource.COLLECTOR_ARMS);
+        AllocateResource(ControlResource.COLLECTOR_ROLLERS);
+        AllocateResource(ControlResource.CARRIAGE_EXTENDER);
+        AllocateResource(ControlResource.CARRIAGE_HOOKS);
+    }
 
-	private File FindRoutine(int routineNumber)// throws FileNotFoundException
-	{
-		File folder = new File(RobotConfig.AUTO_FOLDER_PATH);
-		File[] routines = folder.listFiles();
+    private File FindRoutine(int routineNumber)// throws FileNotFoundException
+    {
+        File folder = new File(RobotConfig.AUTO_FOLDER_PATH);
+        File[] routines = folder.listFiles();
         if (routines != null) {
-            for (File routine: routines) {
+            for (File routine : routines) {
                 if (routine.getName().endsWith(routineNumber + ".routine")) {
                     System.out.println("Reading file: " + routine);
                     return routine;
@@ -78,6 +76,6 @@ public class Autonomous extends Sequential {
         }
 
         return null;//throw new FileNotFoundException("Unable to load routine with id: " + routineNumber);
-	}
+    }
 
 }

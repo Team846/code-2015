@@ -45,8 +45,8 @@ public class CachedMonad<T> extends Monad<T> {
         CachedMonad<R> dependent = new CachedMonad<>();
         dependent.update(transformer.apply(get()).get());
         dependents.add(new TransformerAndCached<>(
-            (elem) -> transformer.apply(elem).get(),
-            dependent
+                (elem) -> transformer.apply(elem).get(),
+                dependent
         ));
 
         return dependent;

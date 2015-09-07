@@ -11,57 +11,50 @@ import com.team846.frc2015.driverstation.LRTJoystick;
 
 public class ContinuousLoad extends LoadAdditional {
 
-	private final CarriageHooksData hooksData;
-	private final ElevatorData elevatorData;
-	private final CollectorArmData armData;
-	private final LRTJoystick operatorStick;
-	private boolean last = false;
-	
-	public ContinuousLoad()
-	{
-		super(true);
-		operatorStick = LRTDriverStation.instance().getOperatorStick();
-		hooksData = CarriageHooksData.get();
-		elevatorData = ElevatorData.get();
-		armData = CollectorArmData.get();
-	}
-	
-	protected boolean Start()
-	{
-		last = false;
-		return super.Start();
-	}
+    private final CarriageHooksData hooksData;
+    private final ElevatorData elevatorData;
+    private final CollectorArmData armData;
+    private final LRTJoystick operatorStick;
+    private boolean last = false;
 
-	@Override
-	protected boolean Abort()
-	{
-		if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
-				&& ((JoystickReleasedEvent)GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick())
-		{
-			last = true;
-			return false;
-		}
-		else
-			return super.Abort();
-	}
-	
-	@Override
-	public boolean Run()
-	{
-		boolean ret = super.Run();
-		if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
-			last = true;
-		if (state == State.HOME && !last)
-		{
-			hooksData.setBackHooksDesiredState(HookState.DOWN);
-			hooksData.setFrontHooksDesiredState(HookState.DOWN);
-			
-			elevatorData.setControlMode(ElevatorData.ElevatorControlMode.SETPOINT);
-			elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL);
-			if (elevatorData.isAtSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL))
-				state = State.COLLECT;
-		}
-		return ret;
-	}
+    public ContinuousLoad() {
+        super(true);
+        operatorStick = LRTDriverStation.instance().getOperatorStick();
+        hooksData = CarriageHooksData.get();
+        elevatorData = ElevatorData.get();
+        armData = CollectorArmData.get();
+    }
+
+    protected boolean Start() {
+        last = false;
+        return super.Start();
+    }
+
+    @Override
+    protected boolean Abort() {
+        if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
+                && ((JoystickReleasedEvent) GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
+                && ((JoystickReleasedEvent) GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick()) {
+            last = true;
+            return false;
+        } else
+            return super.Abort();
+    }
+
+    @Override
+    public boolean Run() {
+        boolean ret = super.Run();
+        if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
+            last = true;
+        if (state == State.HOME && !last) {
+            hooksData.setBackHooksDesiredState(HookState.DOWN);
+            hooksData.setFrontHooksDesiredState(HookState.DOWN);
+
+            elevatorData.setControlMode(ElevatorData.ElevatorControlMode.SETPOINT);
+            elevatorData.setSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL);
+            if (elevatorData.isAtSetpoint(ElevatorData.ElevatorSetpoint.COLLECT_ADDITIONAL))
+                state = State.COLLECT;
+        }
+        return ret;
+    }
 }

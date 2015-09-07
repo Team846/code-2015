@@ -23,10 +23,10 @@ public class AutonomousFunctions {
 
         // push the same routines as a parallel
         routineStack.push(
-            new Parallel(
-                // TODO: remove name or understand purpos
-                "why are there string name? what is purpose?",
-                new ArrayList<Automation>(Arrays.asList(routines))));
+                new Parallel(
+                        // TODO: remove name or understand purpos
+                        "why are there string name? what is purpose?",
+                        new ArrayList<Automation>(Arrays.asList(routines))));
     }
 
     private Automation pushAndRet(Automation routine) {

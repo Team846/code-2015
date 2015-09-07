@@ -8,124 +8,124 @@ import com.team846.frc2015.logging.AsyncLogger;
 
 class OpticalFlow {
 
-	private static final int COMPONENT_X = 0;
-	private static final int COMPONENT_Y = 1;
+    private static final int COMPONENT_X = 0;
+    private static final int COMPONENT_Y = 1;
 
-	private static final String mousePathPrefix = "/dev/input/mouse";
-	
-	private static void log(Object msg) {
-		AsyncLogger.info(msg.toString());
-	}
+    private static final String mousePathPrefix = "/dev/input/mouse";
 
-	private static class MouseInterruptThread implements Runnable {
-		private Thread t;
-		private final String mousePath;
-		
-		final int[] position;
-		final int[] delta;
+    private static void log(Object msg) {
+        AsyncLogger.info(msg.toString());
+    }
 
-		final byte[] mouseData;
+    private static class MouseInterruptThread implements Runnable {
+        private Thread t;
+        private final String mousePath;
 
-		private FileInputStream mouse;
-		
-		public void zeroPosition() {
-			position[COMPONENT_X] = 0;
-			position[COMPONENT_Y] = 0;
-		}
+        final int[] position;
+        final int[] delta;
 
-		public MouseInterruptThread(String path, OpticalFlow sensor)
-				throws FileNotFoundException {
-			mousePath = path;
-			
-			mouseData = new byte[3];
-			
-			position = new int[2];
-			zeroPosition();
+        final byte[] mouseData;
 
-			delta = new int[2];
-			delta[COMPONENT_X] = 0;
-			delta[COMPONENT_Y] = 0;
+        private FileInputStream mouse;
 
-			mouse = new FileInputStream(mousePath);
-		}
+        public void zeroPosition() {
+            position[COMPONENT_X] = 0;
+            position[COMPONENT_Y] = 0;
+        }
 
-		public void run() {
-			while (true) {
-				try {
+        public MouseInterruptThread(String path, OpticalFlow sensor)
+                throws FileNotFoundException {
+            mousePath = path;
 
-					mouse.read(mouseData); // BLOCKING CODE
+            mouseData = new byte[3];
 
-					// [buttons, delta x, delta y]
-					delta[COMPONENT_X] = mouseData[1];
-					delta[COMPONENT_Y] = mouseData[2];
+            position = new int[2];
+            zeroPosition();
 
-					if (Math.abs(delta[COMPONENT_X]) == 127
-							|| Math.abs(delta[COMPONENT_Y]) == 127) {
+            delta = new int[2];
+            delta[COMPONENT_X] = 0;
+            delta[COMPONENT_Y] = 0;
 
-						log("WARNING: Maximum logical range reached! Position may not be accurate. Use a higher DPI setting or a better mouse.");
-					}
+            mouse = new FileInputStream(mousePath);
+        }
 
-					position[COMPONENT_X] += delta[COMPONENT_X];
-					position[COMPONENT_Y] += delta[COMPONENT_Y];
+        public void run() {
+            while (true) {
+                try {
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+                    mouse.read(mouseData); // BLOCKING CODE
 
-		public int[] getPosition() {
-			return position;
-		}
+                    // [buttons, delta x, delta y]
+                    delta[COMPONENT_X] = mouseData[1];
+                    delta[COMPONENT_Y] = mouseData[2];
 
-		public int[] getDelta() {
-			return delta;
-		}
+                    if (Math.abs(delta[COMPONENT_X]) == 127
+                            || Math.abs(delta[COMPONENT_Y]) == 127) {
 
-		public void start() {
-			if (t == null) {
-				t = new Thread(this, mousePath); // using mouse path as thread
-													// name
-				t.start();
-			}
-		}
-	}
+                        log("WARNING: Maximum logical range reached! Position may not be accurate. Use a higher DPI setting or a better mouse.");
+                    }
 
-	private MouseInterruptThread mouseThread;
+                    position[COMPONENT_X] += delta[COMPONENT_X];
+                    position[COMPONENT_Y] += delta[COMPONENT_Y];
 
-	public OpticalFlow(int mouseIndex) {
-		try {
-			mouseThread = new MouseInterruptThread(mousePathPrefix + mouseIndex,
-					this);
-			mouseThread.start();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private int DPI = 800;
-	
-	private double convertMouseUnitToInch(int mouseUnits) {
-		return mouseUnits / DPI;
-	}
-	
-	public int getDPI() {
-		return DPI;
-	}
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-	public void setDPI(int dPI) {
-		DPI = dPI;
-	}
-	
-	public void zeroPosition() {
-		mouseThread.zeroPosition();
-	}
+        public int[] getPosition() {
+            return position;
+        }
 
-	public double getCurrentPosition(int componentType) {
-		return convertMouseUnitToInch(mouseThread.getPosition()[componentType]);
-	}
+        public int[] getDelta() {
+            return delta;
+        }
 
-	public double getLastDelta(int componentType) {
-		return convertMouseUnitToInch(mouseThread.getDelta()[componentType]);
-	}
+        public void start() {
+            if (t == null) {
+                t = new Thread(this, mousePath); // using mouse path as thread
+                // name
+                t.start();
+            }
+        }
+    }
+
+    private MouseInterruptThread mouseThread;
+
+    public OpticalFlow(int mouseIndex) {
+        try {
+            mouseThread = new MouseInterruptThread(mousePathPrefix + mouseIndex,
+                    this);
+            mouseThread.start();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int DPI = 800;
+
+    private double convertMouseUnitToInch(int mouseUnits) {
+        return mouseUnits / DPI;
+    }
+
+    public int getDPI() {
+        return DPI;
+    }
+
+    public void setDPI(int dPI) {
+        DPI = dPI;
+    }
+
+    public void zeroPosition() {
+        mouseThread.zeroPosition();
+    }
+
+    public double getCurrentPosition(int componentType) {
+        return convertMouseUnitToInch(mouseThread.getPosition()[componentType]);
+    }
+
+    public double getLastDelta(int componentType) {
+        return convertMouseUnitToInch(mouseThread.getDelta()[componentType]);
+    }
 }

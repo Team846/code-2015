@@ -6,85 +6,73 @@ import com.team846.frc2015.componentData.DrivetrainData.ControlMode;
 import com.team846.frc2015.sensors.DriveEncoders;
 
 public class Turn extends Automation {
-	
-	private final DrivetrainData drivetrain;
-	
-	private double angle;
-	private double maxSpeed;
-	private double errorThreshold;
 
-	public Turn(double angle, double maxSpeed, double errorThreshold)
-	{
-		this.angle = angle;
-		this.maxSpeed = maxSpeed;
-		this.errorThreshold = errorThreshold;
-		drivetrain = DrivetrainData.get();
-	}
+    private final DrivetrainData drivetrain;
 
-	public Turn()
-	{
-		this(0,0,0);
-	}
-	
-	public Turn(double angle)
-	{
-		this(angle, 1.0, 5);
-	}
-	
-	public Turn(double angle, double maxSpeed)
-	{
-		this(angle, maxSpeed, 5);
-	}
+    private double angle;
+    private double maxSpeed;
+    private double errorThreshold;
 
-	void setAngle(double angle)
-	{
-		this.angle = angle;
-	}
+    public Turn(double angle, double maxSpeed, double errorThreshold) {
+        this.angle = angle;
+        this.maxSpeed = maxSpeed;
+        this.errorThreshold = errorThreshold;
+        drivetrain = DrivetrainData.get();
+    }
 
-	void setMaxSpeed(double speed)
-	{
-		maxSpeed = speed;
-	}
+    public Turn() {
+        this(0, 0, 0);
+    }
 
-	void setErrorThreshold(double error)
-	{
-		errorThreshold = error;
-	}
+    public Turn(double angle) {
+        this(angle, 1.0, 5);
+    }
 
-	double getAngle()
-	{
-		return angle;
-	}
+    public Turn(double angle, double maxSpeed) {
+        this(angle, maxSpeed, 5);
+    }
 
-	public void AllocateResources()
-	{
-		AllocateResource(ControlResource.TURN);
-	}
+    void setAngle(double angle) {
+        this.angle = angle;
+    }
 
-	protected boolean Start()
-	{
-		drivetrain.setClassicDrive(true);
-		drivetrain.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.POSITION_CONTROL);
-		drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, angle);
-		drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
-		return true;
-	}
+    void setMaxSpeed(double speed) {
+        maxSpeed = speed;
+    }
 
-	protected boolean Run()
-	{
-		System.out.println("TURN ANGLE ENCODERS: " + DriveEncoders.Get().GetTurnAngle());
-		
-		drivetrain.setClassicDrive(true);
-		return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
-	}
+    void setErrorThreshold(double error) {
+        errorThreshold = error;
+    }
 
-	protected boolean Abort()
-	{
-		drivetrain.setClassicDrive(false);
-		drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
-		drivetrain.SetOpenLoopOutput(Axis.TURN, 0.0);
-		return true;
-	}
+    double getAngle() {
+        return angle;
+    }
+
+    public void AllocateResources() {
+        AllocateResource(ControlResource.TURN);
+    }
+
+    protected boolean Start() {
+        drivetrain.setClassicDrive(true);
+        drivetrain.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.POSITION_CONTROL);
+        drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, angle);
+        drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
+        return true;
+    }
+
+    protected boolean Run() {
+        System.out.println("TURN ANGLE ENCODERS: " + DriveEncoders.Get().GetTurnAngle());
+
+        drivetrain.setClassicDrive(true);
+        return Math.abs(DriveEncoders.Get().GetTurnAngle() - drivetrain.GetPositionSetpoint(DrivetrainData.Axis.TURN)) < errorThreshold;
+    }
+
+    protected boolean Abort() {
+        drivetrain.setClassicDrive(false);
+        drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
+        drivetrain.SetOpenLoopOutput(Axis.TURN, 0.0);
+        return true;
+    }
 
 
 }

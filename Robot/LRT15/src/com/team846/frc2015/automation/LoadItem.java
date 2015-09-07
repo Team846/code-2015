@@ -17,202 +17,189 @@ import com.team846.frc2015.sensors.SensorFactory;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public abstract class LoadItem extends Automation{
+public abstract class LoadItem extends Automation {
 
-	private final ElevatorData elevatorData;
-	private final CarriageHooksData hooksData;
-	private final CollectorArmData armData;
-	private final CollectorRollersData rollersData;
-	
-	private final ElevatorSetpoint collect;
-	private final ElevatorSetpoint grab;
-	private final ElevatorSetpoint home;
-	
-	private final LRTJoystick driverStick;
-	private final int requiredWaitCycles;
-	private int waitTicks;
-	
-	boolean hasItem = false;
-	
-	private final AnalogInput sensor;
-	
-	private int analogThreshold = 0;
-	
-	enum State
-	{
-		COLLECT,
-		GRAB,
-		WAIT,
-		HOME
-	}
-	State state;
-	private final boolean auto;
+    private final ElevatorData elevatorData;
+    private final CarriageHooksData hooksData;
+    private final CollectorArmData armData;
+    private final CollectorRollersData rollersData;
 
-	LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+    private final ElevatorSetpoint collect;
+    private final ElevatorSetpoint grab;
+    private final ElevatorSetpoint home;
+
+    private final LRTJoystick driverStick;
+    private final int requiredWaitCycles;
+    private int waitTicks;
+
+    boolean hasItem = false;
+
+    private final AnalogInput sensor;
+
+    private int analogThreshold = 0;
+
+    enum State {
+        COLLECT,
+        GRAB,
+        WAIT,
+        HOME
+    }
+
+    State state;
+    private final boolean auto;
+
+    LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
              ElevatorSetpoint homeSetpoint, boolean auto) {
-		this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20, auto);
-	}
-	
-	LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
+        this(name, collectSetpoint, grabSetpoint, homeSetpoint, 20, auto);
+    }
+
+    LoadItem(String name, ElevatorSetpoint collectSetpoint, ElevatorSetpoint grabSetpoint,
              ElevatorSetpoint homeSetpoint, int waitCycles, boolean auto) {
-		super(name);
-		state = State.COLLECT;
-		this.auto = auto; 
-		elevatorData = ElevatorData.get();
-		hooksData = CarriageHooksData.get();
-		armData = CollectorArmData.get();
-		rollersData = CollectorRollersData.get();
-		driverStick = LRTDriverStation.instance().getDriverStick();
-		
-		sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
-		collect = collectSetpoint;
-		grab = grabSetpoint;
-		home = homeSetpoint;
-		
-		this.requiredWaitCycles = waitCycles;
-		waitTicks = 0;
-	}
+        super(name);
+        state = State.COLLECT;
+        this.auto = auto;
+        elevatorData = ElevatorData.get();
+        hooksData = CarriageHooksData.get();
+        armData = CollectorArmData.get();
+        rollersData = CollectorRollersData.get();
+        driverStick = LRTDriverStation.instance().getDriverStick();
 
-	@Override
-	public void AllocateResources() {
-		AllocateResource(ControlResource.COLLECTOR_ARMS);
-		AllocateResource(ControlResource.COLLECTOR_ROLLERS);
-		AllocateResource(ControlResource.CARRIAGE_HOOKS);
-		AllocateResource(ControlResource.ELEVATOR);
-	}
+        sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
+        collect = collectSetpoint;
+        grab = grabSetpoint;
+        home = homeSetpoint;
 
-	@Override
-	protected boolean Start() {
-		state = State.COLLECT;
-		hasItem = false;
-		waitTicks = 0;
-		return true;
-	}
+        this.requiredWaitCycles = waitCycles;
+        waitTicks = 0;
+    }
 
-	@Override
-	protected boolean Abort() {
-		elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-		elevatorData.setDesiredSpeed(0.0);
-		
-		armData.setDesiredPosition(ArmPosition.STOWED);
-		rollersData.setRunning(false);
-		
-		hooksData.setBackHooksDesiredState(HookState.DOWN);
-		hooksData.setFrontHooksDesiredState(HookState.DOWN);
-		return true;
-	}
+    @Override
+    public void AllocateResources() {
+        AllocateResource(ControlResource.COLLECTOR_ARMS);
+        AllocateResource(ControlResource.COLLECTOR_ROLLERS);
+        AllocateResource(ControlResource.CARRIAGE_HOOKS);
+        AllocateResource(ControlResource.ELEVATOR);
+    }
 
-	@Override
-	protected boolean Run() {
-		armData.setDesiredPosition(ArmPosition.STOWED);
-		rollersData.setRunning(false);
-		
-		switch(state)
-		{
-			case COLLECT:
-			{
-				hasItem = false;
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				
-				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-				elevatorData.setSetpoint(collect);
+    @Override
+    protected boolean Start() {
+        state = State.COLLECT;
+        hasItem = false;
+        waitTicks = 0;
+        return true;
+    }
 
-				if (elevatorData.isAtSetpoint(collect))
-				{
-					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-					elevatorData.setDesiredSpeed(0.0);
-					
-					if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto))
-					{
-						armData.setDesiredPosition(ArmPosition.EXTEND);
-						rollersData.setRunning(true);
-						rollersData.setDirection(Direction.INTAKE);
-						rollersData.setSpeed(1.0);
-						
-						System.out.println(sensor.getAverageValue());
-						if((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
-								|| (auto && sensor.getAverageValue() > analogThreshold))
-						{
-							rollersData.setSpeed(1.0);
-							hasItem = true;
-							state = State.GRAB;
-						}
-					}
-				}
-				break;
-			}
-			case GRAB:
-			{
-				hooksData.setBackHooksDesiredState(HookState.UP);
-				hooksData.setFrontHooksDesiredState(HookState.UP);
-				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-				elevatorData.setSetpoint(grab);
-				elevatorData.setFast(true);
-				rollersData.setRunning(true);
-				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(1.0);
-				armData.setDesiredPosition(ArmPosition.STOWED);
-				//AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
-				if (elevatorData.isAtSetpoint(grab))
-				{
-					hooksData.setBackHooksDesiredState(HookState.DOWN);
-					hooksData.setFrontHooksDesiredState(HookState.DOWN);
-					state = State.WAIT;
-				}
-				break;
-			}
-			case WAIT:
-			{
-				rollersData.setRunning(true);
-				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.1);
-				armData.setDesiredPosition(ArmPosition.STOWED);
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				elevatorData.setFast(false);
-				if (waitTicks++ > requiredWaitCycles)
-				{
-					state = State.HOME;
-				}
-				break;
-			}
-			case HOME:
-			{
-				rollersData.setRunning(true);
-				rollersData.setDirection(Direction.INTAKE);
-				rollersData.setSpeed(0.0);
-				armData.setDesiredPosition(ArmPosition.STOWED);
-				hooksData.setBackHooksDesiredState(HookState.DOWN);
-				hooksData.setFrontHooksDesiredState(HookState.DOWN);
-				elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-				elevatorData.setSetpoint(home);
-				if(elevatorData.isAtSetpoint(home))
-				{
-					elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
-					elevatorData.setDesiredSpeed(0.0);
-					armData.setDesiredPosition(ArmPosition.EXTEND);
-					
-					if (auto)
-					{
-						armData.setDesiredPosition(ArmPosition.STOWED);
-						rollersData.setRunning(false);
-						
-						hooksData.setBackHooksDesiredState(HookState.DOWN);
-						hooksData.setFrontHooksDesiredState(HookState.DOWN);
-						return true;
-					}
-					
-				}
-				break;
-			}
-		}
+    @Override
+    protected boolean Abort() {
+        elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+        elevatorData.setDesiredSpeed(0.0);
+
+        armData.setDesiredPosition(ArmPosition.STOWED);
+        rollersData.setRunning(false);
+
+        hooksData.setBackHooksDesiredState(HookState.DOWN);
+        hooksData.setFrontHooksDesiredState(HookState.DOWN);
+        return true;
+    }
+
+    @Override
+    protected boolean Run() {
+        armData.setDesiredPosition(ArmPosition.STOWED);
+        rollersData.setRunning(false);
+
+        switch (state) {
+            case COLLECT: {
+                hasItem = false;
+                hooksData.setBackHooksDesiredState(HookState.DOWN);
+                hooksData.setFrontHooksDesiredState(HookState.DOWN);
+
+                elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+                elevatorData.setSetpoint(collect);
+
+                if (elevatorData.isAtSetpoint(collect)) {
+                    elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+                    elevatorData.setDesiredSpeed(0.0);
+
+                    if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto)) {
+                        armData.setDesiredPosition(ArmPosition.EXTEND);
+                        rollersData.setRunning(true);
+                        rollersData.setDirection(Direction.INTAKE);
+                        rollersData.setSpeed(1.0);
+
+                        System.out.println(sensor.getAverageValue());
+                        if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
+                                || (auto && sensor.getAverageValue() > analogThreshold)) {
+                            rollersData.setSpeed(1.0);
+                            hasItem = true;
+                            state = State.GRAB;
+                        }
+                    }
+                }
+                break;
+            }
+            case GRAB: {
+                hooksData.setBackHooksDesiredState(HookState.UP);
+                hooksData.setFrontHooksDesiredState(HookState.UP);
+                elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+                elevatorData.setSetpoint(grab);
+                elevatorData.setFast(true);
+                rollersData.setRunning(true);
+                rollersData.setDirection(Direction.INTAKE);
+                rollersData.setSpeed(1.0);
+                armData.setDesiredPosition(ArmPosition.STOWED);
+                //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
+                if (elevatorData.isAtSetpoint(grab)) {
+                    hooksData.setBackHooksDesiredState(HookState.DOWN);
+                    hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                    state = State.WAIT;
+                }
+                break;
+            }
+            case WAIT: {
+                rollersData.setRunning(true);
+                rollersData.setDirection(Direction.INTAKE);
+                rollersData.setSpeed(0.1);
+                armData.setDesiredPosition(ArmPosition.STOWED);
+                hooksData.setBackHooksDesiredState(HookState.DOWN);
+                hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                elevatorData.setFast(false);
+                if (waitTicks++ > requiredWaitCycles) {
+                    state = State.HOME;
+                }
+                break;
+            }
+            case HOME: {
+                rollersData.setRunning(true);
+                rollersData.setDirection(Direction.INTAKE);
+                rollersData.setSpeed(0.0);
+                armData.setDesiredPosition(ArmPosition.STOWED);
+                hooksData.setBackHooksDesiredState(HookState.DOWN);
+                hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+                elevatorData.setSetpoint(home);
+                if (elevatorData.isAtSetpoint(home)) {
+                    elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
+                    elevatorData.setDesiredSpeed(0.0);
+                    armData.setDesiredPosition(ArmPosition.EXTEND);
+
+                    if (auto) {
+                        armData.setDesiredPosition(ArmPosition.STOWED);
+                        rollersData.setRunning(false);
+
+                        hooksData.setBackHooksDesiredState(HookState.DOWN);
+                        hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                        return true;
+                    }
+
+                }
+                break;
+            }
+        }
 //		System.out.println(state);
-		return false;
-	}
-	
-	void setAnalogThreshold(int a)
-	{
-		analogThreshold = a;
-	}
+        return false;
+    }
+
+    void setAnalogThreshold(int a) {
+        analogThreshold = a;
+    }
 }
