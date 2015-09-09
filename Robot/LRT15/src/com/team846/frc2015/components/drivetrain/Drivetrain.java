@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 import java.util.List;
 
+import static com.team846.util.bottles.Bottles.*;
+
 public class Drivetrain extends Component {
     private DriveStyle currentStyle;
 
     // TODO: replace with bean-like public grab(class) bottling?
-    private CachedMonad<Config> configMonad = null;
+    private CachedMonad<Config> configMonad = bottle();
 
     private CachedMonad<Config> currentLimiting = configMonad.map(config -> config.getConfig("current-limiting"));
     private CachedMonad<Double> forwardLimit = currentLimiting.map(config -> config.getDouble("forward-limit"));
