@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
+import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
@@ -183,6 +184,11 @@ public class OldDrivetrain extends Component implements Configurable {
         escs[Side.BACK_LEFT.ordinal()].setDutyCycle(currentLimitedBackLeft);
         escs[Side.BACK_RIGHT.ordinal()].setDutyCycle(currentLimitedBackRight);
 
+        DashboardLogger.getInstance().logDouble("drivetrain-leftFront", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-leftBack", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-rightFront", driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-rightBack", driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate());
+
         frontLeft.enableBrakeMode(false);
         backLeft.enableBrakeMode(false);
         frontRight.enableBrakeMode(false);
@@ -202,6 +208,11 @@ public class OldDrivetrain extends Component implements Configurable {
         backLeft.enableBrakeMode(false);
         frontRight.enableBrakeMode(false);
         backRight.enableBrakeMode(false);
+
+        DashboardLogger.getInstance().logDouble("drivetrain-leftFront", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-leftBack", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-rightFront", driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate());
+        DashboardLogger.getInstance().logDouble("drivetrain-rightBack", driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate());
 
         tick++;
     }
