@@ -16,7 +16,7 @@ function createCard(id, name, datasetContent) {
 }
 
 function createGraph(id) {
-  return '<div id="' + id + '" class="card-graph"></div>';
+  return '<h4 id="' + id + '-value"></h4><div id="' + id + '" class="card-graph"></div>';
 }
 
 function createBoolean(id) {

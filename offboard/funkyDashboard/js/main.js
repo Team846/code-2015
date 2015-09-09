@@ -42,7 +42,6 @@ $.ajax("datasets.json").done(function(datasetArray) {
   display("all");
 
   socket.on('data-update', function(msg) {
-    console.log(msg);
     if (running) {
       msg = JSON.parse(msg);
       var dataset = datasets[msg.type];
@@ -53,6 +52,8 @@ $.ajax("datasets.json").done(function(datasetArray) {
             dataset.data.shift();
           }
 
+          document.getElementById(msg.type + "-value").innerHTML = msg.value;
+
           dataset.lastX += 1;
           $.plot($(dataset.element), [ dataset.data ], {
             series: {
@@ -61,7 +62,7 @@ $.ajax("datasets.json").done(function(datasetArray) {
                 fillColor: "rgba(255, 0, 0, 0.5)"
               },
               color: "rgba(255, 0, 0, 0.5)"
-            }, yaxis: { max: 5 }
+            }
           });
         } else if (dataset.type == "boolean") {
           if (msg.value) {
