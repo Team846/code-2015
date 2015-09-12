@@ -49,22 +49,30 @@ public class CarriageExtender extends Component implements Configurable {
     protected void updateEnabled() {
         int position = carriagePot.getAverageValue();
 
-
         if (extenderData.getControlMode() == CarriageControlMode.SETPOINT) {
             double error = 0.0;
-            if (extenderData.getSetpoint() == Setpoint.RETRACT)
+            if (extenderData.getSetpoint() == Setpoint.RETRACT) {
                 error = Math.abs(retractSetpoint - position) < errorThreshold ? 0.0 : (retractSetpoint - position) / maxRange;
-            else
+            } else {
                 error = Math.abs(extendSetpoint - position) < errorThreshold ? 0.0 : (extendSetpoint - position) / maxRange;
+            }
+
+//            System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+//            System.out.println("error setpoint: " + error);
 
             carriageMotor.set(error * positionGain);
         } else if (extenderData.getControlMode() == CarriageControlMode.POSITION) {
             int desiredPos = (int) MathUtils.rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
             DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
             double error = Math.abs(desiredPos - position) < errorThreshold ? 0.0 : (desiredPos - position) / maxRange;
-            carriageMotor.set(MathUtils.clamp(error * positionGain, -extenderData.getMaxSpeed(), extenderData.getMaxSpeed()));
-        } else
+
+//            System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+//            System.out.println("error position: " + error);
+
+            carriageMotor.set(MathUtils.clamp(error * positionGain, -maxSpeed, maxSpeed));
+        } else {
             carriageMotor.set(extenderData.getSpeed()); //open loop velocity
+        }
 
         extenderData.setCurrentPosition((int) MathUtils.rescale(position, retractSetpoint, extendSetpoint, 0, 1));
 
@@ -73,7 +81,7 @@ public class CarriageExtender extends Component implements Configurable {
     @Override
     protected void updateDisabled() {
         carriageMotor.set(0.0);
-        System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+//        System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
     }
 
     @Override

@@ -38,9 +38,12 @@ public abstract class LoadItem extends Automation {
 
     private int analogThreshold = 0;
 
+    private int ticksLeftForElevatorDown = 0;
+
     enum State {
         COLLECT,
         GRAB,
+        ARMS,
         WAIT,
         HOME
     }
@@ -131,30 +134,47 @@ public abstract class LoadItem extends Automation {
                                 || (auto && sensor.getAverageValue() > analogThreshold)) {
                             rollersData.setSpeed(1.0);
                             hasItem = true;
-                            state = State.GRAB;
+
+
+                            state = State.ARMS;
+                            rollersData.setRunning(true);
+                            rollersData.setDirection(Direction.INTAKE);
+                            rollersData.setSpeed(1.0);
+                            armData.setDesiredPosition(ArmPosition.STOWED);
+                            ticksLeftForElevatorDown = 20; // arbitrary value for number of ticks
                         }
                     }
                 }
                 break;
             }
+
+            case ARMS: {
+                ticksLeftForElevatorDown--;
+
+                if (ticksLeftForElevatorDown == 0) {
+                    state = State.GRAB;
+                }
+
+                break;
+            }
+
             case GRAB: {
                 hooksData.setBackHooksDesiredState(HookState.UP);
                 hooksData.setFrontHooksDesiredState(HookState.UP);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(grab);
                 elevatorData.setFast(true);
-                rollersData.setRunning(true);
-                rollersData.setDirection(Direction.INTAKE);
-                rollersData.setSpeed(1.0);
-                armData.setDesiredPosition(ArmPosition.STOWED);
+
                 //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
                 if (elevatorData.isAtSetpoint(grab)) {
                     hooksData.setBackHooksDesiredState(HookState.DOWN);
                     hooksData.setFrontHooksDesiredState(HookState.DOWN);
                     state = State.WAIT;
                 }
+
                 break;
             }
+
             case WAIT: {
                 rollersData.setRunning(true);
                 rollersData.setDirection(Direction.INTAKE);
