@@ -141,7 +141,7 @@ public abstract class LoadItem extends Automation {
                             rollersData.setDirection(Direction.INTAKE);
                             rollersData.setSpeed(1.0);
                             armData.setDesiredPosition(ArmPosition.STOWED);
-                            ticksLeftForElevatorDown = 20; // arbitrary value for number of ticks
+                            ticksLeftForElevatorDown = 5; // arbitrary value for number of ticks
                         }
                     }
                 }
@@ -149,6 +149,7 @@ public abstract class LoadItem extends Automation {
             }
 
             case ARMS: {
+                armData.setDesiredPosition(ArmPosition.STOWED);
                 ticksLeftForElevatorDown--;
 
                 if (ticksLeftForElevatorDown == 0) {
@@ -164,6 +165,7 @@ public abstract class LoadItem extends Automation {
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(grab);
                 elevatorData.setFast(true);
+                armData.setDesiredPosition(ArmPosition.STOWED);
 
                 //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
                 if (elevatorData.isAtSetpoint(grab)) {

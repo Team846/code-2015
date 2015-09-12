@@ -80,7 +80,6 @@ public class LoadAdditional extends LoadItem implements Configurable {
             } else {
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);
-                armData.setDesiredPosition(ArmPosition.EXTEND);
             }
         }
         return ret;
