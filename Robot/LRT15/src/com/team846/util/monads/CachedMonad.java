@@ -13,8 +13,9 @@ public class CachedMonad<T> extends Monad<T> {
         private WeakReference<CachedMonad<R>> cached;
 
         public boolean update(T newSource) {
-            if (cached.get() != null) {
-                cached.get().update(transformer.apply(newSource));
+            CachedMonad<R> underlying = cached.get();
+            if (underlying != null) {
+                underlying.update(transformer.apply(newSource));
                 return true;
             } else {
                 return false;
