@@ -1,5 +1,6 @@
 package com.team846.util.monads;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,13 +10,18 @@ import java.util.stream.Collectors;
 public class CachedMonad<T> extends Monad<T> {
     class TransformerAndCached<R> {
         private Function<T, R> transformer;
-        private CachedMonad<R> cached;
+        private WeakReference<CachedMonad<R>> cached;
 
-        public void update(T newSource) {
-            cached.update(transformer.apply(newSource));
+        public boolean update(T newSource) {
+            if (cached.get() != null) {
+                cached.get().update(transformer.apply(newSource));
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        public TransformerAndCached(Function<T, R> transformer, CachedMonad<R> cached) {
+        public TransformerAndCached(Function<T, R> transformer, WeakReference<CachedMonad<R>> cached) {
             this.transformer = transformer;
             this.cached = cached;
         }
@@ -28,7 +34,7 @@ public class CachedMonad<T> extends Monad<T> {
     protected void update(T newValue) {
         if (value == null || !value.equals(newValue)) {
             value = newValue;
-            dependents.forEach((dependent) -> dependent.update(get()));
+            dependents.stream().filter((dependent) -> dependent.update(get())).collect(Collectors.toCollection(LinkedList::new));
             callbacks.forEach(Runnable::run);
         }
     }
@@ -46,7 +52,7 @@ public class CachedMonad<T> extends Monad<T> {
     public <R> CachedMonad<R> map(Function<T, R> transformer) {
         CachedMonad<R> dependent = new CachedMonad<>();
         dependent.update(transformer.apply(get()));
-        dependents.add(new TransformerAndCached<>(transformer, dependent));
+        dependents.add(new TransformerAndCached<>(transformer, new WeakReference<>(dependent)));
 
         return dependent;
     }
@@ -57,7 +63,7 @@ public class CachedMonad<T> extends Monad<T> {
         dependent.update(transformer.apply(get()).get());
         dependents.add(new TransformerAndCached<>(
                 (elem) -> transformer.apply(elem).get(),
-                dependent
+                new WeakReference<>(dependent)
         ));
 
         return dependent;
