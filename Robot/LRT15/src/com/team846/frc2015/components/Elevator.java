@@ -101,9 +101,11 @@ public class Elevator extends Component implements Configurable {
 //				AsyncPrinter.println("Setpoint: " + elevatorData.getDesiredSetpoint().toString());
                 desiredPos = elevatorSetpoints[elevatorData.getDesiredSetpoint().ordinal()];
 //				AsyncPrinter.println("Setpoint: " + desiredPos);
-                if (elevatorData.getFast() && (lastMode != ElevatorControlMode.SETPOINT || lastSetpoint != elevatorData.getDesiredSetpoint())) {
-                    direction = (desiredPos - currentPosition > 0) ? false : true;
-                }
+
+
+                // if (elevatorData.getFast() && (lastMode != ElevatorControlMode.SETPOINT || lastSetpoint != elevatorData.getDesiredSetpoint())) {
+                direction = currentPosition > desiredPos; // previously (desiredPos - currentPosition > 0) ? false : true
+                // }
             }
             if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit) {
                 AsyncLogger.error("Setpoint out of bounds");
