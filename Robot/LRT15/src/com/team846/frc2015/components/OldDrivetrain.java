@@ -178,6 +178,8 @@ public class OldDrivetrain extends Component implements Configurable {
         double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].currentLimit(leftBackOutput, backLeftSpeed);
         double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].currentLimit(rightBackOutput, backRightSpeed);
 
+
+
         escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(currentLimitedFrontLeft);
         escs[Side.FRONT_RIGHT.ordinal()].setDutyCycle(currentLimitedFrontRight);
 

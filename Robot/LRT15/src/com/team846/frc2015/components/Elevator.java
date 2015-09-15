@@ -15,6 +15,7 @@ import com.team846.frc2015.dashboard.DashboardLogger;
 import com.team846.frc2015.sensors.SensorFactory;
 import com.team846.frc2015.logging.AsyncLogger;
 
+import com.team846.frc2015.utils.MathUtils;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
@@ -103,9 +104,12 @@ public class Elevator extends Component implements Configurable {
 //				AsyncPrinter.println("Setpoint: " + desiredPos);
 
 
-                // if (elevatorData.getFast() && (lastMode != ElevatorControlMode.SETPOINT || lastSetpoint != elevatorData.getDesiredSetpoint())) {
-                direction = currentPosition > desiredPos; // previously (desiredPos - currentPosition > 0) ? false : true
-                // }
+                if (elevatorData.getFast()) { // bang-bang control
+                    if (!(lastMode == ElevatorControlMode.SETPOINT &&
+                          lastSetpoint == elevatorData.getDesiredSetpoint())) { // just got new setpoint
+                        direction = currentPosition > desiredPos; // previously (desiredPos - currentPosition > 0) ? false : true
+                    }
+                }
             }
             if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit) {
                 AsyncLogger.error("Setpoint out of bounds");
@@ -116,10 +120,18 @@ public class Elevator extends Component implements Configurable {
             error = posErr;
 
             double speed;
-            if (elevatorData.getFast())
+            if (elevatorData.getFast()) {
                 speed = posErr > 0 ? 1.0 : -1.0;
-            else
+            } else {
+                double minSpeed = 0.1;
+
                 speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
+                if (speed > 0) {
+                    speed = MathUtils.rescale(speed, 0.0, 1.0, minSpeed, 1.0);
+                } else if (speed < 0) {
+                    speed = MathUtils.rescale(speed, 0.0, -1.0, -minSpeed, -1.0);
+                }
+            }
 
             if (!elevatorData.getFast()) {
                 if (speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
