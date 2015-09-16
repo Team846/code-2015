@@ -131,6 +131,7 @@ public class OldDrivetrain extends Component implements Configurable {
     }
 
     public void updateEnabled() {
+
         double leftFrontOutput;
         double rightFrontOutput;
 
@@ -200,6 +201,8 @@ public class OldDrivetrain extends Component implements Configurable {
     int tick = 0;
 
     public void updateDisabled() {
+        System.out.println("TURN TICKS: " + driveEncoders.GetTurnTicks());
+
         escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(0.0);
         escs[Side.BACK_LEFT.ordinal()].setDutyCycle(0.0);
 

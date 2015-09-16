@@ -126,11 +126,14 @@ public class Elevator extends Component implements Configurable {
                 double minSpeed = 0.1;
 
                 speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
+                System.out.println("ORIGINAL SPEED: " + speed);
                 if (speed > 0) {
                     speed = MathUtils.rescale(speed, 0.0, 1.0, minSpeed, 1.0);
                 } else if (speed < 0) {
-                    speed = MathUtils.rescale(speed, 0.0, -1.0, -minSpeed, -1.0);
+                    speed = -MathUtils.rescale(-speed, 0.0, 1.0, minSpeed, 1.0);
                 }
+
+                System.out.println("NEW SPEED: " + speed);
             }
 
             if (!elevatorData.getFast()) {

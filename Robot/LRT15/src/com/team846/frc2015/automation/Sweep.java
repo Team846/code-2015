@@ -15,11 +15,13 @@ public class Sweep extends Automation {
     }
 
     private final Direction direction;
+    private long ticksLeft;
 
-    public Sweep(Direction dir) {
+    public Sweep(Direction dir, long ticksLeft) {
         direction = dir;
         armData = CollectorArmData.get();
         rollersData = CollectorRollersData.get();
+        this.ticksLeft = ticksLeft;
     }
 
     @Override
@@ -42,6 +44,7 @@ public class Sweep extends Automation {
 
     @Override
     protected boolean Run() {
+        ticksLeft--;
         armData.setDesiredPosition(ArmPosition.EXTEND);
         rollersData.setRunning(true);
         rollersData.setSpeed(1.0);
@@ -50,6 +53,12 @@ public class Sweep extends Automation {
         else
             rollersData.setDirection(CollectorRollersData.Direction.SWEEP_RIGHT);
 
-        return false;
+        if (ticksLeft < 0) {
+            armData.setDesiredPosition(ArmPosition.STOWED);
+            rollersData.setRunning(false);
+            rollersData.setSpeed(0.0);
+        }
+
+        return ticksLeft < 0;
     }
 }
