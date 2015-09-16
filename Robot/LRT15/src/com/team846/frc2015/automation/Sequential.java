@@ -45,7 +45,7 @@ public class Sequential extends Automation {
 
     protected boolean Run() {
         if (!started && ContinueNextStep()) {
-            AsyncLogger.info(queued.peek().GetName());
+            AsyncLogger.info("[SEQUENTIAL] [" + GetName() + "] is currently running: " + queued.peek().GetName());
             boolean res = queued.peek().StartAutomation(GetStartEvent());
             if (res)
                 started = true;

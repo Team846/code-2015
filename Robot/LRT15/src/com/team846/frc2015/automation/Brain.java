@@ -22,6 +22,7 @@ import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs;
 import com.team846.frc2015.automation.inputProcessors.ElevatorInputs;
 import com.team846.frc2015.automation.inputProcessors.InputProcessor;
 import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs.Axis;
+import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
@@ -53,30 +54,50 @@ public class Brain {
 
         createInputProcessors();
 
-        double delay = 0.0;
+//        double delay = 0.0;
         double driveSpeed = 0.30;
-        double turnSpeed = 0.25;
+//        double turnSpeed = 0.25;
+//
+//        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
+//        double[] driveTicks = {5000.0, 8500.0, 6500.0, 8500.0};
 
-        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
-        double[] driveTicks = {5000.0, 8500.0, 6500.0, 8500.0};
-
-        // Main Automation Routine
+        // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential("auto");
-        auton.AddAutomation(new LoadTote(true));
-        auton.AddAutomation(new Elevate(3));
-        Parallel sweep1 = new Parallel("sweep1");
-        sweep1.AddAutomation(new Drive(12000, driveSpeed));
-        sweep1.AddAutomation(new Sweep(Sweep.Direction.LEFT, 20)); // 1 second
-        auton.AddAutomation(sweep1);
+
+        auton.AddAutomation(new LoadTote(true, ElevatorData.ElevatorSetpoint.TOTE_3));
+
+//        auton.AddAutomation(new Elevate(3));
+
+        auton.AddAutomation(
+            new Parallel(
+                    "sweep1",
+                    new Drive(12000, driveSpeed),
+                    new Sweep(Sweep.Direction.LEFT, 20) // 1 second
+            )
+        );
+
+        auton.AddAutomation(new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3));
+
+//        auton.AddAutomation(new Elevate(3));
+
+        auton.AddAutomation(
+            new Parallel(
+                "sweep2",
+                new Drive(13000, driveSpeed),
+                new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
+            )
+        );
+
         auton.AddAutomation(new LoadAdditional(true));
-        auton.AddAutomation(new Elevate(3));
-        Parallel sweep2 = new Parallel("sweep2");
-        sweep2.AddAutomation(new Drive(13000, driveSpeed));
-        sweep2.AddAutomation(new Sweep(Sweep.Direction.LEFT, 40)); // 2 second
-        auton.AddAutomation(sweep2);
-        auton.AddAutomation(new LoadAdditional(true));
+
         auton.AddAutomation(new Strafe(120000, driveSpeed, 5.0));
+
         auton.AddAutomation(new ReleaseStack());
+
+        auton.AddAutomation(new Drive(-2000, driveSpeed)); // back up
+        // END AUTONOMOUS ROUTINE
+
+
 //        auton.AddAutomation(new Turn(turnAngles[0], turnSpeed)); // degrees
 //        auton.AddAutomation(new Pause(delay));
 //

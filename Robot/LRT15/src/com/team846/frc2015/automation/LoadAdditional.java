@@ -22,6 +22,15 @@ public class LoadAdditional extends LoadItem implements Configurable {
     private int hookDisengageDrop = 0;
     private boolean skipPickup = false;
 
+    public LoadAdditional(boolean auto, boolean skipPickup, ElevatorSetpoint homeSetpoint) {
+        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, homeSetpoint, 0, auto);
+        hooksData = CarriageHooksData.get();
+        elevatorData = ElevatorData.get();
+        armData = CollectorArmData.get();
+        this.skipPickup = skipPickup;
+        ConfigRuntime.Register(this);
+    }
+
     public LoadAdditional(boolean auto, boolean skipPickup) {
         super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto);
         hooksData = CarriageHooksData.get();
@@ -29,6 +38,10 @@ public class LoadAdditional extends LoadItem implements Configurable {
         armData = CollectorArmData.get();
         this.skipPickup = skipPickup;
         ConfigRuntime.Register(this);
+    }
+
+    public LoadAdditional(boolean auto, ElevatorSetpoint homeSetpoint) {
+        this(auto, false, homeSetpoint);
     }
 
     public LoadAdditional(boolean auto) {

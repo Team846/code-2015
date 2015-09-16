@@ -1,6 +1,7 @@
 package com.team846.frc2015.automation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ListIterator;
 
 import com.team846.frc2015.automation.Automation.RoutineOption;
@@ -14,6 +15,14 @@ public class Parallel extends Automation {
 
     public Parallel(String name) {
         this(name, false);
+    }
+
+    public Parallel(String name, Automation... sequence) {
+        super(name);
+        ArrayList<Automation> sequenceList = new ArrayList<>();
+        Collections.addAll(sequenceList, sequence);
+        routines = sequenceList;
+        aborting = false;
     }
 
     public Parallel(String name, ArrayList<Automation> sequence) {

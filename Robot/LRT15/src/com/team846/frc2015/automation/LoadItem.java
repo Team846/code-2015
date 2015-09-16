@@ -119,6 +119,15 @@ public abstract class LoadItem extends Automation {
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(collect);
 
+                // EXPERIMENTAL {
+                if (auto) {
+                    armData.setDesiredPosition(ArmPosition.EXTEND);
+                    rollersData.setRunning(true);
+                    rollersData.setDirection(Direction.INTAKE);
+                    rollersData.setSpeed(1.0);
+                }
+                // }
+
                 if (elevatorData.isAtSetpoint(collect)) {
                     elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
                     elevatorData.setDesiredSpeed(0.0);

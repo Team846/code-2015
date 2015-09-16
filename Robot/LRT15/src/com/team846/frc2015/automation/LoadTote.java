@@ -11,6 +11,11 @@ public class LoadTote extends LoadItem implements Configurable {
 
     private int toteAnalogValue = 0;
 
+    public LoadTote(boolean auto, ElevatorSetpoint homeLocation) {
+        super("LoadTote", ElevatorSetpoint.COLLECT_TOTE, ElevatorSetpoint.GRAB_TOTE, homeLocation, 0, auto);
+        ConfigRuntime.Register(this);
+    }
+
     public LoadTote(boolean auto) {
         super("LoadTote", ElevatorSetpoint.COLLECT_TOTE, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto);
         ConfigRuntime.Register(this);
