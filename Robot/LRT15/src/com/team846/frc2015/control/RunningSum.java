@@ -2,7 +2,7 @@ package com.team846.frc2015.control;
 
 public class RunningSum {
     public static double IIR_DECAY(double freq) {
-        return 2 * Math.PI * freq / 50;
+        return 1.0 - (2 * Math.PI * freq / 50);
     }
 
     private double decayConstant;
