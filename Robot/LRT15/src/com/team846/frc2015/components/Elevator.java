@@ -46,7 +46,7 @@ public class Elevator extends Component implements Configurable {
     private final Timer stallTimer = new Timer();
     private int stallPosition = 0;
 
-    private int error = 0;
+    private double error = 0;
 
     private int atPositionCounter = 0;
 
@@ -77,6 +77,19 @@ public class Elevator extends Component implements Configurable {
 //		motorB.setVoltageRampRate(100.0);
 
         ConfigRuntime.Register(this);
+
+        errorSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
+    }
+
+    private double deadbandError(double error, int deadband) {
+        if (error < 0)
+            return -deadbandError(-error, deadband);
+
+        deadband = deadband/2;
+        if (error > deadband)
+            return error - deadband;
+
+        return 0;
     }
 
     @Override
@@ -117,23 +130,25 @@ public class Elevator extends Component implements Configurable {
                 return;
             }
             int posErr = desiredPos - currentPosition;
-            error = posErr;
+
+//            error = errorSum.UpdateSum(posErr);
+            System.out.println("POSITION ERROR: " + posErr + " ELEVATOR ERROR: " + error);
+            error = deadbandError(posErr, errorThreshold);
+            System.out.println("CLIPPED ERROR: " + error);
+
 
             double speed;
             if (elevatorData.getFast()) {
                 speed = posErr > 0 ? 1.0 : -1.0;
             } else {
-                double minSpeed = 0.1;
+                double minSpeed = 0.15;
 
-                speed = Math.abs(posErr) < errorThreshold ? 0.0 : posErr * positionGain;
-                System.out.println("ORIGINAL SPEED: " + speed);
+                speed = posErr * positionGain;
                 if (speed > 0) {
                     speed = MathUtils.rescale(speed, 0.0, 1.0, minSpeed, 1.0);
                 } else if (speed < 0) {
                     speed = -MathUtils.rescale(-speed, 0.0, 1.0, minSpeed, 1.0);
                 }
-
-                System.out.println("NEW SPEED: " + speed);
             }
 
             if (!elevatorData.getFast()) {
@@ -203,7 +218,7 @@ public class Elevator extends Component implements Configurable {
 
     @Override
     protected void updateDisabled() {
-        System.out.println(elevatorPot.getAverageValue());
+        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
 //        DashboardLogger.getInstance().logInt("drivetrain-leftFront", elevatorPot.getAverageValue());
         motorA.set(0.0);
         motorB.set(0.0);

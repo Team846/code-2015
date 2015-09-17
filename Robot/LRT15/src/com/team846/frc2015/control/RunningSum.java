@@ -1,11 +1,14 @@
 package com.team846.frc2015.control;
 
 public class RunningSum {
+    public static double IIR_DECAY(double freq) {
+        return 2 * Math.PI * freq / 50;
+    }
 
     private double decayConstant;
     private double runningSum;
 
-    RunningSum(double decayConstant) {
+    public RunningSum(double decayConstant) {
         this.decayConstant = decayConstant;
         runningSum = 0;
     }
