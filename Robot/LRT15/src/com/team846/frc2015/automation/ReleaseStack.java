@@ -67,6 +67,8 @@ public class ReleaseStack extends Automation implements Configurable {
         return true;
     }
 
+
+
     @Override
     protected boolean Run() {
         if (!spit)
@@ -75,9 +77,11 @@ public class ReleaseStack extends Automation implements Configurable {
             collectorArmData.setDesiredPosition(ArmPosition.EXTEND);
 
         elevatorData.setControlMode(ElevatorControlMode.POSITION);
-        elevatorData.setDesiredPosition((startingPosition + dropHeight)); // down is positive
-        System.out.println("ELEVATOR POSITION" + elevatorData.getCurrentPosition() + "TARGET: " + (startingPosition + dropHeight));
-        if (elevatorData.isAtPosition(startingPosition + dropHeight) || elevatorToHome) {
+        double targetPosition = startingPosition + dropHeight;
+        elevatorData.setDesiredPosition(targetPosition); // down is positive
+        System.out.println("ELEVATOR POSITION" + elevatorData.getCurrentPosition() + "TARGET: " + targetPosition);
+        System.out.println("READY FOR RELEASE: " + elevatorData.isAtPosition(targetPosition));
+        if (elevatorData.isAtPosition(targetPosition) || elevatorToHome) {
             System.out.println("REACHED GOAL FOR RELEASE");
             elevatorToHome = true;
             hooksData.setBackHooksDesiredState(HookState.UP);

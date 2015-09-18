@@ -52,6 +52,8 @@ public class Drive extends Automation {
         }
         drivetrain.SetRelativePositionSetpoint(Axis.FORWARD, distance);
         drivetrain.SetPositionControlMaxSpeed(Axis.FORWARD, maxSpeed);
+        drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
+        drivetrain.SetOpenLoopOutput(Axis.TURN, 0.0);
 
         return true;
     }

@@ -274,6 +274,7 @@ public class OldDrivetrain extends Component implements Configurable {
 
     private double correctedAngularVelocity(double targetAngularVelocity) {
         double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
+        System.out.println("ANGULAR VELOCITY DIFF: " + differenceFromTarget);
 
         return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
     }

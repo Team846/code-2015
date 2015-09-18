@@ -22,11 +22,18 @@ import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs;
 import com.team846.frc2015.automation.inputProcessors.ElevatorInputs;
 import com.team846.frc2015.automation.inputProcessors.InputProcessor;
 import com.team846.frc2015.automation.inputProcessors.DrivetrainInputs.Axis;
+import com.team846.frc2015.componentData.CollectorArmData;
+import com.team846.frc2015.componentData.CollectorRollersData;
 import com.team846.frc2015.componentData.ElevatorData;
+import com.team846.frc2015.oldconfig.ConfigPortMappings;
+import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
+import com.team846.frc2015.oldconfig.RobotConfig;
+import com.team846.frc2015.sensors.SensorFactory;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 public class Brain {
     private static Brain instance = null;
@@ -55,7 +62,7 @@ public class Brain {
         createInputProcessors();
 
 //        double delay = 0.0;
-        double driveSpeed = 0.30;
+        double driveSpeed = 0.25;
 //        double turnSpeed = 0.25;
 //
 //        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
@@ -63,23 +70,75 @@ public class Brain {
 
         // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential(
-            "auto",
-            new Elevate(3),
-//            new Parallel(
-//                    "sweep1",
-//                    new Drive(12000, driveSpeed),
-//                    new Sweep(Sweep.Direction.LEFT, 20) // 1 second
-//            ),
-            new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3)//,
-//            new Parallel(
-//                    "sweep2",
-//                    new Drive(13000, driveSpeed),
-//                    new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
-//            ),
-//            new LoadAdditional(true),
-//            new Strafe(120000, driveSpeed, 5.0),
-//            new ReleaseStack(),
-//            new Drive(-2000, driveSpeed)
+                "auto",
+                new Elevate(3),
+                new Parallel(
+                        "sweep1",
+                        new Drive(12000, driveSpeed),
+                        new Sweep(Sweep.Direction.LEFT, 30) // 1.5 second
+                ),
+                new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3),
+                new Parallel(
+                        "sweep2",
+                        new Drive(13000, driveSpeed),
+                        new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
+                ),
+                new Automation() {
+                    private final CollectorArmData armData = CollectorArmData.get();
+                    private final CollectorRollersData rollersData = CollectorRollersData.get();
+                    long ticksLeft = 0;
+                    AnalogInput sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
+
+                    @Override
+                    protected void AllocateResources() {
+
+                    }
+
+                    @Override
+                    protected boolean Start() {
+                        ticksLeft = 40;
+                        return true;
+                    }
+
+                    @Override
+                    protected boolean Abort() {
+                        return true;
+                    }
+
+                    @Override
+                    protected boolean Run() {
+                        System.out.println("ACTUATING OUT GO GO " + armData.getCurrentPosition());
+                        armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+                        rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
+                        rollersData.setRunning(true);
+                        rollersData.setSpeed(1.0);
+
+                        return sensor.getAverageValue() > ConfigRuntime.Instance().Get("LoadTote", "analog_tote_value", 1600);
+
+                    }
+                },
+                new Parallel(
+                    "strafedrop",
+                    new Strafe(200000, driveSpeed + 0.5, 5.0) {
+                        private final CollectorArmData armData = CollectorArmData.get();
+                        private final CollectorRollersData rollersData = CollectorRollersData.get();
+
+                        @Override
+                        protected boolean Run() {
+                            armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+                            rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
+                            rollersData.setRunning(true);
+                            rollersData.setSpeed(1.0);
+                            return super.Run();
+                        }
+                    },
+                    new Elevate(ElevatorData.ElevatorSetpoint.TOTE_1)
+                ),
+                new Parallel(
+                    "releasedrive",
+                    new ReleaseStack(),
+                    new Drive(-8000, driveSpeed)
+                )
         );
 
 //        auton.AddAutomation(new LoadTote(true, ElevatorData.ElevatorSetpoint.TOTE_3));

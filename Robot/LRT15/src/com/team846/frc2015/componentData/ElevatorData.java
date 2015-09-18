@@ -10,7 +10,7 @@ public class ElevatorData extends ComponentData {
     private ElevatorSetpoint setpoint;
     private ElevatorSetpoint currentSetpoint;
 
-    private final double errorThreshold = 10;
+    public double errorThreshold = 10;
     private double currentPosition = 0;
     private boolean bangbang = false;
 
@@ -101,6 +101,7 @@ public class ElevatorData extends ComponentData {
     public double velocity = 0.0;
 
     public boolean isAtPosition(double isAtPosition) {
+        System.out.println("VELOCITY: " + velocity + " DISTANCE " + (isAtPosition - currentPosition) + " ERROR THRESHOLD " + errorThreshold);
         return Math.abs(velocity) < 10.0 &&
                 Math.abs(isAtPosition - currentPosition) < 3 * errorThreshold;
     }

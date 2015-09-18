@@ -171,6 +171,7 @@ public class Elevator extends Component implements Configurable {
                 // TODO: fix speed check hack
                 boolean readyForCountdown =  Math.abs(velocity) < 10.0 &&
                         Math.abs(positionError) < 3 * errorThreshold;
+//                System.out.println("AT POSITION: " + readyForCountdown);
                 if (readyForCountdown && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
                     System.out.println("COUNTDOWN: " + atPositionCounter);
                     if (--atPositionCounter <= 0)
@@ -259,6 +260,7 @@ public class Elevator extends Component implements Configurable {
         positionGain = GetConfig("positionGain", 0.01);
 
         errorThreshold = GetConfig("errorThreshold", 15);
+        elevatorData.errorThreshold = errorThreshold;
 
         // Setpoints
         topSoftLimit = GetConfig("topLimit", 100);

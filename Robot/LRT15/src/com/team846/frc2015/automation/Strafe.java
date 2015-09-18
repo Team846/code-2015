@@ -72,13 +72,21 @@ public class Strafe extends Automation {
     protected boolean Run() {
         drivetrain.setClassicDrive(false);
         drivetrain.SetOpenLoopOutput(Axis.STRAFE, maxSpeed * Math.signum(ticks));
+        boolean good;
         if (ticks < 0) {
             // going left
-            return (startTicks + ticks) > encoders.GetStrafeTicks();
+            good = (startTicks + ticks) > encoders.GetStrafeTicks();
         } else {
             // going right
-            return (startTicks + ticks) < encoders.GetStrafeTicks();
+            good = (startTicks + ticks) < encoders.GetStrafeTicks();
         }
+
+        if (good) {
+            drivetrain.SetControlMode(Axis.STRAFE, DrivetrainData.ControlMode.OPEN_LOOP);
+            drivetrain.SetOpenLoopOutput(Axis.STRAFE, 0.0);
+        }
+
+        return good;
     }
 
 }
