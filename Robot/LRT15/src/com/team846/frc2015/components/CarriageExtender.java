@@ -32,7 +32,7 @@ public class CarriageExtender extends Component implements Configurable {
 
     private final CarriageExtenderData extenderData;
 
-    private RunningSum positionSum = new RunningSum(5.0);
+    private RunningSum positionSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
 
     public CarriageExtender() {
 
@@ -50,7 +50,11 @@ public class CarriageExtender extends Component implements Configurable {
 
     @Override
     protected void updateEnabled() {
-        int position = carriagePot.getAverageValue();
+        double position = 0;
+        {
+            int rawPosition = carriagePot.getAverageValue();
+            position = positionSum.UpdateSum(rawPosition);
+        }
 
         if (extenderData.getControlMode() == CarriageControlMode.SETPOINT) {
             double error = 0.0;
