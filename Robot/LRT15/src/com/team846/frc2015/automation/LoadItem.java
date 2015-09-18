@@ -67,6 +67,7 @@ public abstract class LoadItem extends Automation {
         armData = CollectorArmData.get();
         rollersData = CollectorRollersData.get();
         driverStick = LRTDriverStation.instance().getDriverStick();
+        operatorStick = LRTDriverStation.instance().getOperatorStick();
 
         sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
         collect = collectSetpoint;
