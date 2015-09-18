@@ -43,8 +43,11 @@ public class DriverStationConfig {
         public static final int ELEVATE_FOUR = 10;
         public static final int ELEVATE_STEP = 12;
 
-        public static final int HUMAN_LOAD_START = 3;
-        public static final int HUMAN_LOAD_FINISH = 16;
+        public static final int COLLECT_OPERATOR = 3;
+        public static final int ADVANCE_STATE_OPERATOR = 16; 
+
+        // public static final int HUMAN_LOAD_START = 3;
+        // public static final int HUMAN_LOAD_FINISH = 16;
 
         // Overrides
         public static final int HOOKS_OVERRIDE = 13;

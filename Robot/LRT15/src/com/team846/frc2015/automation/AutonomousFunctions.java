@@ -106,6 +106,7 @@ public class AutonomousFunctions {
     }
 
     public Automation sweep(Sweep.Direction direction, long ticks) {
-        return pushAndRet(new Sweep(direction, ticks));
+        //return pushAndRet(new Sweep(direction, ticks)));
+        return null;
     }
 }

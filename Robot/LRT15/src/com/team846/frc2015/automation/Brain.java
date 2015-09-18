@@ -145,8 +145,8 @@ public class Brain {
         Event load_stack_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_STACK);
         Event load_stack_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_STACK);
 
-        Event human_load_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
-        Event human_load_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
+        // Event human_load_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
+        // Event human_load_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.HUMAN_LOAD_START);
 
         Event load_abort_deploy = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.EXTEND_CARRIAGE);
         Event load_abort_1 = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.ELEVATE_ONE);
@@ -189,9 +189,9 @@ public class Brain {
         load_stack_start.addAbortListener(load_stack);
         load_stack_abort.addAbortListener(load_stack);
 
-        human_load_start.addStartListener(load_continuous);
-        human_load_abort.addAbortListener(load_continuous);
-        human_load_start.addAbortListener(load_continuous);
+        // human_load_start.addStartListener(load_continuous);
+        // human_load_abort.addAbortListener(load_continuous);
+        // human_load_start.addAbortListener(load_continuous);
 
         load_additional_start.addAbortListener(load_tote);
         load_additional_start.addAbortListener(load_sideways_container);
@@ -199,11 +199,11 @@ public class Brain {
         load_additional_start.addAbortListener(load_stack);
         load_additional_start.addAbortListener(load_continuous);
 
-        human_load_start.addAbortListener(load_tote);
-        human_load_start.addAbortListener(load_sideways_container);
-        human_load_start.addAbortListener(load_upright_container);
-        human_load_start.addAbortListener(load_stack);
-        human_load_start.addAbortListener(load_additional);
+        // human_load_start.addAbortListener(load_tote);
+        // human_load_start.addAbortListener(load_sideways_container);
+        // human_load_start.addAbortListener(load_upright_container);
+        // human_load_start.addAbortListener(load_stack);
+        // human_load_start.addAbortListener(load_additional);
 
         release_stack_start.addAbortListener(load_tote);
         release_stack_start.addAbortListener(load_sideways_container);

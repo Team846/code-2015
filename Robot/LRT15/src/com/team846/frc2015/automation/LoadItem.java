@@ -110,6 +110,13 @@ public abstract class LoadItem extends Automation {
         armData.setDesiredPosition(ArmPosition.STOWED);
         rollersData.setRunning(false);
 
+        boolean collectIsDown = driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT)
+                              || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR);
+
+        boolean advStateIsDown = driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE)
+                                || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE_OPERATOR);
+
+
         switch (state) {
             case COLLECT: {
                 hasItem = false;
@@ -133,15 +140,14 @@ public abstract class LoadItem extends Automation {
                     elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
                     elevatorData.setDesiredSpeed(0.0);
 
-                    if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto)) {
-                        System.out.println("BUTTON PRESSED FOR COLLECT");
+                    if (collectIsDown || auto) {
                         armData.setDesiredPosition(ArmPosition.EXTEND);
                         rollersData.setRunning(true);
                         rollersData.setDirection(Direction.INTAKE);
                         rollersData.setSpeed(1.0);
 
                         System.out.println(sensor.getAverageValue());
-                        if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE) && !auto)
+                        if ((advStateIsDown && !auto)
                                 || (auto && sensor.getAverageValue() > analogThreshold)) {
                             rollersData.setSpeed(1.0);
                             hasItem = true;

@@ -33,7 +33,7 @@ public class ContinuousLoad extends LoadAdditional {
     @Override
     protected boolean Abort() {
         if (hasItem && (GetAbortEvent() instanceof JoystickReleasedEvent)
-                && ((JoystickReleasedEvent) GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
+                //&& ((JoystickReleasedEvent) GetAbortEvent()).GetButton() == DriverStationConfig.JoystickButtons.HUMAN_LOAD_START
                 && ((JoystickReleasedEvent) GetAbortEvent()).GetJoystick() == LRTDriverStation.instance().getOperatorStick()) {
             last = true;
             return false;
@@ -44,8 +44,8 @@ public class ContinuousLoad extends LoadAdditional {
     @Override
     public boolean Run() {
         boolean ret = super.Run();
-        if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
-            last = true;
+        // if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.HUMAN_LOAD_FINISH))
+        //     last = true;
         if (state == State.HOME && !last) {
             hooksData.setBackHooksDesiredState(HookState.DOWN);
             hooksData.setFrontHooksDesiredState(HookState.DOWN);
