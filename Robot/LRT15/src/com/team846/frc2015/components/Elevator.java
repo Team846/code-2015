@@ -108,6 +108,7 @@ public class Elevator extends Component implements Configurable {
 
         double velocity = currentPosition - lastPosition;
         velocity = velocitySum.UpdateSum(velocity);
+        elevatorData.velocity = velocity;
 
         System.out.println("ELEVATOR VELOCITY: " + velocity);
 

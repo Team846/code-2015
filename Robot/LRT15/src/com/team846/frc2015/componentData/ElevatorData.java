@@ -98,8 +98,11 @@ public class ElevatorData extends ComponentData {
         return currentSetpoint;
     }
 
+    public double velocity = 0.0;
+
     public boolean isAtPosition(double isAtPosition) {
-        return Math.abs(isAtPosition - currentPosition) < errorThreshold;
+        return Math.abs(velocity) < 10.0 &&
+                Math.abs(isAtPosition - currentPosition) < 3 * errorThreshold;
     }
 
     public void setCurrentPosition(double position) {
