@@ -26,6 +26,8 @@ public class DriverStationConfig {
         public static final int COLLECT = 1;
         public static final int ADVANCE_STATE = 2;
 
+        public static final int POSITION_HOLD = 8;
+
         // Operator Joystick
         public static final int EXTEND_CARRIAGE = 1;
         public static final int DEPLOY_STACK = 2;

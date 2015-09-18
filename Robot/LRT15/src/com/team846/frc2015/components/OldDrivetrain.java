@@ -6,10 +6,13 @@ import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.componentData.DrivetrainData;
 import com.team846.frc2015.componentData.DrivetrainData.Axis;
 import com.team846.frc2015.dashboard.DashboardLogger;
+import com.team846.frc2015.driverstation.LRTDriverStation;
+import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
 import com.team846.frc2015.oldconfig.RobotConfig;
+import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.frc2015.control.PID;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.logging.AsyncLogger;
@@ -43,6 +46,8 @@ public class OldDrivetrain extends Component implements Configurable {
     private final CANTalon frontRight;
     private final CANTalon backRight;
 
+    private final LRTJoystick driverStick;
+
     LRTGyro gyro = LRTGyro.getInstance();
 
     public OldDrivetrain() {
@@ -70,6 +75,7 @@ public class OldDrivetrain extends Component implements Configurable {
         escs[Side.BACK_RIGHT.ordinal()] = new DriveESC(backRight);
 
         drivetrainData = DrivetrainData.get();
+        driverStick = LRTDriverStation.instance().getDriverStick();
 
         ConfigRuntime.Register(this);
 
@@ -179,7 +185,12 @@ public class OldDrivetrain extends Component implements Configurable {
         double currentLimitedBackLeft = escs[Side.BACK_LEFT.ordinal()].currentLimit(leftBackOutput, backLeftSpeed);
         double currentLimitedBackRight = escs[Side.BACK_RIGHT.ordinal()].currentLimit(rightBackOutput, backRightSpeed);
 
-
+        if (driverStick.isButtonDown(DriverStationConfig.JoystickButtons.POSITION_HOLD)) {
+          currentLimitedFrontLeft = 0.0;
+          currentLimitedFrontRight = 0.0;
+          currentLimitedBackLeft = 0.0;
+          currentLimitedBackRight = 0.0;
+        }
 
         escs[Side.FRONT_LEFT.ordinal()].setDutyCycle(currentLimitedFrontLeft);
         escs[Side.FRONT_RIGHT.ordinal()].setDutyCycle(currentLimitedFrontRight);
