@@ -29,6 +29,7 @@ public abstract class LoadItem extends Automation {
     private final ElevatorSetpoint home;
 
     private final LRTJoystick driverStick;
+    private final LRTJoystick operatorStick;
     private final int requiredWaitCycles;
     private int waitTicks;
 
@@ -110,12 +111,14 @@ public abstract class LoadItem extends Automation {
         armData.setDesiredPosition(ArmPosition.STOWED);
         rollersData.setRunning(false);
 
-        boolean collectIsDown = driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT)
-                              || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR);
+        boolean collectIsDown = operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR)
+                              || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT);
 
-        boolean advStateIsDown = driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE)
-                                || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE_OPERATOR);
+        boolean advStateIsDown = operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE_OPERATOR)
+                              || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE);
 
+        System.out.println("collectIsDown: " + collectIsDown);
+        System.out.println("advStateIsDown: " + advStateIsDown);
 
         switch (state) {
             case COLLECT: {
