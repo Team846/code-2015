@@ -192,6 +192,8 @@ public abstract class LoadItem extends Automation {
                 if (elevatorData.isAtSetpoint(grab)) {
                     hooksData.setBackHooksDesiredState(HookState.DOWN);
                     hooksData.setFrontHooksDesiredState(HookState.DOWN);
+
+                    waitTicks = requiredWaitCycles;
                     state = State.WAIT;
                 }
 
@@ -206,7 +208,7 @@ public abstract class LoadItem extends Automation {
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);
                 elevatorData.setFast(false);
-                if (waitTicks++ > requiredWaitCycles) {
+                if (--waitTicks <= 0) {
                     state = State.HOME;
                 }
                 break;

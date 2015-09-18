@@ -62,7 +62,7 @@ public class Brain {
         createInputProcessors();
 
 //        double delay = 0.0;
-        double driveSpeed = 0.25;
+        double driveSpeed = 0.25// untested 0.3;
 //        double turnSpeed = 0.25;
 //
 //        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
@@ -86,19 +86,13 @@ public class Brain {
                 new Automation() {
                     private final CollectorArmData armData = CollectorArmData.get();
                     private final CollectorRollersData rollersData = CollectorRollersData.get();
-                    long ticksLeft = 0;
                     AnalogInput sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
 
                     @Override
-                    protected void AllocateResources() {
-
-                    }
+                    protected void AllocateResources() {}
 
                     @Override
-                    protected boolean Start() {
-                        ticksLeft = 40;
-                        return true;
-                    }
+                    protected boolean Start() { return true; }
 
                     @Override
                     protected boolean Abort() {
@@ -107,19 +101,17 @@ public class Brain {
 
                     @Override
                     protected boolean Run() {
-                        System.out.println("ACTUATING OUT GO GO " + armData.getCurrentPosition());
                         armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
                         rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
                         rollersData.setRunning(true);
                         rollersData.setSpeed(1.0);
 
                         return sensor.getAverageValue() > ConfigRuntime.Instance().Get("LoadTote", "analog_tote_value", 1600);
-
                     }
                 },
                 new Parallel(
                     "strafedrop",
-                    new Strafe(200000, driveSpeed + 0.5, 5.0) {
+                    new Strafe(200000, driveSpeed + 0.5 /* untested 1.0 */, 5.0) {
                         private final CollectorArmData armData = CollectorArmData.get();
                         private final CollectorRollersData rollersData = CollectorRollersData.get();
 
