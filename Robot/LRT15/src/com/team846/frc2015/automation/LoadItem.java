@@ -129,10 +129,12 @@ public abstract class LoadItem extends Automation {
                 // }
 
                 if (elevatorData.isAtSetpoint(collect)) {
+                    System.out.println("AT ELEVATOR SETPOINT");
                     elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
                     elevatorData.setDesiredSpeed(0.0);
 
                     if ((driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || auto)) {
+                        System.out.println("BUTTON PRESSED FOR COLLECT");
                         armData.setDesiredPosition(ArmPosition.EXTEND);
                         rollersData.setRunning(true);
                         rollersData.setDirection(Direction.INTAKE);

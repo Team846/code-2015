@@ -88,7 +88,6 @@ public class LoadAdditional extends LoadItem implements Configurable {
             if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop) {
                 hooksData.setBackHooksDesiredState(HookState.UP);
                 hooksData.setFrontHooksDesiredState(HookState.UP);
-                ;
                 armData.setDesiredPosition(ArmPosition.STOWED);
             } else {
                 hooksData.setBackHooksDesiredState(HookState.DOWN);

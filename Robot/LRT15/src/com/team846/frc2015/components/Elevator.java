@@ -23,7 +23,9 @@ import edu.wpi.first.wpilibj.Timer;
 public class Elevator extends Component implements Configurable {
 
     private final ElevatorData elevatorData;
-    private RunningSum positionSum;
+    private RunningSum positionSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
+    double currentPosition = 0.0;
+    private RunningSum velocitySum = new RunningSum(RunningSum.IIR_DECAY(5.0));
 
     private int topSoftLimit;
     private int bottomSoftLimit;
@@ -54,6 +56,9 @@ public class Elevator extends Component implements Configurable {
     private ElevatorData.ElevatorSetpoint lastSetpoint;
     private boolean direction; // up true, down false
 
+
+
+
     public Elevator() {
 
         motorA = new CANTalon(
@@ -77,8 +82,6 @@ public class Elevator extends Component implements Configurable {
 //		motorB.setVoltageRampRate(100.0);
 
         ConfigRuntime.Register(this);
-
-        positionSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
     }
 
     private double deadbandError(double error, int deadband) {
@@ -94,13 +97,19 @@ public class Elevator extends Component implements Configurable {
 
     @Override
     protected void updateEnabled() {
+        double lastPosition = currentPosition;
 
-        double currentPosition = 0.0;
         {
             int rawPosition = elevatorPot.getAverageValue();
             currentPosition = positionSum.UpdateSum(rawPosition);
             System.out.println("RAW POSITION: " + rawPosition + " FILTERED: " + currentPosition);
         }
+
+
+        double velocity = currentPosition - lastPosition;
+        velocity = velocitySum.UpdateSum(velocity);
+
+        System.out.println("ELEVATOR VELOCITY: " + velocity);
 
         //AsyncPrinter.warn("Current Pos: " + currentPosition);
         elevatorData.setCurrentPosition(currentPosition);
@@ -144,7 +153,7 @@ public class Elevator extends Component implements Configurable {
             if (elevatorData.getFast()) {
                 speed = positionError > 0 ? 1.0 : -1.0;
             } else {
-                double minSpeed = 0.15;
+                double minSpeed = 0.2;
 
                 speed = positionError * positionGain; // LOL THIS USED TO USE posErr LOL
                 if (speed > 0) {
@@ -159,7 +168,9 @@ public class Elevator extends Component implements Configurable {
             System.out.println("IS FAST: " + elevatorData.getFast());
             if (!elevatorData.getFast()) { // proportional control
                 // TODO: fix speed check hack
-                if (Math.abs(speed) < 0.01 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
+                boolean readyForCountdown =  Math.abs(velocity) < 10.0 &&
+                        Math.abs(positionError) < 3 * errorThreshold;
+                if (readyForCountdown && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
                     System.out.println("COUNTDOWN: " + atPositionCounter);
                     if (--atPositionCounter <= 0)
                         elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
