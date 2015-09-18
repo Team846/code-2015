@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class Elevator extends Component implements Configurable {
 
     private final ElevatorData elevatorData;
-    private RunningSum errorSum;
+    private RunningSum positionSum;
 
     private int topSoftLimit;
     private int bottomSoftLimit;
@@ -46,7 +46,7 @@ public class Elevator extends Component implements Configurable {
     private final Timer stallTimer = new Timer();
     private int stallPosition = 0;
 
-    private double error = 0;
+    private double positionError = 0;
 
     private int atPositionCounter = 0;
 
@@ -78,7 +78,7 @@ public class Elevator extends Component implements Configurable {
 
         ConfigRuntime.Register(this);
 
-        errorSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
+        positionSum = new RunningSum(RunningSum.IIR_DECAY(5.0));
     }
 
     private double deadbandError(double error, int deadband) {
@@ -95,18 +95,24 @@ public class Elevator extends Component implements Configurable {
     @Override
     protected void updateEnabled() {
 
-        int currentPosition = elevatorPot.getAverageValue();
+        double currentPosition = 0.0;
+        {
+            int rawPosition = elevatorPot.getAverageValue();
+            currentPosition = positionSum.UpdateSum(rawPosition);
+            System.out.println("RAW POSITION: " + rawPosition + " FILTERED: " + currentPosition);
+        }
+
         //AsyncPrinter.warn("Current Pos: " + currentPosition);
         elevatorData.setCurrentPosition(currentPosition);
 
-        DashboardLogger.getInstance().logInt("elevator-pot", currentPosition);
+        DashboardLogger.getInstance().logDouble("elevator-pot", currentPosition);
 //		AsyncPrinter.println("Position: " + currentPosition);
 
         if (elevatorData.getControlMode() == ElevatorControlMode.VELOCITY) {
             sendOutput(elevatorData.getSpeed());
         } else if (elevatorData.getControlMode() == ElevatorControlMode.POSITION
                 || elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
-            int desiredPos = elevatorData.getDesiredPosition();
+            double desiredPos = elevatorData.getDesiredPosition();
             if (elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
                 if (elevatorData.getDesiredSetpoint() == ElevatorSetpoint.NONE) {
                     sendOutput(0.0);
@@ -129,21 +135,18 @@ public class Elevator extends Component implements Configurable {
                 sendOutput(0.0);
                 return;
             }
-            int posErr = desiredPos - currentPosition;
 
-//            error = errorSum.UpdateSum(posErr);
-            System.out.println("POSITION ERROR: " + posErr + " ELEVATOR ERROR: " + error);
-            error = deadbandError(posErr, errorThreshold);
-            System.out.println("CLIPPED ERROR: " + error);
-
+            positionError = desiredPos - currentPosition;
+            System.out.println("POSITION ERROR: " + positionError);
+            positionError = deadbandError(positionError, errorThreshold);
 
             double speed;
             if (elevatorData.getFast()) {
-                speed = posErr > 0 ? 1.0 : -1.0;
+                speed = positionError > 0 ? 1.0 : -1.0;
             } else {
                 double minSpeed = 0.15;
 
-                speed = posErr * positionGain;
+                speed = positionError * positionGain; // LOL THIS USED TO USE posErr LOL
                 if (speed > 0) {
                     speed = MathUtils.rescale(speed, 0.0, 1.0, minSpeed, 1.0);
                 } else if (speed < 0) {
@@ -151,32 +154,36 @@ public class Elevator extends Component implements Configurable {
                 }
             }
 
-            if (!elevatorData.getFast()) {
-                if (speed == 0.0 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
-                    atPositionCounter--;
-                    if (atPositionCounter < 0)
+            System.out.println("CLIPPED ERROR: " + positionError + " SPEED OUTPUT: " + speed);
+
+            System.out.println("IS FAST: " + elevatorData.getFast());
+            if (!elevatorData.getFast()) { // proportional control
+                // TODO: fix speed check hack
+                if (Math.abs(speed) < 0.01 && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
+                    System.out.println("COUNTDOWN: " + atPositionCounter);
+                    if (--atPositionCounter <= 0)
                         elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
                     else
                         elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
                 } else {
-                    atPositionCounter = 4;
+                    System.out.println("RESETTING COUNTDOWN " + "CONTROL MODE: " + elevatorData.getControlMode());
+                    atPositionCounter = 2;
                     elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
                 }
             } else {
-                if (direction) // up
-                {
+                if (direction) { // up
                     if (currentPosition < desiredPos)
                         elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
                     else
                         elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
-                } else // down
-                {
+                } else { // down
                     if (currentPosition > desiredPos)
                         elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
                     else
                         elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
                 }
             }
+
             sendOutput(speed);
             lastSetpoint = elevatorData.getDesiredSetpoint();
         }

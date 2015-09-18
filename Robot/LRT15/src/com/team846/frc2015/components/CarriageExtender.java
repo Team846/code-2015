@@ -3,6 +3,7 @@ package com.team846.frc2015.components;
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
 import com.team846.frc2015.componentData.CarriageExtenderData.Setpoint;
+import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
@@ -30,6 +31,8 @@ public class CarriageExtender extends Component implements Configurable {
     private int errorThreshold;
 
     private final CarriageExtenderData extenderData;
+
+    private RunningSum positionSum = new RunningSum(5.0);
 
     public CarriageExtender() {
 

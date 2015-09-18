@@ -18,7 +18,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
     final ElevatorData elevatorData;
     private final CollectorArmData armData;
     private int toteAnalogValue = 0;
-    private int startPosition = 0;
+    private double startPosition = 0.0;
     private int hookDisengageDrop = 0;
     private boolean skipPickup = false;
 

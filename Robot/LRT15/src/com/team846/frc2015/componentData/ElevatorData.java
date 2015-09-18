@@ -3,7 +3,7 @@ package com.team846.frc2015.componentData;
 public class ElevatorData extends ComponentData {
 
     private double speed;
-    private int position;
+    private double position;
 
     private ElevatorControlMode controlMode;
 
@@ -11,7 +11,7 @@ public class ElevatorData extends ComponentData {
     private ElevatorSetpoint currentSetpoint;
 
     private final double errorThreshold = 10;
-    private int currentPosition = 0;
+    private double currentPosition = 0;
     private boolean bangbang = false;
 
     public enum ElevatorControlMode {
@@ -86,6 +86,7 @@ public class ElevatorData extends ComponentData {
     }
 
     public boolean isAtSetpoint(ElevatorSetpoint s) {
+
         return currentSetpoint == s;
     }
 
@@ -101,19 +102,19 @@ public class ElevatorData extends ComponentData {
         return Math.abs(isAtPosition - currentPosition) < errorThreshold;
     }
 
-    public void setCurrentPosition(int position) {
+    public void setCurrentPosition(double position) {
         currentPosition = position;
     }
 
-    public int getCurrentPosition() {
+    public double getCurrentPosition() {
         return currentPosition;
     }
 
-    public int getDesiredPosition() {
+    public double getDesiredPosition() {
         return position;
     }
 
-    public void setDesiredPosition(int d) {
+    public void setDesiredPosition(double d) {
         this.position = d;
     }
 

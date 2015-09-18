@@ -16,7 +16,7 @@ import com.team846.frc2015.oldconfig.Configurable;
 public class ReleaseStack extends Automation implements Configurable {
 
     private final ElevatorData elevatorData;
-    private int startingPosition;
+    private double startingPosition;
     private int dropHeight;
     private final CarriageHooksData hooksData;
     private final CarriageExtenderData extenderData;

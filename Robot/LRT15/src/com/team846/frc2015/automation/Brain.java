@@ -62,39 +62,29 @@ public class Brain {
 //        double[] driveTicks = {5000.0, 8500.0, 6500.0, 8500.0};
 
         // BEGIN AUTONOMOUS ROUTINE
-        Sequential auton = new Sequential("auto");
-
-        auton.AddAutomation(new LoadTote(true, ElevatorData.ElevatorSetpoint.TOTE_3));
-
-//        auton.AddAutomation(new Elevate(3));
-
-        auton.AddAutomation(
-            new Parallel(
-                    "sweep1",
-                    new Drive(12000, driveSpeed),
-                    new Sweep(Sweep.Direction.LEFT, 20) // 1 second
-            )
+        Sequential auton = new Sequential(
+            "auto",
+            new Elevate(3),
+//            new Parallel(
+//                    "sweep1",
+//                    new Drive(12000, driveSpeed),
+//                    new Sweep(Sweep.Direction.LEFT, 20) // 1 second
+//            ),
+            new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3)//,
+//            new Parallel(
+//                    "sweep2",
+//                    new Drive(13000, driveSpeed),
+//                    new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
+//            ),
+//            new LoadAdditional(true),
+//            new Strafe(120000, driveSpeed, 5.0),
+//            new ReleaseStack(),
+//            new Drive(-2000, driveSpeed)
         );
 
-        auton.AddAutomation(new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3));
+//        auton.AddAutomation(new LoadTote(true, ElevatorData.ElevatorSetpoint.TOTE_3));
 
 //        auton.AddAutomation(new Elevate(3));
-
-        auton.AddAutomation(
-            new Parallel(
-                "sweep2",
-                new Drive(13000, driveSpeed),
-                new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
-            )
-        );
-
-        auton.AddAutomation(new LoadAdditional(true));
-
-        auton.AddAutomation(new Strafe(120000, driveSpeed, 5.0));
-
-        auton.AddAutomation(new ReleaseStack());
-
-        auton.AddAutomation(new Drive(-2000, driveSpeed)); // back up
         // END AUTONOMOUS ROUTINE
 
 

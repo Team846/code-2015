@@ -15,7 +15,8 @@ import javax.script.ScriptEngineManager;
 public class JSRoutine extends Sequential {
 
     public JSRoutine() {
-        super("Autonomous");
+        // this is completely wrong
+        super("Autonomous", new Parallel("name"));
     }
 
     public ArrayList<Automation> loadRoutine(String fileName) {

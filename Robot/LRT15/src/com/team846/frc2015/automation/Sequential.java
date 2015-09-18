@@ -18,6 +18,13 @@ public class Sequential extends Automation {
         started = false;
     }
 
+    Sequential(String name, Automation... sequence) {
+        super(name);
+        for (Automation auto: sequence) {
+            AddAutomation(auto);
+        }
+    }
+
     Sequential(String name, ArrayList<Automation> sequence, boolean restartable, RoutineOption... options) {
         super(name, options);
 
