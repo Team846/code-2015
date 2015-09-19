@@ -62,7 +62,7 @@ public class Brain {
         createInputProcessors();
 
 //        double delay = 0.0;
-        double driveSpeed = 0.25// untested 0.3;
+        double driveSpeed = 0.25;// untested 0.3;
 //        double turnSpeed = 0.25;
 //
 //        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
