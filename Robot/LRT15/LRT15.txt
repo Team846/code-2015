@@ -1,0 +1,75 @@
+
+
+[DriveEncoders]
+wheel_diameter=6
+# ticks_per_full_turn=15092
+ticks_per_full_turn=567012 # experimentally determined on comp bot
+max_turning_rate=40000
+max_encoder_rate=24000
+gear_ratio=0.25 # wheel revolutions per encoder revolution
+pulses_per_revolution=48
+
+[LoadTote]
+analog_tote_value = 1200
+
+[LoadSidewaysContainer]
+analog_container_value = 1000
+
+[LoadUprightContainer]
+analog_container_value = 610
+
+[LoadAdditional]
+# analog_tote_value = 1200
+analog_tote_value = 1100
+
+[Drivetrain]
+position_fwd_P=0.07
+position_turn_P=0.02
+mecanum_P = 0
+
+[CarriageExtender]
+# TODO
+# retractSoftLimit = 3650
+retractSoftLimit = 2090
+
+# extendSoftLimit = 2400
+extendSoftLimit = 840
+
+# retractSetpoint = 3600
+retractSetpoint = 2040
+
+# extendSetpoint = 2450 
+extendSetpoint = 890
+
+# positionGain = 5
+positionGain = 2.5
+
+maxSpeed = 0.35 # experimentally determined
+errorThreshold = 50
+
+[Elevator]
+topLimit = 400
+bottomLimit = 3050
+tote1 = 1835
+tote2 = 1288
+tote3 = 1000
+tote4 = 172 #???
+#home_tote = 2400
+home_tote = 2300
+# home_tote =  2252
+human_load_grab = 2380
+human_load_prepare=570
+grab_tote = 2880
+collect_tote = 2436
+collect_upright_container = 2970
+home_upright_container = 2265
+home_sideways_container = 2750
+collect_sideways_container = 2250
+grab_sideways_container = 3030
+collect_additional = 1500
+# positionGain = 0.0035 original value
+positionGain = 0.0015 # value from 9/16
+errorThreshold = 80
+
+[ReleaseStack]
+dropHeight = 400

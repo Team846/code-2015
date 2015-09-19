@@ -65,7 +65,7 @@ public class CarriageExtender extends Component implements Configurable {
             }
 
 //            System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
-            System.out.println("[CarriageExtender] Position Error: " + error);
+//            System.out.println("[CarriageExtender] Position Error: " + error);
 
             carriageMotor.set(error * positionGain);
         } else if (extenderData.getControlMode() == CarriageControlMode.POSITION) {
@@ -88,7 +88,7 @@ public class CarriageExtender extends Component implements Configurable {
     @Override
     protected void updateDisabled() {
         carriageMotor.set(0.0);
-        System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
+//        System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
     }
 
     @Override

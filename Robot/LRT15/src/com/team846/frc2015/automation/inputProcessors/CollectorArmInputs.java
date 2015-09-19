@@ -22,7 +22,7 @@ public class CollectorArmInputs extends InputProcessor {
 
     @Override
     public void Update() {
-        System.out.println("COLLECTOR OPERATOR ON: " + operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR));
+//        System.out.println("COLLECTOR OPERATOR ON: " + operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR));
         if (driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR)) {
             armData.setDesiredPosition(ArmPosition.EXTEND);
             //AsyncPrinter.info("Extend Collector");

@@ -22,7 +22,7 @@ public class CollectorArmData extends ComponentData {
     }
 
     public void setDesiredPosition(ArmPosition newPosition) {
-        System.out.println("SETTING DESIRED POSITION: " + newPosition);
+//        System.out.println("SETTING DESIRED POSITION: " + newPosition);
         desiredPosition = newPosition;
     }
 

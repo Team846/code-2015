@@ -118,8 +118,8 @@ public abstract class LoadItem extends Automation {
         boolean advStateIsDown = operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE_OPERATOR)
                               || driverStick.isButtonDown(DriverStationConfig.JoystickButtons.ADVANCE_STATE);
 
-        System.out.println("collectIsDown: " + collectIsDown);
-        System.out.println("advStateIsDown: " + advStateIsDown);
+//        System.out.println("collectIsDown: " + collectIsDown);
+//        System.out.println("advStateIsDown: " + advStateIsDown);
 
         switch (state) {
             case COLLECT: {
@@ -185,14 +185,11 @@ public abstract class LoadItem extends Automation {
                 hooksData.setFrontHooksDesiredState(HookState.UP);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(grab);
-                elevatorData.setFast(true);
+                elevatorData.setFast(false/*true*/);
                 armData.setDesiredPosition(ArmPosition.STOWED);
 
                 //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
                 if (elevatorData.isAtSetpoint(grab)) {
-                    hooksData.setBackHooksDesiredState(HookState.DOWN);
-                    hooksData.setFrontHooksDesiredState(HookState.DOWN);
-
                     waitTicks = requiredWaitCycles;
                     state = State.WAIT;
                 }
@@ -205,9 +202,12 @@ public abstract class LoadItem extends Automation {
                 rollersData.setDirection(Direction.INTAKE);
                 rollersData.setSpeed(0.1);
                 armData.setDesiredPosition(ArmPosition.STOWED);
+
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);
+
                 elevatorData.setFast(false);
+                System.out.println("WAIT TICKS LEFT: " + waitTicks);
                 if (--waitTicks <= 0) {
                     state = State.HOME;
                 }

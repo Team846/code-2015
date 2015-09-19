@@ -21,9 +21,10 @@ public class LoadAdditional extends LoadItem implements Configurable {
     private double startPosition = 0.0;
     private int hookDisengageDrop = 0;
     private boolean skipPickup = false;
+    private final static int waitDuration = 5; // wait before moving elevator from bottom to let hooks actuate
 
     public LoadAdditional(boolean auto, boolean skipPickup, ElevatorSetpoint homeSetpoint) {
-        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, homeSetpoint, 5, auto);
+        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, homeSetpoint, waitDuration, auto);
         hooksData = CarriageHooksData.get();
         elevatorData = ElevatorData.get();
         armData = CollectorArmData.get();
@@ -32,7 +33,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
     }
 
     public LoadAdditional(boolean auto, boolean skipPickup) {
-        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, 0, auto);
+        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, waitDuration, auto);
         hooksData = CarriageHooksData.get();
         elevatorData = ElevatorData.get();
         armData = CollectorArmData.get();
