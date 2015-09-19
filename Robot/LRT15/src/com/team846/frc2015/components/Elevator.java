@@ -105,6 +105,7 @@ public class Elevator extends Component implements Configurable {
 //            System.out.println("RAW POSITION: " + rawPosition + " FILTERED: " + currentPosition);
         }
 
+        System.out.println(currentPosition);
 
         double velocity = currentPosition - lastPosition;
         velocity = velocitySum.UpdateSum(velocity);

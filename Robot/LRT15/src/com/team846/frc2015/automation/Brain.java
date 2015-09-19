@@ -61,12 +61,7 @@ public class Brain {
 
         createInputProcessors();
 
-//        double delay = 0.0;
-        double driveSpeed = 0.25;// untested 0.3;
-//        double turnSpeed = 0.25;
-//
-//        double[] turnAngles = {-80.0, 100.0, -70.0, 70.0, -30.0};
-//        double[] driveTicks = {5000.0, 8500.0, 6500.0, 8500.0};
+        double driveSpeed = 0.25;
 
         // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential(
@@ -132,35 +127,7 @@ public class Brain {
                     new Drive(-8000, driveSpeed)
                 )
         );
-
-//        auton.AddAutomation(new LoadTote(true, ElevatorData.ElevatorSetpoint.TOTE_3));
-
-//        auton.AddAutomation(new Elevate(3));
         // END AUTONOMOUS ROUTINE
-
-
-//        auton.AddAutomation(new Turn(turnAngles[0], turnSpeed)); // degrees
-//        auton.AddAutomation(new Pause(delay));
-//
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Turn(turnAngles[1], turnSpeed)); // degrees
-//        auton.AddAutomation(new Pause(delay));
-//
-//        auton.AddAutomation(new Drive(driveTicks[1], driveSpeed)); // encoder ticks
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new LoadTote(true));
-
-//        auton.AddAutomation(new Turn(turnAngles[2], turnSpeed)); // degrees
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Drive(driveTicks[2], driveSpeed)); // encoder ticks
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Turn(turnAngles[3], turnSpeed)); // degrees
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Drive(driveTicks[3], driveSpeed)); // encoder ticks
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Turn(turnAngles[4], turnSpeed)); // degrees
-//        auton.AddAutomation(new Pause(delay));
-//        auton.AddAutomation(new Strafe(120000, driveSpeed, 5.0)); // degrees
 
         Automation load_tote = new LoadTote();
         Automation load_sideways_container = new LoadSidewaysContainer();
