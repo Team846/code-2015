@@ -102,7 +102,7 @@ public class Elevator extends Component implements Configurable {
         {
             int rawPosition = elevatorPot.getAverageValue();
             currentPosition = positionSum.UpdateSum(rawPosition);
-            System.out.println("RAW POSITION: " + rawPosition + " FILTERED: " + currentPosition);
+//            System.out.println("RAW POSITION: " + rawPosition + " FILTERED: " + currentPosition);
         }
 
 
@@ -110,7 +110,7 @@ public class Elevator extends Component implements Configurable {
         velocity = velocitySum.UpdateSum(velocity);
         elevatorData.velocity = velocity;
 
-        System.out.println("ELEVATOR VELOCITY: " + velocity);
+//        System.out.println("ELEVATOR VELOCITY: " + velocity);
 
         //AsyncPrinter.warn("Current Pos: " + currentPosition);
         elevatorData.setCurrentPosition(currentPosition);
@@ -147,7 +147,7 @@ public class Elevator extends Component implements Configurable {
             }
 
             positionError = desiredPos - currentPosition;
-            System.out.println("POSITION ERROR: " + positionError);
+//            System.out.println("POSITION ERROR: " + positionError);
             positionError = deadbandError(positionError, errorThreshold);
 
             double speed;
@@ -164,22 +164,22 @@ public class Elevator extends Component implements Configurable {
                 }
             }
 
-            System.out.println("CLIPPED ERROR: " + positionError + " SPEED OUTPUT: " + speed);
+//            System.out.println("CLIPPED ERROR: " + positionError + " SPEED OUTPUT: " + speed);
 
-            System.out.println("IS FAST: " + elevatorData.getFast());
+//            System.out.println("IS FAST: " + elevatorData.getFast());
             if (!elevatorData.getFast()) { // proportional control
                 // TODO: fix speed check hack
                 boolean readyForCountdown =  Math.abs(velocity) < 10.0 &&
                         Math.abs(positionError) < 3 * errorThreshold;
 //                System.out.println("AT POSITION: " + readyForCountdown);
                 if (readyForCountdown && elevatorData.getControlMode() == ElevatorControlMode.SETPOINT) {
-                    System.out.println("COUNTDOWN: " + atPositionCounter);
+//                    System.out.println("COUNTDOWN: " + atPositionCounter);
                     if (--atPositionCounter <= 0)
                         elevatorData.setCurrentPosition(elevatorData.getDesiredSetpoint());
                     else
                         elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
                 } else {
-                    System.out.println("RESETTING COUNTDOWN " + "CONTROL MODE: " + elevatorData.getControlMode());
+//                    System.out.println("RESETTING COUNTDOWN " + "CONTROL MODE: " + elevatorData.getControlMode());
                     atPositionCounter = 2;
                     elevatorData.setCurrentPosition(ElevatorSetpoint.NONE);
                 }
@@ -238,7 +238,7 @@ public class Elevator extends Component implements Configurable {
 
     @Override
     protected void updateDisabled() {
-        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
+//        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
 //        DashboardLogger.getInstance().logInt("drivetrain-leftFront", elevatorPot.getAverageValue());
         motorA.set(0.0);
         motorB.set(0.0);

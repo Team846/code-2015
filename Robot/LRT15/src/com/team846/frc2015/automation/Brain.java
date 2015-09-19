@@ -181,8 +181,8 @@ public class Brain {
 
         Event driverSweep = new JoystickPressedEvent(driverStick, DriverStationConfig.JoystickButtons.DRIVER_SWEEP_LEFT);
 
-        Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
-        Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+//        Event load_tote_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
+//        Event load_tote_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_TOTE);
 
         Event load_upright_container_start = new JoystickPressedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER);
         Event load_upright_container_abort = new JoystickReleasedEvent(operatorStick, DriverStationConfig.JoystickButtons.LOAD_UPRIGHT_CONTAINER);
@@ -215,14 +215,14 @@ public class Brain {
         operator_stick_moved.addAbortListener(auton);
         driver_stick_pressed.addAbortListener(auton);
         operator_stick_pressed.addAbortListener(auton);
-        disabled_timeout.addAbortListener(auton);
+//        disabled_timeout.addAbortListener(auton);
 
         release_stack_start.addStartListener(releaseStack);
         release_stack_abort.addAbortListener(releaseStack);
 
-        load_tote_start.addStartListener(load_tote);
-        load_tote_abort.addAbortListener(load_tote);
-        load_tote_start.addAbortListener(load_tote);
+//        load_tote_start.addStartListener(load_tote);
+//        load_tote_abort.addAbortListener(load_tote);
+//        load_tote_start.addAbortListener(load_tote);
 
         load_sideways_container_start.addStartListener(load_sideways_container);
         load_sideways_container_abort.addAbortListener(load_sideways_container);

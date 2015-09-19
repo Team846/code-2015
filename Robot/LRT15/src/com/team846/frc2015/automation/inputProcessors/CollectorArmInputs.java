@@ -11,17 +11,19 @@ public class CollectorArmInputs extends InputProcessor {
 
     private final CollectorArmData armData;
     private final LRTJoystick driverStick;
+    private final LRTJoystick operatorStick;
 
     public CollectorArmInputs() {
         RegisterResource(ControlResource.COLLECTOR_ARMS);
         armData = CollectorArmData.get();
         driverStick = LRTDriverStation.instance().getDriverStick();
-
+        operatorStick = LRTDriverStation.instance().getOperatorStick();
     }
 
     @Override
     public void Update() {
-        if (driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT)) {
+        System.out.println("COLLECTOR OPERATOR ON: " + operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR));
+        if (driverStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT) || operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.COLLECT_OPERATOR)) {
             armData.setDesiredPosition(ArmPosition.EXTEND);
             //AsyncPrinter.info("Extend Collector");
         }
