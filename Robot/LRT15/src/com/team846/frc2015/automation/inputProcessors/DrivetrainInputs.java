@@ -8,7 +8,7 @@ import com.team846.frc2015.control.Pivot;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.driverstation.LRTJoystick;
 import com.team846.frc2015.utils.MathUtils;
-import com.team846.frc2015.control.UdpFetcher;
+//import com.team846.frc2015.control.UdpFetcher;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -36,7 +36,7 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
     private final DrivetrainData drivetrainData;
 
     private Pivot pivot = new Pivot(2);
-    private UdpFetcher fetcher = new UdpFetcher("beaglebonehaha", 4000);
+    // private UdpFetcher fetcher = new UdpFetcher("beaglebonehaha", 4000);
 
 
     public enum Axis {
@@ -101,11 +101,11 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //			// Negative Inertia routine
 //			double negInertia = turn - lastTurn;
 //			lastTurn = turn;
-//			
+//
 //			double negInertiaPower = negInertia * negInertiaScalar;
 //			negInertiaAccumulator += negInertiaPower;
 //			turn += negInertiaAccumulator;
-//			
+//
 //			if (negInertiaAccumulator > 1) {
 //				negInertiaAccumulator -= 1;
 //			} else if (negInertiaAccumulator < -1) {
@@ -148,16 +148,16 @@ public class DrivetrainInputs extends InputProcessor implements Configurable {
 //            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, drivetrainValues.getSecond());
 //        }
 
-        if (false) { // TODO: Figure out a way to put the robot in vision mode
-            String lastResponse = fetcher.getLastResponse();
-            String[] split = lastResponse.split("\\s");
-            double speedStrafe = Double.parseDouble(split[0]);
-            double speedForward = Double.parseDouble(split[1]);
-            drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
-            drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, ControlMode.VELOCITY_CONTROL);
-            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, speedForward);
-            drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, speedStrafe);
-        }
+        // if (false) { // TODO: Figure out a way to put the robot in vision mode
+        //     String lastResponse = fetcher.getLastResponse();
+        //     String[] split = lastResponse.split("\\s");
+        //     double speedStrafe = Double.parseDouble(split[0]);
+        //     double speedForward = Double.parseDouble(split[1]);
+        //     drivetrainData.SetControlMode(DrivetrainData.Axis.FORWARD, ControlMode.VELOCITY_CONTROL);
+        //     drivetrainData.SetControlMode(DrivetrainData.Axis.STRAFE, ControlMode.VELOCITY_CONTROL);
+        //     drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.FORWARD, speedForward);
+        //     drivetrainData.SetVelocitySetpoint(DrivetrainData.Axis.STRAFE, speedStrafe);
+        // }
     }
 
     public void configure() {
