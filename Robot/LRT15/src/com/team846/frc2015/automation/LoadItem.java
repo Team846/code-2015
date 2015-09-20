@@ -140,7 +140,6 @@ public abstract class LoadItem extends Automation {
                 // }
 
                 if (elevatorData.isAtSetpoint(collect)) {
-                    System.out.println("AT ELEVATOR SETPOINT");
                     elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
                     elevatorData.setDesiredSpeed(0.0);
 
@@ -185,7 +184,7 @@ public abstract class LoadItem extends Automation {
                 hooksData.setFrontHooksDesiredState(HookState.UP);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(grab);
-                elevatorData.setFast(false/*true*/);
+                elevatorData.setFast(/*false*/true);
                 armData.setDesiredPosition(ArmPosition.STOWED);
 
                 //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());

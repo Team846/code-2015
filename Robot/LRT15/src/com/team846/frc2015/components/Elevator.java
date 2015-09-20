@@ -153,11 +153,16 @@ public class Elevator extends Component implements Configurable {
 
             double speed;
             if (elevatorData.getFast()) {
-                speed = positionError > 0 ? 1.0 : -1.0;
+                // UNTESTED
+                if (positionError == 0) {
+                    speed = 0; // NEW CODE
+                } else {
+                    speed = positionError > 0 ? 1.0 : -1.0;
+                }
             } else {
                 double minSpeed = 0.2;
 
-                speed = positionError * positionGain; // LOL THIS USED TO USE posErr LOL
+                speed = positionError * positionGain;
                 if (speed > 0) {
                     speed = MathUtils.rescale(speed, 0.0, 1.0, minSpeed, 1.0);
                 } else if (speed < 0) {
