@@ -21,7 +21,7 @@ import com.team846.frc2015.utils.MathUtils;
 
 import edu.wpi.first.wpilibj.CANTalon;
 
-public class OldDrivetrain extends Component implements Configurable {
+public class Drivetrain extends Component implements Configurable {
     public enum Side {
         FRONT_LEFT,
         FRONT_RIGHT,
@@ -50,7 +50,7 @@ public class OldDrivetrain extends Component implements Configurable {
 
     LRTGyro gyro = LRTGyro.getInstance();
 
-    public OldDrivetrain() {
+    public Drivetrain() {
         PIDs = new PID[2][4];
 
         for (PID[] row : PIDs)
