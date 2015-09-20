@@ -92,6 +92,7 @@ public class CachedMonad<T> extends Monad<T> {
         return ret;
     }
 
+    @SafeVarargs
     public static <T> CachedMonad<List<T>> sequence(CachedMonad<T>... monads) {
         return sequence(Arrays.asList(monads));
     }
