@@ -2,6 +2,7 @@ package com.team846.frc2015.components.drivetrain;
 
 import com.team846.frc2015.actuators.DriveESC;
 import com.team846.frc2015.components.StyledComponent;
+import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.MathUtils;
 import com.team846.util.monads.CachedMonad;
@@ -36,6 +37,8 @@ public class Drivetrain extends StyledComponent<DriveStyle> {
     private CachedMonad<DriveESC> frontRight = frontRightCAN.map(DriveESC::new);
     private CachedMonad<DriveESC> backLeft = backLeftCAN.map(DriveESC::new);
     private CachedMonad<DriveESC> backRight = backRightCAN.map(DriveESC::new);
+
+//    private Monad<Double> forwardJoystick = LRTDriverStation.instance().getDriverStick().getRawAxis()
 
     @Override
     protected DriveStyle defaultDisabledStyle() {
