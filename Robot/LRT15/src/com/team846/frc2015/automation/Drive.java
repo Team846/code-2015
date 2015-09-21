@@ -52,8 +52,8 @@ public class Drive extends Automation {
         }
         drivetrain.SetRelativePositionSetpoint(Axis.FORWARD, distance);
         drivetrain.SetPositionControlMaxSpeed(Axis.FORWARD, maxSpeed);
-        drivetrain.SetControlMode(Axis.TURN, ControlMode.OPEN_LOOP);
-        drivetrain.SetOpenLoopOutput(Axis.TURN, 0.0);
+        drivetrain.SetControlMode(Axis.TURN, ControlMode.POSITION_CONTROL);
+        drivetrain.SetRelativePositionSetpoint(Axis.TURN, 0.0);
 
         return true;
     }
@@ -62,6 +62,9 @@ public class Drive extends Automation {
         drivetrain.setClassicDrive(true);
         if (constantSpeed)
             drivetrain.SetOpenLoopOutput(Axis.FORWARD, MathUtils.sign(distance) * maxSpeed);
+
+        drivetrain.SetControlMode(Axis.TURN, ControlMode.POSITION_CONTROL);
+        drivetrain.SetRelativePositionSetpoint(Axis.TURN, 0.0);
 
         double robotLocation = DriveEncoders.Get().GetRobotDist();
         double setpoint = drivetrain.GetPositionSetpoint(Axis.FORWARD);

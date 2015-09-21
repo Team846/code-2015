@@ -66,82 +66,83 @@ public class Brain {
         // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential(
                 "auto",
-                new Elevate(3),
-                new Parallel(
-                        "sweep1",
-                        new Drive(7000, driveSpeed),
-                        new Sweep(Sweep.Direction.LEFT, 30) // 1.5 second
-                ),
-                new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3),
-                new Parallel(
-                        "sweep2",
-                        new Drive(8000, driveSpeed),
-                        new Sweep(Sweep.Direction.LEFT, 40) // 2 seconds
-                ),
-                new Automation() {
-                    private final CollectorArmData armData = CollectorArmData.get();
-                    private final CollectorRollersData rollersData = CollectorRollersData.get();
-                    AnalogInput sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
-
-                    @Override
-                    protected void AllocateResources() {}
-
-                    @Override
-                    protected boolean Start() { return true; }
-
-                    @Override
-                    protected boolean Abort() {
-                        return true;
-                    }
-
-                    @Override
-                    protected boolean Run() {
-                        armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
-                        rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
-                        rollersData.setRunning(true);
-                        rollersData.setSpeed(1.0);
-
-                        return sensor.getAverageValue() > ConfigRuntime.Instance().Get("LoadTote", "analog_tote_value", 1600);
-                    }
-                },
-                new Parallel(
-                    "strafedrop",
-                    new Sequential(
-                        "turndrive",
-                        new Turn(-90, 0.4, 5.0) {
-                            private final CollectorArmData armData = CollectorArmData.get();
-                            private final CollectorRollersData rollersData = CollectorRollersData.get();
-
-                            @Override
-                            protected boolean Run() {
-                                armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
-                                rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
-                                rollersData.setRunning(true);
-                                rollersData.setSpeed(1.0);
-                                return super.Run();
-                            }
-                        },
-                        new Drive(12000, 0.625) {
-                            private final CollectorArmData armData = CollectorArmData.get();
-                            private final CollectorRollersData rollersData = CollectorRollersData.get();
-
-                            @Override
-                            public boolean Run() {
-                                armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
-                                rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
-                                rollersData.setRunning(true);
-                                rollersData.setSpeed(1.0);
-                                return super.Run();
-                            }
-                        }
-                    ),
-                    new Elevate(ElevatorData.ElevatorSetpoint.TOTE_1)
-                ),
-                new Parallel(
-                    "releasedrive",
-                    new ReleaseStack(),
-                    new Drive(-8000, driveSpeed)
-                )
+                new Elevate(3)//,
+//                new Drive(-12000, driveSpeed)//,
+//                new Parallel(
+//                        "sweep1",
+//                        new Drive(8500, driveSpeed),
+//                        new Sweep(Sweep.Direction.RIGHT, 30) // 1.5 second
+//                ),
+//                new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3),
+//                new Parallel(
+//                        "sweep2",
+//                        new Drive(10500, driveSpeed),
+//                        new Sweep(Sweep.Direction.RIGHT, 40) // 2 seconds
+//                ),
+//                new Automation() {
+//                    private final CollectorArmData armData = CollectorArmData.get();
+//                    private final CollectorRollersData rollersData = CollectorRollersData.get();
+//                    AnalogInput sensor = SensorFactory.getAnalogInput(ConfigPortMappings.Instance().get("Analog/COLLECTOR_PROXIMITY"));
+//
+//                    @Override
+//                    protected void AllocateResources() {}
+//
+//                    @Override
+//                    protected boolean Start() { return true; }
+//
+//                    @Override
+//                    protected boolean Abort() {
+//                        return true;
+//                    }
+//
+//                    @Override
+//                    protected boolean Run() {
+//                        armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+//                        rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
+//                        rollersData.setRunning(true);
+//                        rollersData.setSpeed(1.0);
+//
+//                        return sensor.getAverageValue() > ConfigRuntime.Instance().Get("LoadTote", "analog_tote_value", 1600);
+//                    }
+//                },
+//                new Parallel(
+//                    "strafedrop",
+//                    new Sequential(
+//                        "turndrive",
+//                        new Turn(-90, 0.4, 5.0) {
+//                            private final CollectorArmData armData = CollectorArmData.get();
+//                            private final CollectorRollersData rollersData = CollectorRollersData.get();
+//
+//                            @Override
+//                            protected boolean Run() {
+//                                armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+//                                rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
+//                                rollersData.setRunning(true);
+//                                rollersData.setSpeed(1.0);
+//                                return super.Run();
+//                            }
+//                        },
+//                        new Drive(12000, 0.625) {
+//                            private final CollectorArmData armData = CollectorArmData.get();
+//                            private final CollectorRollersData rollersData = CollectorRollersData.get();
+//
+//                            @Override
+//                            public boolean Run() {
+//                                armData.setDesiredPosition(CollectorArmData.ArmPosition.EXTEND);
+//                                rollersData.setDirection(CollectorRollersData.Direction.INTAKE);
+//                                rollersData.setRunning(true);
+//                                rollersData.setSpeed(1.0);
+//                                return super.Run();
+//                            }
+//                        }
+//                    ),
+//                    new Elevate(ElevatorData.ElevatorSetpoint.TOTE_1)
+//                ),
+//                new Parallel(
+//                    "releasedrive",
+//                    new ReleaseStack(),
+//                    new Drive(-8000, driveSpeed)
+//                )
         );
         // END AUTONOMOUS ROUTINE
 

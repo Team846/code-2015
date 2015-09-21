@@ -225,6 +225,10 @@ public class Drivetrain extends Component implements Configurable {
         frontRight.enableBrakeMode(false);
         backRight.enableBrakeMode(false);
 
+        System.out.println("leftfront " + driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate());
+        System.out.println("leftback " + driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate());
+        System.out.println("rightfront " + driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate());
+        System.out.println("rightback " + driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_BACK).getRate());
         DashboardLogger.getInstance().logDouble("drivetrain-leftFront", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_FRONT).getRate());
         DashboardLogger.getInstance().logDouble("drivetrain-leftBack", driveEncoders.GetEncoder(DriveEncoders.Side.LEFT_BACK).getRate());
         DashboardLogger.getInstance().logDouble("drivetrain-rightFront", driveEncoders.GetEncoder(DriveEncoders.Side.RIGHT_FRONT).getRate());
@@ -276,7 +280,8 @@ public class Drivetrain extends Component implements Configurable {
         double differenceFromTarget = targetAngularVelocity - getRobotAngularVelocity();
 //        System.out.println("ANGULAR VELOCITY DIFF: " + differenceFromTarget);
 
-        return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
+        return targetAngularVelocity;
+//        return targetAngularVelocity + (ANGLE_CORRECTION_GAIN * differenceFromTarget);
     }
 
     private double getRobotAngularVelocity() {

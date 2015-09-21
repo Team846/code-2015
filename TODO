@@ -1,0 +1,6 @@
+JunkyMonkey:
+ - Carriage extension no vibration while retracted
+ - Timeout for endpoints
+ - Stall detection
+ - 24 pot ticks = 1 inch elevator
+ - top 572 bottom 2772 45 inches 48.9 ticks per inch
