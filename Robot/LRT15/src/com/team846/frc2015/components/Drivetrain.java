@@ -41,6 +41,10 @@ public class Drivetrain extends Component implements Configurable {
     private final DriveEncoders driveEncoders;
     private final DriveESC[] escs = new DriveESC[4];
 
+    private final boolean usingGyro = true;
+    private final boolean usingEncoders = false;
+
+
     private final CANTalon frontLeft;
     private final CANTalon backLeft;
     private final CANTalon frontRight;
@@ -49,6 +53,8 @@ public class Drivetrain extends Component implements Configurable {
     private final LRTJoystick driverStick;
 
     LRTGyro gyro = LRTGyro.getInstance();
+
+    boolean angleSensor = usingGyro;
 
     public Drivetrain() {
         PIDs = new PID[2][4];
@@ -84,6 +90,8 @@ public class Drivetrain extends Component implements Configurable {
             esc.setForwardCurrentLimit(current_limit);
             esc.setReverseCurrentLimit(current_limit);
         }
+
+        angleSensor = usingGyro;
     }
 
     private double computeOutput(DrivetrainData.Axis axis) {
@@ -95,7 +103,16 @@ public class Drivetrain extends Component implements Configurable {
 
         switch (drivetrainData.GetControlMode(axis)) {
             case POSITION_CONTROL:
-                PIDs[POSITION][axis.ordinal()].setInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : driveEncoders.GetTurnAngle());
+
+                if(angleSensor == usingGyro)
+                {
+                    PIDs[POSITION][axis.ordinal()].setInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : gyro.getAngle());
+                }
+                else
+                {
+                    PIDs[POSITION][axis.ordinal()].setInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : driveEncoders.GetTurnAngle());
+                }
+
                 PIDs[POSITION][axis.ordinal()].setSetpoint(positionSetpoint);
                 velocitySetpoint += PIDs[POSITION][axis.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
                 if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
