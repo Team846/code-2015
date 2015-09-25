@@ -58,6 +58,8 @@ public class Drive extends Automation {
         return true;
     }
 
+    int ticksLeftForFinish = 0;
+
     public boolean Run() {
         drivetrain.setClassicDrive(true);
         if (constantSpeed)
@@ -78,13 +80,13 @@ public class Drive extends Automation {
         System.out.println("distance left: " + distanceLeft);
         System.out.println("ControlMode: " + drivetrain.GetControlMode(Axis.FORWARD));
 
-        // TODO: hacky fix to not move forward during turn... don't do this
-        if (distanceLeft < errorThreshold) {
-            drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
-            drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0.0);
+        if (distanceLeft >= errorThreshold) {
+            ticksLeftForFinish = 20;
+        } else {
+            ticksLeftForFinish--;
         }
 
-        return distanceLeft < errorThreshold;
+        return ticksLeftForFinish <= 0;
 
 //		if (distance > 0)
 //			return DriveEncoders.get().GetRobotDist() > drivetrain.GetPositionSetpoint(Axis.FORWARD);

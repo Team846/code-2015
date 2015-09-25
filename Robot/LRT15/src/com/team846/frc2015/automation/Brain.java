@@ -66,7 +66,8 @@ public class Brain {
         // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential(
                 "auto",
-                new Elevate(3)//,
+                new Drive(81, 0.4)
+//                new Elevate(3)//,
 //                new Drive(-12000, driveSpeed)//,
 //                new Parallel(
 //                        "sweep1",

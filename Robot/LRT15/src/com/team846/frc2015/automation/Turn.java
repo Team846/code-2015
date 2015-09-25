@@ -57,11 +57,18 @@ public class Turn extends Automation {
         drivetrain.SetControlMode(DrivetrainData.Axis.TURN, DrivetrainData.ControlMode.POSITION_CONTROL);
         drivetrain.SetRelativePositionSetpoint(DrivetrainData.Axis.TURN, angle);
         drivetrain.SetPositionControlMaxSpeed(DrivetrainData.Axis.TURN, maxSpeed);
+
+        drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
+        drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0.0);
+
         return true;
     }
 
     protected boolean Run() {
         System.out.println("TURN ANGLE ENCODERS: " + DriveEncoders.Get().GetTurnAngle());
+
+        drivetrain.SetControlMode(Axis.FORWARD, ControlMode.OPEN_LOOP);
+        drivetrain.SetOpenLoopOutput(Axis.FORWARD, 0.0);
 
         System.out.println(DriveEncoders.Get().GetTurnAngle());
         drivetrain.setClassicDrive(true);

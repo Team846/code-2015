@@ -121,6 +121,13 @@ public class DriveEncoders implements Configurable {
         return dist;
     }
 
+    double GetWheelDistInches(Side side) {
+        LRTCANEncoder e = encoders[side.ordinal()];
+        double dist = ((e.get()) / PULSES_PER_REVOLUTION
+                * GEAR_RATIO * WHEEL_DIAMETER * Math.PI); // pulses / ( pulses / encoder revolution ) * encoder to wheel gear ratio * distance / wheel revolution = inch distance
+        return dist;
+    }
+
     public double GetNormalizedSpeed(Side side) {
         return encoders[side.ordinal()].getRate() / MAX_ENCODER_RATE;
     }
