@@ -66,20 +66,18 @@ public class Brain {
         // BEGIN AUTONOMOUS ROUTINE
         Sequential auton = new Sequential(
                 "auto",
-                new Drive(81, 0.4)
-//                new Elevate(3)//,
-//                new Drive(-12000, driveSpeed)//,
-//                new Parallel(
-//                        "sweep1",
-//                        new Drive(8500, driveSpeed),
-//                        new Sweep(Sweep.Direction.RIGHT, 30) // 1.5 second
-//                ),
-//                new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3),
-//                new Parallel(
-//                        "sweep2",
-//                        new Drive(10500, driveSpeed),
-//                        new Sweep(Sweep.Direction.RIGHT, 40) // 2 seconds
-//                ),
+                new Elevate(3),
+                new Parallel(
+                        "sweep1",
+                        new Drive(81, driveSpeed),
+                        new Sweep(Sweep.Direction.RIGHT, false, 30) // 1.5 second
+                ),
+                new LoadAdditional(true, ElevatorData.ElevatorSetpoint.TOTE_3),
+                new Parallel(
+                        "sweep2",
+                        new Drive(81, driveSpeed),
+                        new Sweep(Sweep.Direction.RIGHT, false, 40) // 2 seconds
+                ) //,
 //                new Automation() {
 //                    private final CollectorArmData armData = CollectorArmData.get();
 //                    private final CollectorRollersData rollersData = CollectorRollersData.get();

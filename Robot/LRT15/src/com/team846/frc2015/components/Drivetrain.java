@@ -41,8 +41,7 @@ public class Drivetrain extends Component implements Configurable {
     private final DriveEncoders driveEncoders;
     private final DriveESC[] escs = new DriveESC[4];
 
-    private final boolean usingGyro = true;
-    private final boolean usingEncoders = false;
+    private final boolean usingGyro = false;
 
 
     private final CANTalon frontLeft;
@@ -103,7 +102,7 @@ public class Drivetrain extends Component implements Configurable {
 
         switch (drivetrainData.GetControlMode(axis)) {
             case POSITION_CONTROL:
-
+                System.out.println("TURN GYRO :" + gyro.getAngle());
                 if(angleSensor == usingGyro)
                 {
                     PIDs[POSITION][axis.ordinal()].setInput(axis == Axis.FORWARD ? driveEncoders.GetRobotDist() : gyro.getAngle());
@@ -117,7 +116,7 @@ public class Drivetrain extends Component implements Configurable {
                 velocitySetpoint += PIDs[POSITION][axis.ordinal()].update(1.0 / RobotConfig.LOOP_RATE);
                 if (Math.abs(velocitySetpoint) > drivetrainData.GetPositionControlMaxSpeed(axis))
                     velocitySetpoint = MathUtils.sign(velocitySetpoint) * drivetrainData.GetPositionControlMaxSpeed(axis);
-                AsyncLogger.warn("RAW PID OUTPUT: " + velocitySetpoint);
+                AsyncLogger.warn("RAW PID OUTPUT for AXIS " + axis + ": " + velocitySetpoint);
                 rawOutput = velocitySetpoint;
 
                 break;

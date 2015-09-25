@@ -16,12 +16,14 @@ public class Sweep extends Automation {
 
     private final Direction direction;
     private long ticksLeft;
+    private boolean actuate;
 
-    public Sweep(Direction dir, long ticksLeft) {
+    public Sweep(Direction dir, boolean actuate, long ticksLeft) {
         direction = dir;
         armData = CollectorArmData.get();
         rollersData = CollectorRollersData.get();
         this.ticksLeft = ticksLeft;
+        this.actuate = actuate;
     }
 
     @Override
@@ -45,7 +47,10 @@ public class Sweep extends Automation {
     @Override
     protected boolean Run() {
         ticksLeft--;
-        armData.setDesiredPosition(ArmPosition.EXTEND);
+        if (actuate) {
+            armData.setDesiredPosition(ArmPosition.EXTEND);
+        }
+
         rollersData.setRunning(true);
         rollersData.setSpeed(1.0);
         if (direction == Direction.LEFT)
