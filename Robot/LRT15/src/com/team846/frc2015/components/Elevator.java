@@ -247,7 +247,6 @@ public class Elevator extends Component implements Configurable {
     protected void updateDisabled() {
 //        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
 //        DashboardLogger.getInstance().logInt("drivetrain-leftFront", elevatorPot.getAverageValue());
-        Logger.warning("Current Pos: " + currentPosition);
         motorA.set(0.0);
         motorB.set(0.0);
         motorA.enableBrakeMode(false);

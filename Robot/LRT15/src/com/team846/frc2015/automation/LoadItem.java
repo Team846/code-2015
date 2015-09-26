@@ -124,11 +124,12 @@ public abstract class LoadItem extends Automation {
         switch (state) {
             case COLLECT: {
                 hasItem = false;
-                hooksData.setBackHooksDesiredState(HookState.DOWN);
-                hooksData.setFrontHooksDesiredState(HookState.DOWN);
 
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(collect);
+
+                hooksData.setBackHooksDesiredState(HookState.DOWN);
+                hooksData.setFrontHooksDesiredState(HookState.DOWN);
 
                 // EXPERIMENTAL {
                 if (auto) {
@@ -161,6 +162,7 @@ public abstract class LoadItem extends Automation {
                             rollersData.setDirection(Direction.INTAKE);
                             rollersData.setSpeed(1.0);
                             armData.setDesiredPosition(ArmPosition.STOWED);
+
                             ticksLeftForElevatorDown = 5; // arbitrary value for number of ticks
                         }
                     }
@@ -170,6 +172,9 @@ public abstract class LoadItem extends Automation {
 
             case ARMS: {
                 armData.setDesiredPosition(ArmPosition.STOWED);
+                hooksData.setBackHooksDesiredState(HookState.UP);
+                hooksData.setFrontHooksDesiredState(HookState.UP);
+
                 ticksLeftForElevatorDown--;
 
                 if (ticksLeftForElevatorDown == 0) {
@@ -180,6 +185,7 @@ public abstract class LoadItem extends Automation {
             }
 
             case GRAB: {
+                System.out.println("GRABBING");
                 hooksData.setBackHooksDesiredState(HookState.UP);
                 hooksData.setFrontHooksDesiredState(HookState.UP);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
