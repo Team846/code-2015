@@ -7,6 +7,7 @@ import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
+import com.team846.frc2015.logging.Logger;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
 import com.team846.frc2015.oldconfig.Configurable;
@@ -113,7 +114,7 @@ public class Elevator extends Component implements Configurable {
 
 //        System.out.println("ELEVATOR VELOCITY: " + velocity);
 
-        //AsyncPrinter.warn("Current Pos: " + currentPosition);
+        Logger.warning("Current Pos: " + currentPosition);
         elevatorData.setCurrentPosition(currentPosition);
 
         DashboardLogger.getInstance().logDouble("elevator-pot", currentPosition);
@@ -246,6 +247,7 @@ public class Elevator extends Component implements Configurable {
     protected void updateDisabled() {
 //        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
 //        DashboardLogger.getInstance().logInt("drivetrain-leftFront", elevatorPot.getAverageValue());
+        Logger.warning("Current Pos: " + currentPosition);
         motorA.set(0.0);
         motorB.set(0.0);
         motorA.enableBrakeMode(false);
