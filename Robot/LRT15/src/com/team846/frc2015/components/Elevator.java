@@ -245,7 +245,7 @@ public class Elevator extends Component implements Configurable {
 
     @Override
     protected void updateDisabled() {
-//        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
+        System.out.println("ELEVATOR POSITION: " + elevatorPot.getAverageValue());
 //        DashboardLogger.getInstance().logInt("drivetrain-leftFront", elevatorPot.getAverageValue());
         motorA.set(0.0);
         motorB.set(0.0);

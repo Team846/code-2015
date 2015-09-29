@@ -10,7 +10,16 @@ import com.team846.frc2015.oldconfig.DriverStationConfig;
 import com.team846.util.monads.ValueMonad;
 
 public class StackSecurity extends StyledComponent<StackSecurityStyle> {
-    private ValueMonad<Boolean> stackSecurityButtonDown;
+    private ValueMonad<Boolean> stackSecurityButtonDown = new ValueMonad<Boolean>() {
+        LRTJoystick operatorStick = LRTDriverStation.instance().getOperatorStick();
+
+        @Override
+        public Boolean get() {
+            boolean downRequirement = true;//ElevatorData.get().getSpeed() == 0;
+            return downRequirement && operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.STACK_SECURITY);
+        }
+    };
+
     private Pneumatics securityArms = new Pneumatics(
         ConfigPortMappings.Instance().get("Pneumatics/STACK_SECURITY"),
         "StackSecurity"
@@ -28,35 +37,16 @@ public class StackSecurity extends StyledComponent<StackSecurityStyle> {
 
     @Override
     protected StackSecurityStyle defaultTeleopStyle() {
-        stackSecurityButtonDown = new ValueMonad<Boolean>() {
-            LRTJoystick operatorStick = LRTDriverStation.instance().getOperatorStick();
-
-            @Override
-            public Boolean get() {
-                boolean downRequirement = ElevatorData.get().getSpeed() == 0;
-                return downRequirement && operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.STACK_SECURITY);
-            }
-        };
         return new VariableStackSecurityStyle(stackSecurityButtonDown);
     }
 
     @Override
     protected void setOperation(StackSecurityStyle currentStyle) {
+        System.out.println("ARMS DOWN: " + currentStyle.isSecurityDown());
         securityArms.set(
             currentStyle.isSecurityDown() ?
                 Pneumatics.PneumaticState.FORWARD :
-                Pneumatics.PneumaticState.OFF);
-    }
-
-    public StackSecurity() {
-        super();
-        stackSecurityButtonDown = new ValueMonad<Boolean>() {
-            LRTJoystick operatorStick = LRTDriverStation.instance().getOperatorStick();
-
-            @Override
-            public Boolean get() {
-                return operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.STACK_SECURITY);
-            }
-        };
+                Pneumatics.PneumaticState.OFF
+        );
     }
 }

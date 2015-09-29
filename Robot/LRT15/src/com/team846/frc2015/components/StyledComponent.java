@@ -7,9 +7,9 @@ public abstract class StyledComponent<OperationStyle> extends Component {
     public StyledComponent() {}
 
     protected RobotState robotState = RobotState.Instance();
-    private OperationStyle disabledStyle = defaultDisabledStyle();
-    private OperationStyle autoStyle = defaultAutoStyle();
-    private OperationStyle teleopStyle = defaultTeleopStyle();
+    private OperationStyle disabledStyle;
+    private OperationStyle autoStyle;
+    private OperationStyle teleopStyle;
 
     private OperationStyle currentStyle;
 
@@ -20,9 +20,21 @@ public abstract class StyledComponent<OperationStyle> extends Component {
     protected abstract OperationStyle defaultTeleopStyle();
 
     protected OperationStyle currentDefaultStyle() {
+        if (disabledStyle == null) {
+            disabledStyle = defaultDisabledStyle();
+        }
+
+        if (autoStyle == null) {
+            autoStyle = defaultAutoStyle();
+        }
+
+        if (teleopStyle == null) {
+            teleopStyle = defaultTeleopStyle();
+        }
+
         if (robotState.GameMode() == GameState.DISABLED) {
             return disabledStyle;
-        } else if (robotState.GameMode() == GameState.AUTONOMOUS){
+        } else if (robotState.GameMode() == GameState.AUTONOMOUS) {
             return autoStyle;
         } else { // (robotState.GameMode() == GameState.TELEOPERATED)
             return teleopStyle;
@@ -46,7 +58,8 @@ public abstract class StyledComponent<OperationStyle> extends Component {
 
     @Override
     protected void updateDisabled() {
-        setOperation(disabledStyle);
+        enterDefaultStyle();
+        setOperation(currentStyle);
     }
 
     @Override
