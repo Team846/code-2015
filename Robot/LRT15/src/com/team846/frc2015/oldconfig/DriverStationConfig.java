@@ -41,7 +41,7 @@ public class DriverStationConfig {
         public static final int ELEVATE_TWO = 6;
         public static final int ELEVATE_THREE = 7;
         public static final int ELEVATE_FOUR = 10;
-        public static final int ELEVATE_STEP = 12;
+        public static final int STACK_SECURITY = 12;
 
         public static final int COLLECT_OPERATOR = 15;
         public static final int ADVANCE_STATE_OPERATOR = 16;

@@ -134,6 +134,7 @@ public class Pneumatics extends Actuator implements Configurable {
 
     void set(PneumaticState on, boolean force) {
         if (on != state || force) {
+            System.out.println("SETTING NEW VALUE GO GO");
             state = on;
             if (solenoid instanceof Solenoid && state == PneumaticState.REVERSE) {
                 state = PneumaticState.OFF;

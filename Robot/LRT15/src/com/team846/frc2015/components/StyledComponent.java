@@ -3,12 +3,10 @@ package com.team846.frc2015.components;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.robot.RobotState;
 
-import static com.team846.util.bottles.Bottles.bottle;
-
 public abstract class StyledComponent<OperationStyle> extends Component {
     public StyledComponent() {}
 
-    protected RobotState robotState = bottle();
+    protected RobotState robotState = RobotState.Instance();
     private OperationStyle disabledStyle = defaultDisabledStyle();
     private OperationStyle autoStyle = defaultAutoStyle();
     private OperationStyle teleopStyle = defaultTeleopStyle();

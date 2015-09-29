@@ -3,7 +3,7 @@ package com.team846.util.bottles;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-abstract class BottleTypeGrabber<T> {
+public abstract class BottleTypeGrabber<T> {
     public Class<T> getBottleClass() {
         Type superClass = getClass().getGenericSuperclass();
         Type t = ((ParameterizedType) superClass).getActualTypeArguments()[0];

@@ -5,6 +5,7 @@ import com.team846.frc2015.components.StyledComponent;
 import com.team846.frc2015.driverstation.LRTDriverStation;
 import com.team846.frc2015.sensors.DriveEncoders;
 import com.team846.frc2015.utils.MathUtils;
+import com.team846.util.bottles.Bottles;
 import com.team846.util.monads.CachedMonad;
 import com.typesafe.config.Config;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import static com.team846.util.bottles.Bottles.*;
 
 public class Drivetrain extends StyledComponent<DriveStyle> {
-    private CachedMonad<Config> configMonad = bottle();
+    private CachedMonad<Config> configMonad = null; // NO WORK BOTOTLE Bottles.get(CachedMonad<Config>.class);
 
     private CachedMonad<Config> currentLimiting = configMonad.map(config -> config.getConfig("current-limiting"));
     private CachedMonad<Double> forwardLimit = currentLimiting.map(config -> config.getDouble("forward-limit"));

@@ -44,10 +44,10 @@ public class ElevatorInputs extends InputProcessor {
         } else if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_FOUR)) {
             elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
             elevatorData.setSetpoint(ElevatorSetpoint.TOTE_4);
-        } else if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_STEP)) {
-            elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
-            elevatorData.setSetpoint(ElevatorSetpoint.STEP);
-        }
+        } // else if (operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.ELEVATE_STEP)) {
+//            elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
+//            elevatorData.setSetpoint(ElevatorSetpoint.STEP);
+//        }
     }
 
 }

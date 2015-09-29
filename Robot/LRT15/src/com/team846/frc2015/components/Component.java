@@ -2,6 +2,7 @@ package com.team846.frc2015.components;
 
 import java.util.ArrayList;
 
+import com.team846.frc2015.components.stackSecurity.StackSecurity;
 import com.team846.frc2015.driverstation.GameState;
 import com.team846.frc2015.logging.AsyncLogger;
 import com.team846.robot.RobotState;
@@ -43,6 +44,7 @@ public abstract class Component {
         component_list.add(new CarriageHooks());
         component_list.add(new Elevator());
         component_list.add(new ContainerArm());
+        component_list.add(new StackSecurity());
     }
 
 
