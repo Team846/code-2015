@@ -17,22 +17,31 @@ struct socket_metadata *init_log_socket() {
     memset((char *) socket_m->myaddr, 0, sizeof(*socket_m->myaddr)); // init address
     memset(socket_m->recv_buffer, '\0', sizeof(char) * BUFFER_SIZE); // init buffer
 
-    socket_m->socket = socket(AF_INET, SOCK_DGRAM, 0);  // create unix socket
-
-    /* flag meanings
-     *
-     * AF_INET = over IPv4
-     * SOCK_DGRAM = datagram
-     * 0 = datagram flag implies UDP */
-
-    int flags = fcntl(socket_m->socket, F_GETFL);
-    flags |= O_NONBLOCK;
-    fcntl(socket_m->socket, F_SETFL, flags); // set socket to not block
+    // http://www.virtualroadside.com/blog/index.php/2010/11/12/crio-netconsole-implemented-in-python/
+    socket_m->socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);  // create unix socket
 
     if (socket_m->socket < 0) {
         fprintf(stderr, "Could not create UDP socket");
         exit(EXIT_FAILURE);
     }
+
+    /* flag meanings
+     *
+     * AF_INET = over IPv4
+     * SOCK_DGRAM = datagram
+     * IPPROTO_UDP = ?? TODO what mean? */
+
+
+    // set both to 1 TODO better document
+    int option_value = 1;
+
+    setsockopt(socket_m->socket, SOL_SOCKET, SO_REUSEADDR, &option_value, sizeof(option_value));
+    setsockopt(socket_m->socket, SOL_SOCKET, SO_BROADCAST, &option_value, sizeof(option_value));
+
+    // set socket to not block
+    int flags = fcntl(socket_m->socket, F_GETFL);
+    flags |= O_NONBLOCK;
+    fcntl(socket_m->socket, F_SETFL, flags);
 
     // bind socket to any IP address, but listen for RoboRio on multicast
     socket_m->myaddr->sin_family = AF_INET;
