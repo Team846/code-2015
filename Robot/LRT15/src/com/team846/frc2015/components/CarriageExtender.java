@@ -3,6 +3,7 @@ package com.team846.frc2015.components;
 import com.team846.frc2015.componentData.CarriageExtenderData;
 import com.team846.frc2015.componentData.CarriageExtenderData.CarriageControlMode;
 import com.team846.frc2015.componentData.CarriageExtenderData.Setpoint;
+import com.team846.frc2015.components.stackSecurity.StackSecurity;
 import com.team846.frc2015.control.RunningSum;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
@@ -56,29 +57,33 @@ public class CarriageExtender extends Component implements Configurable {
             position = positionSum.UpdateSum(rawPosition);
         }
 
-        if (extenderData.getControlMode() == CarriageControlMode.SETPOINT) {
-            double error = 0.0;
-            if (extenderData.getSetpoint() == Setpoint.RETRACT) {
-                error = Math.abs(retractSetpoint - position) < errorThreshold ? 0.0 : (retractSetpoint - position) / maxRange;
-            } else {
-                error = Math.abs(extendSetpoint - position) < errorThreshold ? 0.0 : (extendSetpoint - position) / maxRange;
-            }
+        if (StackSecurity.currentInstance == null || StackSecurity.currentInstance.getCurrentStyle().isSecurityDown()) {
+            carriageMotor.set(0);
+        } else {
+            if (extenderData.getControlMode() == CarriageControlMode.SETPOINT) {
+                double error = 0.0;
+                if (extenderData.getSetpoint() == Setpoint.RETRACT) {
+                    error = Math.abs(retractSetpoint - position) < errorThreshold ? 0.0 : (retractSetpoint - position) / maxRange;
+                } else {
+                    error = Math.abs(extendSetpoint - position) < errorThreshold ? 0.0 : (extendSetpoint - position) / maxRange;
+                }
 
 //            System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 //            System.out.println("[CarriageExtender] Position Error: " + error);
 
-            carriageMotor.set(error * positionGain);
-        } else if (extenderData.getControlMode() == CarriageControlMode.POSITION) {
-            int desiredPos = (int) MathUtils.rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
-            DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
-            double error = Math.abs(desiredPos - position) < errorThreshold ? 0.0 : (desiredPos - position) / maxRange;
+                carriageMotor.set(error * positionGain);
+            } else if (extenderData.getControlMode() == CarriageControlMode.POSITION) {
+                int desiredPos = (int) MathUtils.rescale(extenderData.getPositionSetpoint(), 0, 1, retractSetpoint, extendSetpoint);
+                DashboardLogger.getInstance().logInt("extender-desiredPos", desiredPos);
+                double error = Math.abs(desiredPos - position) < errorThreshold ? 0.0 : (desiredPos - position) / maxRange;
 
 //            System.out.println("CarriageExtender Position: " + carriagePot.getAverageValue());
 //            System.out.println("error position: " + error);
 
-            carriageMotor.set(MathUtils.clamp(error * positionGain, -maxSpeed, maxSpeed));
-        } else {
-            carriageMotor.set(extenderData.getSpeed()); //open loop velocity
+                carriageMotor.set(MathUtils.clamp(error * positionGain, -maxSpeed, maxSpeed));
+            } else {
+                carriageMotor.set(extenderData.getSpeed()); //open loop velocity
+            }
         }
 
         extenderData.setCurrentPosition((int) MathUtils.rescale(position, retractSetpoint, extendSetpoint, 0, 1));

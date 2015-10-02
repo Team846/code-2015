@@ -7,6 +7,7 @@ import com.team846.frc2015.componentData.CollectorArmData;
 import com.team846.frc2015.componentData.ElevatorData;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorControlMode;
 import com.team846.frc2015.componentData.ElevatorData.ElevatorSetpoint;
+import com.team846.frc2015.components.stackSecurity.StackSecurity;
 import com.team846.frc2015.logging.Logger;
 import com.team846.frc2015.oldconfig.ConfigPortMappings;
 import com.team846.frc2015.oldconfig.ConfigRuntime;
@@ -237,6 +238,11 @@ public class Elevator extends Component implements Configurable {
             stallTimer.reset();
             stallPosition = currentPosition;
         }
+
+        if (StackSecurity.currentInstance == null || StackSecurity.currentInstance.getCurrentStyle().isSecurityDown()) {
+            value = 0;
+        }
+
         motorA.set(value);
         motorB.set(value);
         motorA.enableBrakeMode(false);

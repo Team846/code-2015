@@ -15,8 +15,7 @@ public class StackSecurity extends StyledComponent<StackSecurityStyle> {
 
         @Override
         public Boolean get() {
-            boolean downRequirement = true;//ElevatorData.get().getSpeed() == 0;
-            return downRequirement && operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.STACK_SECURITY);
+            return operatorStick.isButtonDown(DriverStationConfig.JoystickButtons.STACK_SECURITY);
         }
     };
 
@@ -48,5 +47,12 @@ public class StackSecurity extends StyledComponent<StackSecurityStyle> {
                 Pneumatics.PneumaticState.FORWARD :
                 Pneumatics.PneumaticState.OFF
         );
+    }
+
+    public static StackSecurity currentInstance = null;
+
+    public StackSecurity() {
+        super();
+        currentInstance = this;
     }
 }

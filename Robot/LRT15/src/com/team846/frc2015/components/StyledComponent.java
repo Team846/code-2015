@@ -48,6 +48,9 @@ public abstract class StyledComponent<OperationStyle> extends Component {
     public void setCurrentStyle(OperationStyle currentStyle) {
         this.currentStyle = currentStyle;
     }
+    public OperationStyle getCurrentStyle() {
+        return currentStyle;
+    }
 
     protected abstract void setOperation(OperationStyle currentStyle);
 
