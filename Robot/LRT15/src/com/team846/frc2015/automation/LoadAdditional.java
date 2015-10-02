@@ -33,7 +33,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
     }
 
     public LoadAdditional(boolean auto, boolean skipPickup) {
-        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.COLLECT_ADDITIONAL /*ElevatorSetpoint.HOME_TOTE*/, waitDuration, auto);
+        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, /*ElevatorSetpoint.COLLECT_ADDITIONAL*/ ElevatorSetpoint.HOME_TOTE, waitDuration, auto);
         hooksData = CarriageHooksData.get();
         elevatorData = ElevatorData.get();
         armData = CollectorArmData.get();
