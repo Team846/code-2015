@@ -143,7 +143,9 @@ public class Elevator extends Component implements Configurable {
                     }
                 }
             }
+
             if (desiredPos <= topSoftLimit || desiredPos >= bottomSoftLimit) {
+                System.out.println("DESIRED: " + desiredPos + " TOP LIMIT: " + topSoftLimit + " BOTTOM LIMIT: " + bottomSoftLimit);
                 AsyncLogger.error("Setpoint out of bounds");
                 sendOutput(0.0);
                 return;

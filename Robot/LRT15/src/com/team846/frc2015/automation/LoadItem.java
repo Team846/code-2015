@@ -225,11 +225,13 @@ public abstract class LoadItem extends Automation {
                 armData.setDesiredPosition(ArmPosition.STOWED);
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);
+                elevatorData.setFast(true);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(home);
                 if (elevatorData.isAtSetpoint(home)) {
                     elevatorData.setControlMode(ElevatorControlMode.VELOCITY);
                     elevatorData.setDesiredSpeed(0.0);
+                    elevatorData.setFast(false);
                     armData.setDesiredPosition(ArmPosition.EXTEND);
 
                     if (auto) {
