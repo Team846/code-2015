@@ -13,6 +13,7 @@ import com.team846.frc2015.driverstation.LRTDriverStation;
 public class LoadUprightContainer extends LoadItem implements Configurable {
 
     private final CarriageHooksData hooksData;
+    private final ElevatorData elevatorData;
     private int toteAnalogValue = 0;
     private final CollectorArmData armData;
 
@@ -22,6 +23,7 @@ public class LoadUprightContainer extends LoadItem implements Configurable {
 
         hooksData = CarriageHooksData.get();
         armData = CollectorArmData.get();
+        elevatorData = ElevatorData.get();
         ConfigRuntime.Register(this);
     }
 
@@ -35,6 +37,7 @@ public class LoadUprightContainer extends LoadItem implements Configurable {
 
         // Override hook states
         if (state == State.COLLECT) {
+            elevatorData.setFast(false);
             //armData.setDesiredPosition(ArmPosition.STOWED); //TODO: temp until fixed
             hooksData.setFrontHooksDesiredState(HookState.UP);
             hooksData.setBackHooksDesiredState(HookState.DOWN);

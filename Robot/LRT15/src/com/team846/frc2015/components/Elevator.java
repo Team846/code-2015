@@ -58,7 +58,7 @@ public class Elevator extends Component implements Configurable {
     private ElevatorData.ElevatorSetpoint lastSetpoint;
     private boolean direction; // up true, down false
 
-
+    private int currentTick = 0;
 
 
     public Elevator() {
@@ -99,6 +99,7 @@ public class Elevator extends Component implements Configurable {
 
     @Override
     protected void updateEnabled() {
+        currentTick++;
         double lastPosition = currentPosition;
 
         {
@@ -245,10 +246,16 @@ public class Elevator extends Component implements Configurable {
             value = 0;
         }
 
+        if (value == 0 && currentTick % 6 == 0) {
+            motorA.enableBrakeMode(true);
+            motorA.enableBrakeMode(true);
+        } else {
+            motorA.enableBrakeMode(false);
+            motorB.enableBrakeMode(false);
+        }
+
         motorA.set(value);
         motorB.set(value);
-        motorA.enableBrakeMode(false);
-        motorB.enableBrakeMode(false);
     }
 
     @Override

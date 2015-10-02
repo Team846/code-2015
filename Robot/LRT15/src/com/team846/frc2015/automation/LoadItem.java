@@ -127,6 +127,7 @@ public abstract class LoadItem extends Automation {
 
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(collect);
+                elevatorData.setFast(true);
 
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);

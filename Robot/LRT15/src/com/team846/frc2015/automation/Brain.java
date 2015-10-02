@@ -144,7 +144,7 @@ public class Brain {
                 )
         );
 
-        Automation[] autons = { threeToteAuto };
+        Automation[] autons = { new Elevate(3), threeToteAuto };
 
         Automation auton = autons[ConfigRuntime.Instance().Get("Auto", "routine_number", 0)];
         // END AUTONOMOUS ROUTINE
