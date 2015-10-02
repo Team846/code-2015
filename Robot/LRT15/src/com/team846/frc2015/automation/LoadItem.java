@@ -172,8 +172,8 @@ public abstract class LoadItem extends Automation {
 
             case ARMS: {
                 armData.setDesiredPosition(ArmPosition.STOWED);
-                hooksData.setBackHooksDesiredState(HookState.UP);
-                hooksData.setFrontHooksDesiredState(HookState.UP);
+//                hooksData.setBackHooksDesiredState(HookState.UP);
+//                hooksData.setFrontHooksDesiredState(HookState.UP);
 
                 ticksLeftForElevatorDown--;
 
@@ -195,6 +195,9 @@ public abstract class LoadItem extends Automation {
 
                 //AsyncPrinter.warn(elevatorData.getCurrentSetpoint().toString());
                 if (elevatorData.isAtSetpoint(grab)) {
+                    hooksData.setBackHooksDesiredState(HookState.DOWN);
+                    hooksData.setFrontHooksDesiredState(HookState.DOWN);
+
                     waitTicks = requiredWaitCycles;
                     state = State.WAIT;
                 }
@@ -225,7 +228,7 @@ public abstract class LoadItem extends Automation {
                 armData.setDesiredPosition(ArmPosition.STOWED);
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
                 hooksData.setFrontHooksDesiredState(HookState.DOWN);
-                elevatorData.setFast(true);
+                elevatorData.setFast(false);
                 elevatorData.setControlMode(ElevatorControlMode.SETPOINT);
                 elevatorData.setSetpoint(home);
                 if (elevatorData.isAtSetpoint(home)) {

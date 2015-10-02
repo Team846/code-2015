@@ -19,9 +19,9 @@ public class LoadAdditional extends LoadItem implements Configurable {
     private final CollectorArmData armData;
     private int toteAnalogValue = 0;
     private double startPosition = 0.0;
-    private int hookDisengageDrop = 0;
+    private int hookDisengageDrop;
     private boolean skipPickup = false;
-    private final static int waitDuration = 5; // wait before moving elevator from bottom to let hooks actuate
+    private final static int waitDuration = 12; // wait before moving elevator from bottom to let hooks actuate
 
     public LoadAdditional(boolean auto, boolean skipPickup, ElevatorSetpoint homeSetpoint) {
         super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, homeSetpoint, waitDuration, auto);
@@ -33,7 +33,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
     }
 
     public LoadAdditional(boolean auto, boolean skipPickup) {
-        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.HOME_TOTE, waitDuration, auto);
+        super("LoadAdditional", ElevatorSetpoint.COLLECT_ADDITIONAL, ElevatorSetpoint.GRAB_TOTE, ElevatorSetpoint.COLLECT_ADDITIONAL /*ElevatorSetpoint.HOME_TOTE*/, waitDuration, auto);
         hooksData = CarriageHooksData.get();
         elevatorData = ElevatorData.get();
         armData = CollectorArmData.get();
@@ -56,7 +56,7 @@ public class LoadAdditional extends LoadItem implements Configurable {
     @Override
     public void configure() {
         toteAnalogValue = GetConfig("analog_tote_value", 1600);
-        hookDisengageDrop = GetConfig("hook_disengage_drop", 500);
+        hookDisengageDrop = 100;//GetConfig("hook_disengage_drop", 500);
         super.setAnalogThreshold(toteAnalogValue);
     }
 
@@ -87,8 +87,8 @@ public class LoadAdditional extends LoadItem implements Configurable {
                 return true;
             }
             if (elevatorData.getCurrentPosition() > startPosition + hookDisengageDrop) {
-                hooksData.setBackHooksDesiredState(HookState.UP);
-                hooksData.setFrontHooksDesiredState(HookState.UP);
+//                hooksData.setBackHooksDesiredState(HookState.UP);
+//                hooksData.setFrontHooksDesiredState(HookState.UP);
                 armData.setDesiredPosition(ArmPosition.STOWED);
             } else {
                 hooksData.setBackHooksDesiredState(HookState.DOWN);
